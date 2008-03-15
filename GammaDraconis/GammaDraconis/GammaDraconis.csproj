@@ -11,8 +11,10 @@
     <XnaFrameworkVersion>v2.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaCrossPlatformGroupID>838f821c-bc5b-46f5-a638-6536f8a6e2da</XnaCrossPlatformGroupID>
-    <ApplicationIcon>Resources\Game.ico</ApplicationIcon>
-    <Thumbnail>Resources\GameThumbnail.png</Thumbnail>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <Thumbnail>
+    </Thumbnail>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,10 +78,6 @@
     <Compile Include="Video\Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Game.ico" />
-    <Content Include="Resources\GameThumbnail.png" />
-  </ItemGroup>
-  <ItemGroup>
     <NestedContentProject Include="Content.contentproj">
       <Project>82bc0d0d-71f7-4032-be06-2b29d328bbdc</Project>
       <Visible>False</Visible>
@@ -87,8 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documents\" />
-    <Folder Include="Resources\Audio\" />
-    <Folder Include="Resources\Effects\" />
     <Folder Include="Resources\Models\" />
     <Folder Include="Resources\Textures\" />
   </ItemGroup>

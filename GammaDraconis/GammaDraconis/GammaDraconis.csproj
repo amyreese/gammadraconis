@@ -84,7 +84,9 @@
     </NestedContentProject>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Documents\" />
+    <None Include="Documents\Design Document.doc" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Resources\Models\" />
     <Folder Include="Resources\Textures\" />
   </ItemGroup>

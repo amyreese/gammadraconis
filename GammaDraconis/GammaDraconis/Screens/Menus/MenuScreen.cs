@@ -73,7 +73,7 @@ namespace GammaDraconis.Screens.Menus
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteFont = Game.Content.Load<SpriteFont>("Resources/Fonts/Menu.spritefont");
+            spriteFont = Game.Content.Load<SpriteFont>("Resources/Fonts/Menu");
 			screenImage = Game.Content.Load<Texture2D>(GetBackgroundImage()); 
             base.LoadContent();
         }

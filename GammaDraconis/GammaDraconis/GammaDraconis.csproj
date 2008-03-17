@@ -109,6 +109,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)cp.exe"  -r -reply=yes "$(TargetDir)*" "$(ProjectDir)"</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(ProjectDir)" /e /d /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

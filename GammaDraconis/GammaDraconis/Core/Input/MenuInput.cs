@@ -34,6 +34,8 @@ namespace GammaDraconis.Core.Input
             inputKeys.Add(Commands.Right, "right");
             inputKeys.Add(Commands.Select, "enter");
             inputKeys.Add(Commands.Cancel, "escape");
+
+            reset();
         }
     }
 }

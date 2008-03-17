@@ -40,6 +40,8 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="lua51, Version=0.0.0.0, Culture=neutral, PublicKeyToken=1e1fb15b02227b8a, processorArchitecture=x86" />
+    <Reference Include="LuaInterface, Version=2.0.0.20623, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
       <Private>False</Private>
       <SpecificVersion>True</SpecificVersion>
@@ -87,8 +89,9 @@
     <None Include="Documents\Design Document.doc" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Models\" />
-    <Folder Include="Resources\Textures\" />
+    <Content Include="Resources\Libraries\lua51.dll" />
+    <Content Include="Resources\Libraries\LuaInterface.dll" />
+    <Content Include="Resources\Libraries\LuaInterface.pdb" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />
@@ -100,4 +103,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)*" "$(ProjectDir)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

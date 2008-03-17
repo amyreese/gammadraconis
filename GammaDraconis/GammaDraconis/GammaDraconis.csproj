@@ -62,8 +62,14 @@
   <ItemGroup>
     <Compile Include="Core\Audio.cs" />
     <Compile Include="Core\Engine.cs" />
+    <Compile Include="Core\Input\Input.cs" />
+    <Compile Include="Core\Input\MenuInput.cs" />
+    <Compile Include="Screens\Menus\MainMenu.cs" />
+    <Compile Include="Screens\Menus\MenuItem.cs" />
+    <Compile Include="Screens\Menus\MenuScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GammaDraconis.cs" />
+    <Compile Include="Screens\Screen.cs" />
     <Compile Include="Types\Bullet.cs" />
     <Compile Include="Types\Coords.cs" />
     <Compile Include="Types\GameObject.cs" />
@@ -103,6 +109,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)*" "$(ProjectDir)"</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)cp.exe"  -r -reply=yes "$(TargetDir)*" "$(ProjectDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

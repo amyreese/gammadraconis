@@ -49,7 +49,6 @@ namespace GammaDraconis.Screens
                 subInterface.RelativeRotation = 0.5f;
                 subInterface.AddComponent(sprite);
                 someInterface.AddComponent(subInterface);
-                subInterface.AddComponent(someInterface);
             }
             base.LoadContent();
         }

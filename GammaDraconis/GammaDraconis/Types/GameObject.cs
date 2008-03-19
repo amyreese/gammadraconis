@@ -33,7 +33,7 @@ namespace GammaDraconis.Types
         public Coords acceleration;
 
         // Visual properties
-        public List<Model> models;
+        public List<FBXModel> models;
 
         // Behaviors
         public void think(GameTime gameTime) { }

@@ -86,7 +86,7 @@
     <Compile Include="Video\GUI\Interface.cs" />
     <Compile Include="Video\GUI\InterfaceComponent.cs" />
     <Compile Include="Video\GUI\Sprite.cs" />
-    <Compile Include="Video\Model.cs" />
+    <Compile Include="Video\FBXModel.cs" />
     <Compile Include="Video\Renderer.cs" />
     <Compile Include="Video\Scene.cs" />
   </ItemGroup>

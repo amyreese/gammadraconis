@@ -34,6 +34,15 @@ namespace GammaDraconis.Screens.Menus
         }
 
         /// <summary>
+        /// Moves the menu item to a new location
+        /// </summary>
+        /// <param name="position">The new location for the item</param>
+        public void Reposition(Vector2 position)
+        {
+            this.position = position;
+        }
+
+        /// <summary>
         /// Draws the menu item if it is visible
         /// </summary>
         /// <param name="time">The time for this update</param>
@@ -41,8 +50,8 @@ namespace GammaDraconis.Screens.Menus
         {
 			if (Visible)
 			{
-				Color color = Selected ? new Color(255,50,45) : new Color( 255, 255, 255);
-				float scale = Selected ? 1.5f : 1f;
+				Color color = Selected ? screen.GetSelectedColor() : screen.GetUnselectedColor();
+				float scale = Selected ? screen.GetSelectedScale() : screen.GetUnselectedScale();
 				SpriteBatch spriteBatch = screen.spriteBatch;
 				SpriteFont font = screen.spriteFont;
 

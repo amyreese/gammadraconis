@@ -23,11 +23,12 @@ namespace GammaDraconis.Screens.Menus
         /// </summary>
         protected override void SetupMenuItems()
         {
-			float itemY = Game.Window.ClientBounds.Height / 2.2f;
-            float itemX = 75.0f;
             menuItems = new MenuItem[2];
-            menuItems[0] = new MenuItem("Play", this, new Vector2(itemX, itemY), Commands.Play);
-            menuItems[1] = new MenuItem("Quit", this, new Vector2(itemX, itemY), Commands.Quit);
+            menuItems[0] = new MenuItem("Play", this, Vector2.Zero, Commands.Play);
+            menuItems[1] = new MenuItem("Quit", this, Vector2.Zero, Commands.Quit);
+            float itemY = Game.Window.ClientBounds.Height / 2.2f;
+            float itemX = 75.0f;
+            AutoPositionMenuItems(new Vector2(itemX, itemY));
         }
 
         /// <summary>

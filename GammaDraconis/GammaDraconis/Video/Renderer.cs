@@ -26,6 +26,7 @@ namespace GammaDraconis.Video
         {
             aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
                           (float)game.GraphicsDevice.Viewport.Height;
+            this.game = game;
         }
 
         /// <summary>
@@ -39,12 +40,14 @@ namespace GammaDraconis.Video
         {
             List<GameObject> objects = scene.visibleObjects();
 
-            game.GraphicsDevice.Clear(Color.Black);
+            //game.GraphicsDevice.Clear(Color.Black);
 
             foreach (GameObject gameObject in objects)
             {
+                Console.WriteLine("object");
                 foreach (FBXModel fbxmodel in gameObject.models)
                 {
+                    Console.WriteLine("fbxmodel");
                     Model model = fbxmodel.model;
 
                     if (model == null)
@@ -59,6 +62,7 @@ namespace GammaDraconis.Video
                     // Draw the model. A model can have multiple meshes, so loop.
                     foreach (ModelMesh mesh in model.Meshes)
                     {
+                        Console.WriteLine("mesh");
                         // This is where the mesh orientation is set, as well as our camera and projection.
                         foreach (BasicEffect effect in mesh.Effects)
                         {

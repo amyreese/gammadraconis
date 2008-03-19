@@ -15,7 +15,18 @@ namespace GammaDraconis.Types
         /// <summary>
         /// The instance of snails pace that is using this screen
         /// </summary>
-        protected GammaDraconis gammaDraconis;
+        protected GammaDraconis game;
+
+        public GameObject()
+        {
+            position = new Coords();
+            velocity = new Coords();
+            acceleration = new Coords();
+
+            models = new List<FBXModel>();
+            mounts = new List<MountPoint>();
+            turrets = new List<Turret>();
+        }
 
         // Movement properties
         public Coords position;
@@ -24,6 +35,12 @@ namespace GammaDraconis.Types
 
         // Visual properties
         public List<FBXModel> models;
+
+        // Locations to mount weapons
+        public List<MountPoint> mounts;
+
+        // Turrets for weapons
+        public List<Turret> turrets;
 
         // Behaviors
         public void think(GameTime gameTime) { }

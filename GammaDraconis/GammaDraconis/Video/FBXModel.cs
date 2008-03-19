@@ -18,6 +18,12 @@ namespace GammaDraconis.Video
         public Model model;
         public string filename;
 
+        public FBXModel(string filename)
+        {
+            this.filename = filename;
+            offset = new Coords();
+        }
+
         // Offset position/rotation, relative to the *game object's* identity matrix
         public Coords offset;
     }

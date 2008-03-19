@@ -32,6 +32,7 @@ namespace GammaDraconis.Types
             A = a; B = b; G = g;
         }
         public Coords(float x, float y, float z) : this(x, y, z, 0, 0, 0) { }
+        public Coords() : this(0, 0, 0, 0, 0, 0) { }
         
     }
 }

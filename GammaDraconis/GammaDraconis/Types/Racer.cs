@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GammaDraconis.Video;
 
 namespace GammaDraconis.Types
 {
@@ -14,13 +15,10 @@ namespace GammaDraconis.Types
     {
         public string name;
 
-        // Locations to mount weapons
-        public List<MountPoint> mounts;
-
-        // Turrets for weapons
-        public List<Turret> turrets;
-
-        // Set the 3D model to draw.
-        public Model model;
+        public Racer()
+            : base()
+        {
+            models.Add(new FBXModel("Resources/Models/Raptor"));
+        }
     }
 }

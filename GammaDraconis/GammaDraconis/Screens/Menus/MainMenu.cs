@@ -2,16 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using GammaDraconis.Video.Interface;
 
 namespace GammaDraconis.Screens.Menus
 {
     class MainMenu : MenuScreen
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="game"></param>
         public MainMenu(GammaDraconis game)
             : base(game)
         {
         }
 
+        /// <summary>
+        /// The commands that can be used for this menu
+        /// </summary>
         private class Commands
         {
             public static string Play = "Play";
@@ -23,19 +31,24 @@ namespace GammaDraconis.Screens.Menus
         /// </summary>
         protected override void SetupMenuItems()
         {
+            Interface menuRegion = new Interface(gammaDraconis);
+            menuRegion.RelativePosition = new Vector2(75.0f, Game.Window.ClientBounds.Height / 2.2f);
             menuItems = new MenuItem[2];
-            menuItems[0] = new MenuItem("Play", this, Vector2.Zero, Commands.Play);
-            menuItems[1] = new MenuItem("Quit", this, Vector2.Zero, Commands.Quit);
-            float itemY = Game.Window.ClientBounds.Height / 2.2f;
-            float itemX = 75.0f;
-            AutoPositionMenuItems(new Vector2(itemX, itemY));
+            menuItems[0] = new MenuItem(gammaDraconis, Commands.Play);
+            menuItems[0].text = "Play";
+            menuRegion.AddComponent(menuItems[0]);
+            menuItems[1] = new MenuItem(gammaDraconis, Commands.Quit);
+            menuItems[1].text = "Quit";
+            menuRegion.AddComponent(menuItems[1]);
+            screenInterface.AddComponent(menuRegion);
+            AutoPositionMenuItems();
         }
 
         /// <summary>
         /// The background image for the screen
         /// </summary>
         /// <returns>The name of the background image</returns>
-        protected override string GetBackgroundImage()
+        protected override string GetBackgroundImageName()
         {
             return "Resources/Textures/MenuBackgrounds/MainMenu";
         }

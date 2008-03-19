@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using GammaDraconis.Core.Input;
+using GammaDraconis.Video.Interface;
 
 namespace GammaDraconis.Screens.Menus
 {
@@ -26,79 +27,52 @@ namespace GammaDraconis.Screens.Menus
         public MenuScreen(GammaDraconis game)
             : base(game)
         {
-        }
-
-        protected static MenuInput input = new MenuInput();
-
-        #region Graphics Stuff
-        // The background image
-        private Texture2D screenImage;
-
-        // The sprite batch for the screen
-        protected SpriteBatch _spriteBatch;
-        public SpriteBatch spriteBatch
-        {
-            get
+            SpriteComponent backgroundImage = new SpriteComponent(game);
+            backgroundImage.textureName = GetBackgroundImageName();
+            screenInterface.AddComponent(backgroundImage);
+            SetupMenuItems();
+            for (int index = 0; index < menuItems.Length; index++)
             {
-                return _spriteBatch;
-            }
-            protected set
-            {
-                _spriteBatch = value;
-            }
-        }
-
-        // The font for the screen
-        protected SpriteFont _spriteFont;
-        public SpriteFont spriteFont
-        {
-            get
-            {
-                return _spriteFont;
-            }
-            protected set
-            {
-                _spriteFont = value;
+                bool selected = index == menuItemIndex;
+                menuItems[index].RelativeScale = selected ? GetSelectedScale() : GetUnselectedScale();
+                menuItems[index].color = selected ? GetSelectedColor() : GetUnselectedColor();
+                menuItems[index].spriteFontName = GetFontName();
             }
         }
 
         /// <summary>
-        /// Load the background image, font, and menu items for the screen
+        /// Input manager
         /// </summary>
-        protected override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteFont = Game.Content.Load<SpriteFont>("Resources/Fonts/Menu");
-            screenImage = Game.Content.Load<Texture2D>(GetBackgroundImage());
-            if (menuItems == null)
-            {
-                SetupMenuItems();
-                for (int index = 0; index < menuItems.Length; index++)
-                {
-                    menuItems[index].Selected = index == menuItemIndex;
-                }
-            }
-            base.LoadContent();
-        }
+        protected static MenuInput input = new MenuInput();
 
         /// <summary>
         /// Prepare the menu items to be displayed on this menu
         /// </summary>
         protected abstract void SetupMenuItems();
 
-        protected void AutoPositionMenuItems(Vector2 offset)
+        protected void AutoPositionMenuItems()
         {
             for (int index = 0; index < menuItems.Length; index++)
             {
-                menuItems[index].Reposition(new Vector2(offset.X, offset.Y + index * (spriteFont.LineSpacing * GetSelectedScale())));
+                menuItems[index].RelativePosition = GetMenuItemSpacing() * index;
             }
         }
 
+        #region Graphics Stuff
         /// <summary>
         /// The background image to be used for this menu
         /// </summary>
         /// <returns>The background image to be used for this menu</returns>
-        protected abstract String GetBackgroundImage();
+        protected abstract String GetBackgroundImageName();
+
+        /// <summary>
+        /// The name of the font used for this menu
+        /// </summary>
+        /// <returns>The name of the font used for this menu</returns>
+        internal virtual String GetFontName()
+        {
+            return "Resources/Fonts/Menu";
+        }
 
         /// <summary>
         /// The color used for menu items that are not selected
@@ -122,41 +96,27 @@ namespace GammaDraconis.Screens.Menus
         /// The scale used for menu items that are not selected
         /// </summary>
         /// <returns>The scale used for menu items that are not selected</returns>
-        internal virtual float GetUnselectedScale()
+        internal virtual Vector2 GetUnselectedScale()
         {
-            return 1.0f;
+            return Vector2.One;
         }
 
         /// <summary>
         /// The scale used for menu items that are selected
         /// </summary>
         /// <returns>The scale used for menu items that are selected</returns>
-        internal virtual float GetSelectedScale()
+        internal virtual Vector2 GetSelectedScale()
         {
-            return 1.5f;
+            return new Vector2(1.5f, 1.5f);
         }
 
         /// <summary>
-        /// Draw the background image and the menu items
+        /// The spacing used for menu items
         /// </summary>
-        /// <param name="gameTime"></param>
-        public override void Draw(GameTime gameTime)
+        /// <returns>The spacing used for menu items</returns>
+        internal virtual Vector2 GetMenuItemSpacing()
         {
-            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer,
-                Color.Black, 1.0f, 0);
-
-            spriteBatch.Begin();
-            spriteBatch.Draw(screenImage, new Rectangle(0, 0, Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height), Color.White);
-            spriteBatch.End();
-
-            if (menuItems != null)
-            {
-                for (int menuItemIndex = 0; menuItemIndex < menuItems.Length; menuItemIndex++)
-                {
-                    menuItems[menuItemIndex].Draw(gameTime);
-                }
-            }
-            base.Draw(gameTime);
+            return new Vector2(0.0f, 64.0f);
         }
         #endregion
 
@@ -175,9 +135,11 @@ namespace GammaDraconis.Screens.Menus
 
             input.update();
 
+            #region Menu Item Selection commands
+            menuItems[menuItemIndex].color = GetUnselectedColor();
+            menuItems[menuItemIndex].RelativeScale = GetUnselectedScale();
             if (input.inputPressed(MenuInput.Commands.Up))
             {
-                menuItems[menuItemIndex].Selected = false;
                 do
                 {
                     menuItemIndex--;
@@ -186,12 +148,10 @@ namespace GammaDraconis.Screens.Menus
                         menuItemIndex = menuItems.Length - 1;
                     }
                 } while (!menuItems[menuItemIndex].Visible);
-                menuItems[menuItemIndex].Selected = true;
             }
 
             if (input.inputPressed(MenuInput.Commands.Down))
             {
-                menuItems[menuItemIndex].Selected = false;
                 do
                 {
                     menuItemIndex++;
@@ -200,8 +160,10 @@ namespace GammaDraconis.Screens.Menus
                         menuItemIndex = 0;
                     }
                 } while (!menuItems[menuItemIndex].Visible);
-                menuItems[menuItemIndex].Selected = true;
             }
+            menuItems[menuItemIndex].color = GetSelectedColor();
+            menuItems[menuItemIndex].RelativeScale = GetSelectedScale();
+            #endregion
 
             if (input.inputPressed(MenuInput.Commands.Select))
             {

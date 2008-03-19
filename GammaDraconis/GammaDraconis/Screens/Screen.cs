@@ -1,5 +1,8 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using GammaDraconis.Video.Interface;
 
 namespace GammaDraconis.Screens
 {
@@ -14,6 +17,16 @@ namespace GammaDraconis.Screens
         protected GammaDraconis gammaDraconis;
 
         /// <summary>
+        /// The interface for the screen
+        /// </summary>
+        protected Interface screenInterface;
+
+        /// <summary>
+        /// Flag indicating that the interface has gone through initial setup
+        /// </summary>
+        protected bool interfaceReady = false;
+
+        /// <summary>
         /// Creates a new Screen
         /// </summary>
         /// <param name="game">The instance of Snails Pace</param>
@@ -21,6 +34,7 @@ namespace GammaDraconis.Screens
             : base(game)
         {
             gammaDraconis = game;
+            screenInterface = new Interface(gammaDraconis);
         }
 
         /// <summary>
@@ -37,6 +51,40 @@ namespace GammaDraconis.Screens
             {
                 _ready = value;
             }
+        }
+
+        /// <summary>
+        /// Updates the visible flag of the interface for this screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected override void OnVisibleChanged(object sender, EventArgs args)
+        {
+            screenInterface.Visible = Visible;
+            base.OnVisibleChanged(sender, args);
+        }
+
+        /// <summary>
+        /// Updates the enabled flag of the interface for this screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected override void OnEnabledChanged(object sender, EventArgs args)
+        {
+            screenInterface.Enabled = Enabled;
+            base.OnEnabledChanged(sender, args);
+        }
+
+
+        /// <summary>
+        /// Draw the screen
+        /// </summary>
+        /// <param name="gameTime">GameTime for this draw</param>
+        public override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+            screenInterface.Draw(gameTime, Vector2.Zero, Vector2.One, 0);
+            base.Draw(gameTime);
         }
     }
 }

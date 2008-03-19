@@ -13,8 +13,6 @@ namespace GammaDraconis.Screens
     /// </summary>
     class GameLoadingScreen : LoadingScreen
     {
-        private Interface someInterface;
-
         /// <summary>
         /// Constructor for the screen
         /// </summary>
@@ -22,6 +20,24 @@ namespace GammaDraconis.Screens
         public GameLoadingScreen(GammaDraconis game)
             : base(game, GammaDraconis.GameStates.Game)
         {
+            SpriteComponent sprite = new SpriteComponent(gammaDraconis);
+            sprite.textureName = "Resources/Textures/MenuBackgrounds/MainMenu";
+            sprite.RelativePosition = new Vector2(70, 10);
+            sprite.RelativeScale = new Vector2(0.5f, 1.5f);
+            screenInterface.AddComponent(sprite);
+
+            TextComponent text = new TextComponent(gammaDraconis);
+            text.color = Color.White;
+            text.text = "Test text";
+            text.spriteFontName = "Resources/Fonts/Menu";
+            text.RelativeRotation = 0.2f;
+            screenInterface.AddComponent(text);
+
+            Interface subInterface = new Interface(gammaDraconis);
+            subInterface.RelativeRotation = 0.5f;
+            subInterface.AddComponent(sprite);
+            screenInterface.AddComponent(subInterface);
+            interfaceReady = true;
         }
 
         /// <summary>
@@ -29,46 +45,7 @@ namespace GammaDraconis.Screens
         /// </summary>
         protected override void LoadContent()
         {
-            if (someInterface == null)
-            {
-                someInterface = new Interface(gammaDraconis);
-                SpriteComponent sprite = new SpriteComponent(gammaDraconis);
-                sprite.textureName = "Resources/Textures/MenuBackgrounds/MainMenu";
-                sprite.RelativePosition = new Vector2(70, 10);
-                sprite.RelativeScale = new Vector2(0.5f, 1.5f);
-                someInterface.AddComponent(sprite);
-
-                TextComponent text = new TextComponent(gammaDraconis);
-                text.color = Color.White;
-                text.text = "Test text";
-                text.spriteFontName = "Resources/Fonts/Menu";
-                text.RelativeRotation = 0.2f;
-                someInterface.AddComponent(text);
-
-                Interface subInterface = new Interface(gammaDraconis);
-                subInterface.RelativeRotation = 0.5f;
-                subInterface.AddComponent(sprite);
-                someInterface.AddComponent(subInterface);
-            }
             base.LoadContent();
-        }
-
-        protected override void OnVisibleChanged(object sender, EventArgs args)
-        {
-            if (someInterface != null)
-            {
-                someInterface.Visible = Visible;
-            }
-            base.OnVisibleChanged(sender, args);
-        }
-
-        protected override void OnEnabledChanged(object sender, EventArgs args)
-        {
-            if (someInterface != null)
-            {
-                someInterface.Enabled = Enabled;
-            }
-            base.OnEnabledChanged(sender, args);
         }
 
         public override void Update(GameTime gameTime)
@@ -78,15 +55,6 @@ namespace GammaDraconis.Screens
                 gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
             }
             base.Update(gameTime);
-        }
-        /// <summary>
-        /// Draw the screen
-        /// </summary>
-        /// <param name="gameTime">GameTime for this draw</param>
-        public override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
-            someInterface.Draw(gameTime, Vector2.Zero, Vector2.One, 0);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace GammaDraconis.Video.Interface
             if (spriteFont != null && text != null && color != null)
             {
                 spriteBatch.Begin();
-                spriteBatch.DrawString(spriteFont, text, RelativePosition, color, rotation + RelativeRotation, position, scale * RelativeScale, SpriteEffects.None, 0);
+                spriteBatch.DrawString(spriteFont, text, position + RelativePosition, color, rotation + RelativeRotation, Vector2.Zero, scale * RelativeScale, SpriteEffects.None, 0);
                 spriteBatch.End();
             }
         }

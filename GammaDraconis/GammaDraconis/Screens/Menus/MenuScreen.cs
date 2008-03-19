@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using GammaDraconis.Core.Input;
-using GammaDraconis.Video.Interface;
+using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis.Screens.Menus
 {
@@ -27,7 +27,7 @@ namespace GammaDraconis.Screens.Menus
         public MenuScreen(GammaDraconis game)
             : base(game)
         {
-            SpriteComponent backgroundImage = new SpriteComponent(game);
+            Sprite backgroundImage = new Sprite(game);
             backgroundImage.textureName = GetBackgroundImageName();
             screenInterface.AddComponent(backgroundImage);
             SetupMenuItems();

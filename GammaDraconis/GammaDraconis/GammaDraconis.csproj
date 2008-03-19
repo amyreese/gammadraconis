@@ -82,14 +82,13 @@
     <Compile Include="Types\Racer.cs" />
     <Compile Include="Types\Turret.cs" />
     <Compile Include="Types\Weapon.cs" />
-    <Compile Include="Video\Interface\TextComponent.cs" />
-    <Compile Include="Video\Interface\Interface.cs" />
-    <Compile Include="Video\Interface\InterfaceComponent.cs" />
-    <Compile Include="Video\Interface\SpriteComponent.cs" />
+    <Compile Include="Video\GUI\Text.cs" />
+    <Compile Include="Video\GUI\Interface.cs" />
+    <Compile Include="Video\GUI\InterfaceComponent.cs" />
+    <Compile Include="Video\GUI\Sprite.cs" />
     <Compile Include="Video\Model.cs" />
     <Compile Include="Video\Renderer.cs" />
     <Compile Include="Video\Scene.cs" />
-    <Compile Include="Video\Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content.contentproj">

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
-using GammaDraconis.Video.Interface;
+using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis.Screens.Menus
 {

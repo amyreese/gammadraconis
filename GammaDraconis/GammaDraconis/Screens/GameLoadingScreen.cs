@@ -5,7 +5,7 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using GammaDraconis.Video.Interface;
+using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis.Screens
 {
@@ -14,7 +14,7 @@ namespace GammaDraconis.Screens
     /// </summary>
     class GameLoadingScreen : LoadingScreen
     {
-        private TextComponent loadingText;
+        private Text loadingText;
         private String loadingTextValue = "Loading";
         private int loadingTextDots = 0;
         private int maxDotCount = 3;
@@ -28,7 +28,7 @@ namespace GammaDraconis.Screens
         public GameLoadingScreen(GammaDraconis game)
             : base(game, GammaDraconis.GameStates.Game)
         {
-            loadingText = new TextComponent(gammaDraconis);
+            loadingText = new Text(gammaDraconis);
             loadingText.color = Color.White;
             loadingText.text = loadingTextValue;
             loadingText.spriteFontName = "Resources/Fonts/Menu";

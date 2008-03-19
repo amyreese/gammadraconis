@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GammaDraconis.Video.Interface;
+using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis.Screens.Menus
 {
-    class MenuItem : TextComponent
+    class MenuItem : Text
     {
         public readonly String command;
 

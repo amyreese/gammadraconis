@@ -15,5 +15,11 @@ namespace GammaDraconis.Types
 
         // Locations to mount weapons
         public List<MountPoint> mounts;
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="game">The instance of the game.</param>
+        protected Turret(GammaDraconis game) : base(game) { }
     }
 }

@@ -153,7 +153,7 @@ namespace GammaDraconis
             CheatMenu
         }
 
-        private GameStates currentGameState = GameStates.GameLoading;
+        private GameStates currentGameState = GameStates.Game;
 
         public void changeState(GameStates toState)
         {

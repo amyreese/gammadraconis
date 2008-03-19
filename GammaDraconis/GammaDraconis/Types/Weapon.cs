@@ -14,6 +14,12 @@ namespace GammaDraconis.Types
         // Where projectiles are emitted, relative to the *weapon's* identity matrix
         public Coords fireFrom;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="game">The instance of the game.</param>
+        protected Weapon(GammaDraconis game) : base(game) { }
+
         // Behaviors
         public void fire() { }
     }

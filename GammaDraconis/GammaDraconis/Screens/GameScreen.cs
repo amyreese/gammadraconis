@@ -99,6 +99,7 @@ namespace GammaDraconis.Screens
             if (!started)
             {
                 //Engine.player.load();
+                engine = new Engine("");
                 started = true;
             }
             engine.Update(gameTime);

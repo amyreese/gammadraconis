@@ -34,7 +34,7 @@ namespace GammaDraconis
         protected override void Initialize()
         {
             initializeGameScreens();
-
+            IsFixedTimeStep = false;
             base.Initialize();
         }
 
@@ -153,7 +153,7 @@ namespace GammaDraconis
             CheatMenu
         }
 
-        private GameStates currentGameState = GameStates.Game;
+        private GameStates currentGameState = GameStates.MainMenu;
 
         public void changeState(GameStates toState)
         {

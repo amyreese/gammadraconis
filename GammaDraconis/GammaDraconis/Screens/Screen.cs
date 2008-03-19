@@ -22,11 +22,6 @@ namespace GammaDraconis.Screens
         protected Interface screenInterface;
 
         /// <summary>
-        /// Flag indicating that the interface has gone through initial setup
-        /// </summary>
-        protected bool interfaceReady = false;
-
-        /// <summary>
         /// Creates a new Screen
         /// </summary>
         /// <param name="game">The instance of Snails Pace</param>
@@ -35,6 +30,7 @@ namespace GammaDraconis.Screens
         {
             gammaDraconis = game;
             screenInterface = new Interface(gammaDraconis);
+            screenInterface.Visible = Visible;
         }
 
         /// <summary>

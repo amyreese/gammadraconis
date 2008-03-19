@@ -17,6 +17,8 @@ namespace GammaDraconis.Core.Input
         private Dictionary<String, KeyState> keyStatesOld;
         private Dictionary<String, Boolean> keyPresses;
 
+        protected PlayerIndex playerIndex;
+
         public Vector2 mousePosition;
 
         /// <summary>
@@ -27,24 +29,6 @@ namespace GammaDraconis.Core.Input
             inputKeys = new Dictionary<String, String>();
             keyStates = new Dictionary<String, KeyState>();
             keyPresses = new Dictionary<String, Boolean>();
-
-            // Default action assignments
-            /*
-            inputKeys.Add("MenuUp", "up");
-            inputKeys.Add("MenuDown", "down");
-            inputKeys.Add("MenuLeft", "left");
-            inputKeys.Add("MenuRight", "right");
-            inputKeys.Add("MenuSelect", "enter");
-            inputKeys.Add("MenuToggle", "escape");
-
-            inputKeys.Add("Up", "down");
-            inputKeys.Add("Down", "up");
-            inputKeys.Add("Left", "left");
-            inputKeys.Add("Right", "right");
-            inputKeys.Add("Fire1", "space");
-            inputKeys.Add("Fire2", "enter");
-            inputKeys.Add("Pause", "p");
-             */
         }
 
         /// <summary>

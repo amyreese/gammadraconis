@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -30,6 +31,8 @@ namespace GammaDraconis.Screens
             : base(game)
         {
             ready = false;
+            // TODO: Remove this when we have proper loading.
+            ReloadEngine("");
         }
 
         #region Engine Loading
@@ -42,7 +45,7 @@ namespace GammaDraconis.Screens
             ready = false;
             started = false;
             this.map = map;
-            new System.Threading.Thread(loadEngine).Start();
+            new Thread(loadEngine).Start();
         }
 
         // The current map
@@ -103,6 +106,12 @@ namespace GammaDraconis.Screens
                 started = true;
             }
             engine.Update(gameTime);
+
+            // TODO: Remove this once the game engine actually has input
+            if( Keyboard.GetState().IsKeyDown(Keys.Escape) )
+            {
+                gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
+            }
             base.Update(gameTime);
         }
     }

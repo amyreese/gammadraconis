@@ -38,6 +38,7 @@ namespace GammaDraconis.Screens.Menus
                 menuItems[index].color = selected ? GetSelectedColor() : GetUnselectedColor();
                 menuItems[index].spriteFontName = GetFontName();
             }
+            ready = true;
         }
 
         /// <summary>
@@ -136,6 +137,7 @@ namespace GammaDraconis.Screens.Menus
             input.update();
 
             #region Menu Item Selection commands
+            int oldMenuItemIndex = menuItemIndex;
             menuItems[menuItemIndex].color = GetUnselectedColor();
             menuItems[menuItemIndex].RelativeScale = GetUnselectedScale();
             if (input.inputPressed(MenuInput.Commands.Up))
@@ -147,7 +149,11 @@ namespace GammaDraconis.Screens.Menus
                     {
                         menuItemIndex = menuItems.Length - 1;
                     }
-                } while (!menuItems[menuItemIndex].Visible);
+                } while (!menuItems[menuItemIndex].Visible && menuItemIndex != oldMenuItemIndex);
+                if (menuItemIndex == oldMenuItemIndex)
+                {
+                    throw new Exception("Bad menu!");
+                }
             }
 
             if (input.inputPressed(MenuInput.Commands.Down))
@@ -159,7 +165,11 @@ namespace GammaDraconis.Screens.Menus
                     {
                         menuItemIndex = 0;
                     }
-                } while (!menuItems[menuItemIndex].Visible);
+                } while (!menuItems[menuItemIndex].Visible && menuItemIndex != oldMenuItemIndex);
+                if (menuItemIndex == oldMenuItemIndex)
+                {
+                    throw new Exception("Bad menu!");
+                }
             }
             menuItems[menuItemIndex].color = GetSelectedColor();
             menuItems[menuItemIndex].RelativeScale = GetSelectedScale();

@@ -153,7 +153,7 @@ namespace GammaDraconis
             CheatMenu
         }
 
-        private GameStates currentGameState = GameStates.MainMenu;
+        private GameStates currentGameState = GameStates.GameLoading;
 
         public void changeState(GameStates toState)
         {
@@ -188,11 +188,11 @@ namespace GammaDraconis
              * */
             screens = new Dictionary<GameStates, Screen>();
             screens.Add(GameStates.MainMenu, new Screens.Menus.MainMenu(this));
+            screens.Add(GameStates.GameLoading, new Screens.GameLoadingScreen(this));
+            screens.Add(GameStates.Game, new Screens.GameScreen(this));
             /*
             screens.Add(GameStates.LevelSelectMenu, new Screens.Menus.LevelSelectScreen(this, levelsSetting));
             screens.Add(GameStates.KeyBindingsMenu, new Screens.Menus.KeyBindingsMenuScreen(this));
-            screens.Add(GameStates.GameLoading, new Screens.GameLoadingScreen(this));
-            screens.Add(GameStates.Game, new Screens.GameScreen(this));
             screens.Add(GameStates.LevelOver, new Screens.LevelOverScreen(this));
             screens.Add(GameStates.HighScoreListMenu, new Screens.Menus.HighScoreMenuScreen(this));
             screens.Add(GameStates.HighScores, new Screens.HighScoreScreen(this, "Test"));

@@ -20,6 +20,6 @@ namespace GammaDraconis.Video
         /// </summary>
         /// <param name="scene">The scene manager</param>
         /// <param name="iface">The menu or HUD interface</param>
-        public void render(Scene scene, Interface iface) { }
+        public void render(Scene scene, Interface.Interface iface) { }
     }
 }

@@ -64,6 +64,9 @@
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\Input\Input.cs" />
     <Compile Include="Core\Input\MenuInput.cs" />
+    <Compile Include="Screens\GameLoadingScreen.cs" />
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\LoadingScreen.cs" />
     <Compile Include="Screens\Menus\MainMenu.cs" />
     <Compile Include="Screens\Menus\MenuItem.cs" />
     <Compile Include="Screens\Menus\MenuScreen.cs" />
@@ -78,7 +81,10 @@
     <Compile Include="Types\Racer.cs" />
     <Compile Include="Types\Turret.cs" />
     <Compile Include="Types\Weapon.cs" />
-    <Compile Include="Video\Interface.cs" />
+    <Compile Include="Video\Interface\TextComponent.cs" />
+    <Compile Include="Video\Interface\Interface.cs" />
+    <Compile Include="Video\Interface\InterfaceComponent.cs" />
+    <Compile Include="Video\Interface\SpriteComponent.cs" />
     <Compile Include="Video\Model.cs" />
     <Compile Include="Video\Renderer.cs" />
     <Compile Include="Video\Scene.cs" />

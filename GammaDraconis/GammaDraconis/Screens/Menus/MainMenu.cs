@@ -50,6 +50,7 @@ namespace GammaDraconis.Screens.Menus
             {
                 // TODO: Play the game
                 Console.WriteLine("There isn't a game to play yet! Start making it!");
+                gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
             }
             else if (command.Equals(Commands.Quit))
             {

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using GammaDraconis.Types;
 using GammaDraconis.Video;
+using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis.Core
 {
@@ -23,11 +25,13 @@ namespace GammaDraconis.Core
             return instance;
         }
 
+        GammaDraconis game;
+
         /// <summary>
         /// Starts up a game engine for the specified map
         /// </summary>
         /// <param name="mapName">The name given to the map in the file system</param>
-        public Engine(String mapName)
+        public Engine(GammaDraconis game, String mapName)
         {
             if (instance != null)
             {
@@ -38,6 +42,8 @@ namespace GammaDraconis.Core
             }
             instance = this;
 
+            this.game = game;
+
             // Initialize the Renderer
             SetupGameRenderer();
         }
@@ -46,7 +52,7 @@ namespace GammaDraconis.Core
         #region Rendering
         private Renderer gameRenderer;
         private Scene gameScene;
-        //private Interface gameInterface;
+        private Interface gameInterface;
 
         /// <summary>
         /// Initializes the renderer, sets the renderer to focus on Helix, and tells
@@ -54,18 +60,11 @@ namespace GammaDraconis.Core
         /// </summary>
         private void SetupGameRenderer()
         {
-            gameRenderer = new Renderer();
+            gameRenderer = new Renderer(game);
             gameScene = new Scene();
+
+            gameScene.objects.Add(new Racer());
             //gameInterface = new Interface();
-            /*
-            gameRenderer.createTexturesAndEffects(allObjects());
-
-            Renderer.cameraPosition = new Vector3(Player.helix.position, Renderer.normalCameraDistance);
-
-            Renderer.cameraTarget = Player.helix;
-
-            gameRenderer.cameraBounds = map.bounds.ToArray();
-             */
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace GammaDraconis.Core
         /// <param name="gameTime">The current game time</param>
         public void Render(GameTime gameTime)
         {
-            //gameRenderer.render(gameScene, gameInterface);
+            gameRenderer.render(gameScene, gameInterface);
         }
         #endregion
 

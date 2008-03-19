@@ -10,10 +10,6 @@ namespace GammaDraconis.Types
     /// </summary>
     class Player : Racer
     {
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        /// <param name="game">The instance of the game.</param>
-        protected Player(GammaDraconis game) : base(game) { }
+        
     }
 }

@@ -15,7 +15,7 @@ namespace GammaDraconis.Video
     class FBXModel
     {
         // The .fbx model represented by this object
-        private Model model;
+        public Model model;
         public string filename;
 
         // Offset position/rotation, relative to the *game object's* identity matrix

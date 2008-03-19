@@ -18,7 +18,7 @@ namespace GammaDraconis
     /// </summary>
     public class GammaDraconis : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
 
         public GammaDraconis()
         {

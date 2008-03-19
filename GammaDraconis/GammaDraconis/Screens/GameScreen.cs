@@ -23,6 +23,8 @@ namespace GammaDraconis.Screens
         // Has the game has been started?
         private bool started = false;
 
+        GammaDraconis game;
+
         /// <summary>
         /// Constructor for the screen
         /// </summary>
@@ -30,6 +32,7 @@ namespace GammaDraconis.Screens
         public GameScreen(GammaDraconis game)
             : base(game)
         {
+            this.game = game;
             ready = false;
             // TODO: Remove this when we have proper loading.
             ReloadEngine("");
@@ -56,7 +59,7 @@ namespace GammaDraconis.Screens
         /// </summary>
         protected void loadEngine()
         {
-            engine = new Engine(map);
+            engine = new Engine(game, map);
             /*
             Core.Player.time = 0;
             switch (map)
@@ -102,7 +105,7 @@ namespace GammaDraconis.Screens
             if (!started)
             {
                 //Engine.player.load();
-                engine = new Engine("");
+                engine = new Engine(game, "");
                 started = true;
             }
             engine.Update(gameTime);

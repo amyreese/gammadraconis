@@ -18,6 +18,10 @@ namespace GammaDraconis.Core.Input
             public static String Down = "Down";
             public static String Left = "Left";
             public static String Right = "Right";
+            public static String YawLeft = "YawLeft";
+            public static String YawRight = "YawRight";
+            public static String ThrottleUp = "ThrottleUp";
+            public static String ThrottleDown = "ThrottleDown";
             public static String Fire1 = "Fire1";
             public static String Fire2 = "Fire2";
             public static String Pause = "Pause";
@@ -41,6 +45,10 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Down, "down");
                 inputKeys.Add(Commands.Left, "left");
                 inputKeys.Add(Commands.Right, "right");
+                inputKeys.Add(Commands.YawLeft, "q");
+                inputKeys.Add(Commands.YawRight, "w");
+                inputKeys.Add(Commands.ThrottleUp, "a");
+                inputKeys.Add(Commands.ThrottleDown, "z");
                 inputKeys.Add(Commands.Fire1, "space");
                 inputKeys.Add(Commands.Fire2, "enter");
                 inputKeys.Add(Commands.Pause, "p");
@@ -54,6 +62,10 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Down, "down");
                 inputKeys.Add(Commands.Left, "left");
                 inputKeys.Add(Commands.Right, "right");
+                inputKeys.Add(Commands.YawLeft, "q");
+                inputKeys.Add(Commands.YawRight, "w");
+                inputKeys.Add(Commands.ThrottleUp, "a");
+                inputKeys.Add(Commands.ThrottleDown, "z");
                 inputKeys.Add(Commands.Fire1, "space");
                 inputKeys.Add(Commands.Fire2, "enter");
                 inputKeys.Add(Commands.Pause, "p");

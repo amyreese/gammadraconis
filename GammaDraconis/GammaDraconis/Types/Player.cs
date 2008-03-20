@@ -31,22 +31,46 @@ namespace GammaDraconis.Types
 
             float rate = 1f / gameTime.ElapsedGameTime.Milliseconds;
 
+            Matrix translation = Matrix.Identity;
+            Quaternion rotation = Quaternion.Identity;
+
             if (input.inputDown("Up"))
             {
-                position.A += rate;
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate);
             }
             if (input.inputDown("Down"))
             {
-                position.A -= rate;
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rate);
             }
             if (input.inputDown("Left"))
             {
-                position.B -= rate;
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate);
             }
             if (input.inputDown("Right"))
             {
-                position.B += rate;
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate);
             }
+            if (input.inputDown("YawLeft"))
+            {
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, rate);
+            }
+            if (input.inputDown("YawRight"))
+            {
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rate);
+            }
+            
+            if (input.inputDown("ThrottleUp"))
+            {
+                translation *= Matrix.CreateTranslation(0f, 0f, rate*50);
+            }
+            if (input.inputDown("ThrottleDown"))
+            {
+                translation *= Matrix.CreateTranslation(0f, 0f, -rate*50);
+            }
+
+            position.R *= rotation;
+            position.T *= translation;
         }
     }
 }
+ 

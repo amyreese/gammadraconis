@@ -12,10 +12,10 @@ namespace GammaDraconis.Types
     class Coords
     {
         // Coordinates
-        public float X, Y, Z;
+        public Matrix T;
 
         // Rotations
-        public float A, B, G;
+        public Quaternion R;
 
         /// <summary>
         /// Build a Coords object with the given properties.
@@ -28,8 +28,8 @@ namespace GammaDraconis.Types
         /// <param name="g">Gamma rotation (Z axis / Roll)</param>
         public Coords(float x, float y, float z, float a, float b, float g)
         {
-            X = x; Y = y; Z = z;
-            A = a; B = b; G = g;
+            T = Matrix.CreateTranslation(x, y, z);
+            R = Quaternion.CreateFromYawPitchRoll(b, a, g);
         }
         public Coords(float x, float y, float z) : this(x, y, z, 0, 0, 0) { }
         public Coords() : this(0, 0, 0, 0, 0, 0) { }
@@ -40,16 +40,7 @@ namespace GammaDraconis.Types
         /// <returns>Positional Vector3</returns>
         public Vector3 pos()
         {
-            return new Vector3(X, Y, Z);
-        }
-
-        /// <summary>
-        /// Get a Vector3 object containing this object's rotation.
-        /// </summary>
-        /// <returns>Rotational Vector3</returns>
-        public Vector3 rot()
-        {
-            return new Vector3(A, B, G);
+            return T.Translation;
         }
 
         /// <summary>
@@ -58,8 +49,7 @@ namespace GammaDraconis.Types
         /// <returns>Combined translation and rotation matrix</returns>
         public Matrix matrix()
         {
-            return Matrix.CreateTranslation(pos()) * Matrix.CreateFromYawPitchRoll(B, A, G);
+            return Matrix.CreateFromQuaternion(R) * T;
         }
-        
     }
 }

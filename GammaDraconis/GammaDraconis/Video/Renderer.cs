@@ -40,7 +40,7 @@ namespace GammaDraconis.Video
         {
             List<GameObject> objects = scene.visibleObjects();
 
-            //game.GraphicsDevice.Clear(Color.Black);
+            game.GraphicsDevice.Clear(Color.Black);
 
             foreach (GameObject gameObject in objects)
             {

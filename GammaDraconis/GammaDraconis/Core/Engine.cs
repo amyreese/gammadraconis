@@ -64,7 +64,10 @@ namespace GammaDraconis.Core
             gameScene = new Scene();
 
             Player p = new Player(PlayerIndex.One);
+            Racer r = new Racer();
+            r.position = new Coords(-10.0f, 10.0f, -1000.0f);
             gameScene.objects.Add(p);
+            gameScene.objects.Add(r);
             //gameInterface = new Interface();
         }
 

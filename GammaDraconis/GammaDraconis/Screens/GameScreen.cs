@@ -92,7 +92,7 @@ namespace GammaDraconis.Screens
         public override void Draw(GameTime gameTime)
         {
             engine.Render(gameTime);
-            base.Draw(gameTime);
+            base.Draw(gameTime, false);
         }
 
         /// <summary>

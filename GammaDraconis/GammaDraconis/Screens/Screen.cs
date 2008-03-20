@@ -71,6 +71,21 @@ namespace GammaDraconis.Screens
             base.OnEnabledChanged(sender, args);
         }
 
+        /// <summary>
+        /// Draw the screen
+        /// </summary>
+        /// <param name="gameTime">GameTime for this draw</param>
+        /// <param name="clearScreen">Flag to determine if the screen should be cleared or not</param>
+        protected void Draw(GameTime gameTime, bool clearScreen)
+        {
+            if (clearScreen)
+            {
+                GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+            }
+            screenInterface.Draw(gameTime, Vector2.Zero, Vector2.One, 0);
+            base.Draw(gameTime);
+        }
+
 
         /// <summary>
         /// Draw the screen
@@ -78,9 +93,7 @@ namespace GammaDraconis.Screens
         /// <param name="gameTime">GameTime for this draw</param>
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
-            screenInterface.Draw(gameTime, Vector2.Zero, Vector2.One, 0);
-            base.Draw(gameTime);
+            Draw(gameTime, true);
         }
     }
 }

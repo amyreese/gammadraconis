@@ -63,9 +63,8 @@ namespace GammaDraconis.Core
             gameRenderer = new Renderer(game);
             gameScene = new Scene();
 
-            Racer r = new Racer();
-            r.position = new Coords(0f, 0f, 0f, 0f, 0f, 0f);
-            gameScene.objects.Add(r);
+            Player p = new Player(PlayerIndex.One);
+            gameScene.objects.Add(p);
             //gameInterface = new Interface();
         }
 
@@ -75,14 +74,6 @@ namespace GammaDraconis.Core
         /// <param name="gameTime">The current game time</param>
         public void Render(GameTime gameTime)
         {
-            Input.PlayerInput input = new Input.PlayerInput(PlayerIndex.One);
-            input.update();
-
-            if (input.inputDown("Up"))
-            {
-                Console.WriteLine("Moving");
-                gameScene.objects[0].position.Y += 10f / gameTime.ElapsedGameTime.Milliseconds;
-            }
             gameRenderer.render(gameScene, gameInterface);
         }
         #endregion
@@ -105,6 +96,10 @@ namespace GammaDraconis.Core
         /// <param name="gameTime">The game time for this update</param>
         public void Think(GameTime gameTime)
         {
+            foreach (GameObject gameObject in gameScene.objects)
+            {
+                gameObject.think(gameTime);
+            }
         }
         #endregion
 

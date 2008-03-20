@@ -43,6 +43,6 @@ namespace GammaDraconis.Types
         public List<Turret> turrets;
 
         // Behaviors
-        public void think(GameTime gameTime) { }
+        public virtual void think(GameTime gameTime) { }
     }
 }

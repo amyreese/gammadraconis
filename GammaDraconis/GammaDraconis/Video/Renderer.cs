@@ -18,7 +18,7 @@ namespace GammaDraconis.Video
         public float aspectRatio;
 
         // Set the position of the camera in world space, for our view matrix.
-        Vector3 cameraPosition = new Vector3(0.0f, 150.0f, 1200.0f);
+        Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 1200.0f);
 
         public GammaDraconis game;
 
@@ -48,19 +48,13 @@ namespace GammaDraconis.Video
 
             foreach (GameObject gameObject in objects)
             {
-                objectMatrix = worldMatrix 
-                    * Matrix.CreateTranslation(gameObject.position.pos()) 
-                    * Matrix.CreateFromYawPitchRoll(gameObject.position.A, gameObject.position.B, gameObject.position.G);
-
-
+                objectMatrix = worldMatrix * gameObject.position.matrix();
+                
                 foreach (FBXModel fbxmodel in gameObject.models)
                 {
-                    modelMatrix = objectMatrix
-                        * Matrix.CreateTranslation(fbxmodel.offset.pos())
-                        * Matrix.CreateFromYawPitchRoll(fbxmodel.offset.A, fbxmodel.offset.B, fbxmodel.offset.G);
+                    modelMatrix = objectMatrix * fbxmodel.offset.matrix();
 
                     Model model = fbxmodel.model;
-
                     if (model == null)
                     {
                         model = game.Content.Load<Model>(fbxmodel.filename);

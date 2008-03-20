@@ -36,19 +36,19 @@ namespace GammaDraconis.Types
 
             if (input.inputDown("Up"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rate);
             }
             if (input.inputDown("Down"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate);
             }
             if (input.inputDown("Left"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate);
             }
             if (input.inputDown("Right"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate);
             }
             if (input.inputDown("YawLeft"))
             {
@@ -61,11 +61,11 @@ namespace GammaDraconis.Types
             
             if (input.inputDown("ThrottleUp"))
             {
-                translation *= Matrix.CreateTranslation(0f, 0f, rate*50);
+                translation *= Matrix.CreateTranslation(0f, 0f, -rate*50);
             }
             if (input.inputDown("ThrottleDown"))
             {
-                translation *= Matrix.CreateTranslation(0f, 0f, -rate*50);
+                translation *= Matrix.CreateTranslation(0f, 0f, rate*50);
             }
 
             position.R *= rotation;

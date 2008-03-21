@@ -43,6 +43,11 @@ namespace GammaDraconis.Types
             return T.Translation;
         }
 
+        public Vector3 rot()
+        {
+            return Vector3.Up;
+        }
+
         /// <summary>
         /// Get a Matrix that contains both the translation and rotation of this object.
         /// </summary>

@@ -26,6 +26,14 @@ namespace GammaDraconis.Core.Input
             public static String Fire2 = "Fire2";
             public static String Pause = "Pause";
             public static String Menu = "Menu";
+
+            public static String Yaw = "Yaw";
+            public static String Pitch = "Pitch";
+            public static String Roll = "Roll";
+            public static String Throttle = "Throttle";
+
+            public static String CameraX = "CameraX";
+            public static String CameraY = "CameraY";
         }
 
         /// <summary>
@@ -51,6 +59,12 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Fire2, "PadY");
                 inputKeys.Add(Commands.Pause, "PadStart");
                 inputKeys.Add(Commands.Menu, "PadBack");
+
+                inputAxis.Add(Commands.Roll, "LeftX");
+                inputAxis.Add(Commands.Pitch, "LeftY");
+                inputAxis.Add(Commands.Yaw, "Triggers");
+                inputAxis.Add(Commands.CameraX, "RightX");
+                inputAxis.Add(Commands.CameraY, "RightY");
             }
             else
             {

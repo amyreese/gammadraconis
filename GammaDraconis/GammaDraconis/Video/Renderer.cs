@@ -46,6 +46,15 @@ namespace GammaDraconis.Video
             Matrix worldMatrix = Matrix.Identity;
             Matrix objectMatrix, subObjectMatrix, modelMatrix;
 
+            Vector3 playerPos = Player.players[0].position.pos();
+            Vector3 cameraPos = Player.players[0].camera.pos();
+            Vector3 cameraRot = Player.players[0].camera.rot();
+
+            if (cameraRot == Vector3.Zero)
+                cameraRot = Vector3.Up;
+
+            Matrix cameraMatrix = Matrix.CreateLookAt(cameraPos, playerPos, cameraRot);
+
             foreach (GameObject gameObject in objects)
             {
                 objectMatrix = worldMatrix * gameObject.position.matrix();
@@ -72,7 +81,8 @@ namespace GammaDraconis.Video
                         {
                             effect.EnableDefaultLighting();
                             effect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
-                            effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+                            //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+                            effect.View = cameraMatrix;
                             effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60.0f),
                                 aspectRatio, 1.0f, 10000.0f);
                         }

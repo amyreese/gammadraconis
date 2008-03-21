@@ -35,6 +35,7 @@ namespace GammaDraconis
         {
             initializeGameScreens();
             IsFixedTimeStep = false;
+            this.Window.AllowUserResizing = true;
             base.Initialize();
         }
 

@@ -82,7 +82,8 @@ namespace GammaDraconis.Screens
             {
                 GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
             }
-            screenInterface.Draw(gameTime, Vector2.Zero, Vector2.One, 0);
+            Vector2 scale = new Vector2(Game.Window.ClientBounds.Width / 800.0f, Game.Window.ClientBounds.Height / 600.0f);
+            screenInterface.Draw(gameTime, Vector2.Zero, scale, 0);
             base.Draw(gameTime);
         }
 

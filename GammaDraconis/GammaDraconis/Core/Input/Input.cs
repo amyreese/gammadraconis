@@ -17,6 +17,7 @@ namespace GammaDraconis.Core.Input
         private Dictionary<String, KeyState> keyStatesOld;
         private Dictionary<String, Boolean> keyPresses;
 
+        protected bool useGamepad;
         protected PlayerIndex playerIndex;
 
         public Vector2 mousePosition;
@@ -24,11 +25,27 @@ namespace GammaDraconis.Core.Input
         /// <summary>
         /// Initialize the Input manager's state and preferences.
         /// </summary>
+        /// <param name="index">Game controller index</param>
+        public Input( PlayerIndex index )
+        {
+            inputKeys = new Dictionary<String, String>();
+            keyStates = new Dictionary<String, KeyState>();
+            keyPresses = new Dictionary<String, Boolean>();
+
+            useGamepad = true;
+            playerIndex = index;
+        }
+
+        /// <summary>
+        /// Initialize the input manager without using a gamepad.
+        /// </summary>
         public Input()
         {
             inputKeys = new Dictionary<String, String>();
             keyStates = new Dictionary<String, KeyState>();
             keyPresses = new Dictionary<String, Boolean>();
+
+            useGamepad = false;
         }
 
         /// <summary>
@@ -153,6 +170,30 @@ namespace GammaDraconis.Core.Input
                 keyStates["Mouse3"] = (mouseState.MiddleButton == ButtonState.Pressed ? KeyState.Down : KeyState.Up);
             }
 
+            #region GamePad state handling
+            if (useGamepad && GamePad.GetCapabilities(playerIndex).IsConnected 
+                && GamePad.GetCapabilities(playerIndex).GamePadType == GamePadType.GamePad)
+            {
+                GamePadState gamepadState = GamePad.GetState(playerIndex);
+
+                keyStates["PadUp"] = buttonState(gamepadState.DPad.Up);
+                keyStates["PadDown"] = buttonState(gamepadState.DPad.Down);
+                keyStates["PadLeft"] = buttonState(gamepadState.DPad.Left);
+                keyStates["PadRight"] = buttonState(gamepadState.DPad.Right);
+                
+                keyStates["PadA"] = buttonState(gamepadState.Buttons.A);
+                keyStates["PadB"] = buttonState(gamepadState.Buttons.B);
+                keyStates["PadX"] = buttonState(gamepadState.Buttons.X);
+                keyStates["PadY"] = buttonState(gamepadState.Buttons.Y);
+                keyStates["PadLB"] = buttonState(gamepadState.Buttons.LeftShoulder);
+                keyStates["PadRB"] = buttonState(gamepadState.Buttons.RightShoulder);
+                keyStates["PadLS"] = buttonState(gamepadState.Buttons.LeftStick);
+                keyStates["PadRS"] = buttonState(gamepadState.Buttons.RightStick);
+                keyStates["PadBack"] = buttonState(gamepadState.Buttons.Back);
+                keyStates["PadStart"] = buttonState(gamepadState.Buttons.Start);
+            }
+            #endregion
+
             // Find new key presses
             foreach (String key in inputKeys.Values)
             {
@@ -192,6 +233,11 @@ namespace GammaDraconis.Core.Input
         public String getKeyBinding(String action)
         {
             return inputKeys[action];
+        }
+
+        public KeyState buttonState(ButtonState state)
+        {
+            return (state == ButtonState.Pressed ? KeyState.Down : KeyState.Up);
         }
     }
 }

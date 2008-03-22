@@ -38,7 +38,7 @@ namespace GammaDraconis.Video
         /// <param name="iface">The menu or HUD interface</param>
         public void render(Scene scene, Interface iface)
         {
-            List<GameObject> objects = scene.visibleObjects();
+            List<GameObject> objects = scene.visible(Player.players[0].position);
 
             game.GraphicsDevice.Clear(Color.Black);
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;

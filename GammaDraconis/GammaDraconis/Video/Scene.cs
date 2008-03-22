@@ -10,15 +10,15 @@ namespace GammaDraconis.Video
     /// Properties that can be set on any object added to the scene manager.
     /// eg: Scene.track(object, GO_TYPE.RACER | GO_TYPE.GHOST) 
     /// </summary>
-    public sealed enum GO_TYPE
+    public static class GO_TYPE
     {
-        SCENERY = 1,  // Never checked for thinking or physics, always drawn first, uncollideable
-        GHOST   = 2,  // Uncollidable, partially see-through?
-        RACER   = 4,  
-        BULLET  = 8,
+        static public int SCENERY = 1;  // Never checked for thinking or physics, always drawn first, uncollideable
+        static public int GHOST = 2;  // Uncollidable, partially see-through?
+        static public int RACER = 4;
+        static public int BULLET = 8;
 
         // Composite
-        HUD     = SCENERY | GHOST
+        static public int HUD = SCENERY | GHOST;
     }
 
     /// <summary>

@@ -43,6 +43,7 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.Clear(Color.Black);
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
 
+            #region GameObject rendering
             Matrix worldMatrix = Matrix.Identity;
             Matrix objectMatrix, subObjectMatrix, modelMatrix;
 
@@ -91,6 +92,11 @@ namespace GammaDraconis.Video
                     }
                 }
             }
+            #endregion
+
+            #region Interface rendering
+            iface.Draw(new GameTime(), new Vector2(0f,0f), new Vector2(1f,1f), 0f);
+            #endregion
         }
     }
 }

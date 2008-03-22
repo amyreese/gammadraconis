@@ -12,7 +12,7 @@ namespace GammaDraconis.Video
     /// </summary>
     public static class GO_TYPE
     {
-        static public int SCENERY = 1;  // Never checked for thinking or physics, always drawn first, uncollideable
+        static public int SCENERY = 1;  // Never checked for thinking or physics, always drawn first and facing the viewer, uncollideable
         static public int GHOST = 2;  // Uncollidable, partially see-through?
         static public int RACER = 4;
         static public int BULLET = 8;

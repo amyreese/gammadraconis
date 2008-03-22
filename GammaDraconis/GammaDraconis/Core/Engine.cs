@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Types;
 using GammaDraconis.Video;
 using GammaDraconis.Video.GUI;
@@ -68,7 +69,24 @@ namespace GammaDraconis.Core
             r.position = new Coords(200.0f, -1200.0f, -2800.0f);
             gameScene.track(p, GO_TYPE.RACER);
             gameScene.track(r, GO_TYPE.RACER);
-            //gameInterface = new Interface();
+
+            GameObject planet = new GameObject();
+            planet.position = new Coords(0f, 0f, -2500f);
+            planet.models.Add(new FBXModel("Resources/Models/Planet"));
+            gameScene.track(planet, GO_TYPE.SCENERY);
+
+            gameInterface = new Interface(game);
+            gameInterface.Enabled = true;
+            gameInterface.Visible = true;
+            gameInterface.RelativePosition = new Vector2(50f, 50f);
+
+            Text fps = new Text(game);
+            fps.color = Color.White;
+            fps.text = "60";
+            fps.spriteFontName = "Resources/Fonts/Debug";
+            fps.RelativePosition = new Vector2(100f, 100f);
+
+            gameInterface.AddComponent(fps);
         }
 
         /// <summary>

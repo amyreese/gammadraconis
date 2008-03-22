@@ -12,17 +12,17 @@ namespace GammaDraconis.Core
     class Audio
     {
         // XACT components.
-        AudioEngine audioEngine;
-        SoundBank soundBank;
-        WaveBank waveBank;
+        static AudioEngine audioEngine;
+        static SoundBank soundBank;
+        static WaveBank waveBank;
 
-        Dictionary<String, Cue> cues;
-        Dictionary<String, bool> repeat;
+        static Dictionary<String, Cue> cues;
+        static Dictionary<String, bool> repeat;
 
         /// <summary>
 		/// Create the appropriate XACT components.
 		/// </summary>
-        public Audio()
+        static public void init()
         {
             audioEngine = new AudioEngine("Resources/Audio/Engine.xgs");
             soundBank = new SoundBank(audioEngine, "Resources/Audio/Audio.xsb");
@@ -36,8 +36,8 @@ namespace GammaDraconis.Core
 		/// Fire-and-forget sound.
         /// </summary>
         /// <param name="cue"></param>
-        public void play(String cue) { play(cue, true); }
-        public void play(String cue, bool overlap)
+        static public void play(String cue) { play(cue, true); }
+        static public void play(String cue, bool overlap)
         {
             cache(cue);
             if (cues[cue].IsPrepared)
@@ -59,7 +59,7 @@ namespace GammaDraconis.Core
 		/// Start a repeating sound.
         /// </summary>
         /// <param name="cue"></param>
-        public void playRepeat(String cue)
+        static public void playRepeat(String cue)
         {
             cache(cue);
             repeat[cue] = true;
@@ -79,7 +79,7 @@ namespace GammaDraconis.Core
 		/// Pause a playing sound.
 		/// </summary>
 		/// <param name="cue"></param>
-        public void pause(String cue)
+        static public void pause(String cue)
         {
             cache(cue);
             if (cues[cue].IsPlaying)
@@ -92,7 +92,7 @@ namespace GammaDraconis.Core
 		/// Stop a sound.
         /// </summary>
         /// <param name="cue"></param>
-        public void stop(String cue)
+        static public void stop(String cue)
         {
             cache(cue);
             if (cues[cue].IsPlaying || cues[cue].IsPaused)
@@ -105,7 +105,7 @@ namespace GammaDraconis.Core
         /// <summary>
 		/// Stop all sounds.
         /// </summary>
-        public void stopAll()
+        static public void stopAll()
         {
             foreach(Cue cue in cues.Values)
             {
@@ -117,7 +117,7 @@ namespace GammaDraconis.Core
 		/// Cache the Cue object and whether it should be repeating.
         /// </summary>
         /// <param name="cue"></param>
-        private void cache(String cue)
+        static private void cache(String cue)
         {
             if (!cues.ContainsKey(cue))
             {
@@ -130,7 +130,7 @@ namespace GammaDraconis.Core
 		/// Recache a new version of a cue.
         /// </summary>
         /// <param name="cue"></param>
-        private void recache(String cue)
+        static private void recache(String cue)
         {
             cues[cue] = soundBank.GetCue(cue);
         }
@@ -140,7 +140,7 @@ namespace GammaDraconis.Core
         /// </summary>
         /// <param name="name">The name of the variable.</param>
         /// <param name="value">The value of the variable.</param>
-        public void set(String name, float value)
+        static public void set(String name, float value)
         {
             audioEngine.SetGlobalVariable(name, value);
         }
@@ -150,7 +150,7 @@ namespace GammaDraconis.Core
         /// </summary>
         /// <param name="name">The name of the variable.</param>
         /// <returns>The value of the variable.</returns>
-        public float get(String name)
+        static public float get(String name)
         {
             return audioEngine.GetGlobalVariable(name);
         }
@@ -158,7 +158,7 @@ namespace GammaDraconis.Core
         /// <summary>
 		/// Pass the update call to the AudioEngine.
         /// </summary>
-        public void update()
+        static public void update()
         {
             foreach(String cue in cues.Keys)
             {

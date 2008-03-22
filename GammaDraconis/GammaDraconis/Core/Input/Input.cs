@@ -339,8 +339,6 @@ namespace GammaDraconis.Core.Input
 
                 // Set all inputs as not pressed
                 keyPresses.Add(key, false);
-
-                Console.WriteLine(key);
             }
         }
 

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using GammaDraconis.Screens;
+using GammaDraconis.Core;
 using GammaDraconis.Core.Input;
 
 namespace GammaDraconis
@@ -24,6 +25,9 @@ namespace GammaDraconis
         public GammaDraconis()
         {
             graphics = new GraphicsDeviceManager(this);
+
+            Audio.init();
+            Input.reset();
         }
 
         /// <summary>

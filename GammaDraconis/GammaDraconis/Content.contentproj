@@ -37,11 +37,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Audio\Audio.xap">
+    <Compile Include="Resources\Audio\Audio.xap">
       <Name>Audio</Name>
       <Importer>XactImporter</Importer>
       <Processor>XactProcessor</Processor>
-    </Content>
+    </Compile>
     <Compile Include="Resources\Textures\MenuBackgrounds\MainMenu.png">
       <Name>MainMenu</Name>
       <Importer>TextureImporter</Importer>
@@ -78,6 +78,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Audio\Sound\11116101.wav">
+      <Name>11116101</Name>
+    </None>
+    <None Include="Resources\Audio\Sound\Plink_09.wav">
+      <Name>Plink_09</Name>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Audio\Music\" />
     <Folder Include="Resources\Effects\" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

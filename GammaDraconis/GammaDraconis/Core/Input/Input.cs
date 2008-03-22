@@ -277,9 +277,12 @@ namespace GammaDraconis.Core.Input
             // Find new key presses
             foreach (string key in keys)
             {
-                keyPresses[key] =
-                    (keyPresses[key] || (keyStates[key] == KeyState.Down) && (keyStatesOld[key] == KeyState.Up))
-                    && (keyStates[key] == KeyState.Down);
+                //keyPresses[key] =
+                //    (keyPresses[key] || (keyStates[key] == KeyState.Down) && (keyStatesOld[key] == KeyState.Up))
+                //    && (keyStates[key] == KeyState.Down);
+
+                keyPresses[key] = ((keyStates[key] == KeyState.Down) 
+                               && ((keyStatesOld[key] = KeyState.Up) || keyPresses[key]));
             }
         }
 

@@ -93,6 +93,11 @@ namespace GammaDraconis.Types
             camera.R = position.R * cameraR;
             camera.T = Matrix.CreateTranslation(0f, 250f, 1500f) * Matrix.CreateFromQuaternion(cameraR) * Matrix.CreateFromQuaternion(position.R) * position.T;
         }
+
+        public Matrix getCameraLookAtMatrix()
+        {
+            return Matrix.CreateLookAt(camera.pos(), position.pos(), camera.up());
+        }
     }
 }
  

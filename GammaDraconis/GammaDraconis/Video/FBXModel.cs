@@ -22,11 +22,16 @@ namespace GammaDraconis.Video
         public Effect _effect;
         public string effect;
 
+        // Model scaling
+        public Vector3 scale;
+
         public FBXModel(string filename) : this(filename, "") { }
-        public FBXModel(string filename, string effect)
+        public FBXModel(string filename, string effect) : this(filename, effect, Vector3.One) { }
+        public FBXModel(string filename, string effect, Vector3 scale)
         {
             this.filename = filename;
             this.effect = effect;
+            this.scale = scale;
             offset = new Coords();
         }
 

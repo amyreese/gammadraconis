@@ -67,7 +67,7 @@ namespace GammaDraconis.Video
                     Model model = fbxmodel.model;
                     if (model == null)
                     {
-                        model = game.Content.Load<Model>(fbxmodel.filename);
+                        fbxmodel.model = model = game.Content.Load<Model>(fbxmodel.filename);
                     }
 
                     // Copy any parent transforms.
@@ -85,7 +85,7 @@ namespace GammaDraconis.Video
                             //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
                             effect.View = cameraMatrix;
                             effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60.0f),
-                                aspectRatio, 1.0f, 10000.0f);
+                                aspectRatio, 1.0f, 90000.0f);
                         }
                         // Draw the mesh, using the effects set above.
                         mesh.Draw();

@@ -71,8 +71,8 @@ namespace GammaDraconis.Core
             gameScene.track(r, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
-            planet.position = new Coords(0f, 0f, -2500f);
-            planet.models.Add(new FBXModel("Resources/Models/Planet"));
+            planet.position = new Coords(0f, 0f, -25000f);
+            planet.models.Add(new FBXModel("Resources/Models/Planet", "", new Vector3(2f, 2f, 2f)));
             gameScene.track(planet, GO_TYPE.SCENERY);
 
             gameInterface = new Interface(game);

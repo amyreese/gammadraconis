@@ -6,24 +6,29 @@ using GammaDraconis.Types;
 
 namespace GammaDraconis.Video
 {
+    /// <summary>
+    /// Properties that can be set on any object added to the scene manager.
+    /// eg: Scene.track(object, GO_TYPE.RACER | GO_TYPE.GHOST) 
+    /// </summary>
     public sealed enum GO_TYPE
     {
-        SCENERY = 1,  // Always drawn first, uncollideable
-        GHOST   = 2,  // Uncollidable
+        SCENERY = 1,  // Never checked for thinking or physics, always drawn first, uncollideable
+        GHOST   = 2,  // Uncollidable, partially see-through?
         RACER   = 4,  
-        BULLET  = 8
+        BULLET  = 8,
+
+        // Composite
+        HUD     = SCENERY | GHOST
     }
+
     /// <summary>
     /// The scene manager holds the 'world' the game is contained within.
     /// Background scenery, game objects, and other such items should be kept here.
     /// </summary>
     class Scene
     {
-        // Reference to the player's GameObject
-        public GameObject player;
-
-        // References to all objects in the scene, *including* the player's object
-        public List<GameObject> objects;
+        // References to all objects in the scene, *including* the player objects
+        private List<GameObject> objects;
 
         /// <summary>
         /// Create a new Scene manager.
@@ -40,6 +45,7 @@ namespace GammaDraconis.Video
         /// <param name="type">Item properties</param>
         public void track(GameObject gameObject, int type)
         {
+            // TODO: use a more complex system to track all the object types
             objects.Add(gameObject);
         }
 
@@ -49,15 +55,41 @@ namespace GammaDraconis.Video
         /// <param name="gameObject">Item to be removed</param>
         public void ignore(GameObject gameObject)
         {
+            if (objects.Contains(gameObject))
+            {
+                objects.Remove(gameObject);
+            }
         }
 
         /// <summary>
-        /// Using the scene's player object, return a list of GameObjects that are
-        /// within range of the player that should be rendered.
+        /// Return a list of GameObjects that are collidable.
         /// </summary>
-        /// <returns>List of GameObjects to render</returns>
-        public List<GameObject> visibleObjects()
+        /// <returns>GameObjects to check for collision</returns>
+        public List<GameObject> collidable()
         {
+            // TODO: return an oct tree of objects
+            return objects;
+        }
+
+        /// <summary>
+        /// Return a list of GameObjects that should have think() called.
+        /// </summary>
+        /// <returns>GameObjects to think()</returns>
+        public List<GameObject> thinkable()
+        {
+            // TODO: only return appropriate objects
+            return objects;
+        }
+
+        /// <summary>
+        /// Return a list of GameObjects that are within range and 
+        /// viewing arc of the given vantage point coordinates.
+        /// </summary>
+        /// <param name="vantage">Vantage point Coords to render from</param>
+        /// <returns>List of GameObjects to render</returns>
+        public List<GameObject> visible(Coords vantage)
+        {
+            // TODO: only return objects that should actually be drawn for this vantage point.
             return objects;
         }
     }

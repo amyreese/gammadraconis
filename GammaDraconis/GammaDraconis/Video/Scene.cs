@@ -6,6 +6,13 @@ using GammaDraconis.Types;
 
 namespace GammaDraconis.Video
 {
+    public sealed enum GO_TYPE
+    {
+        SCENERY = 1,  // Always drawn first, uncollideable
+        GHOST   = 2,  // Uncollidable
+        RACER   = 4,  
+        BULLET  = 8
+    }
     /// <summary>
     /// The scene manager holds the 'world' the game is contained within.
     /// Background scenery, game objects, and other such items should be kept here.
@@ -18,9 +25,30 @@ namespace GammaDraconis.Video
         // References to all objects in the scene, *including* the player's object
         public List<GameObject> objects;
 
+        /// <summary>
+        /// Create a new Scene manager.
+        /// </summary>
         public Scene()
         {
             objects = new List<GameObject>();
+        }
+
+        /// <summary>
+        /// Add an existing item to the scene manager with a given set of options.
+        /// </summary>
+        /// <param name="gameObject">Item to be tracked</param>
+        /// <param name="type">Item properties</param>
+        public void track(GameObject gameObject, int type)
+        {
+            objects.Add(gameObject);
+        }
+
+        /// <summary>
+        /// Remove an existing item from the scene manager.
+        /// </summary>
+        /// <param name="gameObject">Item to be removed</param>
+        public void ignore(GameObject gameObject)
+        {
         }
 
         /// <summary>

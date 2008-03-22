@@ -44,7 +44,21 @@ namespace GammaDraconis
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             graphics.ApplyChanges();
+            GameLua = new GameLua();
             base.Initialize();
+        }
+
+        private GameLua _GameLua;
+        internal GameLua GameLua
+        {
+            get
+            {
+                return _GameLua;
+            }
+            private set
+            {
+                _GameLua = value;
+            }
         }
 
         /// <summary>
@@ -142,15 +156,22 @@ namespace GammaDraconis
         }
         #endregion
 
+        private static GammaDraconis _instance;
+        static GammaDraconis GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new GammaDraconis();
+            }
+            return _instance;
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         static void Main(string[] args)
         {
-            using (GammaDraconis game = new GammaDraconis())
-            {
-                game.Run();
-            }
+            GetInstance().Run();
         }
 
         #region Game States and Screens

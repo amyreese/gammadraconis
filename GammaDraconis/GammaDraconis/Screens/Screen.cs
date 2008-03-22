@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Video.GUI;
+using GammaDraconis.Core.Input;
 
 namespace GammaDraconis.Screens
 {
@@ -20,6 +21,11 @@ namespace GammaDraconis.Screens
         /// The interface for the screen
         /// </summary>
         protected Interface screenInterface;
+
+        /// <summary>
+        /// Input manager
+        /// </summary>
+        protected static MenuInput input = new MenuInput();
 
         /// <summary>
         /// Creates a new Screen

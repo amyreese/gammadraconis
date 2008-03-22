@@ -75,8 +75,6 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Pause, "p");
                 inputKeys.Add(Commands.Menu, "escape");
             }
-
-            reset();
         }
     }
 }

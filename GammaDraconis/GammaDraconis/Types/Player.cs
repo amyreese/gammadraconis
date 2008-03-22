@@ -31,7 +31,7 @@ namespace GammaDraconis.Types
 
         public override void think(GameTime gameTime)
         {
-            input.update();
+            Input.update();
 
             float rate = 1f / gameTime.ElapsedGameTime.Milliseconds;
 

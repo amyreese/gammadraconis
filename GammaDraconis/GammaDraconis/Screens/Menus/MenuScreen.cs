@@ -44,11 +44,6 @@ namespace GammaDraconis.Screens.Menus
         }
 
         /// <summary>
-        /// Input manager
-        /// </summary>
-        protected static MenuInput input = new MenuInput();
-
-        /// <summary>
         /// Prepare the menu items to be displayed on this menu
         /// </summary>
         protected abstract void SetupMenuItems();
@@ -135,8 +130,6 @@ namespace GammaDraconis.Screens.Menus
         public override void Update(GameTime gameTime)
         {
             #region Input Commands
-
-            input.update();
 
             #region Menu Item Selection commands
             int oldMenuItemIndex = menuItemIndex;

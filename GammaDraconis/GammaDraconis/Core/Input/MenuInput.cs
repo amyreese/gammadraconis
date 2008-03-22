@@ -25,7 +25,7 @@ namespace GammaDraconis.Core.Input
         /// <summary>
         /// Initialize the Input manager's state and preferences.
         /// </summary>
-        public MenuInput() : base(PlayerIndex.One)
+        public MenuInput() : base()
         {
             // Default action assignments
             if (GamePad.GetCapabilities(playerIndex).IsConnected)
@@ -46,8 +46,6 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Select, "enter");
                 inputKeys.Add(Commands.Cancel, "escape");
             }
-
-            reset();
         }
     }
 }

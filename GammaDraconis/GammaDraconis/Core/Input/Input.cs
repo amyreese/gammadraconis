@@ -15,15 +15,18 @@ namespace GammaDraconis.Core.Input
         protected Dictionary<string, string> inputKeys;
         protected Dictionary<string, string> inputAxis;
 
-        private Dictionary<string, KeyState> keyStates;
-        private Dictionary<string, KeyState> keyStatesOld;
-        private Dictionary<string, bool> keyPresses;
-        private Dictionary<string, float> axisState;
+        static private List<string> keys;
+        static private Dictionary<string, KeyState> keyStates;
+        static private Dictionary<string, KeyState> keyStatesOld;
+        static private Dictionary<string, bool> keyPresses;
+        static private Dictionary<string, float> axisState;
 
-        protected bool useGamepad;
+        static private bool inputReset = false;
+
+        protected bool oneGamepad;
         protected PlayerIndex playerIndex;
 
-        public Vector2 mousePosition;
+        static public Vector2 mousePosition;
 
         /// <summary>
         /// Initialize the Input manager's state and preferences.
@@ -31,10 +34,15 @@ namespace GammaDraconis.Core.Input
         /// <param name="index">Game controller index</param>
         public Input( PlayerIndex index )
         {
+            if (!Input.inputReset)
+            {
+                Input.reset();
+            }
+
             inputKeys = new Dictionary<string, string>();
             inputAxis = new Dictionary<string, string>();
             
-            useGamepad = true;
+            oneGamepad = true;
             playerIndex = index;
         }
 
@@ -43,9 +51,15 @@ namespace GammaDraconis.Core.Input
         /// </summary>
         public Input()
         {
+            if (!Input.inputReset)
+            {
+                Input.reset();
+            }
+
             inputKeys = new Dictionary<string, string>();
+            inputAxis = new Dictionary<string, string>();
             
-            useGamepad = false;
+            oneGamepad = false;
         }
 
         /// <summary>
@@ -53,16 +67,33 @@ namespace GammaDraconis.Core.Input
         /// </summary>
         /// <param name="action">The input action.</param>
         /// <returns>Whether or not the key that performs this action is down.</returns>
-        public Boolean inputDown(string action)
+        public bool inputDown(string action)
         {
             if (inputKeys.ContainsKey(action))
             {
-                return keyStates[inputKeys[action]] == KeyState.Down;
+                string key = inputKeys[action];
+
+                if (keyStates.ContainsKey(key)) // keyboard/mouse
+                {
+                   return keyStates[key] == KeyState.Down;
+                }
+                else // gamepad
+                {
+                    PlayerIndex istart = oneGamepad ? playerIndex : PlayerIndex.One;
+                    PlayerIndex iend = oneGamepad ? playerIndex : PlayerIndex.Four;
+
+                    for (PlayerIndex index = istart; index <= iend; index++)
+                    {
+                        string gp = "Pad" + (int)index + "-";
+                        if (keyStates.ContainsKey(gp + key) && keyStates[gp + key] == KeyState.Down)
+                        {
+                            return true;
+                        }
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+            
+            return false;
         }
 
         /// <summary>
@@ -71,18 +102,34 @@ namespace GammaDraconis.Core.Input
         /// </summary>
         /// <param name="action">The input action.</param>
         /// <returns>Whether or not the key that performs this action is pressed.</returns>
-        public Boolean inputPressed(string action)
+        public bool inputPressed(string action)
         {
             if (inputKeys.ContainsKey(action))
             {
-                Boolean pressed = keyPresses[inputKeys[action]];
-                keyPresses[inputKeys[action]] = false;
-                return pressed;
+                string key = inputKeys[action];
+
+                if (keyPresses.ContainsKey(key)) // keyboard/mouse
+                {
+                    return keyPresses[key];
+                }
+                else // gamepad
+                {
+                    PlayerIndex istart = oneGamepad ? playerIndex : PlayerIndex.One;
+                    PlayerIndex iend = oneGamepad ? playerIndex : PlayerIndex.Four;
+                    
+                    for (PlayerIndex index = istart; index <= iend; index++)
+                    {
+                        string gp = "Pad" + (int)index + "-";
+                        if (keyPresses.ContainsKey(gp + key) && keyPresses[gp + key])
+                        {
+                            keyPresses[gp + key] = false;
+                            return true;
+                        }
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         /// <summary>
@@ -92,23 +139,33 @@ namespace GammaDraconis.Core.Input
         /// <returns>Floating point axis position</returns>
         public float axis(string action)
         {
-            if (inputAxis.ContainsKey(action))
-            {
-                return axisState[inputAxis[action]];
-            }
-            else
+            if (!oneGamepad)
             {
                 return 0f;
             }
+
+            if (inputAxis.ContainsKey(action))
+            {
+                string axis = inputAxis[action];
+
+                string gp = "Pad" + (int)playerIndex + "-";
+                if (axisState.ContainsKey(gp + axis))
+                {
+                    return axisState[gp + axis];
+                }
+            }
+
+            return 0f;
         }
 
         /// <summary>
         /// Update the input states.
         /// </summary>
-        public void update()
+        static public void update()
         {
             // Shift keyStates to keyStatesOld
-            foreach(string key in inputKeys.Values)
+            
+            foreach(string key in keys)
             {
                 keyStatesOld[key] = keyStates[key];
                 keyStates[key] = KeyState.Up;
@@ -177,39 +234,44 @@ namespace GammaDraconis.Core.Input
             buttonState("Mouse3", mouseState.MiddleButton);
 
             #region GamePad state handling
-            if (useGamepad && GamePad.GetCapabilities(playerIndex).IsConnected 
-                && GamePad.GetCapabilities(playerIndex).GamePadType == GamePadType.GamePad)
+            for (PlayerIndex index = PlayerIndex.One; index <= PlayerIndex.Four; index++)
             {
-                GamePadState gamepadState = GamePad.GetState(playerIndex);
+                string gp = "Pad" + (int)index + "-";
 
-                buttonState("PadUp", gamepadState.DPad.Up);
-                buttonState("PadDown", gamepadState.DPad.Down);
-                buttonState("PadLeft", gamepadState.DPad.Left);
-                buttonState("PadRight", gamepadState.DPad.Right);
-                
-                buttonState("PadA", gamepadState.Buttons.A);
-                buttonState("PadB", gamepadState.Buttons.B);
-                buttonState("PadX", gamepadState.Buttons.X);
-                buttonState("PadY", gamepadState.Buttons.Y);
-                buttonState("PadLB", gamepadState.Buttons.LeftShoulder);
-                buttonState("PadRB", gamepadState.Buttons.RightShoulder);
-                buttonState("PadLS", gamepadState.Buttons.LeftStick);
-                buttonState("PadRS", gamepadState.Buttons.RightStick);
-                buttonState("PadBack", gamepadState.Buttons.Back);
-                buttonState("PadStart", gamepadState.Buttons.Start);
+                if (GamePad.GetCapabilities(index).IsConnected
+                    && GamePad.GetCapabilities(index).GamePadType == GamePadType.GamePad)
+                {
+                    GamePadState gamepadState = GamePad.GetState(index);
 
-                axisState["LeftX"] = gamepadState.ThumbSticks.Left.X;
-                axisState["LeftY"] = gamepadState.ThumbSticks.Left.Y;
-                axisState["RightX"] = gamepadState.ThumbSticks.Right.X;
-                axisState["RightY"] = gamepadState.ThumbSticks.Right.Y;
-                axisState["LeftT"] = gamepadState.Triggers.Left;
-                axisState["RightT"] = gamepadState.Triggers.Right;
-                axisState["Triggers"] = (gamepadState.Triggers.Right - gamepadState.Triggers.Left);
+                    buttonState(gp + "PadUp", gamepadState.DPad.Up);
+                    buttonState(gp + "PadDown", gamepadState.DPad.Down);
+                    buttonState(gp + "PadLeft", gamepadState.DPad.Left);
+                    buttonState(gp + "PadRight", gamepadState.DPad.Right);
+
+                    buttonState(gp + "PadA", gamepadState.Buttons.A);
+                    buttonState(gp + "PadB", gamepadState.Buttons.B);
+                    buttonState(gp + "PadX", gamepadState.Buttons.X);
+                    buttonState(gp + "PadY", gamepadState.Buttons.Y);
+                    buttonState(gp + "PadLB", gamepadState.Buttons.LeftShoulder);
+                    buttonState(gp + "PadRB", gamepadState.Buttons.RightShoulder);
+                    buttonState(gp + "PadLS", gamepadState.Buttons.LeftStick);
+                    buttonState(gp + "PadRS", gamepadState.Buttons.RightStick);
+                    buttonState(gp + "PadBack", gamepadState.Buttons.Back);
+                    buttonState(gp + "PadStart", gamepadState.Buttons.Start);
+
+                    axisState[gp + "LeftX"] = gamepadState.ThumbSticks.Left.X;
+                    axisState[gp + "LeftY"] = gamepadState.ThumbSticks.Left.Y;
+                    axisState[gp + "RightX"] = gamepadState.ThumbSticks.Right.X;
+                    axisState[gp + "RightY"] = gamepadState.ThumbSticks.Right.Y;
+                    axisState[gp + "LeftT"] = gamepadState.Triggers.Left;
+                    axisState[gp + "RightT"] = gamepadState.Triggers.Right;
+                    axisState[gp + "Triggers"] = (gamepadState.Triggers.Right - gamepadState.Triggers.Left);
+                }
             }
             #endregion
 
             // Find new key presses
-            foreach (string key in inputKeys.Values)
+            foreach (string key in keyStates.Keys)
             {
                 keyPresses[key] =
                     (keyPresses[key] || (keyStates[key] == KeyState.Down) && (keyStatesOld[key] == KeyState.Up))
@@ -220,15 +282,56 @@ namespace GammaDraconis.Core.Input
         /// <summary>
         /// Reset keyStates and keyPresses.
         /// </summary>
-        public void reset()
+        static public void reset()
         {
+            Input.inputReset = true;
+
             // Reset input dictionaries
+            keys = new List<string>();
             keyStates = new Dictionary<string, KeyState>();
             keyStatesOld = new Dictionary<string, KeyState>();
             keyPresses = new Dictionary<string, bool>();
+            axisState = new Dictionary<string, float>();
             
-            // Loop through all defined input actions
-            foreach(string key in inputKeys.Values)
+            // Loop through all useful keyboard keys
+            for (char c = '!'; c <= '~'; c++)
+            {
+                string key = "" + c;
+                keys.Add(key);
+            }
+
+            // Gamepad keys
+            for(PlayerIndex index = PlayerIndex.One; index <= PlayerIndex.Four; index++)
+            {
+                string gp = "Pad" + (int)index + "-";
+                keys.Add(gp + "PadUp");
+                keys.Add(gp + "PadDown");
+                keys.Add(gp + "PadLeft");
+                keys.Add(gp + "PadRight");
+
+                keys.Add(gp + "PadA");
+                keys.Add(gp + "PadB");
+                keys.Add(gp + "PadX");
+                keys.Add(gp + "PadY");
+                keys.Add(gp + "PadLB");
+                keys.Add(gp + "PadRB");
+                keys.Add(gp + "PadLS");
+                keys.Add(gp + "PadRS");
+                keys.Add(gp + "PadBack");
+                keys.Add(gp + "PadStart");
+
+                // Gamepad handling
+                axisState.Add(gp + "LeftX", 0f);
+                axisState.Add(gp + "LeftY", 0f);
+                axisState.Add(gp + "RightX", 0f);
+                axisState.Add(gp + "RightY", 0f);
+                axisState.Add(gp + "LeftT", 0f);
+                axisState.Add(gp + "RightT", 0f);
+                axisState.Add(gp + "Triggers", 0f);
+            }
+
+            // Reset key states and presses
+            foreach (string key in keys)
             {
                 // Set all inputs to up
                 keyStates.Add(key, KeyState.Up);
@@ -236,17 +339,9 @@ namespace GammaDraconis.Core.Input
 
                 // Set all inputs as not pressed
                 keyPresses.Add(key, false);
-            }
 
-            // Gamepad handling
-            axisState = new Dictionary<string, float>();
-            axisState.Add("LeftX", 0f);
-            axisState.Add("LeftY", 0f);
-            axisState.Add("RightX", 0f);
-            axisState.Add("RightY", 0f);
-            axisState.Add("LeftT", 0f);
-            axisState.Add("RightT", 0f);
-            axisState.Add("Triggers", 0f);
+                Console.WriteLine(key);
+            }
         }
 
         /// <summary>
@@ -259,8 +354,12 @@ namespace GammaDraconis.Core.Input
             return inputKeys[action];
         }
 
-
-        private void buttonState(string buttonName, ButtonState buttonState)
+        /// <summary>
+        /// Given a button name and state, set the appropriate key state.
+        /// </summary>
+        /// <param name="buttonName">Button name</param>
+        /// <param name="buttonState">Button state</param>
+        static private void buttonState(string buttonName, ButtonState buttonState)
         {
             if (keyStates.ContainsKey(buttonName))
             {

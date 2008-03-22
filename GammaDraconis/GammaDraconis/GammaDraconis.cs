@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using GammaDraconis.Screens;
+using GammaDraconis.Core.Input;
 
 namespace GammaDraconis
 {
@@ -70,6 +71,7 @@ namespace GammaDraconis
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            Input.update();
             base.Update(gameTime);
         }
 

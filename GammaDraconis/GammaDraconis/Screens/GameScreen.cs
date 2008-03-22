@@ -111,7 +111,7 @@ namespace GammaDraconis.Screens
             engine.Update(gameTime);
 
             // TODO: Remove this once the game engine actually has input
-            if( Keyboard.GetState().IsKeyDown(Keys.Escape) )
+            if( input.inputPressed(Core.Input.MenuInput.Commands.Cancel) )
             {
                 gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
             }

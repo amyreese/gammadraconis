@@ -231,6 +231,19 @@ Global Settings
         Min = 1.000000;
         Max = 10.000000;
     }
+
+    Compression Preset
+    {
+        Name = Compressed;
+        Xbox Format Tag = 357;
+        Target Sample Rate = 48000;
+        Quality = 60;
+        Find Best Quality = 0;
+        High Freq Cut = 0;
+        Loop = 0;
+        PC Format Tag = 2;
+        Samples Per Block = 128;
+    }
 }
 
 Wave Bank
@@ -241,16 +254,18 @@ Wave Bank
     Xbox Bank Path Edited = 1;
     Windows Bank Path Edited = 1;
     Seek Tables = 1;
-    Compression Preset Name = <none>;
-    Bank Last Revised Low = 242284754;
-    Bank Last Revised High = 29920201;
+    Compression Preset Name = Compressed;
+    Header Last Modified Low = 0;
+    Header Last Modified High = 0;
+    Bank Last Revised Low = 3995787662;
+    Bank Last Revised High = 29920203;
 
     Wave
     {
         Name = 11116101;
         File = Sound\11116101.wav;
-        Build Settings Last Modified Low = 75409754;
-        Build Settings Last Modified High = 29920201;
+        Build Settings Last Modified Low = 3995318912;
+        Build Settings Last Modified High = 29920203;
 
         Cache
         {
@@ -272,8 +287,8 @@ Wave Bank
     {
         Name = Plink_09;
         File = Sound\Plink_09.wav;
-        Build Settings Last Modified Low = 75409754;
-        Build Settings Last Modified High = 29920201;
+        Build Settings Last Modified Low = 3995631412;
+        Build Settings Last Modified High = 29920203;
 
         Cache
         {
@@ -299,6 +314,8 @@ Sound Bank
     Windows File = Audio.xsb;
     Xbox Bank Path Edited = 1;
     Windows Bank Path Edited = 1;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {

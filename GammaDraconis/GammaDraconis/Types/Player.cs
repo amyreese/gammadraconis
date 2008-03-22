@@ -81,7 +81,8 @@ namespace GammaDraconis.Types
                 rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate * input.axis("Roll"));
                 rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rate * input.axis("Yaw"));
 
-                cameraR *= Quaternion.CreateFromYawPitchRoll(0.5f * input.axis("CameraY"), 0.5f * input.axis("CameraX"), 0f);
+                // Rotate the camera around the player
+                cameraR *= Quaternion.CreateFromYawPitchRoll((float)Math.PI * input.axis("CameraX"), (float)Math.PI * -input.axis("CameraY"), 0f);
             }
             #endregion
 
@@ -89,7 +90,7 @@ namespace GammaDraconis.Types
             position.T *= translation;
 
             camera.R = position.R * cameraR;
-            camera.T = Matrix.CreateTranslation(0f, 100f, 1200f) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            camera.T = Matrix.CreateTranslation(0f, 100f, 1200f) * Matrix.CreateFromQuaternion(cameraR) * Matrix.CreateFromQuaternion(position.R) * position.T;
         }
     }
 }

@@ -25,15 +25,27 @@ namespace GammaDraconis.Core.Input
         /// <summary>
         /// Initialize the Input manager's state and preferences.
         /// </summary>
-        public MenuInput() : base()
+        public MenuInput() : base(PlayerIndex.One)
         {
             // Default action assignments
-            inputKeys.Add(Commands.Up, "up");
-            inputKeys.Add(Commands.Down, "down");
-            inputKeys.Add(Commands.Left, "left");
-            inputKeys.Add(Commands.Right, "right");
-            inputKeys.Add(Commands.Select, "enter");
-            inputKeys.Add(Commands.Cancel, "escape");
+            if (GamePad.GetCapabilities(playerIndex).IsConnected)
+            {
+                inputKeys.Add(Commands.Up, "PadUp");
+                inputKeys.Add(Commands.Down, "PadDown");
+                inputKeys.Add(Commands.Left, "PadLeft");
+                inputKeys.Add(Commands.Right, "PadRight");
+                inputKeys.Add(Commands.Select, "PadStart");
+                inputKeys.Add(Commands.Cancel, "PadBack");
+            }
+            else
+            {
+                inputKeys.Add(Commands.Up, "up");
+                inputKeys.Add(Commands.Down, "down");
+                inputKeys.Add(Commands.Left, "left");
+                inputKeys.Add(Commands.Right, "right");
+                inputKeys.Add(Commands.Select, "enter");
+                inputKeys.Add(Commands.Cancel, "escape");
+            }
 
             reset();
         }

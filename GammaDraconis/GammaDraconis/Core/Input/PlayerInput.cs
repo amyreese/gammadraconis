@@ -45,26 +45,20 @@ namespace GammaDraconis.Core.Input
             // Default action assignments
             if (GamePad.GetCapabilities(playerIndex).IsConnected)
             {
-                // TODO: use gamepad buttons instead of keyboard...
-                // or maybe check both the gamepad and the keyboard all the time?
-                inputKeys.Add(Commands.Up, "PadUp");
-                inputKeys.Add(Commands.Down, "PadDown");
-                inputKeys.Add(Commands.Left, "PadLeft");
-                inputKeys.Add(Commands.Right, "PadRight");
+                inputAxis.Add(Commands.Roll, "LeftX");
+                inputAxis.Add(Commands.Pitch, "LeftY");
+                inputAxis.Add(Commands.Throttle, "Triggers");
+                inputAxis.Add(Commands.CameraX, "RightX");
+                inputAxis.Add(Commands.CameraY, "RightY");
+                
                 inputKeys.Add(Commands.YawLeft, "PadLB");
                 inputKeys.Add(Commands.YawRight, "PadRB");
-                inputKeys.Add(Commands.ThrottleUp, "PadA");
-                inputKeys.Add(Commands.ThrottleDown, "PadB");
-                inputKeys.Add(Commands.Fire1, "PadX");
-                inputKeys.Add(Commands.Fire2, "PadY");
+
+                inputKeys.Add(Commands.Fire1, "PadA");
+                inputKeys.Add(Commands.Fire2, "PadB");
                 inputKeys.Add(Commands.Pause, "PadStart");
                 inputKeys.Add(Commands.Menu, "PadBack");
 
-                inputAxis.Add(Commands.Roll, "LeftX");
-                inputAxis.Add(Commands.Pitch, "LeftY");
-                inputAxis.Add(Commands.Yaw, "Triggers");
-                inputAxis.Add(Commands.CameraX, "RightX");
-                inputAxis.Add(Commands.CameraY, "RightY");
             }
             else
             {

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Storage;
 using GammaDraconis.Screens;
 using GammaDraconis.Core;
 using GammaDraconis.Core.Input;
+using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis
 {
@@ -38,13 +39,14 @@ namespace GammaDraconis
         /// </summary>
         protected override void Initialize()
         {
+            GameLua = new GameLua();
+            DebugInterface = (Interface)GameLua.DoFile("Interfaces\\DebugInterface\\DebugInterface.lua")[0];
             initializeGameScreens();
             IsFixedTimeStep = false;
             Window.AllowUserResizing = true;
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             graphics.ApplyChanges();
-            GameLua = new GameLua();
             base.Initialize();
         }
 
@@ -116,6 +118,7 @@ namespace GammaDraconis
                     avgFps += framerates[index];
                 }
                 avgFps /= framerates.Length;
+                lastAverageFramerate = avgFps;
                 debug("Average FPS: " + avgFps);
                 debug("FPS: " + fps);
                 if (gameTime.IsRunningSlowly)
@@ -130,7 +133,7 @@ namespace GammaDraconis
         #region Debug Flags, Variables, and Helpers
 #if DEBUG
         // Flags
-        public static bool debugFramerate = false;
+        public static bool debugFramerate = true;
         public static bool debugCameraPosition = false;
         public static bool debugHelixPosition = false;
         public static bool debugCulling = false;
@@ -143,7 +146,11 @@ namespace GammaDraconis
         // Framerate variables
         private int frames = 0;
         private int currentFramerateIndex = 0;
+        private double lastAverageFramerate = 0;
         private double[] framerates = new double[50];
+
+        // Debug Overlay
+        public Interface DebugInterface;
 #endif
         /// <summary>
         /// Writes out a debug statement, if we're in debug mode

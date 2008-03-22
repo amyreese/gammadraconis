@@ -9,7 +9,7 @@ namespace GammaDraconis.Video.GUI
     /// An Interface represents a (possibly) interactive two-dimensional
     /// display, such as a menu or HUD.
     /// </summary>
-    class Interface : InterfaceComponent
+    public class Interface : InterfaceComponent
     {
         private List<InterfaceComponent> subComponents;
         public void AddComponent(InterfaceComponent component)

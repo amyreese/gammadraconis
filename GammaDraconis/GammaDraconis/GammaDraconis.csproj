@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Documents\Design Document.doc" />
+    <None Include="Interfaces\DebugInterface\DebugInterface.lua" />
   </ItemGroup>
   <ItemGroup>
     <NativeReference Include="Microsoft.VC90.CRT, Version=9.0.21022.8, PublicKeyToken=1fc8b3b9a1e18e3b, ProcessorArchitecture=x86, Type=win32">

@@ -6,17 +6,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GammaDraconis.Video.GUI
 {
-    class InterfaceComponent : DrawableGameComponent
+    public class InterfaceComponent : DrawableGameComponent
     {
         public Vector2 RelativePosition;
         public Vector2 RelativeScale;
         public float RelativeRotation;
+        public string UpdateCall;
 
         protected SpriteBatch spriteBatch;
+
+        protected readonly GammaDraconis gammaDraconis;
 
         public InterfaceComponent(GammaDraconis game)
             : base(game)
         {
+            gammaDraconis = game;
             game.Components.Add(this);
             RelativePosition = Vector2.Zero;
             RelativeScale = Vector2.One;
@@ -33,6 +37,15 @@ namespace GammaDraconis.Video.GUI
 
         internal virtual void Draw(GameTime gameTime, Vector2 position, Vector2 scale, float rotation)
         {
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            if( UpdateCall != null ) {
+                gammaDraconis.GameLua.Call(UpdateCall, gameTime);
+            }
+            base.Update(gameTime);
         }
 
         protected void CalculateResultingValues(Vector2 position, Vector2 scale, float rotation, out Vector2 outPos, out Vector2 outScale, out float outRotation)

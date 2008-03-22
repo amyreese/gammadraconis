@@ -90,6 +90,9 @@ namespace GammaDraconis.Screens
             }
             Vector2 scale = new Vector2(Game.Window.ClientBounds.Width / 1024.0f, Game.Window.ClientBounds.Height / 768.0f);
             screenInterface.Draw(gameTime, Vector2.Zero, scale, 0);
+#if DEBUG
+            gammaDraconis.DebugInterface.Draw(gameTime, Vector2.Zero, scale, 0.0f);
+#endif
             base.Draw(gameTime);
         }
 

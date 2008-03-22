@@ -80,14 +80,6 @@ namespace GammaDraconis.Core
             gameInterface.Enabled = true;
             gameInterface.Visible = true;
             gameInterface.RelativePosition = new Vector2(50f, 50f);
-
-            Text fps = new Text(game);
-            fps.color = Color.White;
-            fps.text = "60";
-            fps.spriteFontName = "Resources/Fonts/Debug";
-            fps.RelativePosition = new Vector2(100f, 100f);
-
-            gameInterface.AddComponent(fps);
         }
 
         /// <summary>
@@ -96,7 +88,7 @@ namespace GammaDraconis.Core
         /// <param name="gameTime">The current game time</param>
         public void Render(GameTime gameTime)
         {
-            gameRenderer.render(gameScene, gameInterface);
+            gameRenderer.render(gameTime, gameScene, gameInterface);
         }
         #endregion
 

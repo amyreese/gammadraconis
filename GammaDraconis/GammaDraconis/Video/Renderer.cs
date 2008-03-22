@@ -52,10 +52,8 @@ namespace GammaDraconis.Video
         /// </summary>
         /// <param name="scene">The scene manager</param>
         /// <param name="iface">The menu or HUD interface</param>
-        public void render(Scene scene, Interface iface)
+        public void render(GameTime gameTime, Scene scene, Interface iface)
         {
-            
-            
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
             game.GraphicsDevice.Clear(Color.Black);
 
@@ -71,9 +69,12 @@ namespace GammaDraconis.Video
             renderObjects(objects, cameraMatrix );
             
 
+            // TODO: Give interfaces for each player, and scale appropriately
             #region Interface rendering
-            iface.Draw(new GameTime(), new Vector2(0f,0f), new Vector2(1f,1f), 0f);
+            iface.Draw(gameTime, Vector2.Zero, Vector2.One, 0.0f);
             #endregion
+
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
         }
         
         #region GameObject rendering

@@ -90,7 +90,7 @@ namespace GammaDraconis.Types
             position.T *= translation;
 
             camera.R = position.R * cameraR;
-            camera.T = Matrix.CreateTranslation(0f, 100f, 1200f) * Matrix.CreateFromQuaternion(cameraR) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            camera.T = Matrix.CreateTranslation(0f, 250f, 1500f) * Matrix.CreateFromQuaternion(cameraR) * Matrix.CreateFromQuaternion(position.R) * position.T;
         }
     }
 }

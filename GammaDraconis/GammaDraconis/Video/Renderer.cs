@@ -83,7 +83,7 @@ namespace GammaDraconis.Video
                             effect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
                             //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
                             effect.View = cameraMatrix;
-                            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60.0f),
+                            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(75.0f),
                                 aspectRatio, 1.0f, 10000.0f);
                         }
                         // Draw the mesh, using the effects set above.

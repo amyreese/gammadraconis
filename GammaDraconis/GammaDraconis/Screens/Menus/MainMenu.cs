@@ -24,6 +24,7 @@ namespace GammaDraconis.Screens.Menus
         {
             public static string Play = "Play";
             public static string Controls = "Controls";
+            public static string ToggleFullscreen = "ToggleFullscreen";
             public static string Quit = "Quit";
         }
 
@@ -34,18 +35,24 @@ namespace GammaDraconis.Screens.Menus
         {
             Interface menuRegion = new Interface(gammaDraconis);
             menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
-            menuItems = new MenuItem[3];
+            screenInterface.AddComponent(menuRegion);
+
+            menuItems = new MenuItem[4];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.Play);
             menuItems[0].text = "Play";
-            menuRegion.AddComponent(menuItems[0]);
             menuItems[1] = new MenuItem(gammaDraconis, Commands.Controls);
             menuItems[1].text = "Controls";
-            menuRegion.AddComponent(menuItems[1]);
-            menuItems[2] = new MenuItem(gammaDraconis, Commands.Quit);
-            menuItems[2].text = "Quit";
-            menuRegion.AddComponent(menuItems[2]);
-            screenInterface.AddComponent(menuRegion);
+            menuItems[2] = new MenuItem(gammaDraconis, Commands.ToggleFullscreen);
+            menuItems[2].text = "Toggle Fullscreen";
+            menuItems[3] = new MenuItem(gammaDraconis, Commands.Quit);
+            menuItems[3].text = "Quit";
+
             AutoPositionMenuItems();
+            
+            foreach (MenuItem item in menuItems)
+            {
+                menuRegion.AddComponent(item);
+            }
         }
 
         /// <summary>
@@ -71,6 +78,10 @@ namespace GammaDraconis.Screens.Menus
             {
                 Game.Exit();
             }
+            else if (command.Equals(Commands.ToggleFullscreen))
+            {
+                gammaDraconis.ToggleFullscreen();
+            }
             else
             {
                 Console.WriteLine("Not yet implemented!");
@@ -79,8 +90,7 @@ namespace GammaDraconis.Screens.Menus
 
         protected override void Cancel()
         {
-            Console.WriteLine("There isn't a game to play yet! Start making it!");
+            ItemSelected(Commands.Play);
         }
-
     }
 }

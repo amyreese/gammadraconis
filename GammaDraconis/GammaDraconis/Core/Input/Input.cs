@@ -72,7 +72,7 @@ namespace GammaDraconis.Core.Input
             if (inputKeys.ContainsKey(action))
             {
                 string key = inputKeys[action];
-
+                
                 if (keyStates.ContainsKey(key)) // keyboard/mouse
                 {
                    return keyStates[key] == KeyState.Down;
@@ -107,10 +107,14 @@ namespace GammaDraconis.Core.Input
             if (inputKeys.ContainsKey(action))
             {
                 string key = inputKeys[action];
-
+                
                 if (keyPresses.ContainsKey(key)) // keyboard/mouse
                 {
-                    return keyPresses[key];
+                    if (keyPresses[key])
+                    {
+                        keyPresses[key] = false;
+                        return true;
+                    }
                 }
                 else // gamepad
                 {
@@ -271,7 +275,7 @@ namespace GammaDraconis.Core.Input
             #endregion
 
             // Find new key presses
-            foreach (string key in keyStates.Keys)
+            foreach (string key in keys)
             {
                 keyPresses[key] =
                     (keyPresses[key] || (keyStates[key] == KeyState.Down) && (keyStatesOld[key] == KeyState.Up))
@@ -299,6 +303,21 @@ namespace GammaDraconis.Core.Input
                 string key = "" + c;
                 keys.Add(key);
             }
+
+            // Non-alphanumeric keys
+            keys.Add("control");
+            keys.Add("shift");
+            keys.Add("alt");
+            keys.Add("up");
+            keys.Add("down");
+            keys.Add("left");
+            keys.Add("right");
+            keys.Add("enter");
+            keys.Add("space");
+            keys.Add("escape");
+            keys.Add("comma");
+            keys.Add("period");
+            keys.Add("backspace");
 
             // Gamepad keys
             for(PlayerIndex index = PlayerIndex.One; index <= PlayerIndex.Four; index++)

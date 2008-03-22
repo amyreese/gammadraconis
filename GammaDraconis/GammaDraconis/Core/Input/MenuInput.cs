@@ -28,7 +28,7 @@ namespace GammaDraconis.Core.Input
         public MenuInput() : base()
         {
             // Default action assignments
-            if (GamePad.GetCapabilities(playerIndex).IsConnected)
+            if (GamePad.GetCapabilities(PlayerIndex.One).IsConnected)
             {
                 inputKeys.Add(Commands.Up, "PadUp");
                 inputKeys.Add(Commands.Down, "PadDown");

@@ -31,7 +31,8 @@ namespace GammaDraconis.Types
 
         public override void think(GameTime gameTime)
         {
-            Input.update();
+            // TODO: Change this entire method to set the relative acceleration
+            // of the object rather than the absolute position.
 
             float rate = 1f / gameTime.ElapsedGameTime.Milliseconds;
 

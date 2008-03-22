@@ -118,6 +118,25 @@ namespace GammaDraconis.Core
             {
                 return;
             }
+
+            /*
+             * Physics Handling Pseudocode
+             * 
+             * Collision Detection
+             *   get tree of collidable objects from Scene
+             *   foreach object
+             *     if collided
+             *       add acceleration to each object proportional to each mass
+             * 
+             * Object Movement
+             *   get tree of non-scenery objects from Scene
+             *   foreach object
+             *     scale down velocity matrix/quat based on mass/drag
+             *     apply acceleration matrix/quat to velocity based on positional rotation
+             *     apply velocity matrix/quat to position
+             *     zero acceleration matrix/quat
+             * 
+             */
         }
         #endregion
         #endregion

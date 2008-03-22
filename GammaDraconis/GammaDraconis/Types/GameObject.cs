@@ -33,6 +33,13 @@ namespace GammaDraconis.Types
         public Coords velocity;
         public Coords acceleration;
 
+        // Movement limits
+        public Coords velocityMax;
+
+        // Physical properties
+        public int mass = 1000;
+        public float drag = 1.0f;
+
         // Visual properties
         public List<FBXModel> models;
 

@@ -72,6 +72,15 @@ namespace GammaDraconis.Video
         }
 
         /// <summary>
+        /// Return a list of GameObjects that can move (not scenery or HUD objects)
+        /// </summary>
+        /// <returns>GameObjects to check for movement</returns>
+        public List<GameObject> movable()
+        {
+            return objects;
+        }
+
+        /// <summary>
         /// Return a list of GameObjects that should have think() called.
         /// </summary>
         /// <returns>GameObjects to think()</returns>

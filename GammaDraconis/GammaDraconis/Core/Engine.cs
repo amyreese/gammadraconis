@@ -67,12 +67,13 @@ namespace GammaDraconis.Core
             Player p = new Player(PlayerIndex.One);
             Racer r = new Racer();
             r.position = new Coords(200.0f, -1200.0f, -2800.0f);
+            r.models[0].scale = 2f;
             gameScene.track(p, GO_TYPE.RACER);
             gameScene.track(r, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
-            planet.position = new Coords(0f, 0f, -25000f);
-            planet.models.Add(new FBXModel("Resources/Models/Planet", "", new Vector3(2f, 2f, 2f)));
+            planet.position = new Coords(0f, 0f, -50000f);
+            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 50f));
             gameScene.track(planet, GO_TYPE.SCENERY);
 
             gameInterface = new Interface(game);
@@ -156,6 +157,8 @@ namespace GammaDraconis.Core
              *     zero acceleration matrix/quat
              * 
              */
+
+            List<GameObject> gameObjects = gameScene.movable();
         }
         #endregion
         #endregion

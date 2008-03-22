@@ -62,7 +62,7 @@ namespace GammaDraconis.Video
                 
                 foreach (FBXModel fbxmodel in gameObject.models)
                 {
-                    modelMatrix = objectMatrix * fbxmodel.offset.matrix();
+                    modelMatrix =  Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
 
                     Model model = fbxmodel.model;
                     if (model == null)

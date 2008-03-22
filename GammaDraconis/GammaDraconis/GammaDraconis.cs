@@ -35,7 +35,10 @@ namespace GammaDraconis
         {
             initializeGameScreens();
             IsFixedTimeStep = false;
-            this.Window.AllowUserResizing = true;
+            Window.AllowUserResizing = true;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 

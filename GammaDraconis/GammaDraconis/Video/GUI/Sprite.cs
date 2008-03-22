@@ -31,10 +31,11 @@ namespace GammaDraconis.Video.GUI
             {
                 LoadContent();
             }
+            CalculateResultingValues(position, scale, rotation, out position, out scale, out rotation);
             if (texture != null)
             {
                 spriteBatch.Begin();
-                spriteBatch.Draw(texture, position + RelativePosition, null, Color.White, rotation + RelativeRotation, Vector2.Zero, scale * RelativeScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(texture, position, null, Color.White, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
                 spriteBatch.End();
             }
         }

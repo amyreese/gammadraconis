@@ -33,10 +33,11 @@ namespace GammaDraconis.Video.GUI
             {
                 LoadContent();
             }
+            CalculateResultingValues(position, scale, rotation, out position, out scale, out rotation);
             if (spriteFont != null && text != null && color != null)
             {
                 spriteBatch.Begin();
-                spriteBatch.DrawString(spriteFont, text, position + RelativePosition, color, rotation + RelativeRotation, Vector2.Zero, scale * RelativeScale, SpriteEffects.None, 0);
+                spriteBatch.DrawString(spriteFont, text, position, color, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
                 spriteBatch.End();
             }
         }

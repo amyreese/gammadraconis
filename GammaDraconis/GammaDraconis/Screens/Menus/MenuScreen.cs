@@ -29,6 +29,8 @@ namespace GammaDraconis.Screens.Menus
         {
             Sprite backgroundImage = new Sprite(game);
             backgroundImage.textureName = GetBackgroundImageName();
+            // TODO: Remove scale when we have better background images
+            backgroundImage.RelativeScale = new Vector2(1024.0f / 800.0f, 768.0f / 600.0f);
             screenInterface.AddComponent(backgroundImage);
             SetupMenuItems();
             for (int index = 0; index < menuItems.Length; index++)

@@ -35,5 +35,13 @@ namespace GammaDraconis.Video.GUI
         {
         }
 
+        protected void CalculateResultingValues(Vector2 position, Vector2 scale, float rotation, out Vector2 outPos, out Vector2 outScale, out float outRotation)
+        {
+            // Adjust the position based on the scaling of the parent (NOT the scale of this component).
+            outPos = (position + RelativePosition) * scale;
+            // Adjust the scale and rotation based on the relative scaling and rotation
+            outScale = scale * RelativeScale;
+            outRotation = rotation + RelativeRotation;
+        }
     }
 }

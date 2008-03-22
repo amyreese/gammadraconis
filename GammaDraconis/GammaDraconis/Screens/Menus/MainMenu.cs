@@ -23,6 +23,7 @@ namespace GammaDraconis.Screens.Menus
         private class Commands
         {
             public static string Play = "Play";
+            public static string Controls = "Controls";
             public static string Quit = "Quit";
         }
 
@@ -32,14 +33,17 @@ namespace GammaDraconis.Screens.Menus
         protected override void SetupMenuItems()
         {
             Interface menuRegion = new Interface(gammaDraconis);
-            menuRegion.RelativePosition = new Vector2(75.0f, Game.Window.ClientBounds.Height / 2.2f);
-            menuItems = new MenuItem[2];
+            menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
+            menuItems = new MenuItem[3];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.Play);
             menuItems[0].text = "Play";
             menuRegion.AddComponent(menuItems[0]);
-            menuItems[1] = new MenuItem(gammaDraconis, Commands.Quit);
-            menuItems[1].text = "Quit";
+            menuItems[1] = new MenuItem(gammaDraconis, Commands.Controls);
+            menuItems[1].text = "Controls";
             menuRegion.AddComponent(menuItems[1]);
+            menuItems[2] = new MenuItem(gammaDraconis, Commands.Quit);
+            menuItems[2].text = "Quit";
+            menuRegion.AddComponent(menuItems[2]);
             screenInterface.AddComponent(menuRegion);
             AutoPositionMenuItems();
         }
@@ -61,13 +65,15 @@ namespace GammaDraconis.Screens.Menus
         {
             if (command.Equals(Commands.Play))
             {
-                // TODO: Play the game
-                Console.WriteLine("There isn't a game to play yet! Start making it!");
                 gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
             }
             else if (command.Equals(Commands.Quit))
             {
                 Game.Exit();
+            }
+            else
+            {
+                Console.WriteLine("Not yet implemented!");
             }
         }
 

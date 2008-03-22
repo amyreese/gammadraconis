@@ -158,7 +158,30 @@ namespace GammaDraconis.Core
              * 
              */
 
+            #region Movement physics
             List<GameObject> gameObjects = gameScene.movable();
+
+            foreach (GameObject gameObject in gameObjects)
+            {
+                // TODO: Implement drag
+                //gameObject.velocity.T *= Matrix.CreateScale(1 - (100 * gameObject.drag / gameObject.mass));
+                //gameObject.velocity.R.W = gameObject.velocity.R.W * .5f;
+
+                // TODO: Apply acceleration to velocity
+                gameObject.velocity.R *= gameObject.acceleration.R;
+                gameObject.velocity.T *= gameObject.acceleration.T;
+
+                // TODO: Clamp velocity to velocityMax
+                
+                // TODO: Apply velocity to position
+                gameObject.position.R *= gameObject.velocity.R;
+                gameObject.position.T *= gameObject.velocity.T;
+
+                // TODO: Zero acceleration
+                gameObject.acceleration.R = Quaternion.Identity;
+                gameObject.acceleration.T = Matrix.Identity;
+            }
+            #endregion
         }
         #endregion
         #endregion

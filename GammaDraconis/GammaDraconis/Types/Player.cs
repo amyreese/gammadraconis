@@ -34,7 +34,7 @@ namespace GammaDraconis.Types
             // TODO: Change this entire method to set the relative acceleration
             // of the object rather than the absolute position.
 
-            float rate = 1f / gameTime.ElapsedGameTime.Milliseconds;
+            float rate = 0.1f / gameTime.ElapsedGameTime.Milliseconds;
 
             Matrix translation = Matrix.Identity;
             Quaternion rotation = Quaternion.Identity;
@@ -87,8 +87,8 @@ namespace GammaDraconis.Types
             }
             #endregion
 
-            position.R *= rotation;
-            position.T *= translation;
+            acceleration.R *= rotation;
+            acceleration.T *= translation;
 
             camera.R = position.R * cameraR;
             camera.T = Matrix.CreateTranslation(0f, 250f, 1500f) * Matrix.CreateFromQuaternion(cameraR) * Matrix.CreateFromQuaternion(position.R) * position.T;

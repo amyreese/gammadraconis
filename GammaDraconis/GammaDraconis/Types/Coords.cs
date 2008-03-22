@@ -43,9 +43,10 @@ namespace GammaDraconis.Types
             return T.Translation;
         }
 
-        public Vector3 rot()
+        public Vector3 up()
         {
-            return Vector3.Up;
+            Vector3 v = Matrix.CreateFromQuaternion(R).Up;
+            return v;
         }
 
         /// <summary>

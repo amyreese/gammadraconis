@@ -48,12 +48,12 @@ namespace GammaDraconis.Video
 
             Vector3 playerPos = Player.players[0].position.pos();
             Vector3 cameraPos = Player.players[0].camera.pos();
-            Vector3 cameraRot = Player.players[0].camera.rot();
+            Vector3 cameraUp = Player.players[0].camera.up();
 
-            if (cameraRot == Vector3.Zero)
-                cameraRot = Vector3.Up;
+            if (cameraUp == Vector3.Zero)
+                cameraUp = Vector3.Up;
 
-            Matrix cameraMatrix = Matrix.CreateLookAt(cameraPos, playerPos, cameraRot);
+            Matrix cameraMatrix = Matrix.CreateLookAt(cameraPos, playerPos, cameraUp);
 
             foreach (GameObject gameObject in objects)
             {

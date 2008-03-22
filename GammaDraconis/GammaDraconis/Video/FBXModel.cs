@@ -18,9 +18,15 @@ namespace GammaDraconis.Video
         public Model model;
         public string filename;
 
-        public FBXModel(string filename)
+        // Shader effect associated with the model
+        public Effect _effect;
+        public string effect;
+
+        public FBXModel(string filename) : this(filename, "") { }
+        public FBXModel(string filename, string effect)
         {
             this.filename = filename;
+            this.effect = effect;
             offset = new Coords();
         }
 

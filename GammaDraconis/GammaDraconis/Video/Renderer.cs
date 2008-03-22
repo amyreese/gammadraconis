@@ -22,11 +22,27 @@ namespace GammaDraconis.Video
 
         public GammaDraconis game;
 
+        private Viewport[] viewports;
+
+        private enum Viewports
+        {
+            WholeWindow = 0,
+            TopHalf = 1,
+            BottomHalf = 2
+        }
+
         public Renderer(GammaDraconis game)
         {
             aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
                           (float)game.GraphicsDevice.Viewport.Height;
             this.game = game;
+                      
+            viewports = new Viewport[3];
+            viewports[(int)Viewports.WholeWindow] = game.GraphicsDevice.Viewport;
+            viewports[(int)Viewports.TopHalf] = viewports[(int)Viewports.WholeWindow];
+            viewports[(int)Viewports.TopHalf].Height = viewports[(int)Viewports.TopHalf].Height / 2;
+            viewports[(int)Viewports.BottomHalf] = viewports[(int)Viewports.TopHalf];
+            viewports[(int)Viewports.BottomHalf].Y = viewports[(int)Viewports.BottomHalf].Height;
         }
 
         /// <summary>
@@ -38,28 +54,38 @@ namespace GammaDraconis.Video
         /// <param name="iface">The menu or HUD interface</param>
         public void render(Scene scene, Interface iface)
         {
-            List<GameObject> objects = scene.visible(Player.players[0].position);
-
+            
+            
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
             game.GraphicsDevice.Clear(Color.Black);
-            game.GraphicsDevice.RenderState.DepthBufferEnable = true;
 
-            #region GameObject rendering
+            game.GraphicsDevice.RenderState.DepthBufferEnable = true;
+            
+            List<GameObject> objects = scene.visible(Player.players[0].position);
+                     
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.TopHalf];
+            Matrix cameraMatrix = Player.players[0].getCameraLookAtMatrix();
+            renderObjects( objects, cameraMatrix );
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.BottomHalf];
+            cameraMatrix = Matrix.Identity;
+            renderObjects(objects, cameraMatrix );
+            
+
+            #region Interface rendering
+            iface.Draw(new GameTime(), new Vector2(0f,0f), new Vector2(1f,1f), 0f);
+            #endregion
+        }
+        
+        #region GameObject rendering
+        private void renderObjects(List<GameObject> objects, Matrix cameraMatrix )
+        {
             Matrix worldMatrix = Matrix.Identity;
             Matrix objectMatrix, subObjectMatrix, modelMatrix;
-
-            Vector3 playerPos = Player.players[0].position.pos();
-            Vector3 cameraPos = Player.players[0].camera.pos();
-            Vector3 cameraUp = Player.players[0].camera.up();
-
-            if (cameraUp == Vector3.Zero)
-                cameraUp = Vector3.Up;
-
-            Matrix cameraMatrix = Matrix.CreateLookAt(cameraPos, playerPos, cameraUp);
 
             foreach (GameObject gameObject in objects)
             {
                 objectMatrix = worldMatrix * gameObject.position.matrix();
-                
+
                 foreach (FBXModel fbxmodel in gameObject.models)
                 {
                     modelMatrix =  Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
@@ -92,11 +118,7 @@ namespace GammaDraconis.Video
                     }
                 }
             }
-            #endregion
-
-            #region Interface rendering
-            iface.Draw(new GameTime(), new Vector2(0f,0f), new Vector2(1f,1f), 0f);
-            #endregion
         }
+        #endregion
     }
 }

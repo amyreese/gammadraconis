@@ -34,7 +34,7 @@ namespace GammaDraconis.Types
             // TODO: Change this entire method to set the relative acceleration
             // of the object rather than the absolute position.
 
-            float rate = 0.1f / gameTime.ElapsedGameTime.Milliseconds;
+            float rate = -0.1f / gameTime.ElapsedGameTime.Milliseconds;
 
             Matrix translation = Matrix.Identity;
             Quaternion rotation = Quaternion.Identity;
@@ -43,60 +43,62 @@ namespace GammaDraconis.Types
             #region Keyboard input handling
             if (input.inputDown("Up"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate);
             }
             if (input.inputDown("Down"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rate);
             }
             if (input.inputDown("Left"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate);
             }
             if (input.inputDown("Right"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate);
             }
             if (input.inputDown("YawLeft"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rate);
             }
             if (input.inputDown("YawRight"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rate);
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, rate);
             }
 
             if (input.inputDown("ThrottleUp"))
             {
-                translation *= Matrix.CreateTranslation(0f, 0f, -rate * 50);
+                translation *= Matrix.CreateTranslation(0f, 0f, rate * 50);
             }
             if (input.inputDown("ThrottleDown"))
             {
-                translation *= Matrix.CreateTranslation(0f, 0f, rate * 50);
+                translation *= Matrix.CreateTranslation(0f, 0f, -rate * 50);
             }
             #endregion
 
             #region Gamepad input handling
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rate * input.axis("Pitch"));
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate * input.axis("Roll"));
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rate * input.axis("Yaw"));
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate * input.axis("Pitch"));
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate * input.axis("Roll"));
+                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, rate * input.axis("Yaw"));
+
+                translation *= Matrix.CreateTranslation(0f, 0f, rate * 250 * input.axis("Throttle"));
 
                 // Rotate the camera around the player
-                cameraR *= Quaternion.CreateFromYawPitchRoll((float)Math.PI * input.axis("CameraX"), (float)Math.PI * -input.axis("CameraY"), 0f);
+                camera.R = Quaternion.CreateFromYawPitchRoll((float)Math.PI * input.axis("CameraX"), (float)Math.PI * -input.axis("CameraY"), 0f);
             }
             #endregion
 
             acceleration.R *= rotation;
             acceleration.T *= translation;
-
-            camera.R = position.R * cameraR;
-            camera.T = Matrix.CreateTranslation(0f, 250f, 1500f) * Matrix.CreateFromQuaternion(cameraR) * Matrix.CreateFromQuaternion(position.R) * position.T;
         }
 
         public Matrix getCameraLookAtMatrix()
         {
-            return Matrix.CreateLookAt(camera.pos(), position.pos(), camera.up());
+            Coords c = new Coords();
+            c.R = position.R * camera.R;
+            c.T = Matrix.CreateTranslation(0f, 250f, 1500f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            return Matrix.CreateLookAt(c.pos(), position.pos(), c.up());
         }
     }
 }

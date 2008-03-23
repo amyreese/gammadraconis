@@ -47,7 +47,7 @@ namespace GammaDraconis.Core.Input
             {
                 inputAxis.Add(Commands.Roll, "LeftX");
                 inputAxis.Add(Commands.Pitch, "LeftY");
-                inputAxis.Add(Commands.Yaw, "Triggers");
+                inputAxis.Add(Commands.Throttle, "Triggers");
                 inputAxis.Add(Commands.CameraX, "RightX");
                 inputAxis.Add(Commands.CameraY, "RightY");
                 

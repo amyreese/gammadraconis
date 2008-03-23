@@ -34,7 +34,7 @@ namespace GammaDraconis.Video
         public Renderer(GammaDraconis game)
         {
             aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
-                          (float)game.GraphicsDevice.Viewport.Height;
+                          (float)game.GraphicsDevice.Viewport.Height * 2;
             this.game = game;
                       
             viewports = new Viewport[3];

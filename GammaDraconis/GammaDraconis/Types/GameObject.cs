@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using GammaDraconis.Core;
 using GammaDraconis.Video;
 
 namespace GammaDraconis.Types
@@ -34,7 +35,8 @@ namespace GammaDraconis.Types
         public Coords acceleration;
 
         // Movement limits
-        public Coords velocityMax;
+        public float rateA = 25f;
+        public float rateR = 0.1f;
 
         // Physical properties
         public int mass = 1000;
@@ -51,5 +53,30 @@ namespace GammaDraconis.Types
 
         // Behaviors
         public virtual void think(GameTime gameTime) { }
+
+        public void throttle(float amount)
+        {
+            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            Console.WriteLine(amount);
+            acceleration.T *= Matrix.CreateTranslation(0f, 0f, -rateA * amount);
+        }
+
+        public void pitch(float amount)
+        {
+            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rateR * amount);
+        }
+
+        public void roll(float amount)
+        {
+            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rateR * amount);
+        }
+
+        public void yaw(float amount)
+        {
+            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rateR * amount);
+        }
     }
 }

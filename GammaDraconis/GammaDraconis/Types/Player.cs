@@ -31,66 +31,54 @@ namespace GammaDraconis.Types
 
         public override void think(GameTime gameTime)
         {
-            // TODO: Change this entire method to set the relative acceleration
-            // of the object rather than the absolute position.
-
-            float rate = -0.1f / gameTime.ElapsedGameTime.Milliseconds;
-
-            Matrix translation = Matrix.Identity;
-            Quaternion rotation = Quaternion.Identity;
-            Quaternion cameraR = Quaternion.Identity;
-
             #region Keyboard input handling
             if (input.inputDown("Up"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate);
+                pitch(1);
             }
             if (input.inputDown("Down"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rate);
+                pitch(-1);
             }
             if (input.inputDown("Left"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rate);
+                roll(-1);
             }
             if (input.inputDown("Right"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate);
+                roll(1);
             }
             if (input.inputDown("YawLeft"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rate);
+                yaw(-1);
             }
             if (input.inputDown("YawRight"))
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, rate);
+                yaw(1);
             }
 
             if (input.inputDown("ThrottleUp"))
             {
-                translation *= Matrix.CreateTranslation(0f, 0f, rate * 50);
+                throttle(1);
             }
             if (input.inputDown("ThrottleDown"))
             {
-                translation *= Matrix.CreateTranslation(0f, 0f, -rate * 50);
+                throttle(-1);
             }
             #endregion
 
             #region Gamepad input handling
             {
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Right, rate * input.axis("Pitch"));
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Backward, rate * input.axis("Roll"));
-                rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, rate * input.axis("Yaw"));
+                pitch(input.axis("Pitch"));
+                roll(input.axis("Roll"));
+                yaw(input.axis("Yaw"));
 
-                translation *= Matrix.CreateTranslation(0f, 0f, rate * 250 * input.axis("Throttle"));
+                throttle(input.axis("Throttle"));
 
                 // Rotate the camera around the player
                 camera.R = Quaternion.CreateFromYawPitchRoll((float)Math.PI * input.axis("CameraX"), (float)Math.PI * -input.axis("CameraY"), 0f);
             }
             #endregion
-
-            acceleration.R *= rotation;
-            acceleration.T *= translation;
         }
 
         public Matrix getCameraLookAtMatrix()

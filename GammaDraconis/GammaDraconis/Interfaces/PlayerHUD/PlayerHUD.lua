@@ -1,6 +1,7 @@
 if playerHUDs == nil then
 	playerHUDs = {}
 end
+hudColors = { Color.Red, Color.Blue, Color.Green, Color.Yellow } 
 
 playerHUDs[playerHudIndex] = {}
 playerHUDs[playerHudIndex].interface = Interface(GammaDraconis)
@@ -14,49 +15,52 @@ playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].tes
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
+hudBorder.color = hudColors[playerHudIndex]
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
+hudBorder.color = hudColors[playerHudIndex]
 hudBorder.RelativePosition = Vector2( 1024-256, 0 )
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
-hudBorder.RelativePosition = Vector2( 0, 768 - 32 )
+hudBorder.color = hudColors[playerHudIndex]
+hudBorder.RelativePosition = Vector2( 0, 768 - 8 )
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
-hudBorder.RelativePosition = Vector2( 1024-256, 768 - 32 )
+hudBorder.color = hudColors[playerHudIndex]
+hudBorder.RelativePosition = Vector2( 1024-256, 768 - 8 )
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
-
---hudSprite = Sprite(GammaDraconis)
---hudSprite.textureName = "Resources/Textures/MenuBackgrounds/MainMenu"
---hudSprite.RelativePosition = Vector2(400, 400)
---playerHUDs[playerHudIndex].interface:AddComponent(hudSprite)
-
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
+hudBorder.color = hudColors[playerHudIndex]
+hudBorder.RelativePosition = Vector2( 8, 0 )
 hudBorder.RelativeRotation = 3.14/2
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
-hudBorder.RelativePosition = Vector2( 1024-32, 0 )
+hudBorder.color = hudColors[playerHudIndex]
+hudBorder.RelativePosition = Vector2( 1024, 0 )
 hudBorder.RelativeRotation = 3.14/2
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
-hudBorder.RelativePosition = Vector2( 0, 768 - 256 )
+hudBorder.color = hudColors[playerHudIndex]
+hudBorder.RelativePosition = Vector2( 8, 768 - 256 )
 hudBorder.RelativeRotation = 3.14/2
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
-hudBorder.RelativePosition = Vector2( 1024-32, 768 - 256 )
+hudBorder.color = hudColors[playerHudIndex]
+hudBorder.RelativePosition = Vector2( 1024, 768 - 256 )
 hudBorder.RelativeRotation = 3.14/2
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 

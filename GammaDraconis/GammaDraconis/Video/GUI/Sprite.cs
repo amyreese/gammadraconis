@@ -10,10 +10,12 @@ namespace GammaDraconis.Video.GUI
     {
         private Texture2D texture;
         public String textureName;
+        public Color color;
 
         public Sprite(GammaDraconis game)
             : base(game)
         {
+            color = Color.White;
         }
 
         protected override void LoadContent()
@@ -35,7 +37,7 @@ namespace GammaDraconis.Video.GUI
             if (texture != null)
             {
                 spriteBatch.Begin();
-                spriteBatch.Draw(texture, position, null, Color.White, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(texture, position, null, color, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
                 spriteBatch.End();
             }
         }

@@ -106,7 +106,7 @@ namespace GammaDraconis.Video
         /// </summary>
         /// <param name="scene">The scene manager</param>
         /// <param name="iface">The menu or HUD interface</param>
-        public void render(GameTime gameTime, Scene scene, Interface iface)
+        public void render(GameTime gameTime, Scene scene)
         {
             // TODO: Move this method call to the constructor so that it is not called every frame
             //       ...fix threading problems it causes when it is there.
@@ -124,17 +124,15 @@ namespace GammaDraconis.Video
                     Console.WriteLine("..." + Player.players[playerIndex].viewport);
                     game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
                     renderObjects(scene.visible(Player.players[playerIndex].position), Player.players[playerIndex].getCameraLookAtMatrix());
+                    Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);
+                    Vector2 position = Vector2.Zero;
+                    Player.players[playerIndex].playerHUD.Draw(gameTime, position, scale, 0);
                 }
                 else
                 {
-                    game.GraphicsDevice.Clear(Color.Orange);
+                    // TODO: Draw something noteworthy in the empty slots?
                 }
             }
-                
-            // TODO: Give interfaces for each player, and scale appropriately
-            #region Interface rendering
-            iface.Draw(gameTime, Vector2.Zero, Vector2.One, 0.0f);
-            #endregion
 
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
         }
@@ -185,9 +183,6 @@ namespace GammaDraconis.Video
                 if (Player.players[1] != null)
                 {
                     Player.players[1].viewport = Viewports.TopRight;
-                    Vector2 scale = new Vector2(playerViewport.Width / 1024.0f, playerViewport.Height / 768.0f);
-                    Vector2 position = new Vector2(playerViewport.X, playerViewport.Y);
-                    Player.players[playerIndex].playerHUD.Draw(gameTime, position, scale, 0);
                 }
                 if (Player.players[2] != null)
                 {

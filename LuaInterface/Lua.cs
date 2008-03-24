@@ -598,7 +598,7 @@ namespace LuaInterface
 		}
 		~LuaTable() 
 		{
-			interpreter.dispose(reference);
+			//interpreter.dispose(reference);
 		}
 		/*
 		 * Indexer for string fields of the table
@@ -711,8 +711,8 @@ namespace LuaInterface
 
 		~LuaFunction() 
 		{
-            if(reference!=0)
-			    interpreter.dispose(reference);
+            //if(reference!=0)
+			//    interpreter.dispose(reference);
 		}
 		/*
 		 * Calls the function casting return values to the types
@@ -776,7 +776,7 @@ namespace LuaInterface
 		}
 		~LuaUserData() 
 		{
-			interpreter.dispose(reference);
+			//interpreter.dispose(reference);
 		}
 		/*
 		 * Indexer for string fields of the userdata

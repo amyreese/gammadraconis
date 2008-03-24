@@ -54,7 +54,6 @@ namespace GammaDraconis.Core
         #region Rendering
         private Renderer gameRenderer;
         private Scene gameScene;
-        private Interface gameInterface;
         private Course course;
 
         /// <summary>
@@ -94,11 +93,6 @@ namespace GammaDraconis.Core
             GameObject skybox = new GameObject();
             skybox.models.Add( new FBXModel("Resources/Models/Skybox", "", 10000f));
             gameScene.track(skybox, GO_TYPE.SCENERY);
-
-            gameInterface = new Interface(game);
-            gameInterface.Enabled = true;
-            gameInterface.Visible = true;
-            gameInterface.RelativePosition = new Vector2(50f, 50f);
         }
 
         /// <summary>
@@ -107,7 +101,7 @@ namespace GammaDraconis.Core
         /// <param name="gameTime">The current game time</param>
         public void Render(GameTime gameTime)
         {
-            gameRenderer.render(gameTime, gameScene, gameInterface);
+            gameRenderer.render(gameTime, gameScene);
         }
         #endregion
 

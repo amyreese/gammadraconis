@@ -89,6 +89,7 @@
     <Compile Include="Types\MountPoint.cs" />
     <Compile Include="Types\Player.cs" />
     <Compile Include="Types\Racer.cs" />
+    <Compile Include="Types\Track.cs" />
     <Compile Include="Types\Turret.cs" />
     <Compile Include="Types\Weapon.cs" />
     <Compile Include="Video\GUI\Text.cs" />

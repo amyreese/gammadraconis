@@ -120,7 +120,6 @@ namespace GammaDraconis.Core.Input
                 {
                     PlayerIndex istart = oneGamepad ? playerIndex : PlayerIndex.One;
                     PlayerIndex iend = oneGamepad ? playerIndex : PlayerIndex.Four;
-                    
                     for (PlayerIndex index = istart; index <= iend; index++)
                     {
                         string gp = "Pad" + (int)index + "-";
@@ -204,10 +203,11 @@ namespace GammaDraconis.Core.Input
                 }
             }
 
-            // Handle stupid MS key names
+            // Handle Keys
             for (int pressedKeyIndex = 0; pressedKeyIndex < pressedKeys.Length; pressedKeyIndex++)
             {
                 string keyName = pressedKeys[pressedKeyIndex].ToString().ToLower();
+                // Handle stupid MS key names
                 if (keyName == "back")
                 {
                     keyName = "backspace";
@@ -304,6 +304,13 @@ namespace GammaDraconis.Core.Input
             {
                 string key = "" + c;
                 keys.Add(key);
+                keys.Add("control+" + key);
+                keys.Add("control+alt+" + key);
+                keys.Add("control+alt+shift" + key);
+                keys.Add("control+shift+" + key);
+                keys.Add("alt+" + key);
+                keys.Add("alt+shift+" + key);
+                keys.Add("shift+" + key);
             }
 
             // Non-alphanumeric keys

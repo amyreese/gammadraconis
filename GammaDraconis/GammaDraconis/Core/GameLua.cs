@@ -35,6 +35,8 @@ GammaDraconis = GammaDraconis.GetInstance()
 Interface = import('GammaDraconis.Video.GUI.Interface')
 Sprite = import('GammaDraconis.Video.GUI.Sprite')
 Text = import('GammaDraconis.Video.GUI.Text')
+
+Input = import('GammaDraconis.Core.Input.Input')
             ";
 
             DoLua(initCode);

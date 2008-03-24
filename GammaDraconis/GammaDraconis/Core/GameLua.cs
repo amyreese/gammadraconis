@@ -98,7 +98,7 @@ end
                 }
                 return luaFunction.Call(args);
             }
-            catch (LuaException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;

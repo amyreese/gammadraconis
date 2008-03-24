@@ -13,11 +13,6 @@ namespace GammaDraconis.Types
     /// </summary>
     class GameObject
     {
-        /// <summary>
-        /// The instance of snails pace that is using this screen
-        /// </summary>
-        protected GammaDraconis game;
-
         public GameObject()
         {
             position = new Coords();
@@ -57,7 +52,6 @@ namespace GammaDraconis.Types
         public void throttle(float amount)
         {
             amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
-            Console.WriteLine(amount);
             acceleration.T *= Matrix.CreateTranslation(0f, 0f, -rateA * amount);
         }
 

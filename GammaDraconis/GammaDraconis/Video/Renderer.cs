@@ -82,7 +82,7 @@ namespace GammaDraconis.Video
                     maxPlayerNumber = playerIndex + 1;
                 }
             }
-            Console.WriteLine(maxPlayerNumber);
+
             if (maxPlayerNumber == 2)
             {
                 playerViewport.Width /= 2;
@@ -91,7 +91,6 @@ namespace GammaDraconis.Video
             {
                 playerViewport.Width /= 2;
                 playerViewport.Height /= 2;
-                Console.WriteLine(playerViewport.Height);
             }
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
@@ -113,6 +112,9 @@ namespace GammaDraconis.Video
                 if (Player.players[playerIndex] != null)
                 {
                     renderObjects(scene.visible(Player.players[playerIndex].position), Player.players[playerIndex].getCameraLookAtMatrix());
+                    Vector2 scale = new Vector2(playerViewport.Width / 1024.0f, playerViewport.Height / 768.0f);
+                    Vector2 position = new Vector2(playerViewport.X, playerViewport.Y);
+                    Player.players[playerIndex].playerHUD.Draw(gameTime, position, scale, 0);
                 }
                 else
                 {

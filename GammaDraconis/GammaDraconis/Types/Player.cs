@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using GammaDraconis.Core.Input;
+using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis.Types
 {
@@ -18,15 +19,19 @@ namespace GammaDraconis.Types
 
         public Coords camera;
 
+        public Interface playerHUD;
+
         public Player(PlayerIndex index)
             : base()
         {
             this.index = index;
-            input = new PlayerInput(index);
 
+            input = new PlayerInput(index);
             camera = new Coords();
 
             Player.players[(int)index] = this;
+
+            playerHUD = (Interface)GammaDraconis.GetInstance().GameLua.DoString("playerHudIndex = " + ((int)index + 1) + "\nreturn dofile( 'Interfaces/PlayerHUD/PlayerHUD.lua' )")[0];
         }
 
         public override void think(GameTime gameTime)

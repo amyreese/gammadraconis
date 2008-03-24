@@ -55,9 +55,10 @@ namespace GammaDraconis.Video.GUI
 
         internal override void Draw(GameTime gameTime, Vector2 position, Vector2 scale, float rotation)
         {
+            CalculateResultingValues(position, scale, rotation, out position, out scale, out rotation);
             foreach (InterfaceComponent component in subComponents)
             {
-                component.Draw(gameTime, position + RelativePosition, scale * RelativeScale, rotation + RelativeRotation);
+                component.Draw(gameTime, position, scale, rotation);
             }
         }
     }

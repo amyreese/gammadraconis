@@ -36,6 +36,8 @@ Interface = import('GammaDraconis.Video.GUI.Interface')
 Sprite = import('GammaDraconis.Video.GUI.Sprite')
 Text = import('GammaDraconis.Video.GUI.Text')
 
+Player = import('GammaDraconis.Types.Player')
+
 Input = import('GammaDraconis.Core.Input.Input')
             ";
 

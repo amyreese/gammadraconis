@@ -164,7 +164,7 @@ namespace GammaDraconis
         #endregion
 
         private static GammaDraconis _instance;
-        static GammaDraconis GetInstance()
+        public static GammaDraconis GetInstance()
         {
             if (_instance == null)
             {

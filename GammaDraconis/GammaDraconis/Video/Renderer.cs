@@ -22,12 +22,19 @@ namespace GammaDraconis.Video
         public GammaDraconis game;
 
         private Viewport[] viewports;
+        
 
-        private enum Viewports
+        public enum Viewports
         {
             WholeWindow = 0,
-            TopHalf = 1,
-            BottomHalf = 2
+            TopLeft = 1,
+            TopRight = 2,
+            BottomLeft = 3,
+            BottomRight = 4,
+            TopHalf = 5,
+            BottomHalf = 6,
+            LeftSide = 7,
+            RightSide = 8,
         }
 
         public Renderer(GammaDraconis game) : base(game)
@@ -38,18 +45,58 @@ namespace GammaDraconis.Video
             viewingDistance = 900000f;
 
             this.game = game;
-                      
-            viewports = new Viewport[3];
-            viewports[(int)Viewports.WholeWindow] = game.GraphicsDevice.Viewport;
+            game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);          
+            viewports = new Viewport[9];
+            //InitializeViewports(game);
+            
+        }
+        
+
+
+        private void InitializeViewports(GammaDraconis game)
+        {
+            viewports[(int)Viewports.WholeWindow] = new Viewport();
+            viewports[(int)Viewports.WholeWindow].X = 0;
+            viewports[(int)Viewports.WholeWindow].Y = 0;
+            
+            viewports[(int)Viewports.WholeWindow].Width = game.Window.ClientBounds.Width;
+            viewports[(int)Viewports.WholeWindow].Height = game.Window.ClientBounds.Height;
+            
             viewports[(int)Viewports.TopHalf] = viewports[(int)Viewports.WholeWindow];
             viewports[(int)Viewports.TopHalf].Height = viewports[(int)Viewports.TopHalf].Height / 2;
+            
             viewports[(int)Viewports.BottomHalf] = viewports[(int)Viewports.TopHalf];
             viewports[(int)Viewports.BottomHalf].Y = viewports[(int)Viewports.BottomHalf].Height;
+
+            viewports[(int)Viewports.TopLeft] = viewports[(int)Viewports.TopHalf];
+            viewports[(int)Viewports.TopLeft].Width = viewports[(int)Viewports.TopLeft].Width / 2;
+
+            viewports[(int)Viewports.TopRight] = viewports[(int)Viewports.TopLeft];
+            viewports[(int)Viewports.TopRight].X = viewports[(int)Viewports.TopLeft].X + (game.Window.ClientBounds.Width / 2);
+
+            viewports[(int)Viewports.BottomLeft] = viewports[(int)Viewports.BottomHalf];
+            viewports[(int)Viewports.BottomLeft].Width = viewports[(int)Viewports.BottomLeft].Width / 2;
+
+            viewports[(int)Viewports.BottomRight] = viewports[(int)Viewports.BottomLeft];
+            viewports[(int)Viewports.BottomRight].X = viewports[(int)Viewports.BottomRight].X + (game.Window.ClientBounds.Width / 2);
+
+            viewports[(int)Viewports.LeftSide] = viewports[(int)Viewports.TopLeft];
+            viewports[(int)Viewports.LeftSide].Height = viewports[(int)Viewports.LeftSide].Height * 2;
+
+            viewports[(int)Viewports.RightSide] = viewports[(int)Viewports.TopRight];
+            viewports[(int)Viewports.RightSide].Height = viewports[(int)Viewports.RightSide].Height * 2;
         }
 
-        protected override void LoadContent()
+        // this method is here to prevent the "Cross-thread operation not valid: Control 'GameForm' accessed
+        // from a thread other than the thread it was created on." error that occurs when you try to get at game.Window.ClientBounds.
+        private Rectangle getClientBoundsThreadSafe(GammaDraconis game)
         {
-            base.LoadContent();
+            return game.Window.ClientBounds;
+        }
+
+        private void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            InitializeViewports(game);
         }
 
         /// <summary>
@@ -61,80 +108,96 @@ namespace GammaDraconis.Video
         /// <param name="iface">The menu or HUD interface</param>
         public void render(GameTime gameTime, Scene scene, Interface iface)
         {
-            Viewport wholeScreenViewport = new Viewport();
-            wholeScreenViewport.X = 0;
-            wholeScreenViewport.Y = 0;
-            wholeScreenViewport.Width = game.Window.ClientBounds.Width;
-            wholeScreenViewport.Height = game.Window.ClientBounds.Height;
-            Viewport playerViewport = new Viewport();
-            playerViewport.X = 0;
-            playerViewport.Y = 0;
-            playerViewport.Width = game.Window.ClientBounds.Width;
-            playerViewport.Height = game.Window.ClientBounds.Height;
-            
-            game.GraphicsDevice.Viewport = wholeScreenViewport;
+            // TODO: Move this method call to the constructor so that it is not called every frame
+            //       ...fix threading problems it causes when it is there.
+            InitializeViewports( game );                        
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
             game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
 
-            int maxPlayerNumber = 0;
+            SetPlayerViewports();
+
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
                 if (Player.players[playerIndex] != null)
                 {
-                    maxPlayerNumber = playerIndex + 1;
-                }
-            }
-
-            if (maxPlayerNumber == 2)
-            {
-                playerViewport.Width /= 2;
-            }
-            else if (maxPlayerNumber == 3 || maxPlayerNumber == 4)
-            {
-                playerViewport.Width /= 2;
-                playerViewport.Height /= 2;
-            }
-            for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
-            {
-                if (playerIndex % 2 == 0)
-                {
-                    playerViewport.X = 0;
-                }
-                else
-                {
-                    playerViewport.X = playerViewport.Width;
-                }
-
-                if (playerIndex == 2)
-                {
-                    playerViewport.Y = playerViewport.Height;
-                }
-                game.GraphicsDevice.Viewport = playerViewport;
-
-                if (Player.players[playerIndex] != null)
-                {
+                    Console.WriteLine("..." + Player.players[playerIndex].viewport);
+                    game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
                     renderObjects(scene.visible(Player.players[playerIndex].position), Player.players[playerIndex].getCameraLookAtMatrix());
-                    Vector2 scale = new Vector2(playerViewport.Width / 1024.0f, playerViewport.Height / 768.0f);
-                    Vector2 position = new Vector2(playerViewport.X, playerViewport.Y);
-                    Player.players[playerIndex].playerHUD.Draw(gameTime, position, scale, 0);
                 }
                 else
                 {
                     game.GraphicsDevice.Clear(Color.Orange);
                 }
             }
-            if( Player.players.Length == 3 )
-            {
-                playerViewport.X = playerViewport.Width;
-            }
-            
-
+                
             // TODO: Give interfaces for each player, and scale appropriately
             #region Interface rendering
             iface.Draw(gameTime, Vector2.Zero, Vector2.One, 0.0f);
             #endregion
 
-            game.GraphicsDevice.Viewport = wholeScreenViewport;
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
+        }
+
+        private static void SetPlayerViewports()
+        {
+            int numPlayers = 0;
+            for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
+            {
+                if (Player.players[playerIndex] != null)
+                {
+                    numPlayers++;
+                }
+            }
+            
+            if (numPlayers == 1)
+            {
+                for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
+                {
+                    if (Player.players[playerIndex] != null)
+                    {
+                        Player.players[playerIndex].viewport = Viewports.WholeWindow;
+                    }
+                }
+            } else if (numPlayers == 2) {
+                bool foundFirst = false;
+                for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
+                {
+                    if (Player.players[playerIndex] != null)
+                    {
+                        if (!foundFirst)
+                        {
+                            foundFirst = true;
+                            Player.players[playerIndex].viewport = Viewports.TopHalf;
+                        }
+                        else
+                        {
+                            Player.players[playerIndex].viewport = Viewports.BottomHalf;
+                        }
+                    }
+                }
+            } else if (numPlayers == 3 || numPlayers == 4)
+            {
+                if (Player.players[0] != null)
+                {
+                    Player.players[0].viewport = Viewports.TopLeft;
+                }
+                if (Player.players[1] != null)
+                {
+                    Player.players[1].viewport = Viewports.TopRight;
+                    Vector2 scale = new Vector2(playerViewport.Width / 1024.0f, playerViewport.Height / 768.0f);
+                    Vector2 position = new Vector2(playerViewport.X, playerViewport.Y);
+                    Player.players[playerIndex].playerHUD.Draw(gameTime, position, scale, 0);
+                }
+                if (Player.players[2] != null)
+                {
+                    Player.players[2].viewport = Viewports.BottomLeft;
+                }
+                if (Player.players[3] != null)
+                {
+                    Player.players[3].viewport = Viewports.BottomLeft;
+                }
+            }
         }
         
         #region GameObject rendering

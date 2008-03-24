@@ -40,7 +40,9 @@ namespace GammaDraconis
         protected override void Initialize()
         {
             GameLua = new GameLua();
+#if DEBUG
             DebugInterface = (Interface)GameLua.DoString("return dofile( 'Interfaces/DebugInterface/DebugInterface.lua' )")[0];
+#endif
             initializeGameScreens();
             IsFixedTimeStep = false;
             Window.AllowUserResizing = true;

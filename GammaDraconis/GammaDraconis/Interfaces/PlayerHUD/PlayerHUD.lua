@@ -31,6 +31,11 @@ hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
 hudBorder.RelativePosition = Vector2( 1024-256, 768 - 32 )
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
+--hudSprite = Sprite(GammaDraconis)
+--hudSprite.textureName = "Resources/Textures/MenuBackgrounds/MainMenu"
+--hudSprite.RelativePosition = Vector2(400, 400)
+--playerHUDs[playerHudIndex].interface:AddComponent(hudSprite)
+
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"

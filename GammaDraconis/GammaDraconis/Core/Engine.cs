@@ -55,6 +55,7 @@ namespace GammaDraconis.Core
         private Renderer gameRenderer;
         private Scene gameScene;
         private Interface gameInterface;
+        private Course course;
 
         /// <summary>
         /// Initializes the renderer, sets the renderer to focus on Helix, and tells
@@ -64,6 +65,13 @@ namespace GammaDraconis.Core
         {
             gameRenderer = new Renderer(game);
             gameScene = new Scene();
+
+            course = new Course();
+            for(int i = 0; i < 20; i++)
+            {
+                course.path.Add(new Coords(200.0f, -1200.0f, i * -1000.0f - 2800.0f)); 
+            }
+
 
             Player p = new Player(PlayerIndex.One);
             Player p2 = new Player(PlayerIndex.Two);

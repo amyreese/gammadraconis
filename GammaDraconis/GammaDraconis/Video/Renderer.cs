@@ -39,8 +39,7 @@ namespace GammaDraconis.Video
 
         public Renderer(GammaDraconis game) : base(game)
         {
-            aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
-                          (float)game.GraphicsDevice.Viewport.Height;
+            aspectRatio = 0;
             viewingAngle = 60f;
             viewingDistance = 1000000f;
 
@@ -115,7 +114,21 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
 
-            SetPlayerViewports();
+            int numPlayers = SetPlayerViewports();
+
+            if (aspectRatio == 0f)
+            {
+                if (numPlayers == 2)
+                {
+                    aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
+                          (float)game.GraphicsDevice.Viewport.Height * 2;
+                }
+                else
+                {
+                    aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
+                          (float)game.GraphicsDevice.Viewport.Height;
+                }
+            }
 
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
@@ -137,7 +150,7 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
         }
 
-        private static void SetPlayerViewports()
+        private static int SetPlayerViewports()
         {
             int numPlayers = 0;
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
@@ -193,6 +206,8 @@ namespace GammaDraconis.Video
                     Player.players[3].viewport = Viewports.BottomLeft;
                 }
             }
+
+            return numPlayers;
         }
         
         #region GameObject rendering

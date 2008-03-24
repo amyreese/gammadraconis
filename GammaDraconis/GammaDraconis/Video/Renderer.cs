@@ -16,9 +16,8 @@ namespace GammaDraconis.Video
     {
         // The aspect ratio determines how to scale 3d to 2d projection.
         public float aspectRatio;
-
-        // Set the position of the camera in world space, for our view matrix.
-        Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 1200.0f);
+        public float viewingAngle;
+        public float viewingDistance;
 
         public GammaDraconis game;
 
@@ -35,6 +34,9 @@ namespace GammaDraconis.Video
         {
             aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
                           (float)game.GraphicsDevice.Viewport.Height * 2;
+            viewingAngle = 60f;
+            viewingDistance = 900000f;
+
             this.game = game;
                       
             viewports = new Viewport[3];
@@ -169,8 +171,8 @@ namespace GammaDraconis.Video
                             effect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
                             //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
                             effect.View = cameraMatrix;
-                            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60.0f),
-                                aspectRatio, 1.0f, 90000.0f);
+                            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
+                                aspectRatio, 1.0f, viewingDistance);
                         }
                         // Draw the mesh, using the effects set above.
                         mesh.Draw();

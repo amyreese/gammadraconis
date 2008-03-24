@@ -83,6 +83,10 @@ namespace GammaDraconis.Core
             planet.models.Add(new FBXModel("Resources/Models/Planet", "", 50f));
             gameScene.track(planet, GO_TYPE.SCENERY);
 
+            GameObject skybox = new GameObject();
+            skybox.models.Add( new FBXModel("Resources/Models/Skybox", "", 10000f));
+            gameScene.track(skybox, GO_TYPE.SCENERY);
+
             gameInterface = new Interface(game);
             gameInterface.Enabled = true;
             gameInterface.Visible = true;

@@ -115,8 +115,7 @@ namespace GammaDraconis.Video
         public List<GameObject> visible(Coords vantage)
         {
             List<GameObject> temp = new List<GameObject>();
-            List<int> keys = (List<int>)objects.Keys;
-            foreach (int tempKey in keys)
+            foreach (int tempKey in objects.Keys)
             {
                 List<GameObject> atemp = (List<GameObject>)objects[tempKey];
                 foreach (GameObject gameobject in atemp)
@@ -137,8 +136,7 @@ namespace GammaDraconis.Video
         public List<GameObject> typedObjects(int ofType)
         {
             List<GameObject> tObjects = new List<GameObject>();
-            List<int> keys = (List<int>)objects.Keys;
-            foreach (int tempKey in keys)
+            foreach (int tempKey in objects.Keys)
             {
                 if ((tempKey & ofType) != 0)
                 {

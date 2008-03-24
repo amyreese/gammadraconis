@@ -1,3 +1,5 @@
+library( "InterfaceComponents/StatusBar" )
+
 if playerHUDs == nil then
 	playerHUDs = {}
 end
@@ -64,7 +66,10 @@ hudBorder.RelativePosition = Vector2( 1024, 768 - 256 )
 hudBorder.RelativeRotation = 3.14/2
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
-local test = 0
+playerHUDs[playerHudIndex].statBar = StatusBar.new()
+playerHUDs[playerHudIndex].statBar.addToInterface(playerHUDs[playerHudIndex].interface)
+playerHUDs[playerHudIndex].statBar.relocate( Vector2( 512-64, 64 ) )
+
 function playerHUDs1update(gameTime)
 	playerHUDs.update(gameTime, 1)
 end
@@ -78,8 +83,7 @@ function playerHUDs4update(gameTime)
 	playerHUDs.update(gameTime, 4)
 end
 function playerHUDs.update(gameTime, playerIndex)
-	test = test + 1
-	playerHUDs[playerIndex].testText.text = playerIndex .. "-" .. test
+	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length()/150)
 end
 
 return playerHUDs[playerHudIndex].interface

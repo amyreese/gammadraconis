@@ -103,6 +103,23 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resources\Textures\HUD\StatusBarBackground.png">
+      <Name>StatusBarBackground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Resources\Textures\HUD\StatusBarForeground.png">
+      <Name>StatusBarForeground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Resources\Textures\HUD\StatusBarOverlay.png">
+      <Name>StatusBarOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Resources\Audio\Music\" />
     <Folder Include="Resources\Effects\" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -12,16 +13,16 @@ namespace GammaDraconis.Video
     /// </summary>
     public static class GO_TYPE
     {
-        static public int SCENERY    = 1; // Never checked for thinking or physics, always drawn first and facing the viewer, uncollideable
-        static public int HUD        = 2;
-        static public int THINKABLE  = 4;
-        static public int MOVABLE    = 8;
+        static public int SCENERY = 1; // Never checked for thinking or physics, always drawn first and facing the viewer, uncollideable
+        static public int HUD = 2;
+        static public int THINKABLE = 4;
+        static public int MOVABLE = 8;
         static public int COLLIDABLE = 16;
 
         // Composite
         static public int GHOST = THINKABLE | MOVABLE;
         static public int NORMAL = THINKABLE | MOVABLE | COLLIDABLE;
-        
+
         static public int RACER = NORMAL;
         static public int BULLET = NORMAL ^ THINKABLE;
     }
@@ -32,15 +33,16 @@ namespace GammaDraconis.Video
     /// </summary>
     class Scene
     {
+        
         // References to all objects in the scene, *including* the player objects
-        private List<GameObject> objects;
-
+        private Hashtable objects;
+        
         /// <summary>
         /// Create a new Scene manager.
         /// </summary>
         public Scene()
         {
-            objects = new List<GameObject>();
+            objects = new Hashtable();
         }
 
         /// <summary>
@@ -50,19 +52,27 @@ namespace GammaDraconis.Video
         /// <param name="type">Item properties</param>
         public void track(GameObject gameObject, int type)
         {
-            // TODO: use a more complex system to track all the object types
-            objects.Add(gameObject);
+            if (objects.ContainsKey(type))
+            {
+                ((List<GameObject>)objects[type]).Add(gameObject);
+            }
+            else
+            {
+                List<GameObject> temp = new List<GameObject>();
+                temp.Add(gameObject);
+                objects.Add(type, temp);
+            }
         }
 
         /// <summary>
         /// Remove an existing item from the scene manager.
         /// </summary>
         /// <param name="gameObject">Item to be removed</param>
-        public void ignore(GameObject gameObject)
+        public void ignore(GameObject gameObject, int type)
         {
-            if (objects.Contains(gameObject))
+            if (objects.ContainsKey(type))
             {
-                objects.Remove(gameObject);
+                ((List<GameObject>)objects[type]).Remove(gameObject);
             }
         }
 
@@ -72,8 +82,8 @@ namespace GammaDraconis.Video
         /// <returns>GameObjects to check for collision</returns>
         public List<GameObject> collidable()
         {
-            // TODO: return an oct tree of objects
-            return objects;
+            List<GameObject> collidables = typedObjects(GO_TYPE.COLLIDABLE);
+            return collidables;
         }
 
         /// <summary>
@@ -82,7 +92,8 @@ namespace GammaDraconis.Video
         /// <returns>GameObjects to check for movement</returns>
         public List<GameObject> movable()
         {
-            return objects;
+            List<GameObject> movables = typedObjects(GO_TYPE.MOVABLE);
+            return movables;
         }
 
         /// <summary>
@@ -91,8 +102,8 @@ namespace GammaDraconis.Video
         /// <returns>GameObjects to think()</returns>
         public List<GameObject> thinkable()
         {
-            // TODO: only return appropriate objects
-            return objects;
+            List<GameObject> thinkables = typedObjects(GO_TYPE.THINKABLE);
+            return thinkables;
         }
 
         /// <summary>
@@ -103,8 +114,42 @@ namespace GammaDraconis.Video
         /// <returns>List of GameObjects to render</returns>
         public List<GameObject> visible(Coords vantage)
         {
-            // TODO: only return objects that should actually be drawn for this vantage point.
-            return objects;
+            List<GameObject> temp = new List<GameObject>();
+            List<int> keys = (List<int>)objects.Keys;
+            foreach (int tempKey in keys)
+            {
+                List<GameObject> atemp = (List<GameObject>)objects[tempKey];
+                foreach (GameObject gameobject in atemp)
+                {
+                    //TODO: Only return visible obljects
+                    temp.Add(gameobject);
+                }
+            }
+            return temp;
+        }
+
+        /// <summary>
+        /// Return a list of GameObjects that match a specialized type
+        /// or a generic type.
+        /// </summary>
+        /// <param name="ofType">Type which must be matched</param>
+        /// <returns>List of matching GameObjects</returns>
+        public List<GameObject> typedObjects(int ofType)
+        {
+            List<GameObject> tObjects = new List<GameObject>();
+            List<int> keys = (List<int>)objects.Keys;
+            foreach (int tempKey in keys)
+            {
+                if ((tempKey & ofType) != 0)
+                {
+                    List<GameObject> temp = (List<GameObject>)objects[tempKey];
+                    foreach(GameObject gameobject in temp)
+                    {
+                        tObjects.Add(gameobject);
+                    }
+                }
+            }
+            return tObjects;
         }
     }
 }

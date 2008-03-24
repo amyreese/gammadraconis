@@ -40,7 +40,7 @@ namespace GammaDraconis
         protected override void Initialize()
         {
             GameLua = new GameLua();
-            DebugInterface = (Interface)GameLua.DoFile("Interfaces\\DebugInterface\\DebugInterface.lua")[0];
+            DebugInterface = (Interface)GameLua.DoString("return dofile( 'Interfaces/DebugInterface/DebugInterface.lua' )")[0];
             initializeGameScreens();
             IsFixedTimeStep = false;
             Window.AllowUserResizing = true;
@@ -133,7 +133,7 @@ namespace GammaDraconis
         #region Debug Flags, Variables, and Helpers
 #if DEBUG
         // Flags
-        public static bool debugFramerate = true;
+        public static bool debugFramerate = false;
         public static bool debugCameraPosition = false;
         public static bool debugHelixPosition = false;
         public static bool debugCulling = false;

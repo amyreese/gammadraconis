@@ -87,12 +87,20 @@ end
 
         public object[] Call(string function, params object[] args)
         {
-            LuaFunction luaFunction = GetFunction(function);
-            if (luaFunction == null)
+            try
             {
-                throw new ArgumentException("Function '" + function + "' does not seem to exist in the Lua");
+                LuaFunction luaFunction = GetFunction(function);
+                if (luaFunction == null)
+                {
+                    throw new ArgumentException("Function '" + function + "' does not seem to exist in the Lua");
+                }
+                return luaFunction.Call(args);
             }
-            return luaFunction.Call(args);
+            catch (LuaException e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public void RegisterFunction(String luaFunctionPath, String cFunctionName, Object objectInstance)

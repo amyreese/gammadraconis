@@ -12,7 +12,7 @@ namespace GammaDraconis.Video
     /// The renderer handles converting a set of models and sprites 
     /// into screen graphics all fancy-like.
     /// </summary>
-    class Renderer
+    class Renderer : DrawableGameComponent
     {
         // The aspect ratio determines how to scale 3d to 2d projection.
         public float aspectRatio;
@@ -31,7 +31,7 @@ namespace GammaDraconis.Video
             BottomHalf = 2
         }
 
-        public Renderer(GammaDraconis game)
+        public Renderer(GammaDraconis game) : base(game)
         {
             aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
                           (float)game.GraphicsDevice.Viewport.Height * 2;
@@ -45,6 +45,11 @@ namespace GammaDraconis.Video
             viewports[(int)Viewports.BottomHalf].Y = viewports[(int)Viewports.BottomHalf].Height;
         }
 
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+        }
+
         /// <summary>
         /// Render a frame of video containing the given Scene and Interface.
         /// The Scene manager includes the world, and all contained models.
@@ -54,19 +59,70 @@ namespace GammaDraconis.Video
         /// <param name="iface">The menu or HUD interface</param>
         public void render(GameTime gameTime, Scene scene, Interface iface)
         {
-            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
-            game.GraphicsDevice.Clear(Color.Black);
-
-            game.GraphicsDevice.RenderState.DepthBufferEnable = true;
+            Viewport wholeScreenViewport = new Viewport();
+            wholeScreenViewport.X = 0;
+            wholeScreenViewport.Y = 0;
+            wholeScreenViewport.Width = game.Window.ClientBounds.Width;
+            wholeScreenViewport.Height = game.Window.ClientBounds.Height;
+            Viewport playerViewport = new Viewport();
+            playerViewport.X = 0;
+            playerViewport.Y = 0;
+            playerViewport.Width = game.Window.ClientBounds.Width;
+            playerViewport.Height = game.Window.ClientBounds.Height;
             
-            List<GameObject> objects = scene.visible(Player.players[0].position);
-                     
-            game.GraphicsDevice.Viewport = viewports[(int)Viewports.TopHalf];
-            Matrix cameraMatrix = Player.players[0].getCameraLookAtMatrix();
-            renderObjects( objects, cameraMatrix );
-            game.GraphicsDevice.Viewport = viewports[(int)Viewports.BottomHalf];
-            cameraMatrix = Matrix.Identity;
-            renderObjects(objects, cameraMatrix );
+            game.GraphicsDevice.Viewport = wholeScreenViewport;
+            game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+            game.GraphicsDevice.RenderState.DepthBufferEnable = true;
+
+            int maxPlayerNumber = 0;
+            for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
+            {
+                if (Player.players[playerIndex] != null)
+                {
+                    maxPlayerNumber = playerIndex + 1;
+                }
+            }
+            Console.WriteLine(maxPlayerNumber);
+            if (maxPlayerNumber == 2)
+            {
+                playerViewport.Width /= 2;
+            }
+            else if (maxPlayerNumber == 3 || maxPlayerNumber == 4)
+            {
+                playerViewport.Width /= 2;
+                playerViewport.Height /= 2;
+                Console.WriteLine(playerViewport.Height);
+            }
+            for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
+            {
+                if (playerIndex % 2 == 0)
+                {
+                    playerViewport.X = 0;
+                }
+                else
+                {
+                    playerViewport.X = playerViewport.Width;
+                }
+
+                if (playerIndex == 2)
+                {
+                    playerViewport.Y = playerViewport.Height;
+                }
+                game.GraphicsDevice.Viewport = playerViewport;
+
+                if (Player.players[playerIndex] != null)
+                {
+                    renderObjects(scene.visible(Player.players[playerIndex].position), Player.players[playerIndex].getCameraLookAtMatrix());
+                }
+                else
+                {
+                    game.GraphicsDevice.Clear(Color.Orange);
+                }
+            }
+            if( Player.players.Length == 3 )
+            {
+                playerViewport.X = playerViewport.Width;
+            }
             
 
             // TODO: Give interfaces for each player, and scale appropriately
@@ -74,7 +130,7 @@ namespace GammaDraconis.Video
             iface.Draw(gameTime, Vector2.Zero, Vector2.One, 0.0f);
             #endregion
 
-            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
+            game.GraphicsDevice.Viewport = wholeScreenViewport;
         }
         
         #region GameObject rendering

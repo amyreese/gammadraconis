@@ -66,10 +66,16 @@ namespace GammaDraconis.Core
             gameScene = new Scene();
 
             Player p = new Player(PlayerIndex.One);
+            Player p2 = new Player(PlayerIndex.Two);
+            Player p3 = new Player(PlayerIndex.Three);
+            p2.position = new Coords(200.0f, -1200.0f, 2800.0f);
+            p3.position = new Coords(200.0f, 1200.0f, 2800.0f);
             Racer r = new Racer();
             r.position = new Coords(200.0f, -1200.0f, -2800.0f);
             r.models[0].scale = 2f;
             gameScene.track(p, GO_TYPE.RACER);
+            gameScene.track(p2, GO_TYPE.RACER);
+            gameScene.track(p3, GO_TYPE.RACER);
             gameScene.track(r, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();

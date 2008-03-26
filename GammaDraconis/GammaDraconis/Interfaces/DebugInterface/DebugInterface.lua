@@ -2,7 +2,7 @@ debugInterface = Interface(GammaDraconis)
 debugInterface.UpdateCall = 'di.debugInterfaceUpdate'
 
 di = {}
-di.font = "Resources/Fonts/Menu"
+di.font = "Resources/Fonts/Debug"
 di.color = 1
 di.colors = { Color.White, Color.Red, Color.Green, Color.Blue, Color.Black }
 
@@ -83,25 +83,26 @@ function di.debugInterfaceUpdate(gameTime)
 		end
 		if di.debugPlayerPositions then
 			local y = 0
+			local yMod = 16
 			if Player.players[0] ~= nil then
 				di.debugPlayerOnePosition.RelativePosition = Vector2(0,y)
 				di.debugPlayerOnePosition.text = "P1: ( " .. Player.players[0].position:pos().X .. ", " .. Player.players[0].position:pos().Y .. ", " .. Player.players[0].position:pos().Z .. " )"
-				y = y + 32
+				y = y + yMod
 			end
 			if Player.players[1] ~= nil then
 				di.debugPlayerTwoPosition.RelativePosition = Vector2(0,y)
 				di.debugPlayerTwoPosition.text = "P2: ( " .. Player.players[1].position:pos().X .. ", " .. Player.players[1].position:pos().Y .. ", " .. Player.players[1].position:pos().Z .. " )"
-				y = y + 32
+				y = y + yMod
 			end
 			if Player.players[2] ~= nil then
 				di.debugPlayerThreePosition.RelativePosition = Vector2(0,y)
 				di.debugPlayerThreePosition.text = "P3: ( " .. Player.players[2].position:pos().X .. ", " .. Player.players[2].position:pos().Y .. ", " .. Player.players[2].position:pos().Z .. " )"
-				y = y + 32
+				y = y + yMod
 			end
 			if Player.players[3] ~= nil then
 				di.debugPlayerFourPosition.RelativePosition = Vector2(0,y)
 				di.debugPlayerFourPosition.text = "P4: ( " .. Player.players[3].position:pos().X .. ", " .. Player.players[3].position:pos().Y .. ", " .. Player.players[3].position:pos().Z .. " )"
-				y = y + 32
+				y = y + yMod
 			end
 		end
 	end

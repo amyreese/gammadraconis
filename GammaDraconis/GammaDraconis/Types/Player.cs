@@ -23,8 +23,8 @@ namespace GammaDraconis.Types
 
         public Interface playerHUD;
 
-        public Player(PlayerIndex index)
-            : base()
+        public Player(GammaDraconis game, PlayerIndex index)
+            : base( game )
         {
             this.index = index;
 

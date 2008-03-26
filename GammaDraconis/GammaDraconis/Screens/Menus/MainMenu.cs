@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using GammaDraconis.Video.GUI;
+using GammaDraconis.Types;
+using GammaDraconis.Video;
 
 namespace GammaDraconis.Screens.Menus
 {
     class MainMenu : MenuScreen
     {
+        Racer r;
         /// <summary>
         /// 
         /// </summary>
@@ -15,6 +18,19 @@ namespace GammaDraconis.Screens.Menus
         public MainMenu(GammaDraconis game)
             : base(game)
         {
+            r = new Racer(game);
+            r.position = new Coords(10000f, 0f, -6000f, 0.2f, 1.5f, 1f);
+            screenScene.track(r, GO_TYPE.RACER);
+
+            GameObject planet = new GameObject();
+            planet.position = new Coords(20000f, -10000f, -50000f);
+            planet.models.Add(new FBXModel(game, "Resources/Models/Planet", "", 50f));
+            screenScene.track(planet, GO_TYPE.SCENERY);
+
+            GameObject skybox = new GameObject();
+            skybox.models.Add(new FBXModel(game, "Resources/Models/Skybox", "", 10000f));
+            // TODO: add skybox when rendering is fixed
+            //screenScene.track(skybox, GO_TYPE.SCENERY);
         }
 
         /// <summary>
@@ -61,7 +77,7 @@ namespace GammaDraconis.Screens.Menus
         /// <returns>The name of the background image</returns>
         protected override string GetBackgroundImageName()
         {
-            return "Resources/Textures/MenuBackgrounds/MainMenu";
+            return null;
         }
 
         /// <summary>
@@ -91,6 +107,16 @@ namespace GammaDraconis.Screens.Menus
         protected override void Cancel()
         {
             ItemSelected(Commands.Play);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            r.position.T *= Matrix.CreateTranslation((float)(-5000.0f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1000.0f * gameTime.ElapsedGameTime.TotalSeconds), 0);
+            if (r.position.pos().X < -10000)
+            {
+                r.position.T = Matrix.CreateTranslation(10000f, 0f, -6000f);
+            }
+            base.Update(gameTime);
         }
     }
 }

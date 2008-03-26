@@ -12,7 +12,7 @@ namespace GammaDraconis.Video
     /// three-dimensional mesh that can be drawn by the renderer.
     /// A model should also contain its own collision mesh.
     /// </summary>
-    class FBXModel
+    class FBXModel : DrawableGameComponent
     {
         // The .fbx model represented by this object
         public Model model;
@@ -25,17 +25,24 @@ namespace GammaDraconis.Video
         // Model scaling
         public float scale;
 
-        public FBXModel(string filename) : this(filename, "") { }
-        public FBXModel(string filename, string effect) : this(filename, effect, 1f) { }
-        public FBXModel(string filename, string effect, float scale)
+        public FBXModel(GammaDraconis game, string filename) : this(game, filename, "") { }
+        public FBXModel(GammaDraconis game, string filename, string effect) : this(game, filename, effect, 1f) { }
+        public FBXModel(GammaDraconis game, string filename, string effect, float scale) : base(game)
         {
             this.filename = filename;
             this.effect = effect;
             this.scale = scale;
             offset = new Coords();
+            game.Components.Add(this);
         }
 
         // Offset position/rotation, relative to the *game object's* identity matrix
         public Coords offset;
+
+        protected override void LoadContent()
+        {
+            model = Game.Content.Load<Model>(filename);
+            base.LoadContent();
+        }
     }
 }

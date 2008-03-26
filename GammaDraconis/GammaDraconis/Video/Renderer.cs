@@ -136,10 +136,9 @@ namespace GammaDraconis.Video
                 {
                     Console.WriteLine("..." + Player.players[playerIndex].viewport);
                     game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
-                    renderObjects(scene.visible(Player.players[playerIndex].position), Player.players[playerIndex].getCameraLookAtMatrix());
+                    scene.render(gameTime, Player.players[playerIndex].position, Player.players[playerIndex].getCameraLookAtMatrix(), viewingAngle, viewingDistance);
                     Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);
-                    Vector2 position = Vector2.Zero;
-                    Player.players[playerIndex].playerHUD.Draw(gameTime, position, scale, 0);
+                    Player.players[playerIndex].playerHUD.Draw(gameTime, Vector2.Zero, scale, 0);
                 }
                 else
                 {
@@ -210,49 +209,5 @@ namespace GammaDraconis.Video
             return numPlayers;
         }
         
-        #region GameObject rendering
-        private void renderObjects(List<GameObject> objects, Matrix cameraMatrix )
-        {
-            Matrix worldMatrix = Matrix.Identity;
-            Matrix objectMatrix, subObjectMatrix, modelMatrix;
-
-            foreach (GameObject gameObject in objects)
-            {
-                objectMatrix = worldMatrix * gameObject.position.matrix();
-
-                foreach (FBXModel fbxmodel in gameObject.models)
-                {
-                    modelMatrix =  Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
-
-                    Model model = fbxmodel.model;
-                    if (model == null)
-                    {
-                        fbxmodel.model = model = game.Content.Load<Model>(fbxmodel.filename);
-                    }
-
-                    // Copy any parent transforms.
-                    Matrix[] transforms = new Matrix[model.Bones.Count];
-                    model.CopyAbsoluteBoneTransformsTo(transforms);
-
-                    // Draw the model. A model can have multiple meshes, so loop.
-                    foreach (ModelMesh mesh in model.Meshes)
-                    {
-                        // This is where the mesh orientation is set, as well as our camera and projection.
-                        foreach (BasicEffect effect in mesh.Effects)
-                        {
-                            effect.EnableDefaultLighting();
-                            effect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
-                            //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-                            effect.View = cameraMatrix;
-                            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
-                                aspectRatio, 1.0f, viewingDistance);
-                        }
-                        // Draw the mesh, using the effects set above.
-                        mesh.Draw();
-                    }
-                }
-            }
-        }
-        #endregion
     }
 }

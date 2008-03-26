@@ -15,10 +15,10 @@ namespace GammaDraconis.Types
     {
         public string name;
 
-        public Racer()
+        public Racer(GammaDraconis game)
             : base()
         {
-            models.Add(new FBXModel("Resources/Models/Raptor"));
+            models.Add(new FBXModel(game, "Resources/Models/Raptor"));
         }
     }
 }

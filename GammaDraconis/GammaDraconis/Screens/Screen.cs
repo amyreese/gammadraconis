@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Video.GUI;
+using GammaDraconis.Video;
 using GammaDraconis.Core.Input;
+using GammaDraconis.Types;
 
 namespace GammaDraconis.Screens
 {
@@ -23,6 +25,11 @@ namespace GammaDraconis.Screens
         protected Interface screenInterface;
 
         /// <summary>
+        /// The scene for the screen
+        /// </summary>
+        protected Scene screenScene;
+
+        /// <summary>
         /// Input manager
         /// </summary>
         protected static MenuInput input = new MenuInput();
@@ -35,6 +42,7 @@ namespace GammaDraconis.Screens
             : base(game)
         {
             gammaDraconis = game;
+            screenScene = new Scene();
             screenInterface = new Interface(gammaDraconis);
             screenInterface.Visible = Visible;
         }
@@ -82,11 +90,12 @@ namespace GammaDraconis.Screens
         /// </summary>
         /// <param name="gameTime">GameTime for this draw</param>
         /// <param name="clearScreen">Flag to determine if the screen should be cleared or not</param>
-        protected void Draw(GameTime gameTime, bool clearScreen)
+        protected void Draw(GameTime gameTime, bool clearScreenAndDrawScene)
         {
-            if (clearScreen)
+            if (clearScreenAndDrawScene)
             {
                 GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+                screenScene.render(gameTime, new Coords(), Matrix.Identity, 60.0f, 1000000.0f);
             }
             Vector2 scale = new Vector2(Game.Window.ClientBounds.Width / 1024.0f, Game.Window.ClientBounds.Height / 768.0f);
             screenInterface.Draw(gameTime, Vector2.Zero, scale, 0);

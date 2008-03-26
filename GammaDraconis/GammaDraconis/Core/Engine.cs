@@ -72,39 +72,39 @@ namespace GammaDraconis.Core
             }
 
 
-            Player p = new Player(PlayerIndex.One);
+            Player p = new Player(game, PlayerIndex.One);
             gameScene.track(p, GO_TYPE.RACER);
 
             /**/
-            Player p2 = new Player(PlayerIndex.Two);
+            Player p2 = new Player(game, PlayerIndex.Two);
             p2.position = new Coords(200.0f, -1200.0f, 2800.0f);
             gameScene.track(p2, GO_TYPE.RACER);
             /**/
 
             /**/
-            Player p3 = new Player(PlayerIndex.Three);
+            Player p3 = new Player(game, PlayerIndex.Three);
             p3.position = new Coords(200.0f, 1200.0f, 2800.0f);
             gameScene.track(p3, GO_TYPE.RACER);
             /**/
 
             /**/
-            Player p4 = new Player(PlayerIndex.Four);
+            Player p4 = new Player(game, PlayerIndex.Four);
             p4.position = new Coords(200.0f, 1200.0f, -2800.0f);
             gameScene.track(p4, GO_TYPE.RACER);
             /**/
             
-            Racer r = new Racer();
+            Racer r = new Racer(game);
             r.position = new Coords(200.0f, -1200.0f, -2800.0f);
             r.models[0].scale = 2f;
             gameScene.track(r, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
             planet.position = new Coords(0f, 0f, -50000f);
-            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 50f));
+            planet.models.Add(new FBXModel(game, "Resources/Models/Planet", "", 50f));
             gameScene.track(planet, GO_TYPE.SCENERY);
 
             GameObject skybox = new GameObject();
-            skybox.models.Add( new FBXModel("Resources/Models/Skybox", "", 10000f));
+            skybox.models.Add(new FBXModel(game, "Resources/Models/Skybox", "", 10000f));
             gameScene.track(skybox, GO_TYPE.SCENERY);
         }
 

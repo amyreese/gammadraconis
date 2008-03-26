@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Video.GUI;
 using GammaDraconis.Types;
 using GammaDraconis.Video;
@@ -10,7 +11,9 @@ namespace GammaDraconis.Screens.Menus
 {
     class MainMenu : MenuScreen
     {
-        Racer r;
+        Racer racer;
+        GameObject skybox;
+
         /// <summary>
         /// 
         /// </summary>
@@ -18,20 +21,27 @@ namespace GammaDraconis.Screens.Menus
         public MainMenu(GammaDraconis game)
             : base(game)
         {
-            r = new Racer(game);
-            r.position = new Coords(10000f, 0f, -6000f, 0.2f, 1.5f, 1f);
-            r.models[0].scale *= 500;
-            screenScene.track(r, GO_TYPE.RACER);
+            skybox = new GameObject();
+            skybox.models.Add(new FBXModel(game, "Resources/Models/Skybox", "", 400 * 10000f));
+            screenScene.track(skybox, GO_TYPE.SCENERY);
+
+            racer = new Racer(game);
+            racer.position = new Coords(10000f, -650f, -6000f, 0.2f, 1.5f, 1f);
+            racer.models[0].scale *= 500;
+            screenScene.track(racer, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
             planet.position = new Coords(20000f, -10000f, -50000f);
             planet.models.Add(new FBXModel(game, "Resources/Models/Planet", "", 500 * 50f));
             screenScene.track(planet, GO_TYPE.SCENERY);
 
-            GameObject skybox = new GameObject();
-            skybox.models.Add(new FBXModel(game, "Resources/Models/Skybox", "", 500 * 10000f));
-            // TODO: add skybox when rendering is fixed
-            //screenScene.track(skybox, GO_TYPE.SCENERY);
+            Text NameText = new Text(game);
+            NameText.text = "Gamma Draconis";
+            NameText.RelativeRotation = 0.2f;
+            NameText.RelativePosition = new Vector2(300.0f, 8.0f);
+            NameText.spriteFontName = "Resources/Fonts/Title";
+            NameText.color = Color.White;
+            screenInterface.AddComponent(NameText);
         }
 
         /// <summary>
@@ -112,10 +122,10 @@ namespace GammaDraconis.Screens.Menus
 
         public override void Update(GameTime gameTime)
         {
-            r.position.T *= Matrix.CreateTranslation((float)(-5000.0f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1000.0f * gameTime.ElapsedGameTime.TotalSeconds), 0);
-            if (r.position.pos().X < -10000)
+            racer.position.T *= Matrix.CreateTranslation((float)(-5000.0f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1000.0f * gameTime.ElapsedGameTime.TotalSeconds), 0);
+            if (racer.position.pos().X < -10000)
             {
-                r.position.T = Matrix.CreateTranslation(10000f, 0f, -6000f);
+                racer.position.T = Matrix.CreateTranslation(10000f, -650f, -6000f);
             }
             base.Update(gameTime);
         }

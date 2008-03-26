@@ -117,16 +117,26 @@ namespace GammaDraconis.Video
         public List<GameObject> visible(Coords vantage)
         {
             List<GameObject> temp = new List<GameObject>();
+            List<GameObject> tempScenery = new List<GameObject>();
             foreach (int tempKey in objects.Keys)
             {
                 List<GameObject> atemp = (List<GameObject>)objects[tempKey];
                 foreach (GameObject gameobject in atemp)
                 {
-                    //TODO: Only return visible obljects
-                    temp.Add(gameobject);
+                    // TODO: Only return visible obljects
+                    // TODO: Order things properly
+                    if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
+                    {
+                        tempScenery.Add(gameobject);
+                    }
+                    else
+                    {
+                        temp.Add(gameobject);
+                    }
                 }
             }
-            return temp;
+            tempScenery.AddRange(temp);
+            return tempScenery;
         }
 
         /// <summary>

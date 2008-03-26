@@ -134,7 +134,6 @@ namespace GammaDraconis.Video
             {
                 if (Player.players[playerIndex] != null)
                 {
-                    Console.WriteLine("..." + Player.players[playerIndex].viewport);
                     game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
                     scene.render(gameTime, Player.players[playerIndex].position, Player.players[playerIndex].getCameraLookAtMatrix(), viewingAngle, viewingDistance);
                     Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);

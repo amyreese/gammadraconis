@@ -48,13 +48,16 @@ namespace GammaDraconis.Core
 
             // Initialize the Renderer
             SetupGameRenderer();
+
+            //Setup a course
+            SetupCourse();
         }
         #endregion
 
         #region Rendering
         private Renderer gameRenderer;
         private Scene gameScene;
-        private Course course;
+        
 
         /// <summary>
         /// Initializes the renderer, sets the renderer to focus on Helix, and tells
@@ -64,13 +67,6 @@ namespace GammaDraconis.Core
         {
             gameRenderer = new Renderer(game);
             gameScene = new Scene();
-
-            course = new Course();
-            for(int i = 0; i < 20; i++)
-            {
-                course.path.Add(new Coords(200.0f, -1200.0f, i * -1000.0f - 2800.0f)); 
-            }
-
 
             Player p = new Player(game, PlayerIndex.One);
             gameScene.track(p, GO_TYPE.RACER);
@@ -132,6 +128,21 @@ namespace GammaDraconis.Core
         }
 
         #region AI
+
+        private Course course;
+
+        /// <summary>
+        /// Set up the course for AI's to follow.  This should be moved later
+        /// </summary>
+        public void SetupCourse()
+        {
+            course = new Course();
+            for (int i = 0; i < 20; i++)
+            {
+                course.path.Add(new Coords(200.0f * i, -1200.0f * i, i * -1000.0f - 2800.0f));
+            }
+        }
+
         /// <summary>
         /// Handles input and initiates the AI for all the characters
         /// </summary>
@@ -142,6 +153,15 @@ namespace GammaDraconis.Core
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.think(gameTime);
+
+                //Make the object follow the course
+                /*if (gameObject is Racer && !(gameObject is Player))
+                {
+                    //gameObject.throttle(1.0f);
+                    //Matrix temp = Matrix.Subtract(course.path[0].T, gameObject.velocity.T);
+                    //temp.Translation.Normalize();
+                    //gameObject.velocity.T = Matrix.CreateTranslation(temp.Translation);
+                }*/
             }
         }
         #endregion

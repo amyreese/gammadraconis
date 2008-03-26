@@ -20,15 +20,16 @@ namespace GammaDraconis.Screens.Menus
         {
             r = new Racer(game);
             r.position = new Coords(10000f, 0f, -6000f, 0.2f, 1.5f, 1f);
+            r.models[0].scale *= 500;
             screenScene.track(r, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
             planet.position = new Coords(20000f, -10000f, -50000f);
-            planet.models.Add(new FBXModel(game, "Resources/Models/Planet", "", 50f));
+            planet.models.Add(new FBXModel(game, "Resources/Models/Planet", "", 500 * 50f));
             screenScene.track(planet, GO_TYPE.SCENERY);
 
             GameObject skybox = new GameObject();
-            skybox.models.Add(new FBXModel(game, "Resources/Models/Skybox", "", 10000f));
+            skybox.models.Add(new FBXModel(game, "Resources/Models/Skybox", "", 500 * 10000f));
             // TODO: add skybox when rendering is fixed
             //screenScene.track(skybox, GO_TYPE.SCENERY);
         }

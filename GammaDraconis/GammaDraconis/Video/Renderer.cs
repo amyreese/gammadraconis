@@ -203,7 +203,7 @@ namespace GammaDraconis.Video
                 }
                 if (Player.players[3] != null)
                 {
-                    Player.players[3].viewport = Viewports.BottomLeft;
+                    Player.players[3].viewport = Viewports.BottomRight;
                 }
             }
 

@@ -65,7 +65,7 @@ namespace GammaDraconis.Core
         /// </summary>
         private void SetupGameRenderer()
         {
-            gameRenderer = new Renderer(game);
+            gameRenderer = GammaDraconis.renderer;
             gameScene = new Scene();
 
             Player p = new Player(game, PlayerIndex.One);

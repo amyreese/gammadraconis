@@ -32,7 +32,10 @@ namespace GammaDraconis.Types
             R = Quaternion.CreateFromYawPitchRoll(b, a, g);
         }
         public Coords(float x, float y, float z) : this(x, y, z, 0, 0, 0) { }
-        public Coords() : this(0, 0, 0, 0, 0, 0) { }
+        public Coords() : this(0, 0, 0, 0, 0, 0) {
+            T = Matrix.Identity;
+            R = Quaternion.Identity;
+        }
 
         /// <summary>
         /// Get a Vector3 object containing this object's rotation.
@@ -56,6 +59,16 @@ namespace GammaDraconis.Types
         public Matrix matrix()
         {
             return Matrix.CreateFromQuaternion(R) * T;
+        }
+
+        /// <summary>
+        /// Get a camera matrix for a Coords object.
+        /// </summary>
+        /// <returns>Camera matrix</returns>
+        internal Matrix camera()
+        {
+            Matrix m = Matrix.CreateTranslation(0f, 0f, -1f) * Matrix.CreateFromQuaternion(R);
+            return Matrix.CreateLookAt(new Vector3(0,0,0), new Vector3(0,0,-100), Vector3.Up);
         }
     }
 }

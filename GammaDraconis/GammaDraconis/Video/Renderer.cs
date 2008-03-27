@@ -46,13 +46,16 @@ namespace GammaDraconis.Video
             this.game = game;
             game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);          
             viewports = new Viewport[9];
-            //InitializeViewports(game);
-            
+
+            reset();
         }
-        
 
+        public void reset()
+        {
+            InitializeViewports();
+        }
 
-        private void InitializeViewports(GammaDraconis game)
+        private void InitializeViewports()
         {
             viewports[(int)Viewports.WholeWindow] = new Viewport();
             viewports[(int)Viewports.WholeWindow].X = 0;
@@ -95,7 +98,7 @@ namespace GammaDraconis.Video
 
         private void Window_ClientSizeChanged(object sender, EventArgs e)
         {
-            InitializeViewports(game);
+            InitializeViewports();
         }
 
         /// <summary>
@@ -103,39 +106,26 @@ namespace GammaDraconis.Video
         /// The Scene manager includes the world, and all contained models.
         /// The interface is drawn last to show a Menu or HUD.
         /// </summary>
+        /// <param name="gameTime">Game time</param>
         /// <param name="scene">The scene manager</param>
-        /// <param name="iface">The menu or HUD interface</param>
         public void render(GameTime gameTime, Scene scene)
         {
-            // TODO: Move this method call to the constructor so that it is not called every frame
-            //       ...fix threading problems it causes when it is there.
-            InitializeViewports( game );                        
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
             game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
 
             int numPlayers = SetPlayerViewports();
 
-            if (aspectRatio == 0f)
-            {
-                if (numPlayers == 2)
-                {
-                    aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
-                          (float)game.GraphicsDevice.Viewport.Height * 2;
-                }
-                else
-                {
-                    aspectRatio = (float)game.GraphicsDevice.Viewport.Width /
-                          (float)game.GraphicsDevice.Viewport.Height;
-                }
-            }
-
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
                 if (Player.players[playerIndex] != null)
                 {
                     game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
-                    scene.render(gameTime, Player.players[playerIndex].position, Player.players[playerIndex].getCameraLookAtMatrix(), viewingAngle, viewingDistance);
+                    aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
+
+                    List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].position);
+                    renderObjects(gameObjects, Player.players[playerIndex].getCameraLookAtMatrix());
+
                     Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);
                     Player.players[playerIndex].playerHUD.Draw(gameTime, Vector2.Zero, scale, 0);
                 }
@@ -146,6 +136,66 @@ namespace GammaDraconis.Video
             }
 
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
+        }
+
+        /// <summary>
+        /// Render a scene in the entire window from an arbirtrary vantage point.
+        /// </summary>
+        /// <param name="gameTime">Game time</param>
+        /// <param name="scene">The scene manager</param>
+        /// <param name="coords">The position to view the scene from</param>
+        public void render(GameTime gameTime, Scene scene, Coords coords)
+        {
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
+            game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+            game.GraphicsDevice.RenderState.DepthBufferEnable = true;
+            aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
+
+            List<GameObject> gameObjects = scene.visible(coords);
+            renderObjects(gameObjects, coords.camera());
+        }
+
+        /// <summary>
+        /// Render a set of objects with a given camera matrix.
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="cameraMatrix"></param>
+        private void renderObjects(List<GameObject> objects, Matrix cameraMatrix)
+        {
+            Matrix worldMatrix = Matrix.Identity;
+            Matrix objectMatrix, modelMatrix;
+
+            foreach (GameObject gameObject in objects)
+            {
+                objectMatrix = worldMatrix * gameObject.position.matrix();
+
+                foreach (FBXModel fbxmodel in gameObject.models)
+                {
+                    modelMatrix = Matrix.CreateScale(fbxmodel.scale / 500) * objectMatrix * fbxmodel.offset.matrix();
+
+                    Model model = fbxmodel.model;
+
+                    // Copy any parent transforms.
+                    Matrix[] transforms = new Matrix[model.Bones.Count];
+                    model.CopyAbsoluteBoneTransformsTo(transforms);
+                    // Draw the model. A model can have multiple meshes, so loop.
+                    foreach (ModelMesh mesh in model.Meshes)
+                    {
+                        // This is where the mesh orientation is set, as well as our camera and projection.
+                        foreach (BasicEffect effect in mesh.Effects)
+                        {
+                            effect.EnableDefaultLighting();
+                            effect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
+                            //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+                            effect.View = cameraMatrix;
+                            effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
+                                GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 1.0f, viewingDistance);
+                        }
+                        // Draw the mesh, using the effects set above.
+                        mesh.Draw();
+                    }
+                }
+            }
         }
 
         private static int SetPlayerViewports()

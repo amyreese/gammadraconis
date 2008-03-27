@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Storage;
 using GammaDraconis.Screens;
 using GammaDraconis.Core;
 using GammaDraconis.Core.Input;
+using GammaDraconis.Video;
 using GammaDraconis.Video.GUI;
 
 namespace GammaDraconis
@@ -23,12 +24,17 @@ namespace GammaDraconis
     {
         public GraphicsDeviceManager graphics;
 
+        // One renderer to rule them all
+        internal static Renderer renderer;
+
         public GammaDraconis()
         {
             graphics = new GraphicsDeviceManager(this);
 
             Audio.init();
             Input.reset();
+
+            renderer = new Renderer(this);
         }
 
         /// <summary>
@@ -49,6 +55,9 @@ namespace GammaDraconis
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
             graphics.ApplyChanges();
+
+            renderer.reset();
+
             base.Initialize();
         }
 

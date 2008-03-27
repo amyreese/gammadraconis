@@ -51,25 +51,25 @@ namespace GammaDraconis.Types
 
         public void throttle(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            amount = MathHelper.Clamp(amount, -1f, 1f);
             acceleration.T *= Matrix.CreateTranslation(0f, 0f, -rateA * amount);
         }
 
         public void pitch(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            amount = MathHelper.Clamp(amount, -1f, 1f);
             acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rateR * amount);
         }
 
         public void roll(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            amount = MathHelper.Clamp(amount, -1f, 1f);
             acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rateR * amount);
         }
 
         public void yaw(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f) / Engine.gameTime.ElapsedGameTime.Milliseconds;
+            amount = MathHelper.Clamp(amount, -1f, 1f);
             acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rateR * amount);
         }
     }

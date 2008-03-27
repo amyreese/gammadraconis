@@ -204,24 +204,13 @@ namespace GammaDraconis.Core
             foreach (GameObject gameObject in gameObjects)
             {
                 // Rotational drag
-                float drag = (0.9f - 0.0008f * gameObject.drag);
-                gameObject.velocity.R = Quaternion.Slerp(Quaternion.Identity, gameObject.velocity.R, drag);
-
+                
                 // Linear drag
-                float speed = gameObject.velocity.pos().Length();
-                drag = (0.95f - 0.0015f * gameObject.drag) + Math.Min(0.04f, speed * 0.001f);
-                gameObject.velocity.T = Matrix.CreateTranslation(Vector3.Multiply(gameObject.velocity.pos(), drag));
-
+                
                 // Apply acceleration to velocity
-                gameObject.velocity.R *= gameObject.acceleration.R;
-                Vector3 velocity = gameObject.velocity.pos();
-                velocity += Vector3.Transform(gameObject.acceleration.pos(), Matrix.CreateFromQuaternion(gameObject.position.R));
-                gameObject.velocity.T = Matrix.CreateTranslation(velocity);
                 
                 // Apply velocity to position
-                gameObject.position.R *= gameObject.velocity.R;
-                gameObject.position.T *= gameObject.velocity.T;
-
+                
                 // Zero acceleration
                 gameObject.acceleration.R = Quaternion.Identity;
                 gameObject.acceleration.T = Matrix.Identity;

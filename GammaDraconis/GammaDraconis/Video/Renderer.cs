@@ -110,10 +110,6 @@ namespace GammaDraconis.Video
         /// <param name="scene">The scene manager</param>
         public void render(GameTime gameTime, Scene scene)
         {
-            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
-            game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
-            game.GraphicsDevice.RenderState.DepthBufferEnable = true;
-
             int numPlayers = SetPlayerViewports();
 
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
@@ -121,6 +117,8 @@ namespace GammaDraconis.Video
                 if (Player.players[playerIndex] != null)
                 {
                     game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
+                    game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+                    game.GraphicsDevice.RenderState.DepthBufferEnable = true;
                     aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
                     List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].position);

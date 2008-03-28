@@ -83,7 +83,7 @@ function playerHUDs4update(gameTime)
 	playerHUDs.update(gameTime, 4)
 end
 function playerHUDs.update(gameTime, playerIndex)
-	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length()/150)
+	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length())
 end
 
 return playerHUDs[playerHudIndex].interface

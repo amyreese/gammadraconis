@@ -30,12 +30,13 @@ namespace GammaDraconis.Types
         public Coords acceleration;
 
         // Movement limits
-        public float rateA = 25f;
-        public float rateR = 0.1f;
+        public float rateL = 100f;
+        public float rateR = 100f;
 
         // Physical properties
         public int mass = 1000;
-        public float drag = 1.0f;
+        public float dragL = 1f;
+        public float dragR = 3f;
 
         // Visual properties
         public List<FBXModel> models;
@@ -49,28 +50,44 @@ namespace GammaDraconis.Types
         // Behaviors
         public virtual void think(GameTime gameTime) { }
 
+        /// <summary>
+        /// Linearly accelerate the ship along the beam at the given amount of throttle.
+        /// </summary>
+        /// <param name="amount">Throttle amount clamped between -1f and 1f</param>
         public void throttle(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f);
-            acceleration.T *= Matrix.CreateTranslation(0f, 0f, -rateA * amount);
+            amount = -MathHelper.Clamp(amount, -1f, 1f);
+            acceleration.T *= Matrix.CreateTranslation(0f, 0f, amount);
         }
 
+        /// <summary>
+        /// Rotationally accelerate to pitch the ship up or down.
+        /// </summary>
+        /// <param name="amount">Stick amount clamped between -1f and 1f</param>
         public void pitch(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f);
-            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Right, -rateR * amount);
+            amount = -MathHelper.Clamp(amount, -1f, 1f) * 0.1f;
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Right, amount);
         }
 
+        /// <summary>
+        /// Rotationally accelerate to roll the ship clockwise or counter-clockwise.
+        /// </summary>
+        /// <param name="amount">Stick amount clamped between -1f and 1f</param>
         public void roll(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f);
-            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, -rateR * amount);
+            amount = -MathHelper.Clamp(amount, -1f, 1f) * 0.1f;
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, amount);
         }
 
+        /// <summary>
+        /// Rotationally accelerate to yaw the ship left or right.
+        /// </summary>
+        /// <param name="amount">Stick amount clamped between -1f and 1f</param>
         public void yaw(float amount)
         {
-            amount = MathHelper.Clamp(amount, -1f, 1f);
-            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Up, -rateR * amount);
+            amount = -MathHelper.Clamp(amount, -1f, 1f) * 0.1f;
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Up, amount);
         }
     }
 }

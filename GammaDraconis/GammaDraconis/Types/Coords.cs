@@ -46,6 +46,10 @@ namespace GammaDraconis.Types
             return T.Translation;
         }
 
+        /// <summary>
+        /// Get a Vector3 object containing this object's up vector.
+        /// </summary>
+        /// <returns></returns>
         public Vector3 up()
         {
             Vector3 v = Matrix.CreateFromQuaternion(R).Up;
@@ -65,10 +69,19 @@ namespace GammaDraconis.Types
         /// Get a camera matrix for a Coords object.
         /// </summary>
         /// <returns>Camera matrix</returns>
-        internal Matrix camera()
+        public Matrix camera()
         {
             Matrix m = Matrix.CreateTranslation(0f, 0f, -1f) * Matrix.CreateFromQuaternion(R);
             return Matrix.CreateLookAt(new Vector3(0,0,0), new Vector3(0,0,-100), Vector3.Up);
+        }
+
+        /// <summary>
+        /// Get a string representation of the Coords object.
+        /// </summary>
+        /// <returns>String</returns>
+        public override string ToString()
+        {
+            return "{{ " + R.ToString() + " || " + T.Translation.ToString() + " }}";
         }
     }
 }

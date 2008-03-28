@@ -73,13 +73,13 @@ namespace GammaDraconis.Core
 
             /**/
             Player p2 = new Player(game, PlayerIndex.Two);
-            p2.position = new Coords(200.0f, -1200.0f, 2800.0f);
+            p2.position = new Coords(20.0f, -12.0f, 28.0f);
             gameScene.track(p2, GO_TYPE.RACER);
             /**/
 
             /**/
             Player p3 = new Player(game, PlayerIndex.Three);
-            p3.position = new Coords(200.0f, 1200.0f, 2800.0f);
+            p3.position = new Coords(20.0f, 12.0f, 28.0f);
             gameScene.track(p3, GO_TYPE.RACER);
             /**/
 
@@ -95,7 +95,7 @@ namespace GammaDraconis.Core
             gameScene.track(r, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
-            planet.position = new Coords(0f, 0f, -50000f);
+            planet.position = new Coords(0f, 0f, -50f);
             planet.models.Add(new FBXModel(game, "Resources/Models/Planet", "", 50f));
             gameScene.track(planet, GO_TYPE.SCENERY);
 
@@ -203,14 +203,35 @@ namespace GammaDraconis.Core
 
             foreach (GameObject gameObject in gameObjects)
             {
-                // Rotational drag
+                // Calculate timesteps
+                float timestep = gameTime.ElapsedGameTime.Milliseconds / 1000f; // Target 1+ fps
+
+                // Calculate drag
+                float dragL = gameObject.dragL;
+                float dragR = gameObject.dragR;
+                dragL *= timestep;
+                dragR *= timestep;
                 
-                // Linear drag
+                // Subtract drag from velocity
+                gameObject.velocity.R = Quaternion.Slerp(Quaternion.Identity, gameObject.velocity.R, 1 - dragR);
+                gameObject.velocity.T = mScale(gameObject.velocity.T, 1 - dragL);
                 
                 // Apply acceleration to velocity
-                
+                gameObject.velocity.R *= Quaternion.Slerp(Quaternion.Identity, gameObject.acceleration.R, timestep);
+
+                Matrix deltaV = mScale(gameObject.acceleration.T, timestep);
+                deltaV = deltaV * Matrix.CreateFromQuaternion(gameObject.position.R);
+                gameObject.velocity.T *= Matrix.CreateTranslation(deltaV.Translation);
+
                 // Apply velocity to position
-                
+                Quaternion rotation = Quaternion.Slerp(Quaternion.Identity, gameObject.velocity.R, timestep);
+                rotation = qScale(rotation, gameObject.rateR);
+                gameObject.position.R *= rotation;
+
+                Matrix deltaP = mScale(gameObject.velocity.T, timestep);
+                deltaP = mScale(deltaP, gameObject.rateL);
+                gameObject.position.T *= deltaP;
+
                 // Zero acceleration
                 gameObject.acceleration.R = Quaternion.Identity;
                 gameObject.acceleration.T = Matrix.Identity;
@@ -225,6 +246,43 @@ namespace GammaDraconis.Core
         /// </summary>
         private void Cleanup()
         {
+        }
+
+        /// <summary>
+        /// Scale a quaternion by an arbitrary factor.
+        /// </summary>
+        /// <param name="q">Quaternion to be scaled</param>
+        /// <param name="s">The scaling factor</param>
+        /// <returns>Scaled quaternion</returns>
+        private Quaternion qScale(Quaternion q, float s)
+        {
+            Quaternion q1 = Quaternion.Identity;
+
+            while (s > 1)
+            {
+                q1 *= q;
+                s -= 1f;
+            }
+
+            if (s > 0)
+            {
+                q1 = Quaternion.Slerp(q1, q1 * q, s);
+            }
+
+            return q1;
+        }
+
+        /// <summary>
+        /// Scale a translation matrix by an arbitrary factor.
+        /// </summary>
+        /// <param name="m">Translation matrix to be scaled</param>
+        /// <param name="s">The scaling factor</param>
+        /// <returns>Scaled translation matrix</returns>
+        private Matrix mScale(Matrix m, float s)
+        {
+            Vector3 v = m.Translation;
+            v = Vector3.Multiply(v, s);
+            return Matrix.CreateTranslation(v);
         }
     }
 }

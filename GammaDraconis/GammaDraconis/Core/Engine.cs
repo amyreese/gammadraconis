@@ -106,7 +106,7 @@ namespace GammaDraconis.Core
 
             GameObject skybox = new GameObject();
             skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 500*10000f));
-            gameScene.track(skybox, GO_TYPE.SCENERY);
+            gameScene.track(skybox, GO_TYPE.SKYBOX);
         }
 
         /// <summary>

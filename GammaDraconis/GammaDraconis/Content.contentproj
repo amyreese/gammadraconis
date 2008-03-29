@@ -84,6 +84,11 @@
     <None Include="Resources\Audio\Sound\Plink_09.wav">
       <Name>Plink_09</Name>
     </None>
+    <Compile Include="Resources\Models\Checkpoint.fbx">
+      <Name>Checkpoint</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <Compile Include="Resources\Fonts\Title.spritefont">
       <Name>Title</Name>
       <Importer>FontDescriptionImporter</Importer>

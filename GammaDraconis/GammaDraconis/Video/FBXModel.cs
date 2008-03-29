@@ -25,15 +25,15 @@ namespace GammaDraconis.Video
         // Model scaling
         public float scale;
 
-        public FBXModel(GammaDraconis game, string filename) : this(game, filename, "") { }
-        public FBXModel(GammaDraconis game, string filename, string effect) : this(game, filename, effect, 1f) { }
-        public FBXModel(GammaDraconis game, string filename, string effect, float scale) : base(game)
+        public FBXModel(string filename) : this(filename, "") { }
+        public FBXModel(string filename, string effect) : this(filename, effect, 1f) { }
+        public FBXModel(string filename, string effect, float scale) : base(GammaDraconis.GetInstance())
         {
             this.filename = filename;
             this.effect = effect;
             this.scale = scale;
             offset = new Coords();
-            game.Components.Add(this);
+            GammaDraconis.GetInstance().Components.Add(this);
         }
 
         // Offset position/rotation, relative to the *game object's* identity matrix

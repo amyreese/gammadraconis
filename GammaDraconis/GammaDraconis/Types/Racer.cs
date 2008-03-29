@@ -18,7 +18,7 @@ namespace GammaDraconis.Types
         public Racer(GammaDraconis game)
             : base()
         {
-            models.Add(new FBXModel(game, "Resources/Models/Raptor"));
+            models.Add(new FBXModel("Resources/Models/Raptor"));
         }
     }
 }

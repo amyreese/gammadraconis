@@ -94,13 +94,18 @@ namespace GammaDraconis.Core
             r.models[0].scale = 2f;
             gameScene.track(r, GO_TYPE.RACER);
 
+            GameObject checkpoint = new GameObject();
+            checkpoint.position = new Coords(75f, 0f, -75f, 0f, (float)(1.25f * Math.PI), 0f);
+            checkpoint.models.Add(new FBXModel("Resources/Models/Checkpoint", "", 10f));
+            gameScene.track(checkpoint, GO_TYPE.HUD);
+
             GameObject planet = new GameObject();
             planet.position = new Coords(0f, 0f, -50f);
-            planet.models.Add(new FBXModel(game, "Resources/Models/Planet", "", 50f));
+            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 50f));
             gameScene.track(planet, GO_TYPE.SCENERY);
 
             GameObject skybox = new GameObject();
-            skybox.models.Add(new FBXModel(game, "Resources/Models/Skybox", "", 500*10000f));
+            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 500*10000f));
             gameScene.track(skybox, GO_TYPE.SCENERY);
         }
 

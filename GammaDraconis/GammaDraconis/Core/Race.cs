@@ -45,8 +45,9 @@ namespace GammaDraconis.Core
         public Coords coord(Racer racer, int offset)
         {
             int[] info = status(racer);
+            return new Coords();
         }
-        public Coords nextCoord(Racer racer) { coord(racer, 1); }
+        public Coords nextCoord(Racer racer) { return coord(racer, 1); }
 
         /// <summary>
         /// Update the current status of the Race manager.
@@ -66,6 +67,7 @@ namespace GammaDraconis.Core
             int[] info = new int[2];
             info[0] = status / length;
             info[1] = status % length;
+            return info;
         }
     }
 }

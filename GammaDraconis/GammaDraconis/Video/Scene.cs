@@ -128,30 +128,40 @@ namespace GammaDraconis.Video
                 List<GameObject> atemp = (List<GameObject>)objects[tempKey];
                 foreach (GameObject gameobject in atemp)
                 {
-                    //TODO: Verify I'm using the correct matrices.
-                    Vector3 goVector = gameobject.position.matrix().Translation;
-                    Vector3 vantVector = vantage.matrix().Forward;
-                    float dx = goVector.X * vantVector.X > 0 ? goVector.X - vantVector.X : -1 * (goVector.X - vantVector.X);
-                    float dy = goVector.Y * vantVector.Y > 0 ? goVector.Y - vantVector.Y : -1 * (goVector.Y - vantVector.Y);
-                    float dz = goVector.Z * vantVector.Z > 0 ? goVector.Z - vantVector.Z : -1 * (goVector.Z - vantVector.Z);
-                    
-                    float frustX = (float)Math.Tan(viewAngle/2)*dz;
-                    float frustY = frustX * aspRatio;
+                    // Take care of some quick cases before doing any math.
+                    if(typedObjects(GO_TYPE.SKYBOX).Contains(gameobject) || gameobject is Player)
+                    {
+                        temp.Add(gameobject);
+                    }
+                    else
+                    {
+                        //TODO: Verify I'm using the correct matrices.
+                        Vector3 goVector = gameobject.position.matrix().Translation;
+                        Vector3 vantVector = vantage.matrix().Forward;
+                        float dx = goVector.X * vantVector.X > 0 ? goVector.X - vantVector.X : -1 * (goVector.X - vantVector.X);
+                        float dy = goVector.Y * vantVector.Y > 0 ? goVector.Y - vantVector.Y : -1 * (goVector.Y - vantVector.Y);
+                        float dz = goVector.Z * vantVector.Z > 0 ? goVector.Z - vantVector.Z : -1 * (goVector.Z - vantVector.Z);
+                        
+                        float frustX = (float)Math.Tan(viewAngle/2)*dz;
+                        float frustY = frustX * aspRatio;
 
-                    if (typedObjects(GO_TYPE.SKYBOX).Contains(gameobject) || ((0 < dz || dz < viewDist) && dx < frustX && dy < frustY))
-                    {
-                        temp.Add(gameobject);
-                    }/*
-                    //TODO: Look at objects size
-                    else if ((0< dz + gammeobject.size || dz - gammeobject.size ) && dx - gammeobject.size < frustX && dy - gammeobject.size < frustY)
-                    {
-                        temp.Add(gameobject);
-                    }*/
-                    //Uncomment this to see unsorted results
-                    /*else
-                    {
-                        temp.Add(gameobject);
-                    }*/
+                        if ((0 < dz || dz < viewDist) && dx < frustX && dy < frustY)
+                        {
+                            temp.Add(gameobject);
+                        }
+
+                        /*
+                        //TODO: Look at objects size
+                        else if ((0< dz + gammeobject.size || dz - gammeobject.size ) && dx - gammeobject.size < frustX && dy - gammeobject.size < frustY)
+                        {
+                            temp.Add(gameobject);
+                        }*/
+                        //Uncomment this to see unsorted results
+                        /*else
+                        {
+                            temp.Add(gameobject);
+                        }*/
+                    }
                 }
             }
             return temp;

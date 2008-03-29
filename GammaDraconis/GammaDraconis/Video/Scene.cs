@@ -14,11 +14,12 @@ namespace GammaDraconis.Video
     /// </summary>
     public static class GO_TYPE
     {
-        static public int SCENERY = 1; // Never checked for thinking or physics, always drawn first and facing the viewer, uncollideable
-        static public int HUD = 2;
-        static public int THINKABLE = 4;
-        static public int MOVABLE = 8;
-        static public int COLLIDABLE = 16;
+        static public int SKYBOX = 1;
+        static public int SCENERY = 2; // Never checked for thinking or physics, always drawn first and facing the viewer, uncollideable
+        static public int HUD = 4;
+        static public int THINKABLE = 8;
+        static public int MOVABLE = 16;
+        static public int COLLIDABLE = 32;
 
         // Composite
         static public int GHOST = THINKABLE | MOVABLE;
@@ -118,6 +119,10 @@ namespace GammaDraconis.Video
         {
             List<GameObject> temp = new List<GameObject>();
             List<GameObject> tempScenery = new List<GameObject>();
+            float aspRatio = GammaDraconis.renderer.aspectRatio;
+            float viewAngle = GammaDraconis.renderer.viewingAngle;
+            float viewDist = GammaDraconis.renderer.viewingDistance;
+            
             foreach (int tempKey in objects.Keys)
             {
                 List<GameObject> atemp = (List<GameObject>)objects[tempKey];
@@ -125,18 +130,23 @@ namespace GammaDraconis.Video
                 {
                     // TODO: Only return visible obljects
                     // TODO: Order things properly
-                    if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
-                    {
-                        tempScenery.Add(gameobject);
-                    }
-                    else
+
+                    Vector3 goVector = gameobject.position.matrix().Forward;
+                    Vector3 vantVector = vantage.matrix().Forward;
+                    float dx = goVector.X - vantVector.X;
+                    float dy = goVector.Y - vantVector.Y;
+                    float dz = goVector.Z - vantVector.Z;
+
+                    float frustX = (float)Math.Tan(viewAngle/2)*dz;
+                    float frustY = frustX * aspRatio;
+
+                    if (typedObjects(GO_TYPE.SKYBOX).Contains(gameobject) || ((0 < dz || dz< viewDist) && (0 < dx||dx < frustX ) && (0 < dy || dy< frustY)))
                     {
                         temp.Add(gameobject);
                     }
                 }
             }
-            tempScenery.AddRange(temp);
-            return tempScenery;
+            return temp;
         }
 
         /// <summary>

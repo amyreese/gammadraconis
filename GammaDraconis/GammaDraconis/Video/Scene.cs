@@ -117,11 +117,15 @@ namespace GammaDraconis.Video
         /// <returns>List of GameObjects to render</returns>
         public List<GameObject> visible(Coords vantage)
         {
+
             List<GameObject> temp = new List<GameObject>();
             List<GameObject> tempScenery = new List<GameObject>();
             float aspRatio = GammaDraconis.renderer.aspectRatio;
             float viewAngle = GammaDraconis.renderer.viewingAngle;
             float viewDist = GammaDraconis.renderer.viewingDistance;
+
+            // TODO: Figure out what the proper matrices for this are.
+            BoundingFrustum viewFrustum = new BoundingFrustum(vantage.camera() * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
             
             foreach (int tempKey in objects.Keys)
             {
@@ -129,12 +133,18 @@ namespace GammaDraconis.Video
                 foreach (GameObject gameobject in atemp)
                 {
                     // Take care of some quick cases before doing any math.
-                    if(typedObjects(GO_TYPE.SKYBOX).Contains(gameobject) || gameobject is Player)
+                    if(typedObjects(GO_TYPE.SKYBOX).Contains(gameobject))
                     {
                         temp.Add(gameobject);
                     }
                     else
                     {
+                        // TODO: Use size of the object
+                        if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), 1.0f)) != ContainmentType.Disjoint)
+                        {
+                            temp.Add(gameobject);
+                        }
+                        /*
                         //TODO: Verify I'm using the correct matrices.
                         Vector3 goVector = gameobject.position.matrix().Translation;
                         Vector3 vantVector = vantage.matrix().Forward;
@@ -149,6 +159,7 @@ namespace GammaDraconis.Video
                         {
                             temp.Add(gameobject);
                         }
+                         * */
 
                         /*
                         //TODO: Look at objects size

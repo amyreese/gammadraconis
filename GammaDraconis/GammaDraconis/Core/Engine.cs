@@ -85,12 +85,12 @@ namespace GammaDraconis.Core
 
             /**/
             Player p4 = new Player(game, PlayerIndex.Four);
-            p4.position = new Coords(200.0f, 1200.0f, -2800.0f);
+            p4.position = new Coords(20.0f, 12.0f, -28.0f);
             gameScene.track(p4, GO_TYPE.RACER);
             /**/
             
             Racer r = new Racer(game);
-            r.position = new Coords(200.0f, -1200.0f, -2800.0f);
+            r.position = new Coords(20.0f, -12.0f, -28.0f);
             r.models[0].scale = 2f;
             gameScene.track(r, GO_TYPE.RACER);
 
@@ -142,10 +142,12 @@ namespace GammaDraconis.Core
         public void SetupCourse()
         {
             course = new Course();
-            for (int i = 0; i < 20; i++)
+            for (int pathIndex = 0; pathIndex < 5; pathIndex++)
             {
-                course.path.Add(new Coords(200.0f * i, -1200.0f * i, i * -1000.0f - 2800.0f));
+                course.path.Add(new Coords(20.0f * pathIndex, 12.0f * pathIndex, -28.0f * pathIndex,10,45,0));
+                //TODO: Make each coordinate point at the next coordinate
             }
+            
         }
 
         /// <summary>
@@ -160,13 +162,23 @@ namespace GammaDraconis.Core
                 gameObject.think(gameTime);
 
                 //Make the object follow the course
-                /*if (gameObject is Racer && !(gameObject is Player))
+                if (gameObject is Racer && !(gameObject is Player))
                 {
-                    //gameObject.throttle(1.0f);
-                    //Matrix temp = Matrix.Subtract(course.path[0].T, gameObject.velocity.T);
-                    //temp.Translation.Normalize();
-                    //gameObject.velocity.T = Matrix.CreateTranslation(temp.Translation);
-                }*/
+                    
+                    gameObject.throttle(1.0f);
+                    //gameObject.acceleration.R = course.path[0].R;
+                    Vector3 temp = Vector3.Subtract(course.path[0].pos(), gameObject.position.pos());
+                    temp.Normalize();
+                    gameObject.velocity.T.Translation = temp;
+
+                    //TODO: When the ship reaches a point, make it smoothly go for the next point
+                    if (Vector3.Distance(course.path[0].pos(), gameObject.position.pos()) < 10)
+                    {
+                        Coords temp1 = course.path[0];
+                        course.path.RemoveAt(0);
+                        course.path.Add(temp1);
+                    }
+                }
             }
         }
         #endregion

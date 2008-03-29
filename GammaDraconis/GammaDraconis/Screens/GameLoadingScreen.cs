@@ -34,14 +34,6 @@ namespace GammaDraconis.Screens
             loadingText.spriteFontName = "Resources/Fonts/Menu";
             loadingText.RelativePosition = new Vector2(game.Window.ClientBounds.Width / 2 - loadingTextValue.Length * 8.0f, game.Window.ClientBounds.Height / 2 - 32.0f);
             screenInterface.AddComponent(loadingText);
-            //new Thread(TestScreen).Start();
-        }
-
-        private void TestScreen()
-        {
-            ready = false;
-            Thread.Sleep(5000);
-            ready = true;
         }
 
         /// <summary>

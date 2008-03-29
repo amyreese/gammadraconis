@@ -50,7 +50,7 @@ namespace GammaDraconis.Core
             SetupGameRenderer();
 
             //Setup a course
-            SetupCourse();
+            SetupCourse( mapName );
         }
         #endregion
 
@@ -58,7 +58,6 @@ namespace GammaDraconis.Core
         private Renderer gameRenderer;
         private Scene gameScene;
         
-
         /// <summary>
         /// Initializes the renderer, sets the renderer to focus on Helix, and tells
         /// it where the bounds of the map are so the camera doesn't move too far
@@ -66,47 +65,6 @@ namespace GammaDraconis.Core
         private void SetupGameRenderer()
         {
             gameRenderer = GammaDraconis.renderer;
-            gameScene = new Scene();
-
-            Player p = new Player(game, PlayerIndex.One);
-            gameScene.track(p, GO_TYPE.RACER);
-
-            /**/
-            Player p2 = new Player(game, PlayerIndex.Two);
-            p2.position = new Coords(20.0f, -12.0f, 28.0f);
-            gameScene.track(p2, GO_TYPE.RACER);
-            /**/
-
-            /**/
-            Player p3 = new Player(game, PlayerIndex.Three);
-            p3.position = new Coords(20.0f, 12.0f, 28.0f);
-            gameScene.track(p3, GO_TYPE.RACER);
-            /**/
-
-            /**/
-            Player p4 = new Player(game, PlayerIndex.Four);
-            p4.position = new Coords(20.0f, 12.0f, -28.0f);
-            gameScene.track(p4, GO_TYPE.RACER);
-            /**/
-            
-            Racer r = new Racer(game);
-            r.position = new Coords(20.0f, -12.0f, -28.0f);
-            r.models[0].scale = 2f;
-            gameScene.track(r, GO_TYPE.RACER);
-
-            GameObject checkpoint = new GameObject();
-            checkpoint.position = new Coords(75f, 0f, -75f, 0f, (float)(1.25f * Math.PI), 0f);
-            checkpoint.models.Add(new FBXModel("Resources/Models/Checkpoint", "", 10f));
-            gameScene.track(checkpoint, GO_TYPE.HUD);
-
-            GameObject planet = new GameObject();
-            planet.position = new Coords(0f, 0f, -50f);
-            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 50f));
-            gameScene.track(planet, GO_TYPE.SCENERY);
-
-            GameObject skybox = new GameObject();
-            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 500*10000f));
-            gameScene.track(skybox, GO_TYPE.SKYBOX);
         }
 
         /// <summary>
@@ -139,9 +97,13 @@ namespace GammaDraconis.Core
         /// <summary>
         /// Set up the course for AI's to follow.  This should be moved later
         /// </summary>
-        public void SetupCourse()
+        public void SetupCourse(String mapName)
         {
+            gameScene = new Scene();
             course = new Course();
+
+            GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
+
             for (int pathIndex = 0; pathIndex < 5; pathIndex++)
             {
                 course.path.Add(new Coords(20.0f * pathIndex, 12.0f * pathIndex, -28.0f * pathIndex));

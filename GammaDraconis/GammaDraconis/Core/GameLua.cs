@@ -26,7 +26,7 @@ Rectangle = import('Microsoft.Xna.Framework.Rectangle')
 Vector2 = import('Microsoft.Xna.Framework.Vector2')
 Vector3 = import('Microsoft.Xna.Framework.Vector3')
 Color = import('Microsoft.Xna.Framework.Graphics.Color')
-
+PlayerIndex = import('Microsoft.Xna.Framework.PlayerIndex')
 using('GammaDraconis');
 
 GammaDraconis = import('GammaDraconis.GammaDraconis')
@@ -36,12 +36,26 @@ Interface = import('GammaDraconis.Video.GUI.Interface')
 Sprite = import('GammaDraconis.Video.GUI.Sprite')
 Text = import('GammaDraconis.Video.GUI.Text')
 
+Bullet = import('GammaDraconis.Types.Bullet')
+Coords = import('GammaDraconis.Types.Coords')
+Course = import('GammaDraconis.Types.Course')
+GameObject = import('GammaDraconis.Types.GameObject')
+MountPoint = import('GammaDraconis.Types.MountPoint')
 Player = import('GammaDraconis.Types.Player')
+Racer = import('GammaDraconis.Types.Racer')
+Turret = import('GammaDraconis.Types.Turret')
+Weapon = import('GammaDraconis.Types.Weapon')
 
 Input = import('GammaDraconis.Core.Input.Input')
+
+Engine = import('GammaDraconis.Core.Engine')
+
+GO_TYPE = import('GammaDraconis.Video.GO_TYPE')
+FBXModel = import('GammaDraconis.Video.FBXModel')
+Scene = import('GammaDraconis.Video.Scene')
             ";
 
-            DoLua(initCode);
+            DoString(initCode);
             #endregion
 
             #region Lua helper functions
@@ -54,10 +68,10 @@ function library( filename )
 end
 
 function include( filename )
-    dofile(mapPath .. filename)
+    dofile(mapPath .. filename ..'.lua')
 end
             ";
-            DoLua( funcCode );
+            DoString( funcCode );
             #endregion
 
             /* Register Function Sample
@@ -72,19 +86,13 @@ end
         {
             String mapPath = (mapName.Length > 0) ? ("Maps/" + mapName + "/") : ("");
             String mapCode = "mapPath = '" + mapPath + "'";
-            DoLua(mapCode);
+            DoString(mapCode);
         }
 
-        private void DoLua( string lua )
+        public void LoadMap(string mapName)
         {
-            try
-            {
-                DoString(lua);
-            }
-            catch (LuaException e)
-            {
-                GammaDraconis.debug(e.Message);
-            }
+            SetMap(mapName);
+            DoString("include( '" + mapName + "' )");
         }
 
         public object[] Call(string function, params object[] args)

@@ -7,7 +7,6 @@ hudColors = { Color.Red, Color.Blue, Color.Green, Color.Yellow }
 
 playerHUDs[playerHudIndex] = {}
 playerHUDs[playerHudIndex].interface = Interface(GammaDraconis)
-playerHUDs[playerHudIndex].interface.Enabled = true
 playerHUDs[playerHudIndex].interface.UpdateCall = "playerHUDs" .. playerHudIndex .. "update"
 
 playerHUDs[playerHudIndex].testText = Text(GammaDraconis)

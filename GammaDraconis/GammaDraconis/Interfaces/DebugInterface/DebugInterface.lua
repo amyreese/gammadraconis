@@ -55,7 +55,6 @@ debugInterface.Enabled = true
 debugInterface.RelativePosition = Vector2(5,0)
 
 function di.debugInterfaceUpdate(gameTime)
-	Input.update()
 	for i,v in ipairs(di.debugTexts) do
 		v.text = ""
 		v.color = di.colors[di.color]

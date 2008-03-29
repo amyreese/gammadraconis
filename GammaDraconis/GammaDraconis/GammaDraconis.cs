@@ -24,6 +24,8 @@ namespace GammaDraconis
     {
         public GraphicsDeviceManager graphics;
 
+        public bool GameStarted = false;
+
         // One renderer to rule them all
         internal static Renderer renderer;
 

@@ -20,11 +20,6 @@ namespace GammaDraconis.Screens
         // The game engine being used
         private Engine engine;
 
-        // Has the game has been started?
-        private bool started = false;
-
-        GammaDraconis game;
-
         /// <summary>
         /// Constructor for the screen
         /// </summary>
@@ -32,10 +27,7 @@ namespace GammaDraconis.Screens
         public GameScreen(GammaDraconis game)
             : base(game)
         {
-            this.game = game;
             ready = false;
-            // TODO: Remove this when we have proper loading.
-            ReloadEngine("");
         }
 
         #region Engine Loading
@@ -46,9 +38,10 @@ namespace GammaDraconis.Screens
         public void ReloadEngine(String map)
         {
             ready = false;
-            started = false;
             this.map = map;
-            new Thread(loadEngine).Start();
+            loadEngine();
+            // TODO: do this in a thread once we work out Lua threading issues
+            //new Thread(loadEngine).Start();
         }
 
         // The current map
@@ -59,7 +52,7 @@ namespace GammaDraconis.Screens
         /// </summary>
         protected void loadEngine()
         {
-            engine = new Engine(game, map);
+            engine = new Engine(gammaDraconis, map);
             ready = true;
         }
         #endregion
@@ -81,12 +74,6 @@ namespace GammaDraconis.Screens
         /// <param name="gameTime">GameTime for this update</param>
         public override void Update(GameTime gameTime)
         {
-            if (!started)
-            {
-                //Engine.player.load();
-                engine = new Engine(game, "");
-                started = true;
-            }
             engine.Update(gameTime);
 
             // TODO: Remove this once the game engine actually has input

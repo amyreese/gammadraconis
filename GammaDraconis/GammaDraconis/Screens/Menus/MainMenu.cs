@@ -99,6 +99,10 @@ namespace GammaDraconis.Screens.Menus
         {
             if (command.Equals(Commands.Play))
             {
+                if (!gammaDraconis.GameStarted)
+                {
+                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("SomebodysRefuge");
+                }
                 gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
             }
             else if (command.Equals(Commands.Quit))

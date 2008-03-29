@@ -74,6 +74,7 @@
     <Compile Include="Core\Input\PlayerInput.cs" />
     <Compile Include="Core\Input\Input.cs" />
     <Compile Include="Core\Input\MenuInput.cs" />
+    <Compile Include="Core\Race.cs" />
     <Compile Include="Screens\GameLoadingScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\LoadingScreen.cs" />

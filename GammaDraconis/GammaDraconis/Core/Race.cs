@@ -15,6 +15,7 @@ namespace GammaDraconis.Core
         private Course course;
         private int length;
         private bool loop;
+        private int laps;
 
         // The racers and their statuses
         private Dictionary<Racer, int> state;
@@ -24,11 +25,12 @@ namespace GammaDraconis.Core
         /// </summary>
         /// <param name="course">The race course</param>
         /// <param name="racers">The racers</param>
-        public Race(Course course, List<Racer> racers)
+        public Race(Course course, int laps, List<Racer> racers)
         {
             this.course = course;
             length = course.path.Count;
             loop = course.loop;
+            this.laps = (loop ? laps : 1);
 
             foreach (Racer racer in racers)
             {
@@ -41,13 +43,36 @@ namespace GammaDraconis.Core
         /// </summary>
         /// <param name="racer">The racer object</param>
         /// <param name="offset">How many coordinates forward in the race</param>
-        /// <returns></returns>
+        /// <returns>Coordinate object, or Null if past end of race</returns>
         public Coords coord(Racer racer, int offset)
         {
             int[] info = status(racer);
-            return new Coords();
+            int lap = info[0];
+            int point = info[1] + offset;
+            
+            while (point >= length)
+            {
+                if (!loop || lap >= laps)
+                {
+                    return null;
+                }
+
+                lap++;
+                point -= length;
+            }
+
+            return course.path[point];
         }
         public Coords nextCoord(Racer racer) { return coord(racer, 1); }
+
+        /// <summary>
+        /// See if there is a winner yet.
+        /// </summary>
+        /// <returns>Null if no winner, Racer object otherwise</returns>
+        public Racer winner()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Update the current status of the Race manager.

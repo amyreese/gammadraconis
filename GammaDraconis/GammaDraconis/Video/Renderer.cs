@@ -187,7 +187,7 @@ namespace GammaDraconis.Video
                             //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
                             effect.View = cameraMatrix;
                             effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
-                                GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 1.0f, viewingDistance);
+                                GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 0.1f, viewingDistance);
                         }
                         // Draw the mesh, using the effects set above.
                         mesh.Draw();

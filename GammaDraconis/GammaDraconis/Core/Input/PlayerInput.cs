@@ -18,8 +18,8 @@ namespace GammaDraconis.Core.Input
             public static String Down = "Down";
             public static String Left = "Left";
             public static String Right = "Right";
-            public static String YawLeft = "YawLeft";
-            public static String YawRight = "YawRight";
+            public static String RollLeft = "RollLeft";
+            public static String RollRight = "RollRight";
             public static String ThrottleUp = "ThrottleUp";
             public static String ThrottleDown = "ThrottleDown";
             public static String Fire1 = "Fire1";
@@ -30,6 +30,7 @@ namespace GammaDraconis.Core.Input
             public static String Yaw = "Yaw";
             public static String Pitch = "Pitch";
             public static String Roll = "Roll";
+            public static String Turn = "Turn"; 
             public static String Throttle = "Throttle";
 
             public static String CameraX = "CameraX";
@@ -45,14 +46,14 @@ namespace GammaDraconis.Core.Input
             // Default action assignments
             if (GamePad.GetCapabilities(playerIndex).IsConnected)
             {
-                inputAxis.Add(Commands.Roll, "LeftX");
+                inputAxis.Add(Commands.Turn, "LeftX");
                 inputAxis.Add(Commands.Pitch, "LeftY");
                 inputAxis.Add(Commands.Throttle, "Triggers");
                 inputAxis.Add(Commands.CameraX, "RightX");
                 inputAxis.Add(Commands.CameraY, "RightY");
-                
-                inputKeys.Add(Commands.YawLeft, "PadLB");
-                inputKeys.Add(Commands.YawRight, "PadRB");
+
+                inputKeys.Add(Commands.RollLeft, "PadLB");
+                inputKeys.Add(Commands.RollRight, "PadRB");
 
                 inputKeys.Add(Commands.Fire1, "PadA");
                 inputKeys.Add(Commands.Fire2, "PadB");
@@ -80,8 +81,8 @@ namespace GammaDraconis.Core.Input
                     inputKeys.Add(Commands.Down, "down");
                     inputKeys.Add(Commands.Left, "left");
                     inputKeys.Add(Commands.Right, "right");
-                    inputKeys.Add(Commands.YawLeft, "a");
-                    inputKeys.Add(Commands.YawRight, "d");
+                    inputKeys.Add(Commands.RollLeft, "a");
+                    inputKeys.Add(Commands.RollRight, "d");
                     inputKeys.Add(Commands.ThrottleUp, "w");
                     inputKeys.Add(Commands.ThrottleDown, "s");
                     inputKeys.Add(Commands.Fire1, "space");
@@ -93,8 +94,8 @@ namespace GammaDraconis.Core.Input
                     inputKeys.Add(Commands.Down, "numpad2");
                     inputKeys.Add(Commands.Left, "numpad4");
                     inputKeys.Add(Commands.Right, "numpad6");
-                    inputKeys.Add(Commands.YawLeft, "numpad7");
-                    inputKeys.Add(Commands.YawRight, "numpad9");
+                    inputKeys.Add(Commands.RollLeft, "numpad7");
+                    inputKeys.Add(Commands.RollRight, "numpad9");
                     inputKeys.Add(Commands.ThrottleUp, "numpad5");
                     inputKeys.Add(Commands.ThrottleDown, "numpad0");
                     inputKeys.Add(Commands.Fire1, "numpad1");

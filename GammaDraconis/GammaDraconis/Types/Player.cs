@@ -49,19 +49,19 @@ namespace GammaDraconis.Types
             }
             if (input.inputDown("Left"))
             {
-                roll(-1);
+                turn(-1);
             }
             if (input.inputDown("Right"))
             {
+                turn(1);
+            }
+            if (input.inputDown("RollLeft"))
+            {
+                roll(-1);
+            }
+            if (input.inputDown("RollRight"))
+            {
                 roll(1);
-            }
-            if (input.inputDown("YawLeft"))
-            {
-                yaw(-1);
-            }
-            if (input.inputDown("YawRight"))
-            {
-                yaw(1);
             }
 
             if (input.inputDown("ThrottleUp"))
@@ -77,6 +77,7 @@ namespace GammaDraconis.Types
             #region Gamepad input handling
             {
                 pitch(input.axis("Pitch"));
+                turn(input.axis("Turn"));
                 roll(input.axis("Roll"));
                 yaw(input.axis("Yaw"));
 

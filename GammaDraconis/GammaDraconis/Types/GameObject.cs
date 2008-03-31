@@ -97,8 +97,8 @@ namespace GammaDraconis.Types
         public void turn(float amount)
         {
             amount = -MathHelper.Clamp(amount, -1f, 1f) * 0.1f;
-            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Up, 0.5f * amount); // yaw
-            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, amount);  // roll
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Up, 1.0f * amount); // yaw
+            acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, 0.4f * amount);  // roll
         }
 
     }

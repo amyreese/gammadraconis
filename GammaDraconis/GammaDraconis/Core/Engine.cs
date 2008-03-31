@@ -122,39 +122,53 @@ namespace GammaDraconis.Core
                     Console.WriteLine(gameObject.position.pos());
                     gameObject.throttle(1.0f);
 
+                    Vector3 r = gameObject.position.pos();
+                    Vector3 cp = course.path[0].pos();
+                    Vector3 rprojection = Vector3.Multiply(r, -2);
+                    rprojection = Vector3.Add(r, rprojection);
+
+                    r = Vector3.Subtract(rprojection, r);
+                    cp = Vector3.Subtract(cp, r);
+                    r.Normalize();
+                    cp.Normalize();
+                    
+
                     //Find the angle between the Racer and the Checkpoint and put it into a Quaternion Q
-                    float d = Vector3.Dot(gameObject.position.pos(), course.path[0].pos());
-                    Vector3 axis = Vector3.Cross(gameObject.position.pos(), course.path[0].pos());
-                    float qw = (float)Math.Sqrt(gameObject.position.pos().LengthSquared() * course.path[0].pos().LengthSquared()) + d;
+                    float d = Vector3.Dot(r, cp);
+                    Vector3 axis = Vector3.Cross(r, cp);
+                    float qw = (float)Math.Sqrt(r.LengthSquared() * cp.LengthSquared()) + d;
                     Quaternion q;
-                    if (qw < 0.0001) {
-                        q = new Quaternion(gameObject.position.pos().X, gameObject.position.pos().Y, -gameObject.position.pos().Z, 0);
+                    if (qw < 0.0001)
+                    {
+                        q = new Quaternion(r.X, r.Y, -r.Z, 0);
                     }
-                    else {
+                    else
+                    {
                         q = new Quaternion(axis.X, axis.Y, axis.Z, qw);
                     }
                     q.Normalize();
 
                     //Convert the Quaternion q into Euler angles for Yaw, Pitch, and Roll
-                    double yaw = Math.Atan(2 * (q.X * q.Y + q.W * q.Z) / (q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z));
-                    double pitch = Math.Asin(-2 * (q.X * q.Z - q.W * q.Y));
-                    double roll = Math.Atan(2 * (q.W * q.X + q.Y * q.Z) / (q.W * q.W - q.X * q.X - q.Y * q.Y + q.Z * q.Z));
+                    float yaw = (float)Math.Atan(2 * (q.X * q.Y + q.W * q.Z) / (q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z));
+                    float pitch = (float)Math.Asin(-2 * (q.X * q.Z - q.W * q.Y));
+                    float roll = (float)Math.Atan(2 * (q.W * q.X + q.Y * q.Z) / (q.W * q.W - q.X * q.X - q.Y * q.Y + q.Z * q.Z));
+
 
                     //Change the rotations of the gameobject
-                    gameObject.yaw((float)yaw);
-                    gameObject.pitch((float)pitch);
-                    gameObject.roll((float)roll);
+                    gameObject.yaw(yaw);
+                    gameObject.pitch(pitch);
+                    gameObject.roll(roll);
 
 
-                    /*gameObject.acceleration.R = course.path[0].R;
-                    Vector3 temp = Vector3.Subtract(course.path[0].pos(), gameObject.position.pos());
-                    temp.Normalize();
-                    Quaternion q = Quaternion.CreateFromYawPitchRoll(temp.Y, temp.X, temp.Z);
-                    Quaternion q1 = gameObject.position.R;
-                    q = Quaternion.Lerp(q,q1,4.0f);
-                    gameObject.yaw(q.Y * q.W);
-                    gameObject.pitch(q.X * q.W);
-                    gameObject.roll(q.Z * q.W);*/
+                    //gameObject.acceleration.R = course.path[0].R;
+                    //Vector3 temp = Vector3.Subtract(course.path[0].pos(), gameObject.position.pos());
+                    //temp.Normalize();
+                    //Quaternion q = Quaternion.CreateFromYawPitchRoll(temp.Y, temp.X, temp.Z);
+                    //Quaternion q1 = gameObject.position.R;
+                    //q = Quaternion.Lerp(q,q1,4.0f);
+                    //gameObject.yaw(q.Y * q.W);
+                    //gameObject.pitch(q.X * q.W);
+                    //gameObject.roll(q.Z * q.W);
 
                     //TODO: When the ship reaches a point, make it smoothly go for the next point
                     if (Vector3.Distance(course.path[0].pos(), gameObject.position.pos()) < 10)

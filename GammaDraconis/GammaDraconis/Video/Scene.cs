@@ -124,8 +124,10 @@ namespace GammaDraconis.Video
             float viewAngle = GammaDraconis.renderer.viewingAngle;
             float viewDist = GammaDraconis.renderer.viewingDistance;
 
+            Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
+
             // TODO: Figure out what the proper matrices for this are.
-            BoundingFrustum viewFrustum = new BoundingFrustum(vantage.camera() * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
+            BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
             
             foreach (int tempKey in objects.Keys)
             {

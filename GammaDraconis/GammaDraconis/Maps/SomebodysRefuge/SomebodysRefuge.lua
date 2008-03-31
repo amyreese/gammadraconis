@@ -14,7 +14,7 @@ gameScene:track(p3, GO_TYPE.RACER);
 p4 = Player(GammaDraconis, PlayerIndex.Four);
 p4.position = Coords(20.0, 12.0, -28.0);
 gameScene:track(p4, GO_TYPE.RACER);
-            
+
 r = Racer(GammaDraconis);
 r.position = Coords(20.0, -12.0, -28.0);
 r.models[0].scale = 2;
@@ -32,4 +32,4 @@ gameScene:track(planet, GO_TYPE.SCENERY);
 
 skybox = GameObject();
 skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 500*10000));
-gameScene:track(skybox, GO_TYPE.SCENERY);
+gameScene:track(skybox, GO_TYPE.SKYBOX);

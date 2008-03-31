@@ -142,7 +142,7 @@ namespace GammaDraconis.Video
                     else
                     {
                         // TODO: Use size of the object
-                        if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), 1.0f)) != ContainmentType.Disjoint)
+                        if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
                         {
                             temp.Add(gameobject);
                         }

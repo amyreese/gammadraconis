@@ -38,6 +38,8 @@ namespace GammaDraconis.Types
 
         public override void think(GameTime gameTime)
         {
+            playerHUD.Update(gameTime);
+
             #region Keyboard input handling
             if (input.inputDown("Up"))
             {

@@ -49,6 +49,7 @@ Weapon = import('GammaDraconis.Types.Weapon')
 Input = import('GammaDraconis.Core.Input.Input')
 
 Engine = import('GammaDraconis.Core.Engine')
+Race = import('GammaDraconis.Core.Race')
 
 GO_TYPE = import('GammaDraconis.Video.GO_TYPE')
 FBXModel = import('GammaDraconis.Video.FBXModel')

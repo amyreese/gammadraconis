@@ -9,10 +9,17 @@ playerHUDs[playerHudIndex] = {}
 playerHUDs[playerHudIndex].interface = Interface(GammaDraconis)
 playerHUDs[playerHudIndex].interface.UpdateCall = "playerHUDs" .. playerHudIndex .. "update"
 
-playerHUDs[playerHudIndex].testText = Text(GammaDraconis)
-playerHUDs[playerHudIndex].testText.spriteFontName = "Resources/Fonts/Menu"
-playerHUDs[playerHudIndex].testText.color = Color.White
-playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].testText)
+playerHUDs[playerHudIndex].lapText = Text(GammaDraconis)
+playerHUDs[playerHudIndex].lapText.spriteFontName = "Resources/Fonts/Menu"
+playerHUDs[playerHudIndex].lapText.color = Color.White
+playerHUDs[playerHudIndex].lapText.RelativePosition = Vector2( 416, 16 )
+playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].lapText)
+
+playerHUDs[playerHudIndex].checkpointText = Text(GammaDraconis)
+playerHUDs[playerHudIndex].checkpointText.spriteFontName = "Resources/Fonts/Menu"
+playerHUDs[playerHudIndex].checkpointText.color = Color.White
+playerHUDs[playerHudIndex].checkpointText.RelativePosition = Vector2( 512, 16 )
+playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].checkpointText)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
@@ -83,6 +90,9 @@ function playerHUDs4update(gameTime)
 end
 function playerHUDs.update(gameTime, playerIndex)
 	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length())
+	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
+	playerHUDs[playerIndex].lapText.text = "Lap: " .. status.lap
+	playerHUDs[playerIndex].checkpointText.text = "CP: " .. status.checkpoint
 end
 
 return playerHUDs[playerHudIndex].interface

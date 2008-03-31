@@ -86,25 +86,12 @@ namespace GammaDraconis.Core
         {
             Engine.gameTime = gameTime;
 
+            race.update();
             Think(gameTime);
             Physics(gameTime);
         }
 
         #region AI
-
-        private Course course;
-
-        /// <summary>
-        /// Set up the course for AI's to follow.  This should be moved later
-        /// </summary>
-        public void SetupCourse(String mapName)
-        {
-            gameScene = new Scene();
-            course = new Course();
-
-            GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
-        }
-
         /// <summary>
         /// Handles input and initiates the AI for all the characters
         /// </summary>
@@ -119,7 +106,7 @@ namespace GammaDraconis.Core
                 //Make the object follow the course
                 if (gameObject is Racer && !(gameObject is Player))
                 {
-                    Console.WriteLine(gameObject.position.pos());
+                    //Console.WriteLine(gameObject.position.pos());
                     gameObject.throttle(1.0f);
 
                     Vector3 r = gameObject.position.pos();
@@ -255,6 +242,19 @@ namespace GammaDraconis.Core
             #endregion
         }
         #endregion
+        #endregion
+
+        #region Race & Course
+        private Race race;
+        private Course course;
+
+        /// <summary>
+        /// Set up the course for AI's to follow.  This should be moved later
+        /// </summary>
+        public void SetupCourse(String mapName)
+        {
+            GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
+        }
         #endregion
 
         /// <summary>

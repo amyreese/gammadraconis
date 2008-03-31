@@ -1,42 +1,51 @@
-gameScene = Engine.GetInstance().gameScene
-course = Engine.GetInstance().course
+gameScene = Scene()
+Engine.GetInstance().gameScene = gameScene
 
-p = Player(GammaDraconis, PlayerIndex.One);
-gameScene:track(p, GO_TYPE.RACER);
+p = Player(GammaDraconis, PlayerIndex.One)
+gameScene:track(p, GO_TYPE.RACER)
 
-p2 = Player(GammaDraconis, PlayerIndex.Two);
-p2.position = Coords(20.0, -12.0, 28.0);
-gameScene:track(p2, GO_TYPE.RACER);
+p2 = Player(GammaDraconis, PlayerIndex.Two)
+p2.position = Coords(20.0, -12.0, 28.0)
+gameScene:track(p2, GO_TYPE.RACER)
 
-p3 = Player(GammaDraconis, PlayerIndex.Three);
-p3.position = Coords(20.0, 12.0, 28.0);
-gameScene:track(p3, GO_TYPE.RACER);
+p3 = Player(GammaDraconis, PlayerIndex.Three)
+p3.position = Coords(20.0, 12.0, 28.0)
+gameScene:track(p3, GO_TYPE.RACER)
 
-p4 = Player(GammaDraconis, PlayerIndex.Four);
-p4.position = Coords(20.0, 12.0, -28.0);
-gameScene:track(p4, GO_TYPE.RACER);
+p4 = Player(GammaDraconis, PlayerIndex.Four)
+p4.position = Coords(20.0, 12.0, -28.0)
+gameScene:track(p4, GO_TYPE.RACER)
 
 r = Racer(GammaDraconis);
 r.position = Coords(20.0, 10.0, 10.0);
 r.models[0].scale = 2;
 gameScene:track(r, GO_TYPE.RACER);
 
+racers = Racer[5]
+racers[0] = p
+racers[1] = p2
+racers[2] = p3
+racers[3] = p4
+racers[4] = r
+
 --[[
-checkpoint = GameObject();
-checkpoint.position = Coords(75, 0, -75, 0, 1.25 * MSMath.PI, 0);
-checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 10));
-gameScene:track(checkpoint, GO_TYPE.HUD);
+checkpoint = GameObject()
+checkpoint.position = Coords(75, 0, -75, 0, 1.25 * MSMath.PI, 0)
+checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 10))
+gameScene:track(checkpoint, GO_TYPE.HUD)
 ]]--
 
-planet = GameObject();
-planet.position = Coords(0, 0, -50);
-planet.models:Add(FBXModel("Resources/Models/Planet", "", 50));
-gameScene:track(planet, GO_TYPE.SCENERY);
+planet = GameObject()
+planet.position = Coords(0, 0, -50)
+planet.models:Add(FBXModel("Resources/Models/Planet", "", 50))
+gameScene:track(planet, GO_TYPE.SCENERY)
 
-skybox = GameObject();
-skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 500*10000));
-gameScene:track(skybox, GO_TYPE.SKYBOX);
+skybox = GameObject()
+skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 500*10000))
+gameScene:track(skybox, GO_TYPE.SKYBOX)
 
+course = Course()
+Engine.GetInstance().course = course
 
 path = {
 	{x=0, y=0, z=50, yaw=0, pitch=0, roll=0 },
@@ -51,15 +60,21 @@ path = {
 	{x=575, y=200, z=1100, yaw=1.0, pitch=0.5, roll=0},
 	}
 
-
+-- TODO: Find a way to add intermediate points for AI
 for i,v in ipairs( path ) do
 	local position = Coords( v.x, v.y, v.z, v.pitch, v.yaw, v.roll)
-	course.path:Add(position);
-
 	if not v.path then
-		checkpoint = GameObject();
-		checkpoint.position = position;
-		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 10));
-		gameScene:track(checkpoint, GO_TYPE.HUD);
+		course.path:Add(position)
+
+		checkpoint = GameObject()
+		checkpoint.position = position
+		checkpoint.size = 25
+		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 10))
+		gameScene:track(checkpoint, GO_TYPE.HUD)
 	end
 end
+
+course.loop = true
+
+race = Race(course, 2, racers)
+Engine.GetInstance().race = race

@@ -37,6 +37,7 @@ namespace GammaDraconis.Types
         public int mass = 1000;
         public float dragL = 1f;
         public float dragR = 3f;
+        public float size = 1f;
 
         // Visual properties
         public List<FBXModel> models;

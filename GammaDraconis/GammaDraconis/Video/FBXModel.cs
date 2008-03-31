@@ -20,7 +20,7 @@ namespace GammaDraconis.Video
 
         // Shader effect associated with the model
         public Effect _effect;
-        public string effect;
+        public string effect = "Resources/Effects/Basic";
 
         // Model scaling
         public float scale;
@@ -30,7 +30,10 @@ namespace GammaDraconis.Video
         public FBXModel(string filename, string effect, float scale) : base(GammaDraconis.GetInstance())
         {
             this.filename = filename;
-            this.effect = effect;
+            if (effect != "")
+            {
+                this.effect = effect;
+            }
             this.scale = scale;
             offset = new Coords();
             GammaDraconis.GetInstance().Components.Add(this);
@@ -42,6 +45,7 @@ namespace GammaDraconis.Video
         protected override void LoadContent()
         {
             model = Game.Content.Load<Model>(filename);
+            _effect = Game.Content.Load<Effect>(effect);
             base.LoadContent();
         }
     }

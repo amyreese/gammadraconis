@@ -30,7 +30,7 @@ namespace GammaDraconis.Types
         public Coords acceleration;
 
         // Movement limits
-        public float rateL = 100f;
+        public float rateL = 200f;
         public float rateR = 100f;
 
         // Physical properties

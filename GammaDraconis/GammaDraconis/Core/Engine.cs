@@ -50,14 +50,14 @@ namespace GammaDraconis.Core
             SetupGameRenderer();
 
             //Setup a course
-            SetupCourse( mapName );
+            SetupCourse(mapName);
         }
         #endregion
 
         #region Rendering
         private Renderer gameRenderer;
         private Scene gameScene;
-        
+
         /// <summary>
         /// Initializes the renderer, sets the renderer to focus on Helix, and tells
         /// it where the bounds of the map are so the camera doesn't move too far
@@ -82,10 +82,10 @@ namespace GammaDraconis.Core
         /// Update the current game status, performing AI, collision, and physics processing.
         /// </summary>
         /// <param name="gameTime">The current game time</param>
-        public void Update( GameTime gameTime )
+        public void Update(GameTime gameTime)
         {
             Engine.gameTime = gameTime;
- 
+
             Think(gameTime);
             Physics(gameTime);
         }
@@ -103,13 +103,6 @@ namespace GammaDraconis.Core
             course = new Course();
 
             GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
-
-            for (int pathIndex = 0; pathIndex < 5; pathIndex++)
-            {
-                course.path.Add(new Coords(20.0f * pathIndex, 12.0f * pathIndex, -28.0f * pathIndex));
-                //TODO: Make each coordinate point at the next coordinate
-            }
-            
         }
 
         /// <summary>
@@ -126,7 +119,7 @@ namespace GammaDraconis.Core
                 //Make the object follow the course
                 if (gameObject is Racer && !(gameObject is Player))
                 {
-                    
+                    Console.WriteLine(gameObject.position.pos());
                     gameObject.throttle(1.0f);
 
                     //Find the angle between the Racer and the Checkpoint and put it into a Quaternion Q
@@ -134,8 +127,12 @@ namespace GammaDraconis.Core
                     Vector3 axis = Vector3.Cross(gameObject.position.pos(), course.path[0].pos());
                     float qw = (float)Math.Sqrt(gameObject.position.pos().LengthSquared() * course.path[0].pos().LengthSquared()) + d;
                     Quaternion q;
-                    if (qw < 0.0001) { q = new Quaternion(gameObject.position.pos().X, gameObject.position.pos().Y, -gameObject.position.pos().Z, 0); }
-                    else { q = new Quaternion(axis.X, axis.Y, axis.Z, qw); }
+                    if (qw < 0.0001) {
+                        q = new Quaternion(gameObject.position.pos().X, gameObject.position.pos().Y, -gameObject.position.pos().Z, 0);
+                    }
+                    else {
+                        q = new Quaternion(axis.X, axis.Y, axis.Z, qw);
+                    }
                     q.Normalize();
 
                     //Convert the Quaternion q into Euler angles for Yaw, Pitch, and Roll
@@ -148,7 +145,6 @@ namespace GammaDraconis.Core
                     gameObject.pitch((float)pitch);
                     gameObject.roll((float)roll);
 
-                    
 
                     /*gameObject.acceleration.R = course.path[0].R;
                     Vector3 temp = Vector3.Subtract(course.path[0].pos(), gameObject.position.pos());
@@ -217,11 +213,11 @@ namespace GammaDraconis.Core
                 float dragR = gameObject.dragR;
                 dragL *= timestep;
                 dragR *= timestep;
-                
+
                 // Subtract drag from velocity
                 gameObject.velocity.R = Quaternion.Slerp(Quaternion.Identity, gameObject.velocity.R, 1 - dragR);
                 gameObject.velocity.T = mScale(gameObject.velocity.T, 1 - dragL);
-                
+
                 // Apply acceleration to velocity
                 gameObject.velocity.R *= Quaternion.Slerp(Quaternion.Identity, gameObject.acceleration.R, timestep);
 

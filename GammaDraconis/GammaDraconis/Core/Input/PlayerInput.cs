@@ -62,16 +62,44 @@ namespace GammaDraconis.Core.Input
             }
             else
             {
-                inputKeys.Add(Commands.Up, "up");
-                inputKeys.Add(Commands.Down, "down");
-                inputKeys.Add(Commands.Left, "left");
-                inputKeys.Add(Commands.Right, "right");
-                inputKeys.Add(Commands.YawLeft, "q");
-                inputKeys.Add(Commands.YawRight, "w");
-                inputKeys.Add(Commands.ThrottleUp, "a");
-                inputKeys.Add(Commands.ThrottleDown, "z");
-                inputKeys.Add(Commands.Fire1, "space");
-                inputKeys.Add(Commands.Fire2, "enter");
+                /*
+                    inputKeys.Add(Commands.Up, "up");
+                    inputKeys.Add(Commands.Down, "down");
+                    inputKeys.Add(Commands.Left, "left");
+                    inputKeys.Add(Commands.Right, "right");
+                    inputKeys.Add(Commands.YawLeft, "q");
+                    inputKeys.Add(Commands.YawRight, "w");
+                    inputKeys.Add(Commands.ThrottleUp, "a");
+                    inputKeys.Add(Commands.ThrottleDown, "z");
+                    inputKeys.Add(Commands.Fire1, "space");
+                    inputKeys.Add(Commands.Fire2, "enter");
+                */
+                if (playerIndex == PlayerIndex.One)
+                {
+                    inputKeys.Add(Commands.Up, "up");
+                    inputKeys.Add(Commands.Down, "down");
+                    inputKeys.Add(Commands.Left, "left");
+                    inputKeys.Add(Commands.Right, "right");
+                    inputKeys.Add(Commands.YawLeft, "a");
+                    inputKeys.Add(Commands.YawRight, "d");
+                    inputKeys.Add(Commands.ThrottleUp, "w");
+                    inputKeys.Add(Commands.ThrottleDown, "s");
+                    inputKeys.Add(Commands.Fire1, "space");
+                    inputKeys.Add(Commands.Fire2, "enter");
+                }
+                else
+                {
+                    inputKeys.Add(Commands.Up, "numpad8");
+                    inputKeys.Add(Commands.Down, "numpad2");
+                    inputKeys.Add(Commands.Left, "numpad4");
+                    inputKeys.Add(Commands.Right, "numpad6");
+                    inputKeys.Add(Commands.YawLeft, "numpad7");
+                    inputKeys.Add(Commands.YawRight, "numpad9");
+                    inputKeys.Add(Commands.ThrottleUp, "numpad5");
+                    inputKeys.Add(Commands.ThrottleDown, "numpad0");
+                    inputKeys.Add(Commands.Fire1, "numpad1");
+                    inputKeys.Add(Commands.Fire2, "numpad3");
+                }
                 inputKeys.Add(Commands.Pause, "p");
                 inputKeys.Add(Commands.Menu, "escape");
             }

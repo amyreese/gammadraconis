@@ -328,6 +328,17 @@ namespace GammaDraconis.Core.Input
             keys.Add("period");
             keys.Add("backspace");
 
+            keys.Add("numpad1");
+            keys.Add("numpad2");
+            keys.Add("numpad3");
+            keys.Add("numpad4");
+            keys.Add("numpad5");
+            keys.Add("numpad6");
+            keys.Add("numpad7");
+            keys.Add("numpad8");
+            keys.Add("numpad9");
+            keys.Add("numpad0");
+
             // Gamepad keys
             for(PlayerIndex index = PlayerIndex.One; index <= PlayerIndex.Four; index++)
             {

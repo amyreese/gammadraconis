@@ -17,7 +17,7 @@ p4.position = Coords(20.0, 12.0, -28.0)
 gameScene:track(p4, GO_TYPE.RACER)
 
 r = Racer(GammaDraconis);
-r.position = Coords(20.0, 10.0, 10.0);
+r.position = Coords(0.0, 0.0, 0.0, 0.0, MSMath.PI, 0.0);
 r.models[0].scale = 2;
 gameScene:track(r, GO_TYPE.RACER);
 

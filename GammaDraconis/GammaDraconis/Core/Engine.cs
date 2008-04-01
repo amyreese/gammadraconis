@@ -165,6 +165,97 @@ namespace GammaDraconis.Core
                         course.path.Add(temp1);
                     }
                 }
+                else if (gameObject == Player.players[1])
+                {
+                    //gameObject.throttle(0.1f);
+                    Vector3 racerPosition = gameObject.position.pos();
+                    Vector3 checkpointPosition = race.nextCoord((Racer)gameObject).pos();
+                    Vector3 checkpointOffset = checkpointPosition - racerPosition;
+                    Vector3 racerForward = Matrix.CreateFromQuaternion(gameObject.position.R).Forward;
+
+                    Vector3 axis = Vector3.Cross(racerForward, checkpointOffset);
+                    racerForward.Normalize();
+                    checkpointOffset.Normalize();
+                    float angle = (float)Math.Acos(Vector3.Dot(racerForward, checkpointOffset));
+                    if (float.IsNaN(angle))
+                    {
+                        angle = 0;
+                    }
+                    Console.WriteLine(angle);
+
+
+                    axis.Normalize();
+
+                    Quaternion q = Quaternion.CreateFromAxisAngle(axis, angle);
+                    q.Normalize();
+
+                    //Convert the Quaternion q into Euler angles for Yaw, Pitch, and Roll
+                    float yaw = (float)Math.Atan(2 * (q.X * q.Y + q.W * q.Z) / (q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z));
+                    float pitch = (float)Math.Asin(-2 * (q.X * q.Z - q.W * q.Y));
+                    float roll = (float)Math.Atan(2 * (q.W * q.X + q.Y * q.Z) / (q.W * q.W - q.X * q.X - q.Y * q.Y + q.Z * q.Z));
+
+                    if (float.IsNaN(yaw))
+                    {
+                        Console.WriteLine("!!!");
+                    }
+                    if (float.IsNaN(pitch))
+                    {
+                        Console.WriteLine("!!!");
+                    }
+                    if (float.IsNaN(roll))
+                    {
+                        Console.WriteLine("!!!");
+                    }
+
+                    //Change the rotations of the gameobject
+                    gameObject.yaw(yaw);
+                    gameObject.pitch(pitch);
+                    gameObject.roll(roll);
+                }
+                else if (gameObject == Player.players[2])
+                {
+                    //gameObject.throttle(0.1f);
+                    Vector3 racerPosition = gameObject.position.pos();
+                    Vector3 checkpointPosition = race.nextCoord((Racer)gameObject).pos();
+                    Vector3 checkpointOffset = checkpointPosition - racerPosition;
+                    Vector3 racerForward = Matrix.CreateFromQuaternion(gameObject.position.R).Forward;
+
+                    Vector3 axis = Vector3.Cross(checkpointOffset, racerForward);
+                    racerForward.Normalize();
+                    checkpointOffset.Normalize();
+                    float angle = (float)Math.Acos(Vector3.Dot(racerForward, checkpointOffset));
+
+                    Quaternion q = Quaternion.CreateFromAxisAngle(axis, angle);
+                    q.Normalize();
+                    q = Quaternion.CreateFromRotationMatrix(Matrix.CreateLookAt(racerPosition, checkpointPosition, Vector3.Up));
+
+                    //Convert the Quaternion q into Euler angles for Yaw, Pitch, and Roll
+                    float yaw = (float)Math.Atan(2 * (q.X * q.Y + q.W * q.Z) / (q.W * q.W + q.X * q.X - q.Y * q.Y - q.Z * q.Z));
+                    float pitch = (float)Math.Asin(-2 * (q.X * q.Z - q.W * q.Y));
+                    float roll = (float)Math.Atan(2 * (q.W * q.X + q.Y * q.Z) / (q.W * q.W - q.X * q.X - q.Y * q.Y + q.Z * q.Z));
+
+                    if (float.IsNaN(yaw))
+                    {
+                        Console.WriteLine("!!!");
+                    }
+                    if (float.IsNaN(pitch))
+                    {
+                        Console.WriteLine("!!!");
+                    }
+                    if (float.IsNaN(roll))
+                    {
+                        Console.WriteLine("!!!");
+                    }
+
+                    //Change the rotations of the gameobject
+                    /*
+                    gameObject.yaw(yaw);
+                    gameObject.pitch(pitch);
+                    gameObject.roll(roll);
+                    /* */
+
+                    gameObject.position.R = Quaternion.Slerp(gameObject.position.R, q, 1.0f);
+                }
             }
         }
         #endregion

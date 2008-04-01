@@ -121,7 +121,7 @@ namespace GammaDraconis.Video
                     game.GraphicsDevice.RenderState.DepthBufferEnable = true;
                     aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
-                    List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].position);
+                    List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].getCamera());
                     renderObjects(gameObjects, Player.players[playerIndex].getCameraLookAtMatrix());
 
                     Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);

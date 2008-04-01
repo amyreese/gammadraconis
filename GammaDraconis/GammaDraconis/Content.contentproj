@@ -84,11 +84,6 @@
     <None Include="Resources\Audio\Sound\Plink_09.wav">
       <Name>Plink_09</Name>
     </None>
-    <Compile Include="Resources\Effects\HeatHaze.fx">
-      <Name>HeatHaze</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
     <Compile Include="Resources\Effects\Basic.fx">
       <Name>Basic</Name>
       <Importer>EffectImporter</Importer>

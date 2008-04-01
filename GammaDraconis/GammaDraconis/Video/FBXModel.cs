@@ -46,6 +46,7 @@ namespace GammaDraconis.Video
         {
             model = Game.Content.Load<Model>(filename);
             _effect = Game.Content.Load<Effect>(effect);
+            _effect.CurrentTechnique = _effect.Techniques[0];
             base.LoadContent();
         }
     }

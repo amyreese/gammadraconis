@@ -27,6 +27,7 @@ namespace GammaDraconis.Video
 
         static public int RACER = NORMAL;
         static public int BULLET = NORMAL ^ THINKABLE;
+        static public int MISSILE = NORMAL;
         static public int COURSE = GHOST;
     }
     

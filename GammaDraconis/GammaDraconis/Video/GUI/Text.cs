@@ -12,6 +12,7 @@ namespace GammaDraconis.Video.GUI
         public String spriteFontName;
         public String text;
         public Color color;
+        public bool center = false;
 
         public Text(GammaDraconis game)
             : base(game)
@@ -36,8 +37,13 @@ namespace GammaDraconis.Video.GUI
             CalculateResultingValues(position, scale, rotation, out position, out scale, out rotation);
             if (spriteFont != null && text != null && color != null)
             {
+                Vector2 origin = Vector2.Zero;
+                if (center)
+                {
+                    origin = spriteFont.MeasureString(text) / 2;
+                }
                 spriteBatch.Begin();
-                spriteBatch.DrawString(spriteFont, text, position, color, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
+                spriteBatch.DrawString(spriteFont, text, position, color, rotation, origin, scale, SpriteEffects.None, 0);
                 spriteBatch.End();
             }
         }

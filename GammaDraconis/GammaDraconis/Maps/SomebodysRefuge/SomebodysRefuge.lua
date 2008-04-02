@@ -76,5 +76,5 @@ end
 
 course.loop = true
 
-race = Race(course, 2, racers)
+race = Race(course, 1, racers)
 Engine.GetInstance().race = race

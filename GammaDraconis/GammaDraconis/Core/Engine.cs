@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Types;
 using GammaDraconis.Video;
 using GammaDraconis.Video.GUI;
+using GammaDraconis.Screens;
 
 namespace GammaDraconis.Core
 {
@@ -77,6 +78,8 @@ namespace GammaDraconis.Core
         }
         #endregion
 
+        private double secondsToEnd = -1;
+
         #region Physics/AI/etc
         /// <summary>
         /// Update the current game status, performing AI, collision, and physics processing.
@@ -87,6 +90,23 @@ namespace GammaDraconis.Core
             Engine.gameTime = gameTime;
 
             race.update();
+            if (secondsToEnd == -1)
+            {
+                if (race.isRaceOver())
+                {
+                    secondsToEnd = 2;
+                }
+            }
+            else
+            {
+                secondsToEnd -= gameTime.ElapsedRealTime.TotalSeconds;
+                if (secondsToEnd < 0)
+                {
+                    ((LevelOverScreen)game.getScreen(GammaDraconis.GameStates.LevelOver)).LevelOver(race); 
+                    game.changeState(GammaDraconis.GameStates.LevelOver);
+                }
+            }
+            
             Think(gameTime);
             Physics(gameTime);
         }

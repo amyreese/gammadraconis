@@ -6,33 +6,32 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Video.GUI;
+using GammaDraconis.Core.Input;
+using GammaDraconis.Core;
+using GammaDraconis.Types;
 
 namespace GammaDraconis.Screens
 {
     /// <summary>
     /// A screen displayed when the game is loading
     /// </summary>
-    class GameLoadingScreen : LoadingScreen
+    class LevelOverScreen : LoadingScreen
     {
         private Text loadingText;
-        private String loadingTextValue = "Loading";
-        private int loadingTextDots = 0;
-        private int maxDotCount = 3;
-        private double timeSinceLastDot = 0;
-        private double timeBetweenDots = 0.25;
 
         /// <summary>
         /// Constructor for the screen
         /// </summary>
         /// <param name="game">Snails Pace instance</param>
-        public GameLoadingScreen(GammaDraconis game)
-            : base(game, GammaDraconis.GameStates.Game)
+        public LevelOverScreen(GammaDraconis game)
+            : base(game, GammaDraconis.GameStates.MainMenu)
         {
             loadingText = new Text(gammaDraconis);
             loadingText.color = Color.White;
-            loadingText.text = loadingTextValue;
+            loadingText.text = "";
             loadingText.spriteFontName = "Resources/Fonts/Menu";
-            loadingText.RelativePosition = new Vector2(game.Window.ClientBounds.Width / 2 - loadingTextValue.Length * 8.0f, game.Window.ClientBounds.Height / 2 - 32.0f);
+            loadingText.RelativePosition = new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height / 2);
+            loadingText.center = true;
             screenInterface.AddComponent(loadingText);
         }
 
@@ -44,19 +43,26 @@ namespace GammaDraconis.Screens
             base.LoadContent();
         }
 
+        public void LevelOver( Race race )
+        {
+            int place = 1;
+            loadingText.text = "";
+            foreach( Racer r in race.rankings() )
+            {
+                loadingText.text = loadingText.text + place++ + ". " + r.ToString() + "\n";
+            }
+            ready = false;
+        }
+
         /// <summary>
         /// Modifies the color of the text gradually
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            timeSinceLastDot += gameTime.ElapsedRealTime.TotalSeconds;
-            if (timeSinceLastDot > timeBetweenDots)
+            if( input.inputDown(MenuInput.Commands.Cancel ) )
             {
-                loadingText.text = loadingTextValue.PadRight(loadingTextValue.Length + loadingTextDots, '.');
-                loadingTextDots++;
-                loadingTextDots %= maxDotCount + 1;
-                timeSinceLastDot -= timeBetweenDots;
+                ready = true;
             }
             base.Update(gameTime);
         }

@@ -102,7 +102,7 @@ namespace GammaDraconis.Screens.Menus
             {
                 if (!gammaDraconis.GameStarted)
                 {
-                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("SomebodysRefuge");
+                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack");
                 }
                 gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
             }

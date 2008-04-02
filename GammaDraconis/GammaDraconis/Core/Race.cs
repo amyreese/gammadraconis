@@ -15,8 +15,16 @@ namespace GammaDraconis.Core
         private Course course;
         private int laps;
 
+        private bool RaceOver = false;
+        public bool isRaceOver()
+        {
+            return RaceOver;
+        }
+
         // The racers and their statuses
         private Dictionary<Racer, int> state;
+        private List<Racer> finishedRacers;
+
 
         /// <summary>
         /// Create a race manager.
@@ -30,8 +38,9 @@ namespace GammaDraconis.Core
             state = new Dictionary<Racer, int>();
             foreach (Racer racer in racers)
             {
-                state.Add(racer, -1);
+                state.Add(racer, 0);
             }
+            finishedRacers = new List<Racer>();
         }
 
         /// <summary>
@@ -42,22 +51,29 @@ namespace GammaDraconis.Core
         /// <returns>Coordinate object, or Null if past end of race</returns>
         public Coords coord(Racer racer, int offset)
         {
-            RaceStatus info = status(racer);
+            RaceStatus info = status(racer, true);
             int lap = info.lap;
             int point = info.checkpoint + offset;
 
-            while (point >= course.path.Count)
+            while (point > course.path.Count)
             {
                 if (!course.loop || lap >= laps)
                 {
-                    return null;
+                    if (course.loop && point == course.path.Count + 1)
+                    {
+                        return course.path[0];
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
 
                 lap++;
                 point -= course.path.Count;
             }
 
-            return course.path[point];
+            return course.path[point - 1];
         }
         public Coords nextCoord(Racer racer) { 
             return coord(racer, 1); 
@@ -69,7 +85,19 @@ namespace GammaDraconis.Core
         /// <returns>Null if no winner, Racer object otherwise</returns>
         public Racer winner()
         {
-            return null;
+            if (finishedRacers.Count > 0)
+            {
+                return finishedRacers[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<Racer> rankings()
+        {
+            return new List<Racer>(finishedRacers);
         }
 
         /// <summary>
@@ -79,11 +107,22 @@ namespace GammaDraconis.Core
         {
             foreach (Racer r in new List<Racer>(state.Keys))
             {
-                BoundingSphere checkpointSphere = new BoundingSphere(nextCoord(r).pos(),25.0f);
-                BoundingSphere racerSphere = new BoundingSphere(r.position.pos(), 10.0f);
-                if (checkpointSphere.Intersects(racerSphere))
+                if (!finishedRacers.Contains(r))
                 {
-                    state[r] += 1;
+                    BoundingSphere checkpointSphere = new BoundingSphere(nextCoord(r).pos(), 25.0f);
+                    BoundingSphere racerSphere = new BoundingSphere(r.position.pos(), 10.0f);
+                    if (checkpointSphere.Intersects(racerSphere))
+                    {
+                        state[r] += 1;
+                        if (state[r] == laps * course.path.Count + ( course.loop ? 1 : 0 ))
+                        {
+                            finishedRacers.Add(r);
+                            if (finishedRacers.Count == state.Count)
+                            {
+                                RaceOver = true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -95,10 +134,34 @@ namespace GammaDraconis.Core
         /// <returns></returns>
         public RaceStatus status(Racer racer)
         {
+            return status(racer, false);
+        }
+        public RaceStatus status(Racer racer, bool minimal)
+        {
             int status = state[racer];
             RaceStatus raceStatus = new RaceStatus();
-            raceStatus.lap = status / course.path.Count;
+            raceStatus.lap = status / course.path.Count + 1;
             raceStatus.checkpoint = status % course.path.Count;
+            if (!minimal)
+            {
+                raceStatus.place = finishedRacers.IndexOf(racer) + 1;
+                raceStatus.leading = 0;
+                raceStatus.following = 0;
+                foreach (Racer r in new List<Racer>(state.Keys))
+                {
+                    if( r != racer )
+                    {
+                        if (state[r] < status)
+                        {
+                            raceStatus.leading++;
+                        }
+                        else if (state[r] > status)
+                        {
+                            raceStatus.following++;
+                        }
+                    }
+                }
+            }
             return raceStatus;
         }
     }
@@ -107,5 +170,8 @@ namespace GammaDraconis.Core
     {
         public int lap;
         public int checkpoint;
+        public int place;
+        public int leading;
+        public int following;
     }
 }

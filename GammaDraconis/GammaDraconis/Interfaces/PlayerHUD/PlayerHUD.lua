@@ -9,17 +9,12 @@ playerHUDs[playerHudIndex] = {}
 playerHUDs[playerHudIndex].interface = Interface(GammaDraconis)
 playerHUDs[playerHudIndex].interface.UpdateCall = "playerHUDs" .. playerHudIndex .. "update"
 
-playerHUDs[playerHudIndex].lapText = Text(GammaDraconis)
-playerHUDs[playerHudIndex].lapText.spriteFontName = "Resources/Fonts/Menu"
-playerHUDs[playerHudIndex].lapText.color = Color.White
-playerHUDs[playerHudIndex].lapText.RelativePosition = Vector2( 416, 16 )
-playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].lapText)
-
-playerHUDs[playerHudIndex].checkpointText = Text(GammaDraconis)
-playerHUDs[playerHudIndex].checkpointText.spriteFontName = "Resources/Fonts/Menu"
-playerHUDs[playerHudIndex].checkpointText.color = Color.White
-playerHUDs[playerHudIndex].checkpointText.RelativePosition = Vector2( 512, 16 )
-playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].checkpointText)
+playerHUDs[playerHudIndex].statusText = Text(GammaDraconis)
+playerHUDs[playerHudIndex].statusText.spriteFontName = "Resources/Fonts/Menu"
+playerHUDs[playerHudIndex].statusText.color = Color.White
+playerHUDs[playerHudIndex].statusText.center = true
+playerHUDs[playerHudIndex].statusText.RelativePosition = Vector2( 512, 16 )
+playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].statusText)
 
 hudBorder = Sprite(GammaDraconis)
 hudBorder.textureName = "Resources/Textures/HUD/HudBorder"
@@ -91,8 +86,15 @@ end
 function playerHUDs.update(gameTime, playerIndex)
 	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length())
 	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
-	playerHUDs[playerIndex].lapText.text = "Lap: " .. status.lap
-	playerHUDs[playerIndex].checkpointText.text = "CP: " .. status.checkpoint
+	if status.place == 0 then
+		playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
+	else
+		if status.place == 1 then
+			playerHUDs[playerIndex].statusText.text = "Congratulations! You won!"
+		else
+			playerHUDs[playerIndex].statusText.text = "Place: " .. status.place 
+		end
+	end
 end
 
 return playerHUDs[playerHudIndex].interface

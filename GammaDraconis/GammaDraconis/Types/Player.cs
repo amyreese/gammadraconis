@@ -105,6 +105,11 @@ namespace GammaDraconis.Types
             c.T = Matrix.CreateTranslation(0f, 1f, 4f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
             return c;
         }
+
+        public override string ToString()
+        {
+            return "Player " + index;
+        }
     }
 }
  

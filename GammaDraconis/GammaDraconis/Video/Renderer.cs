@@ -89,13 +89,6 @@ namespace GammaDraconis.Video
             viewports[(int)Viewports.RightSide].Height = viewports[(int)Viewports.RightSide].Height * 2;
         }
 
-        // this method is here to prevent the "Cross-thread operation not valid: Control 'GameForm' accessed
-        // from a thread other than the thread it was created on." error that occurs when you try to get at game.Window.ClientBounds.
-        private Rectangle getClientBoundsThreadSafe(GammaDraconis game)
-        {
-            return game.Window.ClientBounds;
-        }
-
         private void Window_ClientSizeChanged(object sender, EventArgs e)
         {
             InitializeViewports();

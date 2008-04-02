@@ -52,6 +52,31 @@ namespace GammaDraconis.Types
         public virtual void think(GameTime gameTime) { }
 
         /// <summary>
+        /// Fire the ship's weapons.  By default, fires all weapons on the ship.
+        /// </summary>
+        public virtual void fire() 
+        {
+            foreach (MountPoint mount in mounts)
+            {
+                if (mount.weapon != null)
+                {
+                    mount.weapon.fire();
+                }
+            }
+
+            foreach (Turret turret in turrets)
+            {
+                foreach (MountPoint mount in turret.mounts)
+                {
+                    if (mount.weapon != null)
+                    {
+                        mount.weapon.fire();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Linearly accelerate the ship along the beam at the given amount of throttle.
         /// </summary>
         /// <param name="amount">Throttle amount clamped between -1f and 1f</param>

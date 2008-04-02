@@ -120,13 +120,12 @@ namespace GammaDraconis.Video
 
             List<GameObject> temp = new List<GameObject>();
             List<GameObject> tempScenery = new List<GameObject>();
+            List<GameObject> tempSkybox = new List<GameObject>();
             float aspRatio = GammaDraconis.renderer.aspectRatio;
             float viewAngle = GammaDraconis.renderer.viewingAngle;
             float viewDist = GammaDraconis.renderer.viewingDistance;
 
             Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
-
-            // TODO: Figure out what the proper matrices for this are.
             BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
             
             foreach (int tempKey in objects.Keys)
@@ -137,47 +136,27 @@ namespace GammaDraconis.Video
                     // Take care of some quick cases before doing any math.
                     if(typedObjects(GO_TYPE.SKYBOX).Contains(gameobject))
                     {
-                        temp.Add(gameobject);
+                        tempSkybox.Add(gameobject);
                     }
                     else
                     {
-                        // TODO: Use size of the object
                         if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
                         {
-                            temp.Add(gameobject);
+                            if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
+                            {
+                                tempScenery.Add(gameobject);
+                            }
+                            else
+                            {
+                                temp.Add(gameobject);
+                            }
                         }
-                        /*
-                        //TODO: Verify I'm using the correct matrices.
-                        Vector3 goVector = gameobject.position.matrix().Translation;
-                        Vector3 vantVector = vantage.matrix().Forward;
-                        float dx = goVector.X * vantVector.X > 0 ? goVector.X - vantVector.X : -1 * (goVector.X - vantVector.X);
-                        float dy = goVector.Y * vantVector.Y > 0 ? goVector.Y - vantVector.Y : -1 * (goVector.Y - vantVector.Y);
-                        float dz = goVector.Z * vantVector.Z > 0 ? goVector.Z - vantVector.Z : -1 * (goVector.Z - vantVector.Z);
-                        
-                        float frustX = (float)Math.Tan(viewAngle/2)*dz;
-                        float frustY = frustX * aspRatio;
-
-                        if ((0 < dz || dz < viewDist) && dx < frustX && dy < frustY)
-                        {
-                            temp.Add(gameobject);
-                        }
-                         * */
-
-                        /*
-                        //TODO: Look at objects size
-                        else if ((0< dz + gammeobject.size || dz - gammeobject.size ) && dx - gammeobject.size < frustX && dy - gammeobject.size < frustY)
-                        {
-                            temp.Add(gameobject);
-                        }*/
-                        //Uncomment this to see unsorted results
-                        /*else
-                        {
-                            temp.Add(gameobject);
-                        }*/
                     }
                 }
             }
-            return temp;
+            tempSkybox.AddRange(tempScenery);
+            tempSkybox.AddRange(temp);
+            return tempSkybox;
         }
 
         /// <summary>

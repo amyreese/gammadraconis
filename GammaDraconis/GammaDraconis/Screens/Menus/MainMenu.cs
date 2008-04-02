@@ -25,6 +25,7 @@ namespace GammaDraconis.Screens.Menus
             skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 400 * 10000f));
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
+
             racer = new Racer(game);
             racer.position = new Coords(10000f, -650f, -6000f, 0.2f, 1.5f, 1f);
             racer.models[0].scale *= 500;

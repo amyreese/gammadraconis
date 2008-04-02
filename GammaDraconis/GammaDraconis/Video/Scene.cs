@@ -29,7 +29,7 @@ namespace GammaDraconis.Video
         static public int BULLET = NORMAL ^ THINKABLE;
         static public int COURSE = GHOST;
     }
-
+    
     /// <summary>
     /// The scene manager holds the 'world' the game is contained within.
     /// Background scenery, game objects, and other such items should be kept here.
@@ -39,7 +39,9 @@ namespace GammaDraconis.Video
         
         // References to all objects in the scene, *including* the player objects
         private Hashtable objects;
-        
+        //TODO: Create implementation of oct tree
+        //private O octTree;
+
         /// <summary>
         /// Create a new Scene manager.
         /// </summary>
@@ -117,7 +119,8 @@ namespace GammaDraconis.Video
         /// <returns>List of GameObjects to render</returns>
         public List<GameObject> visible(Coords vantage)
         {
-
+            List<GameObject> visibleObjects;
+            Hashtable optimizedObjects = sortOctTree(out visibleObjects, vantage);
             List<GameObject> temp = new List<GameObject>();
             List<GameObject> tempScenery = new List<GameObject>();
             List<GameObject> tempSkybox = new List<GameObject>();
@@ -127,19 +130,20 @@ namespace GammaDraconis.Video
 
             Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
             BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
-            
-            foreach (int tempKey in objects.Keys)
+
+            foreach (int tempKey in optimizedObjects.Keys)
             {
-                List<GameObject> atemp = (List<GameObject>)objects[tempKey];
+                List<GameObject> atemp = (List<GameObject>)optimizedObjects[tempKey];
                 foreach (GameObject gameobject in atemp)
                 {
                     // Take care of some quick cases before doing any math.
-                    if(typedObjects(GO_TYPE.SKYBOX).Contains(gameobject))
+                    if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
                     {
                         tempSkybox.Add(gameobject);
                     }
                     else
                     {
+                        
                         if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
                         {
                             if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
@@ -154,9 +158,10 @@ namespace GammaDraconis.Video
                     }
                 }
             }
-            tempSkybox.AddRange(tempScenery);
-            tempSkybox.AddRange(temp);
-            return tempSkybox;
+            visibleObjects.AddRange(tempSkybox);
+            visibleObjects.AddRange(tempScenery);
+            visibleObjects.AddRange(temp);
+            return visibleObjects;
         }
 
         /// <summary>
@@ -182,5 +187,12 @@ namespace GammaDraconis.Video
             return tObjects;
         }
 
+        public Hashtable sortOctTree(out List<GameObject> entirelyVisible,  Coords vantage)
+        {
+            entirelyVisible = new List<GameObject>();
+            //TODO: Look through the oct tree and return a more optimized Hashtable and seed entirely Visible with objects that are obviously visible
+            return objects;
+        }
     }
+    
 }

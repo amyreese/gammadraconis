@@ -48,6 +48,16 @@ namespace GammaDraconis.Types
         // Turrets for weapons
         public List<Turret> turrets;
 
+        /// <summary>
+        /// Clone a game object
+        /// </summary>
+        /// <returns>The cloned object</returns>
+        public virtual GameObject clone()
+        {
+            GameObject go = new GameObject();
+            return go;
+        }
+
         // Behaviors
         public virtual void think(GameTime gameTime) { }
 
@@ -56,24 +66,8 @@ namespace GammaDraconis.Types
         /// </summary>
         public virtual void fire() 
         {
-            foreach (MountPoint mount in mounts)
-            {
-                if (mount.weapon != null)
-                {
-                    mount.weapon.fire();
-                }
-            }
-
-            foreach (Turret turret in turrets)
-            {
-                foreach (MountPoint mount in turret.mounts)
-                {
-                    if (mount.weapon != null)
-                    {
-                        mount.weapon.fire();
-                    }
-                }
-            }
+            List<Weapon> weapons = getWeapons(true);
+            fireWeapons(weapons);
         }
 
         /// <summary>
@@ -127,5 +121,79 @@ namespace GammaDraconis.Types
             acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, 0.4f * amount);  // roll
         }
 
+        /// <summary>
+        /// Gather a list of weapons on the ship, optionally including
+        /// weapons on turrets, and optionally translating weapon positions
+        /// appropriately to their turret/mount positions.
+        /// </summary>
+        /// <param name="translate">Translate the weapon positions</param>
+        /// <param name="turrets">Return turreted weapons</param>
+        /// <returns>List of weapons</returns>
+        private List<Weapon> getWeapons(bool translate, bool turretweapons)
+        {
+            Weapon w = null;
+            List<Weapon> weapons = new List<Weapon>();
+
+            // Gather and translate all ship-mounted weapons
+            foreach (MountPoint mount in mounts)
+            {
+                w = mount.weapon;
+                if (w != null)
+                {
+                    if (translate)
+                    {
+                        w.position.T = position.matrix() * mount.location.T;
+                        w.position.R = position.R * mount.location.R;
+                    }
+                    weapons.Add(w);
+                }
+            }
+
+            // Gather and translate all turret-mounted weapons
+            if (turretweapons)
+            {
+                foreach (Turret turret in turrets)
+                {
+                    foreach (MountPoint mount in mounts)
+                    {
+                        w = mount.weapon;
+                        if (w != null)
+                        {
+                            if (translate)
+                            {
+                                w.position.T = position.matrix() * turret.location.matrix() * mount.location.T;
+                                w.position.R = position.R * turret.location.R * mount.location.R;
+                            }
+                            weapons.Add(w);
+                        }
+                    }
+                }
+            }
+
+            return weapons;
+        }
+        private List<Weapon> getWeapons() { return getWeapons(false, false); }
+        private List<Weapon> getWeapons(bool translate) { return getWeapons(translate, false); }
+        private List<Weapon> getAllWeapons() { return getWeapons(false, true); }
+        private List<Weapon> getAllWeapons(bool translate) { return getWeapons(translate, true); }
+
+        /// <summary>
+        /// Fires a list of weapons by cloning the weapon's bullet type and accelerating it, 
+        /// then telling the scene manager to track it.
+        /// </summary>
+        /// <param name="weapons"></param>
+        private void fireWeapons(List<Weapon> weapons)
+        {
+            foreach (Weapon weapon in weapons)
+            {
+                Bullet b = weapon.bullet.clone();
+                b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
+                b.position.T = Matrix.CreateTranslation(b.position.pos());
+                b.position.R = weapon.position.R * weapon.fireFrom.R;
+                b.throttle(1f);
+
+                Engine.GetInstance().gameScene.track(b, GO_TYPE.BULLET);
+            }
+        }
     }
 }

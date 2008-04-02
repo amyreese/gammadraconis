@@ -57,7 +57,7 @@ namespace GammaDraconis.Core
 
         #region Rendering
         private Renderer gameRenderer;
-        private Scene gameScene;
+        public Scene gameScene;
 
         /// <summary>
         /// Initializes the renderer, sets the renderer to focus on Helix, and tells

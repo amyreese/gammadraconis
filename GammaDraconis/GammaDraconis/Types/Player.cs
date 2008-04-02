@@ -89,6 +89,15 @@ namespace GammaDraconis.Types
                 camera.R = Quaternion.CreateFromYawPitchRoll((float)Math.PI * input.axis("CameraX"), (float)Math.PI * -input.axis("CameraY"), 0f);
             }
             #endregion
+
+            #region Controller-independent handling
+            {
+                if (input.inputPressed("Fire1"))
+                {
+                    fire();
+                }
+            }
+            #endregion
         }
 
         public Matrix getCameraLookAtMatrix()

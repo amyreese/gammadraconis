@@ -13,8 +13,14 @@ namespace GammaDraconis.Types
     {
         // Where projectiles are emitted, relative to the *weapon's* identity matrix
         public Coords fireFrom;
+        public Bullet bullet;
 
         // Behaviors
-        public void fire() { }
+        public Weapon() 
+        {
+            fireFrom = new Coords();
+            bullet = new Bullet();
+            bullet.damage = 10;
+        }
     }
 }

@@ -74,6 +74,7 @@
     <Compile Include="Core\Input\PlayerInput.cs" />
     <Compile Include="Core\Input\Input.cs" />
     <Compile Include="Core\Input\MenuInput.cs" />
+    <Compile Include="Core\Proto.cs" />
     <Compile Include="Core\Race.cs" />
     <Compile Include="Screens\LevelOverScreen.cs" />
     <Compile Include="Screens\LevelLoadingScreen.cs" />
@@ -130,6 +131,11 @@
       <Name>Microsoft.VC90.CRT.manifest</Name>
       <HintPath>.\Microsoft.VC90.CRT.manifest</HintPath>
     </NativeReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lua\Objects\" />
+    <Folder Include="Lua\Ships\" />
+    <Folder Include="Lua\Weapons\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />

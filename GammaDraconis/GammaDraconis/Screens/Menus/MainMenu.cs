@@ -26,7 +26,7 @@ namespace GammaDraconis.Screens.Menus
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
 
-            racer = new Racer(game);
+            racer = new Racer();
             racer.position = new Coords(10000f, -650f, -6000f, 0.2f, 1.5f, 1f);
             racer.models[0].scale *= 500;
             screenScene.track(racer, GO_TYPE.RACER);

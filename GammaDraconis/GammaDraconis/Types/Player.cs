@@ -119,6 +119,39 @@ namespace GammaDraconis.Types
         {
             return "Player " + index;
         }
+        
+        /// <summary>
+        /// Create a Player object from a ship definition.
+        /// </summary>
+        /// <param name="ship">The target ship</param>
+        /// <param name="index">Player index</param>
+        /// <returns>New player object</returns>
+        public static Player cloneShip(GameObject ship, PlayerIndex index)
+        {
+            Player go = new Player(index);
+
+            go.mass = ship.mass;
+            go.size = ship.size;
+
+            go.rateL = ship.rateL;
+            go.rateR = ship.rateR;
+            go.dragL = ship.dragL;
+            go.dragR = ship.dragR;
+
+            go.models.AddRange(ship.models);
+            
+            foreach(MountPoint mount in ship.mounts)
+            {
+                go.mounts.Add(mount.clone());
+            }
+
+            foreach (Turret turret in ship.turrets)
+            {
+                go.turrets.Add(turret.clone());
+            }
+
+            return go;
+        }
     }
 }
  

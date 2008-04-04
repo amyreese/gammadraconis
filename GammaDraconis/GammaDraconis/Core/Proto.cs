@@ -13,6 +13,7 @@ namespace GammaDraconis.Core
     class Proto
     {
         public static Dictionary<string, GameObject> thing;
+        public static Dictionary<string, GameObject> ship;
         public static Dictionary<string, Racer> racer;
         public static Dictionary<string, Weapon> weapon;
 
@@ -71,14 +72,21 @@ namespace GammaDraconis.Core
         /// <param name="position">New position</param>
         /// <param name="velocity">New velocity</param>
         /// <returns></returns>
-        public static GameObject Thing(string name, Coords position, Coords velocity)
+        public static GameObject getThing(string name, Coords position, Coords velocity)
         {
-            GameObject go = thing[name].clone();
-            go.position = position;
-            go.velocity = velocity;
-            return go;
+            if (thing.ContainsKey(name))
+            {
+                GameObject go = thing[name].clone();
+                go.position = position;
+                go.velocity = velocity;
+                return go;
+            }
+            else
+            {
+                return null;
+            }
         }
-        public static GameObject Thing(string name, Coords position) { return Thing(name, position, new Coords()); }
+        public static GameObject getThing(string name, Coords position) { return getThing(name, position, new Coords()); }
 
         /// <summary>
         /// Get a prototype clone with given name, position, and velocity.
@@ -87,14 +95,21 @@ namespace GammaDraconis.Core
         /// <param name="position">New position</param>
         /// <param name="velocity">New velocity</param>
         /// <returns></returns>
-        public static Racer Racer(string name, Coords position, Coords velocity)
+        public static GameObject getShip(string name, Coords position, Coords velocity)
         {
-            Racer go = racer[name].clone();
-            go.position = position;
-            go.velocity = velocity;
-            return go;
+            if (ship.ContainsKey(name))
+            {
+                GameObject go = ship[name].clone();
+                go.position = position;
+                go.velocity = velocity;
+                return go;
+            }
+            else
+            {
+                return null;
+            }
         }
-        public static Racer Racer(string name, Coords position) { return Racer(name, position, new Coords()); }
+        public static GameObject getShip(string name, Coords position) { return getShip(name, position, new Coords()); }
 
         /// <summary>
         /// Get a prototype clone with given name, position, and velocity.
@@ -103,14 +118,48 @@ namespace GammaDraconis.Core
         /// <param name="position">New position</param>
         /// <param name="velocity">New velocity</param>
         /// <returns></returns>
-        public static Weapon Weapon(string name, Coords position, Coords velocity)
+        public static Racer getRacer(string name, Coords position, Coords velocity)
         {
-            Weapon go = weapon[name].clone();
-            go.position = position;
-            go.velocity = velocity;
-            return go;
+            if (racer.ContainsKey(name))
+            {
+                Racer go = racer[name].clone();
+                go.position = position;
+                go.velocity = velocity;
+                return go;
+            }
+            else
+            {
+                if (ship.ContainsKey(name))
+                {
+                    return Racer.cloneShip(ship[name]);
+                }
+                return null;
+            }
         }
-        public static Weapon Weapon(string name, Coords position) { return Weapon(name, position, new Coords()); }
+        public static Racer getRacer(string name, Coords position) { return getRacer(name, position, new Coords()); }
+
+        /// <summary>
+        /// Get a prototype clone with given name, position, and velocity.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <param name="position">New position</param>
+        /// <param name="velocity">New velocity</param>
+        /// <returns></returns>
+        public static Weapon getWeapon(string name, Coords position, Coords velocity)
+        {
+            if (weapon.ContainsKey(name))
+            {
+                Weapon go = weapon[name].clone();
+                go.position = position;
+                go.velocity = velocity;
+                return go;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static Weapon getWeapon(string name, Coords position) { return getWeapon(name, position, new Coords()); }
 
     }
 }

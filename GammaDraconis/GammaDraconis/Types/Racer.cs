@@ -56,5 +56,37 @@ namespace GammaDraconis.Types
 
             return go;
         }
+
+        /// <summary>
+        /// Create Racer object from ship definition.
+        /// </summary>
+        /// <param name="ship">The target ship</param>
+        /// <returns>New Racer object</returns>
+        public static Racer cloneShip(GameObject ship)
+        {
+            Racer go = new Racer();
+
+            go.mass = ship.mass;
+            go.size = ship.size;
+
+            go.rateL = ship.rateL;
+            go.rateR = ship.rateR;
+            go.dragL = ship.dragL;
+            go.dragR = ship.dragR;
+
+            go.models.AddRange(ship.models);
+            
+            foreach(MountPoint mount in ship.mounts)
+            {
+                go.mounts.Add(mount.clone());
+            }
+
+            foreach (Turret turret in ship.turrets)
+            {
+                go.turrets.Add(turret.clone());
+            }
+
+            return go;
+        }
     }
 }

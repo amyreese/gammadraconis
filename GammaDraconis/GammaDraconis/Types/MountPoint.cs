@@ -14,5 +14,22 @@ namespace GammaDraconis.Types
 
         // The installed weapon
         public Weapon weapon;
+
+        public MountPoint()
+        {
+            location = new Coords();
+        }
+
+        public MountPoint clone()
+        {
+            MountPoint mount = new MountPoint();
+            mount.location = location;
+            if (weapon != null)
+            {
+                mount.weapon = weapon.clone();
+            }
+
+            return mount;
+        }
     }
 }

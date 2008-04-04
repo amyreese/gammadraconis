@@ -22,5 +22,14 @@ namespace GammaDraconis.Types
             bullet = new Bullet();
             bullet.damage = 10;
         }
+
+        public Weapon clone()
+        {
+            Weapon weapon = new Weapon();
+            weapon.fireFrom = fireFrom;
+            weapon.bullet = bullet.clone();
+
+            return weapon;
+        }
     }
 }

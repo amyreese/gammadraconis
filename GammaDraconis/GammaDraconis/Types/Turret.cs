@@ -15,5 +15,24 @@ namespace GammaDraconis.Types
 
         // Locations to mount weapons
         public List<MountPoint> mounts;
+
+        public Turret()
+        {
+            location = new Coords();
+            mounts = new List<MountPoint>();
+        }
+
+        public Turret clone()
+        {
+            Turret turret = new Turret();
+            turret.location = location;
+
+            foreach (MountPoint mount in mounts)
+            {
+                turret.mounts.Add(mount.clone());
+            }
+
+            return turret;
+        }
     }
 }

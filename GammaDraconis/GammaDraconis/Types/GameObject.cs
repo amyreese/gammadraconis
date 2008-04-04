@@ -55,6 +55,27 @@ namespace GammaDraconis.Types
         public virtual GameObject clone()
         {
             GameObject go = new GameObject();
+
+            go.mass = mass;
+            go.size = size;
+
+            go.rateL = rateL;
+            go.rateR = rateR;
+            go.dragL = dragL;
+            go.dragR = dragR;
+
+            go.models.AddRange(models);
+            
+            foreach(MountPoint mount in mounts)
+            {
+                go.mounts.Add(mount.clone());
+            }
+
+            foreach (Turret turret in turrets)
+            {
+                go.turrets.Add(turret.clone());
+            }
+
             return go;
         }
 

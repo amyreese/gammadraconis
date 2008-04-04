@@ -133,8 +133,8 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Lua\Objects\" />
     <Folder Include="Lua\Ships\" />
+    <Folder Include="Lua\Things\" />
     <Folder Include="Lua\Weapons\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

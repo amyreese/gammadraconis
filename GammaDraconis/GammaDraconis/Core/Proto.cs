@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using GammaDraconis.Types;
@@ -26,9 +27,41 @@ namespace GammaDraconis.Core
 
             GameLua lua = GammaDraconis.GetInstance().GameLua;
 
-            // TODO: Find all lua files in the 'Objects', 'Ships', and 'Weapons'
-            //       directories, and load each one o pre-create all the object
-            //       definitions to be used later in the game.
+            // Load weapon prototypes
+            if (Directory.Exists("Lua/Weapons"))
+            {
+                Console.WriteLine("Loading Weapons...");
+                string[] files = Directory.GetFiles("Lua/Weapons", "*.lua", SearchOption.AllDirectories);
+
+                foreach (string file in files)
+                {
+                    lua.DoFile(file);
+                }
+            }
+
+            // Load thing prototypes
+            if (Directory.Exists("Lua/Things"))
+            {
+                Console.WriteLine("Loading Things...");
+                string[] files = Directory.GetFiles("Lua/Things", "*.lua", SearchOption.AllDirectories);
+
+                foreach (string file in files)
+                {
+                    lua.DoFile(file);
+                }
+            }
+
+            // Load racer protoypes
+            if (Directory.Exists("Lua/Ships"))
+            {
+                Console.WriteLine("Loading Ships...");
+                string[] files = Directory.GetFiles("Lua/Ships", "*.lua", SearchOption.AllDirectories);
+
+                foreach (string file in files)
+                {
+                    lua.DoFile(file);
+                }
+            }
         }
 
         /// <summary>

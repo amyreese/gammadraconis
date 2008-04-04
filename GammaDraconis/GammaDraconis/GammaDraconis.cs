@@ -48,6 +48,8 @@ namespace GammaDraconis
         protected override void Initialize()
         {
             GameLua = new GameLua();
+            Proto.init();
+
 #if DEBUG
             DebugInterface = (Interface)GameLua.DoString("return dofile( 'Interfaces/DebugInterface/DebugInterface.lua' )")[0];
 #endif

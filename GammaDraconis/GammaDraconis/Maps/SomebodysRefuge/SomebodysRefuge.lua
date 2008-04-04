@@ -1,22 +1,22 @@
 gameScene = Scene()
 Engine.GetInstance().gameScene = gameScene
 
-p = Player(GammaDraconis, PlayerIndex.One)
+p = Player(PlayerIndex.One)
 gameScene:track(p, GO_TYPE.RACER)
 
-p2 = Player(GammaDraconis, PlayerIndex.Two)
+p2 = Player(PlayerIndex.Two)
 p2.position = Coords(20.0, -12.0, 28.0)
 gameScene:track(p2, GO_TYPE.RACER)
 
-p3 = Player(GammaDraconis, PlayerIndex.Three)
+p3 = Player(PlayerIndex.Three)
 p3.position = Coords(20.0, 12.0, 28.0)
 gameScene:track(p3, GO_TYPE.RACER)
 
-p4 = Player(GammaDraconis, PlayerIndex.Four)
+p4 = Player(PlayerIndex.Four)
 p4.position = Coords(20.0, 12.0, -28.0)
 gameScene:track(p4, GO_TYPE.RACER)
 
-r = Racer(GammaDraconis);
+r = Racer();
 r.position = Coords(0.0, 0.0, 0.0, 0.0, MSMath.PI, 0.0);
 r.models[0].scale = 2;
 gameScene:track(r, GO_TYPE.RACER);

@@ -37,7 +37,7 @@ for i = 0, 330, 30 do
 	local rad = MathHelper.ToRadians(i)
 	local x = MSMath.Cos(rad)
 	local y = MSMath.Sin(rad)
-	table.insert( path, {x=x*1000 - 1000, y=0, z=y*1000 + 50, pitch=0, yaw=-rad, roll=0} )
+	table.insert( path, {x=x*1000 - 1000, y=0, z=y*1000 + 50, pitch=0, yaw=MSMath.PI-rad, roll=0} )
 end
 -- TODO: Find a way to add intermediate points for AI
 for i,v in ipairs( path ) do

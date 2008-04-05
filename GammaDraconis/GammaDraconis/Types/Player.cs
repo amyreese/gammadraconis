@@ -22,6 +22,8 @@ namespace GammaDraconis.Types
         public Coords camera;
         public Renderer.Viewports viewport;
 
+        double invulnerabilityTimer = 0;
+
         public Interface playerHUD;
 
         public Player(PlayerIndex index)
@@ -44,14 +46,24 @@ namespace GammaDraconis.Types
             playerHUD.Update(gameTime);
 
             #region Death handling
-            foreach (Player p in players)
+            if (health <= 0)
             {
-                if ((p != null) && (p.health <= 0))
-                {
-                    p.position = Engine.GetInstance().race.coord(p, 0);
-                    p.health = p.maxHealth;
-                    p.velocity = new Coords();
-                }
+                position = Engine.GetInstance().race.coord(this, 0);
+                velocity = new Coords();
+                health = maxHealth;
+                invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
+            }
+            #endregion
+
+            #region Invulnerability Timer
+            if (invulnerabilityTimer > 0)
+            {
+                invincible = true;
+                invulnerabilityTimer -= gameTime.ElapsedRealTime.TotalSeconds;
+            }
+            else
+            {
+                invincible = false;
             }
             #endregion
 

@@ -56,6 +56,7 @@ namespace GammaDraconis.Types
         public float health;
         public float maxHealth;
         public bool invincible;
+        public double shieldVisibilityTimer = 0;
 
         /// <summary>
         /// Clone a game object
@@ -173,8 +174,11 @@ namespace GammaDraconis.Types
         /// <param name="damage">The amount of damage.</param>
         public void takeDamage(float damage)
         {
-            if(!invincible)
+            if (!invincible)
+            {
                 health -= damage;
+            }
+            shieldVisibilityTimer = Math.Max(shieldVisibilityTimer, 1);
         }
 
         /// <summary>

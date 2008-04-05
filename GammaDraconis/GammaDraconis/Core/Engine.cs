@@ -297,6 +297,18 @@ namespace GammaDraconis.Core
             List<GameObject> collidableGameObjects = gameScene.collidable();
             foreach (GameObject o in new List<GameObject>(collidableGameObjects))
             {
+                if (o.shieldModel != null)
+                {
+                    if (o.shieldVisibilityTimer > 0)
+                    {
+                        o.shieldVisibilityTimer -= gameTime.ElapsedRealTime.TotalSeconds;
+                        o.shieldModel.visible = true;
+                    }
+                    else
+                    {
+                        o.shieldModel.visible = false;
+                    }
+                }
                 collidableGameObjects.Remove(o);
                 foreach (GameObject o2 in collidableGameObjects)
                 {
@@ -305,6 +317,10 @@ namespace GammaDraconis.Core
                         break;
                     }
                     if (o.ownedBy == o2 || o2.ownedBy == o)
+                    {
+                        break;
+                    }
+                    if (o is Player && o2 is Player && (o.invincible || o2.invincible))
                     {
                         break;
                     }
@@ -319,7 +335,6 @@ namespace GammaDraconis.Core
 
                         o.takeDamage(m.Length());
                         o2.takeDamage(m.Length()); 
-
                         if (o is Bullet)
                         {
                             gameScene.ignore(o, GO_TYPE.BULLET);

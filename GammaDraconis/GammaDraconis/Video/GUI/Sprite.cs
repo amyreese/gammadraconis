@@ -12,10 +12,22 @@ namespace GammaDraconis.Video.GUI
         public String textureName;
         public Color color;
 
+        // Source rectangle
+        public bool useSource = false;
+        public Rectangle source;
+
         public Sprite(GammaDraconis game)
             : base(game)
         {
             color = Color.White;
+        }
+
+        public Sprite(GammaDraconis game, Rectangle source)
+            : base(game)
+        {
+            color = Color.White;
+            this.source = source;
+            useSource = true;
         }
 
         protected override void LoadContent()
@@ -37,7 +49,14 @@ namespace GammaDraconis.Video.GUI
             if (texture != null)
             {
                 spriteBatch.Begin();
-                spriteBatch.Draw(texture, position, null, color, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
+                if (useSource)
+                {
+                    spriteBatch.Draw(texture, position, source, color, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
+                }
+                else
+                {
+                    spriteBatch.Draw(texture, position, null, color, rotation, Vector2.Zero, scale, SpriteEffects.None, 0);
+                }
                 spriteBatch.End();
             }
         }

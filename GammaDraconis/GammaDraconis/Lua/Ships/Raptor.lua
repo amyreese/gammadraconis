@@ -15,11 +15,11 @@ ship = GameObject()
 
 ship.mass = 800
 
-ship.rateL = 200
-ship.dragL = 0.7
+ship.rateL = 220
+ship.dragL = 1.2
 
-ship.rateR = 80
-ship.dragR = 2.5
+ship.rateR = 100
+ship.dragR = 3
 
 ship.models:Add(shipModel)
 ship.shieldModel = shieldModel

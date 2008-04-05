@@ -393,8 +393,8 @@ namespace GammaDraconis.Core
         #endregion
 
         #region Race & Course
-        private Race race;
-        private Course course;
+        public Race race;
+        public Course course;
 
         /// <summary>
         /// Set up the course for AI's to follow.  This should be moved later

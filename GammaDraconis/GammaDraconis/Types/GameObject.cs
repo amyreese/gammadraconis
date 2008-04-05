@@ -54,6 +54,7 @@ namespace GammaDraconis.Types
 
         // Health and other attributes
         public float health;
+        public float maxHealth;
         public bool invincible;
 
         /// <summary>

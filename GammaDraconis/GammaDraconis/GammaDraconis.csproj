@@ -119,9 +119,15 @@
     <None Include="Lua\InterfaceComponents\StatusBar.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Lua\Ships\Raptor.lua" />
-    <None Include="Lua\Things\Asteroids.lua" />
-    <None Include="Lua\Weapons\Cannon.lua" />
+    <None Include="Lua\Ships\Raptor.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Lua\Things\Asteroids.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Lua\Weapons\Cannon.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Maps\CircleTrack\CircleTrack.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

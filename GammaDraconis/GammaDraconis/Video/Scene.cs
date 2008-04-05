@@ -27,7 +27,7 @@ namespace GammaDraconis.Video
         static public int DEBRIS = MOVABLE | COLLIDABLE;
 
         static public int RACER = NORMAL;
-        static public int BULLET = NORMAL ^ THINKABLE;
+        static public int BULLET = NORMAL;
         static public int MISSILE = NORMAL;
         static public int COURSE = GHOST;
     }

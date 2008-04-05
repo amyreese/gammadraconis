@@ -24,6 +24,9 @@ namespace GammaDraconis.Types
             turrets = new List<Turret>();
         }
 
+
+        public GameObject ownedBy;
+
         // Movement properties
         public Coords position;
         public Coords velocity;
@@ -241,6 +244,7 @@ namespace GammaDraconis.Types
                 if (weapon.lastFired >= 0)
                 {
                     Bullet b = weapon.bullet.clone();
+                    b.ownedBy = this;
                     b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix() * velocity.matrix();
                     b.position.T = Matrix.CreateTranslation(b.position.pos());
                     b.position.R = weapon.position.R * weapon.fireFrom.R;

@@ -75,7 +75,11 @@ playerHUDs[playerHudIndex].interface:AddComponent(reticule)
 
 playerHUDs[playerHudIndex].statBar = StatusBar.new()
 playerHUDs[playerHudIndex].statBar.addToInterface(playerHUDs[playerHudIndex].interface)
-playerHUDs[playerHudIndex].statBar.relocate( Vector2( 512-64, 64 ) )
+playerHUDs[playerHudIndex].statBar.relocate( Vector2( 512-64, 128 ) )
+
+playerHUDs[playerHudIndex].healthBar = StatusBar.new()
+playerHUDs[playerHudIndex].healthBar.addToInterface(playerHUDs[playerHudIndex].interface)
+playerHUDs[playerHudIndex].healthBar.relocate( Vector2( 512-64, 64 ) )
 
 function playerHUDs1update(gameTime)
 	playerHUDs.update(gameTime, 1)
@@ -91,6 +95,7 @@ function playerHUDs4update(gameTime)
 end
 function playerHUDs.update(gameTime, playerIndex)
 	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length())
+	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / 10)
 	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
 	if status.place == 0 then
 		playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following

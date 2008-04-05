@@ -9,6 +9,7 @@ base = GameObject()
 base.dragR = 0
 base.dragL = 0
 base.mass = 10000
+base.size = 100
 
 -- Asteroid800A
 fbx = FBXModel("Resources/Models/Asteroid800A", "", 200)

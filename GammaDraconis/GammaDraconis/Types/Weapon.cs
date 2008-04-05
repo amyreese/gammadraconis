@@ -24,7 +24,7 @@ namespace GammaDraconis.Types
         {
             fireFrom = new Coords();
             bullet = new Bullet();
-            bullet.damage = 10;
+            bullet.damage = 1;
         }
 
         public Weapon clone()

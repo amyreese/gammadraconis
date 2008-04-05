@@ -27,6 +27,7 @@ namespace GammaDraconis.Types
             : base()
         {
             this.index = index;
+            this.health = 10;
 
             input = new PlayerInput(index);
             camera = new Coords();

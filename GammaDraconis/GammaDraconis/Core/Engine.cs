@@ -293,6 +293,43 @@ namespace GammaDraconis.Core
                 return;
             }
 
+            List<GameObject> collidableGameObjects = gameScene.collidable();
+            foreach (GameObject o in new List<GameObject>(collidableGameObjects))
+            {
+                collidableGameObjects.Remove(o);
+                foreach (GameObject o2 in collidableGameObjects)
+                {
+                    if (o is Bullet && o2 is Bullet)
+                    {
+                        break;
+                    }
+                    if (o.ownedBy == o2 || o2.ownedBy == o)
+                    {
+                        break;
+                    }
+                    BoundingSphere s = new BoundingSphere(o.position.pos(), o.size);
+                    BoundingSphere s2 = new BoundingSphere(o2.position.pos(), o2.size);
+                    if (s.Intersects(s2))
+                    {
+                        Vector3 m = (o.velocity.pos() - o2.velocity.pos()) * (o.mass + o2.mass) / 100;
+
+                        o2.acceleration.T *= Matrix.CreateTranslation(-m) * Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
+                        o.acceleration.T *= Matrix.CreateTranslation(m) * Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
+
+                        if (o is Bullet)
+                        {
+                            gameScene.ignore(o, GO_TYPE.BULLET);
+                            o2.takeDamage(((Bullet)o).damage);
+                        }
+                        if (o2 is Bullet)
+                        {
+                            gameScene.ignore(o2, GO_TYPE.BULLET);
+                            o.takeDamage(((Bullet)o2).damage);
+                        }
+
+                    }
+                }
+            }
             /*
              * Physics Handling Pseudocode
              * 

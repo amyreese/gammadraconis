@@ -24,7 +24,9 @@ namespace GammaDraconis.Types
 
         public Bullet clone()
         {
-            return new Bullet();
+            Bullet b = new Bullet();
+            b.damage = damage;
+            return b;
         }
     }
 }

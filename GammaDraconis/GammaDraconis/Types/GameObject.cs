@@ -246,7 +246,7 @@ namespace GammaDraconis.Types
                 {
                     Bullet b = weapon.bullet.clone();
                     b.ownedBy = this;
-                    b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix() * velocity.matrix();
+                    b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
                     b.position.T = Matrix.CreateTranslation(b.position.pos());
                     b.position.R = weapon.position.R * weapon.fireFrom.R;
                     b.throttle(1f);

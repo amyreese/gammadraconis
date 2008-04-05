@@ -67,6 +67,12 @@ hudBorder.RelativePosition = Vector2( 1024, 768 - 256 )
 hudBorder.RelativeRotation = 3.14/2
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
+reticule = Sprite(GammaDraconis, Rectangle(0,0,64,64))
+reticule.textureName = "Resources/Textures/HUD/Elements"
+reticule.RelativePosition = Vector2( 512-32, 384-32 )
+reticule.RelativeRotation = 0
+playerHUDs[playerHudIndex].interface:AddComponent(reticule)
+
 playerHUDs[playerHudIndex].statBar = StatusBar.new()
 playerHUDs[playerHudIndex].statBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].statBar.relocate( Vector2( 512-64, 64 ) )

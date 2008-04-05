@@ -84,6 +84,11 @@
     <None Include="Resources\Audio\Sound\Plink_09.wav">
       <Name>Plink_09</Name>
     </None>
+    <Compile Include="Resources\Textures\HUD\Elements.dds">
+      <Name>Elements</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Resources\Models\Shield.FBX">
       <Name>Shield</Name>
       <Importer>FbxImporter</Importer>

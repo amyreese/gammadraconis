@@ -13,11 +13,15 @@ base.mass = 10000
 -- Asteroid800A
 fbx = FBXModel("Resources/Models/Asteroid800A", "", 200)
 
-print('here')
 roid = base:clone()
-print('here')
 roid.models:Add(fbx)
-print('here')
 
 Proto.thing:Add("Asteroid800A", roid)
-print('here')
+
+-- Asteroid800B
+fbx = FBXModel("Resources/Models/Asteroid800B", "", 200)
+
+roid = base:clone()
+roid.models:Add(fbx)
+
+Proto.thing:Add("Asteroid800B", roid)

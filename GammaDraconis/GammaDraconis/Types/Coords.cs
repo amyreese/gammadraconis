@@ -83,5 +83,13 @@ namespace GammaDraconis.Types
         {
             return "{{ " + R.ToString() + " || " + T.Translation.ToString() + " }}";
         }
+
+        public Coords Clone()
+        {
+            Coords c = new Coords();
+            c.R = new Quaternion(R.X, R.Y, R.Z, R.W);
+            c.T = Matrix.Identity * T;
+            return c;
+        }
     }
 }

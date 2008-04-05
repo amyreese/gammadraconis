@@ -293,6 +293,7 @@ namespace GammaDraconis.Core
                 return;
             }
 
+            float timeMod = (float)gameTime.ElapsedRealTime.TotalSeconds;
             List<GameObject> collidableGameObjects = gameScene.collidable();
             foreach (GameObject o in new List<GameObject>(collidableGameObjects))
             {
@@ -311,10 +312,13 @@ namespace GammaDraconis.Core
                     BoundingSphere s2 = new BoundingSphere(o2.position.pos(), o2.size);
                     if (s.Intersects(s2))
                     {
-                        Vector3 m = (o.velocity.pos() - o2.velocity.pos()) * (o.mass + o2.mass) / 100;
+                        // TODO: this is almost definately not going to work properly in many, many situations.
+                        Vector3 m = (o.velocity.pos() - o2.velocity.pos()) * (o.mass + o2.mass) * 2 * timeMod;
+                        o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / o2.mass)) * Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
+                        o.acceleration.T *= Matrix.CreateTranslation(m * o2.mass / o.mass) * Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
 
-                        o2.acceleration.T *= Matrix.CreateTranslation(-m) * Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
-                        o.acceleration.T *= Matrix.CreateTranslation(m) * Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
+                        o.takeDamage(m.Length());
+                        o2.takeDamage(m.Length()); 
 
                         if (o is Bullet)
                         {

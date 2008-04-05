@@ -72,8 +72,12 @@ namespace GammaDraconis.Core
                 lap++;
                 point -= course.path.Count;
             }
+            if (point == 0)
+            {
+                point = course.path.Count;
+            }
 
-            return course.path[point - 1];
+            return course.path[point - 1].Clone();
         }
         public Coords nextCoord(Racer racer) { 
             return coord(racer, 1); 

@@ -28,12 +28,12 @@ namespace GammaDraconis.Types
             : base()
         {
             this.index = index;
-            this.health = 10;
 
             input = new PlayerInput(index);
             camera = new Coords();
             viewport = (Renderer.Viewports)index;
-            health = 10;
+            maxHealth = 10;
+            health = maxHealth;
             Player.players[(int)index] = this;
 
             playerHUD = (Interface)GammaDraconis.GetInstance().GameLua.DoString("playerHudIndex = " + ((int)index + 1) + "\nreturn dofile( 'Interfaces/PlayerHUD/PlayerHUD.lua' )")[0];
@@ -46,10 +46,11 @@ namespace GammaDraconis.Types
             #region Death handling
             foreach (Player p in players)
             {
-                if ((p != null) && (p.health == 0))
+                if ((p != null) && (p.health <= 0))
                 {
                     p.position = Engine.GetInstance().race.coord(p, 0);
                     p.health = p.maxHealth;
+                    p.velocity = new Coords();
                 }
             }
             #endregion

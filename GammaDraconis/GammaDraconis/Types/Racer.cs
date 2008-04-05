@@ -40,7 +40,11 @@ namespace GammaDraconis.Types
             {
                 go.models.Add(model.clone());
             }
-            go.models.AddRange(models);
+
+            if (shieldModel != null)
+            {
+                go.shieldModel = shieldModel.clone();
+            }
             
             foreach(MountPoint mount in mounts)
             {
@@ -75,6 +79,11 @@ namespace GammaDraconis.Types
             foreach (FBXModel model in ship.models)
             {
                 go.models.Add(model.clone());
+            }
+
+            if (ship.shieldModel != null)
+            {
+                go.shieldModel = ship.shieldModel.clone();
             }
             
             foreach(MountPoint mount in ship.mounts)

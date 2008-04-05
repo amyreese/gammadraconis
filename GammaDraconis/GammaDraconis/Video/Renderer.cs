@@ -160,8 +160,16 @@ namespace GammaDraconis.Video
             {
                 objectMatrix = worldMatrix * gameObject.position.matrix();
 
-                foreach (FBXModel fbxmodel in gameObject.models)
+                List<FBXModel> fbxmodels = new List<FBXModel>(gameObject.models);
+                fbxmodels.Add(gameObject.shieldModel);
+
+                foreach (FBXModel fbxmodel in fbxmodels)
                 {
+                    if (fbxmodel == null || !fbxmodel.visible)
+                    {
+                        continue;
+                    }
+
                     modelMatrix = Matrix.CreateScale(fbxmodel.scale / 500) * objectMatrix * fbxmodel.offset.matrix();
 
                     Model model = fbxmodel.model;

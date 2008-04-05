@@ -1,5 +1,6 @@
 
 shipModel = FBXModel("Resources/Models/Raptor")
+shieldModel = FBXModel("Resources/Models/Shield", "", 10)
 
 mountR = MountPoint()
 mountR.location = Coords(0.3, 0, 0)
@@ -20,6 +21,7 @@ ship.rateR = 80
 ship.dragR = 2.5
 
 ship.models:Add(shipModel)
+ship.shieldModel = shieldModel
 
 ship.mounts:Add(mountR)
 ship.mounts:Add(mountL)

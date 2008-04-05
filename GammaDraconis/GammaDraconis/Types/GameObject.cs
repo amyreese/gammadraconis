@@ -41,6 +41,7 @@ namespace GammaDraconis.Types
 
         // Visual properties
         public List<FBXModel> models;
+        public FBXModel shieldModel;
 
         // Locations to mount weapons
         public List<MountPoint> mounts;
@@ -67,6 +68,11 @@ namespace GammaDraconis.Types
             foreach (FBXModel model in models)
             {
                 go.models.Add(model.clone());
+            }
+
+            if (shieldModel != null)
+            {
+                go.shieldModel = shieldModel.clone();
             }
             
             foreach(MountPoint mount in mounts)

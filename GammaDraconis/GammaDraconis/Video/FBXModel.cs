@@ -25,6 +25,9 @@ namespace GammaDraconis.Video
         // Model scaling
         public float scale;
 
+        // Visibility
+        public bool visible = true;
+
         public FBXModel(string filename) : this(filename, "") { }
         public FBXModel(string filename, string effect) : this(filename, effect, 1f) { }
         public FBXModel(string filename, string effect, float scale) : base(GammaDraconis.GetInstance())

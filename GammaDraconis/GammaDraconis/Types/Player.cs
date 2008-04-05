@@ -92,7 +92,7 @@ namespace GammaDraconis.Types
 
             #region Controller-independent handling
             {
-                if (input.inputPressed("Fire1"))
+                if (input.inputDown("Fire1"))
                 {
                     fire();
                 }

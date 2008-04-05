@@ -216,13 +216,22 @@ namespace GammaDraconis.Types
         {
             foreach (Weapon weapon in weapons)
             {
-                Bullet b = weapon.bullet.clone();
-                b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
-                b.position.T = Matrix.CreateTranslation(b.position.pos());
-                b.position.R = weapon.position.R * weapon.fireFrom.R;
-                b.throttle(1f);
+                if (weapon.lastFired >= 0)
+                {
+                    Bullet b = weapon.bullet.clone();
+                    b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
+                    b.position.T = Matrix.CreateTranslation(b.position.pos());
+                    b.position.R = weapon.position.R * weapon.fireFrom.R;
+                    b.throttle(1f);
 
-                Engine.GetInstance().gameScene.track(b, GO_TYPE.BULLET);
+                    Engine.GetInstance().gameScene.track(b, GO_TYPE.BULLET);
+
+                    weapon.lastFired = -weapon.cooldown;
+                }
+                else
+                {
+                    weapon.lastFired += Engine.gameTime.ElapsedGameTime.Milliseconds;
+                }
             }
         }
     }

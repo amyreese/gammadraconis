@@ -15,6 +15,10 @@ namespace GammaDraconis.Types
         public Coords fireFrom;
         public Bullet bullet;
 
+        // Cooldown in milleseconds
+        public int cooldown = 100;
+        public int lastFired = 0;
+
         // Behaviors
         public Weapon() 
         {

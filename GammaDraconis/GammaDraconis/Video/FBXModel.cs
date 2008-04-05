@@ -61,6 +61,8 @@ namespace GammaDraconis.Video
             fbxmodel._effect = _effect;
             fbxmodel.model = model;
 
+            fbxmodel.visible = visible;
+
             return fbxmodel;
         }
     }

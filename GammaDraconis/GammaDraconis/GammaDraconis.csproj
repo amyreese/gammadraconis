@@ -119,6 +119,8 @@
     <None Include="Lua\InterfaceComponents\StatusBar.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Lua\Ships\Raptor.lua" />
+    <None Include="Lua\Weapons\Cannon.lua" />
     <None Include="Maps\CircleTrack\CircleTrack.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -133,9 +135,7 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Lua\Ships\" />
     <Folder Include="Lua\Things\" />
-    <Folder Include="Lua\Weapons\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />

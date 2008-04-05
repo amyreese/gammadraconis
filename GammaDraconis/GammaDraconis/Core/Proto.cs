@@ -23,6 +23,7 @@ namespace GammaDraconis.Core
         public static void init()
         {
             thing = new Dictionary<string, GameObject>();
+            ship = new Dictionary<string, GameObject>();
             racer = new Dictionary<string, Racer>();
             weapon = new Dictionary<string, Weapon>();
 
@@ -87,6 +88,7 @@ namespace GammaDraconis.Core
             }
         }
         public static GameObject getThing(string name, Coords position) { return getThing(name, position, new Coords()); }
+        public static GameObject getThing(string name) { return getThing(name, new Coords(), new Coords()); }
 
         /// <summary>
         /// Get a prototype clone with given name, position, and velocity.
@@ -110,6 +112,7 @@ namespace GammaDraconis.Core
             }
         }
         public static GameObject getShip(string name, Coords position) { return getShip(name, position, new Coords()); }
+        public static GameObject getShip(string name) { return getShip(name, new Coords(), new Coords()); }
 
         /// <summary>
         /// Get a prototype clone with given name, position, and velocity.
@@ -137,6 +140,7 @@ namespace GammaDraconis.Core
             }
         }
         public static Racer getRacer(string name, Coords position) { return getRacer(name, position, new Coords()); }
+        public static Racer getRacer(string name) { return getRacer(name, new Coords(), new Coords()); }
 
         /// <summary>
         /// Get a prototype clone with given name, position, and velocity.
@@ -145,13 +149,11 @@ namespace GammaDraconis.Core
         /// <param name="position">New position</param>
         /// <param name="velocity">New velocity</param>
         /// <returns></returns>
-        public static Weapon getWeapon(string name, Coords position, Coords velocity)
+        public static Weapon getWeapon(string name)
         {
             if (weapon.ContainsKey(name))
             {
                 Weapon go = weapon[name].clone();
-                go.position = position;
-                go.velocity = velocity;
                 return go;
             }
             else
@@ -159,7 +161,5 @@ namespace GammaDraconis.Core
                 return null;
             }
         }
-        public static Weapon getWeapon(string name, Coords position) { return getWeapon(name, position, new Coords()); }
-
     }
 }

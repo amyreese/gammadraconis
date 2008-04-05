@@ -1,11 +1,12 @@
 gameScene = Scene()
 Engine.GetInstance().gameScene = gameScene
 
-p = Player(PlayerIndex.One)
+ship = Proto.getShip("Raptor")
+p = Player.cloneShip(ship, PlayerIndex.One)
 p.position = Coords(0.0, -5.0, 0.0, MSMath.PI, 0, 0)
 gameScene:track(p, GO_TYPE.RACER)
 
-p4 = Player(PlayerIndex.Four)
+p4 = Player.cloneShip(ship, PlayerIndex.Four)
 p4.position = Coords(0.0, 5.0, 0.0, MSMath.PI, 0, 0)
 gameScene:track(p4, GO_TYPE.RACER)
 racers = Racer[2]

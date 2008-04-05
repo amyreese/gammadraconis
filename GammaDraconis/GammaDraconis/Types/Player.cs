@@ -138,7 +138,10 @@ namespace GammaDraconis.Types
             go.dragL = ship.dragL;
             go.dragR = ship.dragR;
 
-            go.models.AddRange(ship.models);
+            foreach (FBXModel model in ship.models)
+            {
+                go.models.Add(model.clone());
+            }
             
             foreach(MountPoint mount in ship.mounts)
             {

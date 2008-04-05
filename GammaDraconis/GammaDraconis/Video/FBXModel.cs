@@ -49,5 +49,16 @@ namespace GammaDraconis.Video
             _effect.CurrentTechnique = _effect.Techniques[0];
             base.LoadContent();
         }
+
+        public FBXModel clone()
+        {
+            FBXModel fbxmodel = new FBXModel(filename);
+            fbxmodel.scale = scale;
+            fbxmodel.effect = effect;
+            fbxmodel._effect = _effect;
+            fbxmodel.model = model;
+
+            return fbxmodel;
+        }
     }
 }

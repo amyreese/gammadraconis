@@ -64,7 +64,10 @@ namespace GammaDraconis.Types
             go.dragL = dragL;
             go.dragR = dragR;
 
-            go.models.AddRange(models);
+            foreach (FBXModel model in models)
+            {
+                go.models.Add(model.clone());
+            }
             
             foreach(MountPoint mount in mounts)
             {

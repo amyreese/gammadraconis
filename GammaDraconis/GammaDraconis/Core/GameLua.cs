@@ -16,6 +16,9 @@ namespace GammaDraconis.Core
 using = luanet.load_assembly
 import = luanet.import_type
 
+using('System')
+Console = import('System.Console')
+
 using('Microsoft.Xna.Framework')
 
 MSMath = import('System.Math')
@@ -48,6 +51,7 @@ Weapon = import('GammaDraconis.Types.Weapon')
 
 Input = import('GammaDraconis.Core.Input.Input')
 
+Proto = import('GammaDraconis.Core.Proto')
 Engine = import('GammaDraconis.Core.Engine')
 Race = import('GammaDraconis.Core.Race')
 

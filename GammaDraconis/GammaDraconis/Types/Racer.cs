@@ -18,12 +18,6 @@ namespace GammaDraconis.Types
         public Racer()
             : base()
         {
-            models.Add(new FBXModel("Resources/Models/Raptor"));
-            
-            MountPoint mount = new MountPoint();
-            mount.location = new Coords(0.2f, 0f, 0f);
-            mount.weapon = new Weapon();
-            mounts.Add(mount);
         }
         
         /// <summary>
@@ -42,6 +36,10 @@ namespace GammaDraconis.Types
             go.dragL = dragL;
             go.dragR = dragR;
 
+            foreach (FBXModel model in models)
+            {
+                go.models.Add(model.clone());
+            }
             go.models.AddRange(models);
             
             foreach(MountPoint mount in mounts)
@@ -74,7 +72,10 @@ namespace GammaDraconis.Types
             go.dragL = ship.dragL;
             go.dragR = ship.dragR;
 
-            go.models.AddRange(ship.models);
+            foreach (FBXModel model in ship.models)
+            {
+                go.models.Add(model.clone());
+            }
             
             foreach(MountPoint mount in ship.mounts)
             {

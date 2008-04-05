@@ -25,6 +25,11 @@ gameScene:track(skybox, GO_TYPE.SKYBOX)
 course = Course()
 Engine.GetInstance().course = course
 
+roid = Proto.getThing("Asteroid800A", Coords(-1000,0,50), Coords(0,0,0,0.004,0.001,0.0004))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800A", Coords(-1000,0,-200), Coords(0,0,.05, 0.001, 0.003, 0.001))
+gameScene:track(roid, GO_TYPE.DEBRIS)
 
 path = {}
 

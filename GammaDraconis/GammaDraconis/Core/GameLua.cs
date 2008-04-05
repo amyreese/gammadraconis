@@ -18,6 +18,7 @@ import = luanet.import_type
 
 using('System')
 Console = import('System.Console')
+print = Console.WriteLine
 
 using('Microsoft.Xna.Framework')
 

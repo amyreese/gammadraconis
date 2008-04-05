@@ -24,6 +24,7 @@ namespace GammaDraconis.Video
         // Composite
         static public int GHOST = THINKABLE | MOVABLE;
         static public int NORMAL = THINKABLE | MOVABLE | COLLIDABLE;
+        static public int DEBRIS = MOVABLE | COLLIDABLE;
 
         static public int RACER = NORMAL;
         static public int BULLET = NORMAL ^ THINKABLE;

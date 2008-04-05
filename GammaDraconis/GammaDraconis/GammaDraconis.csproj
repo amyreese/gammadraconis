@@ -120,6 +120,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Lua\Ships\Raptor.lua" />
+    <None Include="Lua\Things\Asteroids.lua" />
     <None Include="Lua\Weapons\Cannon.lua" />
     <None Include="Maps\CircleTrack\CircleTrack.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -133,9 +134,6 @@
       <Name>Microsoft.VC90.CRT.manifest</Name>
       <HintPath>.\Microsoft.VC90.CRT.manifest</HintPath>
     </NativeReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lua\Things\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />

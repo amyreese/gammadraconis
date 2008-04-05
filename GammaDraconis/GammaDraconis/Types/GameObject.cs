@@ -49,6 +49,10 @@ namespace GammaDraconis.Types
         // Turrets for weapons
         public List<Turret> turrets;
 
+        // Health and other attributes
+        public float health;
+        public bool invincible;
+
         /// <summary>
         /// Clone a game object
         /// </summary>
@@ -152,6 +156,24 @@ namespace GammaDraconis.Types
         }
 
         /// <summary>
+        /// Make this object take 1 damage.
+        /// </summary>
+        public void takeDamage()
+        {
+            takeDamage(1);
+        }
+
+        /// <summary>
+        /// Make this object take a specified amount of damage.
+        /// </summary>
+        /// <param name="damage">The amount of damage.</param>
+        public void takeDamage(float damage)
+        {
+            if(!invincible)
+                health -= damage;
+        }
+
+        /// <summary>
         /// Gather a list of weapons on the ship, optionally including
         /// weapons on turrets, and optionally translating weapon positions
         /// appropriately to their turret/mount positions.
@@ -219,7 +241,7 @@ namespace GammaDraconis.Types
                 if (weapon.lastFired >= 0)
                 {
                     Bullet b = weapon.bullet.clone();
-                    b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
+                    b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix() * velocity.matrix();
                     b.position.T = Matrix.CreateTranslation(b.position.pos());
                     b.position.R = weapon.position.R * weapon.fireFrom.R;
                     b.throttle(1f);

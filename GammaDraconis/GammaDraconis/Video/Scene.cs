@@ -40,7 +40,7 @@ namespace GammaDraconis.Video
     {
         
         // References to all objects in the scene, *including* the player objects
-        private Hashtable objects;
+        private Dictionary<int, List<GameObject>> objects;
         //TODO: Create implementation of oct tree
         //private O octTree;
 
@@ -49,7 +49,7 @@ namespace GammaDraconis.Video
         /// </summary>
         public Scene()
         {
-            objects = new Hashtable();
+            objects = new Dictionary<int, List<GameObject>>();
         }
 
         /// <summary>
@@ -80,6 +80,18 @@ namespace GammaDraconis.Video
             if (objects.ContainsKey(type))
             {
                 ((List<GameObject>)objects[type]).Remove(gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Remove an existing item from the scene manager - use ignore (gameObject, type) if type is known
+        /// </summary>
+        /// <param name="gameObject">Item to be removed</param>
+        public void ignore(GameObject gameObject)
+        {
+            foreach (List<GameObject> objs in objects.Values)
+            {
+                objs.Remove(gameObject);
             }
         }
 
@@ -122,7 +134,7 @@ namespace GammaDraconis.Video
         public List<GameObject> visible(Coords vantage)
         {
             List<GameObject> visibleObjects;
-            Hashtable optimizedObjects = sortOctTree(out visibleObjects, vantage);
+            Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, vantage);
             List<GameObject> temp = new List<GameObject>();
             List<GameObject> tempScenery = new List<GameObject>();
             List<GameObject> tempSkybox = new List<GameObject>();
@@ -189,7 +201,7 @@ namespace GammaDraconis.Video
             return tObjects;
         }
 
-        public Hashtable sortOctTree(out List<GameObject> entirelyVisible,  Coords vantage)
+        public Dictionary<int, List<GameObject>> sortOctTree(out List<GameObject> entirelyVisible, Coords vantage)
         {
             entirelyVisible = new List<GameObject>();
             //TODO: Look through the oct tree and return a more optimized Hashtable and seed entirely Visible with objects that are obviously visible

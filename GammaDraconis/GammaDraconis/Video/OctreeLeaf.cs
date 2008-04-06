@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 using GammaDraconis.Types;
 
-public class OctreeLeaf
+class OctreeLeaf
 {
     private const int maxobj = 8;
     private List<GameObject> containedObjects;
@@ -12,7 +13,7 @@ public class OctreeLeaf
 
     public OctreeLeaf(BoundingBox bound)
     {
-        containedObjects = new List<Geometry>();
+        containedObjects = new List<GameObject>();
         childLeaves = null;
         containerBox = bound;
     }

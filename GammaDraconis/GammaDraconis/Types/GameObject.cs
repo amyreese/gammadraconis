@@ -58,6 +58,8 @@ namespace GammaDraconis.Types
         public bool invincible;
         public double shieldVisibilityTimer = 0;
 
+        public LuaInterface.LuaFunction OnDeathFunction;
+
         /// <summary>
         /// Clone a game object
         /// </summary>
@@ -94,7 +96,20 @@ namespace GammaDraconis.Types
                 go.turrets.Add(turret.clone());
             }
 
+            go.maxHealth = maxHealth;
+            go.invincible = invincible;
+            go.health = maxHealth;
+            go.OnDeathFunction = OnDeathFunction;
+
             return go;
+        }
+
+        public void scaleModels(float factor)
+        {
+            foreach (FBXModel model in models)
+            {
+                model.scale *= factor;
+            }
         }
 
         // Behaviors
@@ -263,6 +278,14 @@ namespace GammaDraconis.Types
                 {
                     weapon.lastFired += Engine.gameTime.ElapsedGameTime.Milliseconds;
                 }
+            }
+        }
+
+        public virtual void OnDeath()
+        {
+            if (OnDeathFunction != null)
+            {
+                OnDeathFunction.Call(this);
             }
         }
     }

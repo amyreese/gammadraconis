@@ -328,13 +328,24 @@ namespace GammaDraconis.Core
                     BoundingSphere s2 = new BoundingSphere(o2.position.pos(), o2.size);
                     if (s.Intersects(s2))
                     {
-                        // TODO: this is almost definately not going to work properly in many, many situations.
-                        Vector3 m = (o.velocity.pos() - o2.velocity.pos()) * (o.mass + o2.mass) * 2 * timeMod;
-                        o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / o2.mass)) * Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
-                        o.acceleration.T *= Matrix.CreateTranslation(m * o2.mass / o.mass) * Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
+                        Vector3 angle = s.Center - s2.Center;
+                        if (angle.LengthSquared() == 0)
+                        {
+                            angle.X += 1;
+                        }
 
-                        o.takeDamage(m.Length());
-                        o2.takeDamage(m.Length()); 
+                        float magnitude = (o.velocity.matrix().Translation - o2.velocity.matrix().Translation).Length() * 250 + ((s.Radius + s2.Radius) - angle.Length()) / (s.Radius + s2.Radius) * 250;
+                        magnitude *= timeMod;
+
+                        angle.Normalize();
+
+                        // TODO: this is almost definately not going to work properly in many, many situations.
+                        Vector3 m = angle * magnitude;
+                        o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
+                        o.acceleration.T *= Matrix.CreateTranslation((m * o2.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
+
+                        o.takeDamage(magnitude);
+                        o2.takeDamage(magnitude); 
                         if (o is Bullet)
                         {
                             gameScene.ignore(o, GO_TYPE.BULLET);
@@ -345,7 +356,14 @@ namespace GammaDraconis.Core
                             gameScene.ignore(o2, GO_TYPE.BULLET);
                             o.takeDamage(((Bullet)o2).damage);
                         }
-
+                        if (o.health < 0)
+                        {
+                            o.OnDeath();
+                        }
+                        if (o2.health < 0)
+                        {
+                            o2.OnDeath();
+                        }
                     }
                 }
             }

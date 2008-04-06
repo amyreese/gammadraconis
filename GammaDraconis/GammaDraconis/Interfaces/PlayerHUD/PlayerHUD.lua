@@ -95,7 +95,7 @@ function playerHUDs4update(gameTime)
 end
 function playerHUDs.update(gameTime, playerIndex)
 	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length())
-	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / 10)
+	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
 	if status.place == 0 then
 		playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following

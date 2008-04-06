@@ -34,7 +34,7 @@ namespace GammaDraconis.Types
             input = new PlayerInput(index);
             camera = new Coords();
             viewport = (Renderer.Viewports)index;
-            maxHealth = 10;
+            maxHealth = 100;
             health = maxHealth;
             Player.players[(int)index] = this;
 

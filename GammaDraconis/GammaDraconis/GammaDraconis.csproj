@@ -100,6 +100,7 @@
     <Compile Include="Video\GUI\InterfaceComponent.cs" />
     <Compile Include="Video\GUI\Sprite.cs" />
     <Compile Include="Video\FBXModel.cs" />
+    <Compile Include="Video\OctreeLeaf.cs" />
     <Compile Include="Video\Renderer.cs" />
     <Compile Include="Video\Scene.cs" />
   </ItemGroup>

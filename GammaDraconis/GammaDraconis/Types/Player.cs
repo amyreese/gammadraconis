@@ -78,11 +78,11 @@ namespace GammaDraconis.Types
             }
             if (input.inputDown("Left"))
             {
-                turn(-1);
+                yaw(-1);
             }
             if (input.inputDown("Right"))
             {
-                turn(1);
+                yaw(1);
             }
             if (input.inputDown("RollLeft"))
             {

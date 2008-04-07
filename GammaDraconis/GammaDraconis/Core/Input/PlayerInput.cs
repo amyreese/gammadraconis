@@ -46,7 +46,7 @@ namespace GammaDraconis.Core.Input
             // Default action assignments
             if (GamePad.GetCapabilities(playerIndex).IsConnected)
             {
-                inputAxis.Add(Commands.Turn, "LeftX");
+                inputAxis.Add(Commands.Yaw, "LeftX");
                 inputAxis.Add(Commands.Pitch, "LeftY");
                 inputAxis.Add(Commands.Throttle, "Triggers");
                 inputAxis.Add(Commands.CameraX, "RightX");

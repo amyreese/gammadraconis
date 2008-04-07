@@ -29,7 +29,7 @@ function asteroidDead(asteroid)
 		local roid6 = roid1:clone()
 		local roid7 = roid1:clone()
 		local roid8 = roid1:clone()
-		local offset = roid1.size * 0.99
+		local offset = roid1.size * 0.97
 		roid1.position = Coords(oldPos.X + offset, oldPos.Y + offset, oldPos.Z + offset)
 		roid2.position = Coords(oldPos.X + offset, oldPos.Y + offset, oldPos.Z - offset)
 		roid3.position = Coords(oldPos.X + offset, oldPos.Y - offset, oldPos.Z + offset)

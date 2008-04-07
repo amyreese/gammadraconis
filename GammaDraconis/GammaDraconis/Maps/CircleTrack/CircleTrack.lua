@@ -16,7 +16,7 @@ racers[1] = p4
 planet = GameObject()
 planet.position = Coords(-1000, 0, 50)
 planet.models:Add(FBXModel("Resources/Models/Planet", "", 500))
-gameScene:track(planet, GO_TYPE.SCENERY)
+--gameScene:track(planet, GO_TYPE.SCENERY)
 
 skybox = GameObject()
 skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 500*10000))
@@ -25,10 +25,16 @@ gameScene:track(skybox, GO_TYPE.SKYBOX)
 course = Course()
 Engine.GetInstance().course = course
 
-roid = Proto.getThing("Asteroid800A", Coords(-1000,0,50), Coords(0,0,0,0.004,0.001,0.0004))
+roid = Proto.getThing("Asteroid800A", Coords(-1600,0,0), Coords(0.2,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800B", Coords(-1000,0,-200), Coords(0,0,.05, 0.001, 0.003, 0.001))
+roid = Proto.getThing("Asteroid800A", Coords(-400,0,0), Coords(-0.2,0,0,0.004,0.001,0.0004))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800B", Coords(-1000,0,-600), Coords(0,0,0.2, 0.001, 0.003, 0.001))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800B", Coords(-1000,0,600), Coords(0,0,-0.2, 0.001, 0.003, 0.001))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
 path = {}

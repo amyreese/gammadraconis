@@ -412,16 +412,17 @@ namespace GammaDraconis.Core
                 gameObject.velocity.R *= Quaternion.Slerp(Quaternion.Identity, gameObject.acceleration.R, timestep);
 
                 Matrix deltaV = mScale(gameObject.acceleration.T, timestep);
+                deltaV = mScale(deltaV, gameObject.rateL);
                 deltaV = deltaV * Matrix.CreateFromQuaternion(gameObject.position.R);
                 gameObject.velocity.T *= Matrix.CreateTranslation(deltaV.Translation);
 
                 // Apply velocity to position
                 Quaternion rotation = Quaternion.Slerp(Quaternion.Identity, gameObject.velocity.R, timestep);
-                rotation = qScale(rotation, gameObject.rateR);
+                rotation = qScale(rotation, gameObject.rateV);
                 gameObject.position.R *= rotation;
 
                 Matrix deltaP = mScale(gameObject.velocity.T, timestep);
-                deltaP = mScale(deltaP, gameObject.rateL);
+                deltaP = mScale(deltaP, gameObject.rateV);
                 gameObject.position.T *= deltaP;
 
                 // Zero acceleration

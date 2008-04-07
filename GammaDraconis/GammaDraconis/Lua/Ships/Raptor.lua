@@ -17,10 +17,10 @@ ship.mass = 800
 
 ship.size = 2
 
-ship.rateL = 220
+ship.rateL = 2
 ship.dragL = 1.2
 
-ship.rateR = 100
+ship.rateR = 2
 ship.dragR = 3
 
 ship.models:Add(shipModel)

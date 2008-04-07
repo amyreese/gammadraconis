@@ -15,8 +15,8 @@ namespace GammaDraconis.Types
 
         public Bullet()
         {
-            rateL = 2000f;
-            rateR = 200f;
+            rateL = 50f;
+            rateR = 1f;
             dragL = 0f;
             dragR = 0f;
 

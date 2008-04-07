@@ -33,8 +33,9 @@ namespace GammaDraconis.Types
         public Coords acceleration;
 
         // Movement limits
-        public float rateL = 200f;
-        public float rateR = 100f;
+        public float rateL = 1f;
+        public float rateR = 1f;
+        public float rateV = 100f;
 
         // Physical properties
         public int mass = 1000;
@@ -116,8 +117,12 @@ namespace GammaDraconis.Types
             }
         }
 
+        public virtual void test()
+        {
+        }
+
         // Behaviors
-        public virtual void think(GameTime gameTime) { }
+        public virtual void think(GameTime gameTime) { test(); }
 
         /// <summary>
         /// Fire the ship's weapons.  By default, fires all weapons on the ship.
@@ -272,6 +277,7 @@ namespace GammaDraconis.Types
                     b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
                     b.position.T = Matrix.CreateTranslation(b.position.pos());
                     b.position.R = weapon.position.R * weapon.fireFrom.R;
+                    b.velocity = velocity.Clone();
                     b.throttle(1f);
 
                     Engine.GetInstance().gameScene.track(b, GO_TYPE.BULLET);

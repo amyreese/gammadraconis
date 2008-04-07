@@ -76,10 +76,12 @@ playerHUDs[playerHudIndex].interface:AddComponent(reticule)
 playerHUDs[playerHudIndex].statBar = StatusBar.new()
 playerHUDs[playerHudIndex].statBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].statBar.relocate( Vector2( 512-64, 128 ) )
+playerHUDs[playerHudIndex].statBar.status.color = Color.Blue
 
 playerHUDs[playerHudIndex].healthBar = StatusBar.new()
 playerHUDs[playerHudIndex].healthBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].healthBar.relocate( Vector2( 512-64, 64 ) )
+playerHUDs[playerHudIndex].healthBar.status.color = Color.Red
 
 function playerHUDs1update(gameTime)
 	playerHUDs.update(gameTime, 1)

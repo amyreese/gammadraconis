@@ -322,6 +322,7 @@ namespace GammaDraconis.Core
                     o.OnDeath();
                 }
                 collidableGameObjects.Remove(o);
+                Vector3 oPos = o.position.pos();
                 foreach (GameObject o2 in collidableGameObjects)
                 {
                     if (o is Bullet && o2 is Bullet)
@@ -336,17 +337,16 @@ namespace GammaDraconis.Core
                     {
                         break;
                     }
-                    BoundingSphere s = new BoundingSphere(o.position.pos(), o.size);
-                    BoundingSphere s2 = new BoundingSphere(o2.position.pos(), o2.size);
-                    if (s.Intersects(s2) || s2.Intersects(s))
+                    Vector3 o2Pos = o2.position.pos();
+                    if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
                     {
-                        Vector3 angle = s.Center - s2.Center;
+                        Vector3 angle = oPos - o2Pos;
                         if (angle.LengthSquared() == 0)
                         {
                             angle.X += 1;
                         }
 
-                        float magnitude = (o.velocity.matrix().Translation - o2.velocity.matrix().Translation).Length() * 250 + ((s.Radius + s2.Radius) - angle.Length()) / (s.Radius + s2.Radius) * 250;
+                        float magnitude = (o.velocity.matrix().Translation - o2.velocity.matrix().Translation).Length() * 250 + ((o.size + o2.size) - angle.Length()) / (o.size + o2.size) * 250;
                         magnitude *= timeMod;
 
                         angle.Normalize();

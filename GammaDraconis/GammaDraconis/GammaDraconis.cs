@@ -134,12 +134,7 @@ namespace GammaDraconis
                 }
                 avgFps /= framerates.Length;
                 lastAverageFramerate = avgFps;
-                debug("Average FPS: " + avgFps);
-                debug("FPS: " + fps);
-                if (gameTime.IsRunningSlowly)
-                {
-                    debug("Slow!!!");
-                }
+                // Values used in Debug Interface
             }
 #endif
             base.Draw(gameTime);

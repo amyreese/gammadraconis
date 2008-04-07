@@ -9,17 +9,17 @@ base = GameObject()
 base.dragR = 0
 base.dragL = 0
 base.mass = 100000
-base.size = 100
-base.maxHealth = 1000
+base.size = 75
+base.maxHealth = 100
 
 function asteroidDead(asteroid)
 	Engine.GetInstance().gameScene:ignore(asteroid, GO_TYPE.DEBRIS)
-	if asteroid.maxHealth > 1 then
+	if asteroid.maxHealth > base.maxHealth / 8 then
 		local roid1 = asteroid:clone()
 		roid1.size = asteroid.size / 2
 		roid1:scaleModels(0.5)
 		roid1.mass = asteroid.mass / 2
-		roid.maxHealth = asteroid.maxHealth / 2
+		roid1.maxHealth = asteroid.maxHealth / 2
 		roid1.velocity = asteroid.velocity;
 		local oldPos = asteroid.position:pos()
 		local roid2 = roid1:clone()
@@ -29,7 +29,7 @@ function asteroidDead(asteroid)
 		local roid6 = roid1:clone()
 		local roid7 = roid1:clone()
 		local roid8 = roid1:clone()
-		local offset = roid1.size * 0.95
+		local offset = roid1.size * 0.99
 		roid1.position = Coords(oldPos.X + offset, oldPos.Y + offset, oldPos.Z + offset)
 		roid2.position = Coords(oldPos.X + offset, oldPos.Y + offset, oldPos.Z - offset)
 		roid3.position = Coords(oldPos.X + offset, oldPos.Y - offset, oldPos.Z + offset)

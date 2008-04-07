@@ -6,50 +6,75 @@ using GammaDraconis.Types;
 
 class OctreeLeaf
 {
-    private const int maxobj = 8;
+    private const int maxobj = 50;
     private List<GameObject> containedObjects;
-    private List<OctreeLeaf> childLeaves;
+    public List<OctreeLeaf> childLeaves;
     private BoundingBox containerBox;
 
     public OctreeLeaf(BoundingBox bound)
     {
         containedObjects = new List<GameObject>();
-        childLeaves = null;
+        childLeaves = new List<OctreeLeaf>(8);
         containerBox = bound;
     }
-
-    public List<GameObject> ContainedObjects
+    
+    public void setContainedObjects(List<GameObject> value)
     {
-        get { return containedObjects; }
-        set { containedObjects = value; }
+        containedObjects = value;
+        //Split();
     }
 
-    public List<OctreeLeaf> ChildLeaves
+    public List<GameObject> getContainedObjects()
     {
-        get { return childLeaves; }
+        return containedObjects;
     }
 
-    public BoundingBox ContainerBox
+    public List<OctreeLeaf> getChildLeaves()
     {
-        get { return containerBox; }
-        set { containerBox = value; }
+        return childLeaves;
+    }
+
+    public BoundingBox getContainerBox()
+    {
+        return containerBox;
+    }
+    
+    public void setContainerBox(BoundingBox value)
+    {
+        containerBox = value;
     }
 
     protected void Split()
     {
-        Vector3 half = ContainerBox.Max - ContainerBox.Min;
+        Vector3 half = containerBox.Max - containerBox.Min;
         Vector3 halfx = Vector3.UnitX * half;
         Vector3 halfy = Vector3.UnitY * half;
         Vector3 halfz = Vector3.UnitZ * half;
-
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min, ContainerBox.Min + half)));
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min + halfx, ContainerBox.Max - half + halfx)));
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min + halfz, ContainerBox.Min + half + halfz)));
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min + halfx + halfz, ContainerBox.Max - halfy)));
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min + halfy, ContainerBox.Max - halfx - halfz)));
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min + halfy + halfx, ContainerBox.Max - halfz)));
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min + halfy + halfz, ContainerBox.Max - halfx)));
-        ChildLeaves.Add(new OctreeLeaf(new BoundingBox(ContainerBox.Min + half, ContainerBox.Max)));
+        BoundingBox[] boxes = {
+            new BoundingBox(containerBox.Min, containerBox.Min + half), 
+            new BoundingBox(containerBox.Min + halfx, containerBox.Max - half + halfx),
+            new BoundingBox(containerBox.Min + halfz, containerBox.Min + half + halfz),
+            new BoundingBox(containerBox.Min + halfx + halfz, containerBox.Max - halfy),
+            new BoundingBox(containerBox.Min + halfy, containerBox.Max - halfx - halfz),
+            new BoundingBox(containerBox.Min + halfy + halfx, containerBox.Max - halfz),
+            new BoundingBox(containerBox.Min + halfy + halfz, containerBox.Max - halfx),
+            new BoundingBox(containerBox.Min + half, containerBox.Max)
+        };
+        
+        foreach( BoundingBox tempBox in boxes)
+        {
+            OctreeLeaf tempLeaf = new OctreeLeaf(tempBox);
+            foreach(GameObject obj in containedObjects){
+                if (tempBox.Contains(new BoundingSphere(obj.position.pos(), obj.size)) != ContainmentType.Disjoint){
+                    tempLeaf.containedObjects.Add(obj);
+                }
+            }
+            /*if (tempLeaf.containedObjects.Count > maxobj){
+                tempLeaf.Split();
+            }*/
+            childLeaves.Add(tempLeaf);
+        }
+            
     }
    
 }

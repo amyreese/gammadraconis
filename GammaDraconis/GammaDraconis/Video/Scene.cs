@@ -41,8 +41,7 @@ namespace GammaDraconis.Video
         
         // References to all objects in the scene, *including* the player objects
         private Dictionary<int, List<GameObject>> objects;
-        //TODO: Create implementation of oct tree
-        //private O octTree;
+        private OctreeLeaf octTreeRoot;
 
         /// <summary>
         /// Create a new Scene manager.
@@ -50,6 +49,9 @@ namespace GammaDraconis.Video
         public Scene()
         {
             objects = new Dictionary<int, List<GameObject>>();
+            //TODO: find root bounding box size
+            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-50000f),new Vector3(50000f)));
+            octTreeRoot.setContainedObjects(new List<GameObject>());
         }
 
         /// <summary>
@@ -69,6 +71,7 @@ namespace GammaDraconis.Video
                 temp.Add(gameObject);
                 objects.Add(type, temp);
             }
+            updateOctTreeObjects();
         }
 
         /// <summary>
@@ -207,6 +210,15 @@ namespace GammaDraconis.Video
             //TODO: Look through the oct tree and return a more optimized Hashtable and seed entirely Visible with objects that are obviously visible
             return objects;
         }
-    }
     
+        public void updateOctTreeObjects()
+        {
+            /*List<GameObject> objList = new List<GameObject>();
+            foreach (List<GameObject> tempList in objects.Values)
+            {
+                objList.AddRange(tempList);
+            }
+            octTreeRoot.setContainedObjects(objList);*/
+        }
+    }
 }

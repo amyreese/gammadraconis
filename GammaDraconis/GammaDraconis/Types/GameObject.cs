@@ -110,6 +110,10 @@ namespace GammaDraconis.Types
             {
                 model.scale *= factor;
             }
+            if (shieldModel != null)
+            {
+                shieldModel.scale *= factor;
+            }
         }
 
         // Behaviors

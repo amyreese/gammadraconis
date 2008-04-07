@@ -11,6 +11,7 @@ namespace GammaDraconis.Types
     class Bullet : GameObject
     {
         public float damage;
+        public double timeToLive;
 
         public Bullet()
         {
@@ -26,6 +27,7 @@ namespace GammaDraconis.Types
         {
             Bullet b = new Bullet();
             b.damage = damage;
+            b.timeToLive = timeToLive;
             return b;
         }
     }

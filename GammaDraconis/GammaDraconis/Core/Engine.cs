@@ -309,6 +309,18 @@ namespace GammaDraconis.Core
                         o.shieldModel.visible = false;
                     }
                 }
+                if (o is Bullet)
+                {
+                    ((Bullet)o).timeToLive -= gameTime.ElapsedRealTime.TotalSeconds;
+                    if (((Bullet)o).timeToLive < 0)
+                    {
+                        gameScene.ignore(o, GO_TYPE.BULLET);
+                    }
+                }
+                if (o.health < 0)
+                {
+                    o.OnDeath();
+                }
                 collidableGameObjects.Remove(o);
                 foreach (GameObject o2 in collidableGameObjects)
                 {
@@ -326,7 +338,7 @@ namespace GammaDraconis.Core
                     }
                     BoundingSphere s = new BoundingSphere(o.position.pos(), o.size);
                     BoundingSphere s2 = new BoundingSphere(o2.position.pos(), o2.size);
-                    if (s.Intersects(s2))
+                    if (s.Intersects(s2) || s2.Intersects(s))
                     {
                         Vector3 angle = s.Center - s2.Center;
                         if (angle.LengthSquared() == 0)
@@ -355,14 +367,6 @@ namespace GammaDraconis.Core
                         {
                             gameScene.ignore(o2, GO_TYPE.BULLET);
                             o.takeDamage(((Bullet)o2).damage);
-                        }
-                        if (o.health < 0)
-                        {
-                            o.OnDeath();
-                        }
-                        if (o2.health < 0)
-                        {
-                            o2.OnDeath();
                         }
                     }
                 }

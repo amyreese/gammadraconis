@@ -15,6 +15,8 @@ ship = GameObject()
 
 ship.mass = 800
 
+ship.size = 2
+
 ship.rateL = 220
 ship.dragL = 1.2
 

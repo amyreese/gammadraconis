@@ -113,7 +113,7 @@ namespace GammaDraconis.Core
             {
                 if (!finishedRacers.Contains(r))
                 {
-                    BoundingSphere checkpointSphere = new BoundingSphere(nextCoord(r).pos(), 25.0f);
+                    BoundingSphere checkpointSphere = new BoundingSphere(nextCoord(r).pos(), 75.0f);
                     BoundingSphere racerSphere = new BoundingSphere(r.position.pos(), 10.0f);
                     if (checkpointSphere.Intersects(racerSphere))
                     {

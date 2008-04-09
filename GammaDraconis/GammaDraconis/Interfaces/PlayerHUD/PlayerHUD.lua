@@ -96,7 +96,7 @@ function playerHUDs4update(gameTime)
 	playerHUDs.update(gameTime, 4)
 end
 function playerHUDs.update(gameTime, playerIndex)
-	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length())
+	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 4.1)
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
 	if status.place == 0 then

@@ -14,6 +14,7 @@ namespace GammaDraconis.Screens.Menus
     {
         Racer racer;
         GameObject skybox;
+        private Vector3 startLocation = new Vector3(20.0f, -1.35f, -12.0f);
 
         /// <summary>
         /// 
@@ -23,18 +24,19 @@ namespace GammaDraconis.Screens.Menus
             : base(game)
         {
             skybox = new GameObject();
-            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 10f));
+            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.05f));
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
 
             racer = Proto.getRacer("Raptor");
-            racer.position = new Coords(10000f, -650f, -6000f, 0.2f, 1.5f, 1f);
-            racer.models[0].scale *= 500;
+            racer.position = new Coords(startLocation.X, startLocation.Y, startLocation.Z, 0.2f, 1.5f, 1.0f);
+            racer.models[0].scale *= 1;
+            racer.size *= 1;
             screenScene.track(racer, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
-            planet.position = new Coords(2000f, -1000f, -5000f);
-            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 4f));
+            planet.position = new Coords(500f, -300f, -1250f);
+            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 1f));
             screenScene.track(planet, GO_TYPE.SCENERY);
 
             Text NameText = new Text(game);
@@ -128,10 +130,10 @@ namespace GammaDraconis.Screens.Menus
 
         public override void Update(GameTime gameTime)
         {
-            racer.position.T *= Matrix.CreateTranslation((float)(-5000.0f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1000.0f * gameTime.ElapsedGameTime.TotalSeconds), 0);
-            if (racer.position.pos().X < -10000)
+            racer.position.T *= Matrix.CreateTranslation((float)(-7.5f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1.5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
+            if (racer.position.pos().X < -20)
             {
-                racer.position.T = Matrix.CreateTranslation(10000f, -650f, -6000f);
+                racer.position.T = Matrix.CreateTranslation(startLocation);
             }
             base.Update(gameTime);
         }

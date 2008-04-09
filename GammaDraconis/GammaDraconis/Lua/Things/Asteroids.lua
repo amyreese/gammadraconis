@@ -52,7 +52,7 @@ end
 base.OnDeathFunction = GammaDraconis.GameLua:GetFunction("asteroidDead")
 
 -- Asteroid800A
-fbx = FBXModel("Resources/Models/Asteroid800A", "", 200)
+fbx = FBXModel("Resources/Models/Asteroid800A", "", 1)
 
 roid = base:clone()
 roid.models:Add(fbx)
@@ -60,7 +60,7 @@ roid.models:Add(fbx)
 Proto.thing:Add("Asteroid800A", roid)
 
 -- Asteroid800B
-fbx = FBXModel("Resources/Models/Asteroid800B", "", 200)
+fbx = FBXModel("Resources/Models/Asteroid800B", "", 1)
 
 roid = base:clone()
 roid.models:Add(fbx)

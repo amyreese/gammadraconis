@@ -15,11 +15,11 @@ racers[1] = p4
 
 planet = GameObject()
 planet.position = Coords(-1000, 0, 50)
-planet.models:Add(FBXModel("Resources/Models/Planet", "", 500))
+planet.models:Add(FBXModel("Resources/Models/Planet", "", 1))
 --gameScene:track(planet, GO_TYPE.SCENERY)
 
 skybox = GameObject()
-skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 500*10000))
+skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 1))
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 
 course = Course()
@@ -54,7 +54,7 @@ for i,v in ipairs( path ) do
 		checkpoint = GameObject()
 		checkpoint.position = position
 		checkpoint.size = 25
-		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 10))
+		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 1))
 		gameScene:track(checkpoint, GO_TYPE.HUD)
 	end
 end

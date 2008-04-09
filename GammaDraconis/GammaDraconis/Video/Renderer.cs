@@ -170,7 +170,7 @@ namespace GammaDraconis.Video
                         continue;
                     }
 
-                    modelMatrix = Matrix.CreateScale(fbxmodel.scale / 500) * objectMatrix * fbxmodel.offset.matrix();
+                    modelMatrix = Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
 
                     Model model = fbxmodel.model;
                     Effect effect = fbxmodel._effect;

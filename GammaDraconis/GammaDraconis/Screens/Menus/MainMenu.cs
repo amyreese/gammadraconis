@@ -23,7 +23,7 @@ namespace GammaDraconis.Screens.Menus
             : base(game)
         {
             skybox = new GameObject();
-            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 400 * 10000f));
+            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 10f));
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
 
@@ -33,8 +33,8 @@ namespace GammaDraconis.Screens.Menus
             screenScene.track(racer, GO_TYPE.RACER);
 
             GameObject planet = new GameObject();
-            planet.position = new Coords(20000f, -10000f, -50000f);
-            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 500 * 50f));
+            planet.position = new Coords(2000f, -1000f, -5000f);
+            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 4f));
             screenScene.track(planet, GO_TYPE.SCENERY);
 
             Text NameText = new Text(game);

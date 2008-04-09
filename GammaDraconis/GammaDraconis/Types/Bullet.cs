@@ -20,7 +20,7 @@ namespace GammaDraconis.Types
             dragL = 0f;
             dragR = 0f;
 
-            models.Add(new FBXModel("Resources/Models/Checkpoint", "", 0.1f));
+            models.Add(new FBXModel("Resources/Models/Checkpoint", "", 0.002f));
         }
 
         public Bullet clone()

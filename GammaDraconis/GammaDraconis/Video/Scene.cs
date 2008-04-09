@@ -50,7 +50,7 @@ namespace GammaDraconis.Video
         {
             objects = new Dictionary<int, List<GameObject>>();
             //TODO: find root bounding box size
-            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-50000f),new Vector3(50000f)));
+            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-25000f),new Vector3(25000f)), 2, 0);
             octTreeRoot.setContainedObjects(new List<GameObject>());
         }
 
@@ -71,7 +71,6 @@ namespace GammaDraconis.Video
                 temp.Add(gameObject);
                 objects.Add(type, temp);
             }
-            updateOctTreeObjects();
         }
 
         /// <summary>
@@ -136,6 +135,9 @@ namespace GammaDraconis.Video
         /// <returns>List of GameObjects to render</returns>
         public List<GameObject> visible(Coords vantage)
         {
+
+            updateOctTreeObjects();
+
             List<GameObject> visibleObjects;
             Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, vantage);
             List<GameObject> temp = new List<GameObject>();
@@ -147,7 +149,7 @@ namespace GammaDraconis.Video
 
             Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
             BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
-
+            
             foreach (int tempKey in optimizedObjects.Keys)
             {
                 List<GameObject> atemp = (List<GameObject>)optimizedObjects[tempKey];
@@ -213,12 +215,12 @@ namespace GammaDraconis.Video
     
         public void updateOctTreeObjects()
         {
-            /*List<GameObject> objList = new List<GameObject>();
+            List<GameObject> objList = new List<GameObject>();
             foreach (List<GameObject> tempList in objects.Values)
             {
                 objList.AddRange(tempList);
             }
-            octTreeRoot.setContainedObjects(objList);*/
+            octTreeRoot.setContainedObjects(objList);
         }
     }
 }

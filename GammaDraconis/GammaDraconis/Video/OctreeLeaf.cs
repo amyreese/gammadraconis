@@ -10,18 +10,22 @@ class OctreeLeaf
     private List<GameObject> containedObjects;
     public List<OctreeLeaf> childLeaves;
     private BoundingBox containerBox;
+    private int maxDepth;
+    private int currentDepth;
 
-    public OctreeLeaf(BoundingBox bound)
+    public OctreeLeaf(BoundingBox bound, int max, int myDepth)
     {
         containedObjects = new List<GameObject>();
         childLeaves = new List<OctreeLeaf>(8);
         containerBox = bound;
+        maxDepth = max;
+        currentDepth = myDepth;
     }
     
     public void setContainedObjects(List<GameObject> value)
     {
         containedObjects = value;
-        //Split();
+        Split();
     }
 
     public List<GameObject> getContainedObjects()
@@ -60,21 +64,32 @@ class OctreeLeaf
             new BoundingBox(containerBox.Min + halfy + halfz, containerBox.Max - halfx),
             new BoundingBox(containerBox.Min + half, containerBox.Max)
         };
-        
         foreach( BoundingBox tempBox in boxes)
         {
-            OctreeLeaf tempLeaf = new OctreeLeaf(tempBox);
+            OctreeLeaf tempLeaf = new OctreeLeaf(tempBox, maxDepth, currentDepth+1);
             foreach(GameObject obj in containedObjects){
-                if (tempBox.Contains(new BoundingSphere(obj.position.pos(), obj.size)) != ContainmentType.Disjoint){
+                if (tempBox.Contains(new BoundingSphere(obj.position.pos(), obj.size)) != ContainmentType.Disjoint)
+                {
                     tempLeaf.containedObjects.Add(obj);
                 }
             }
-            /*if (tempLeaf.containedObjects.Count > maxobj){
+            if (currentDepth < maxDepth){
                 tempLeaf.Split();
-            }*/
+            }
             childLeaves.Add(tempLeaf);
         }
-            
     }
-   
+
+    public List<GameObject> outsideOctree(List<GameObject> gameObjects)
+    {
+        List<GameObject> outsideObjects = new List<GameObject>();
+        foreach (GameObject obj in gameObjects)
+        {
+            if (containerBox.Contains(new BoundingSphere(obj.position.pos(), obj.size)) == ContainmentType.Disjoint)
+            {
+                outsideObjects.Add(obj);
+            }
+        }
+        return outsideObjects;
+    }
 }

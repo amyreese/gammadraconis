@@ -1,6 +1,6 @@
 
 shipModel = FBXModel("Resources/Models/Raptor", "", 0.025)
-shieldModel = FBXModel("Resources/Models/Shield", "", 1)
+shieldModel = FBXModel("Resources/Models/Shield", "", 0.025)
 shieldModel.visible = false
 
 mountR = MountPoint()

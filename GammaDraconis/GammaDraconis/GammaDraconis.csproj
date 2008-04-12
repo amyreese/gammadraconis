@@ -85,6 +85,7 @@
     <Compile Include="Screens\Menus\MenuScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GammaDraconis.cs" />
+    <Compile Include="Screens\PlayerJoinScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Types\Bullet.cs" />
     <Compile Include="Types\Coords.cs" />

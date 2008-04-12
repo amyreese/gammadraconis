@@ -1,4 +1,5 @@
 library( "InterfaceComponents/StatusBar" )
+library( "InterfaceComponents/PositionArrow" )
 
 if playerHUDs == nil then
 	playerHUDs = {}
@@ -87,20 +88,20 @@ playerHUDs[playerHudIndex].interface:AddComponent(hudMap)
 
 hudMapPositions = {}
 hudMapPositions[0] = Vector2( 870, 700 )
-hudMapPositions[1] = Vector2( 940, 640 )
+hudMapPositions[1] = Vector2( 950, 650 )
 hudMapPositions[2] = Vector2( 870, 580 )
 hudMapPositions[3] = Vector2( 800, 640 )
 
 playerHUDs[playerHudIndex].arrows = {}
 for x = 1,4 do
-	posArrow = Sprite(GammaDraconis, Rectangle(64 * x,0,64,64))
-	posArrow.RelativeScale = Vector2(0.5, 0.5);
-	posArrow.textureName = "Resources/Textures/HUD/Elements"
-	posArrow.RelativePosition = Vector2( 870, 700 )
-	posArrow.RelativeRotation = 0
-	playerHUDs[playerHudIndex].arrows[x-1] = posArrow
-	playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].arrows[x-1])
+	playerHUDs[playerHudIndex].arrows[x] = PositionArrow.new(x)
+	playerHUDs[playerHudIndex].arrows[x].addToInterface(playerHUDs[playerHudIndex].interface)
+	playerHUDs[playerHudIndex].arrows[x].relocate( Vector2( 800, 700 ) )
 end
+
+--TODO:Percent finsihed indicator in bar format
+--TODO:HUD indicator showing other users off screen (maybe on screen?)
+--TODO:Arrow position showing place/relative location of other players
 
 
 playerHUDs[playerHudIndex].statBar = StatusBar.new()
@@ -139,11 +140,7 @@ function playerHUDs.update(gameTime, playerIndex)
 			playerHUDs[playerIndex].statusText.text = "Place: " .. status.place 
 		end
 	end
-	for x,index in ipairs(playerHUDs) do
-		if( (status.checkpoint / checkpoints) > 0.25) then
-			index.arrows[playerIndex-1].RelativePosition = hudMapPositions[1]
-		end
-	end
+	
 end
 
 return playerHUDs[playerHudIndex].interface

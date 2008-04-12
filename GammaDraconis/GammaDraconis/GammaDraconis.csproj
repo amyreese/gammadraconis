@@ -121,6 +121,9 @@
     <None Include="Interfaces\PlayerHUD\PlayerHUD.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Lua\InterfaceComponents\PositionArrow.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Lua\InterfaceComponents\StatusBar.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

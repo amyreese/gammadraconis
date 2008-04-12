@@ -358,14 +358,9 @@ namespace GammaDraconis.Core
 
                         // TODO: this is almost definately not going to work properly in many, many situations.
                         Vector3 m = angle * magnitude;
-                        if (!(o is Bullet))
-                        {
-                            o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
-                        }
-                        if (!(o2 is Bullet))
-                        {
-                            o.acceleration.T *= Matrix.CreateTranslation((m * o2.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
-                        }
+                        o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
+                        o.acceleration.T *= Matrix.CreateTranslation((m * o2.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
+                        
                         o.takeDamage(magnitude);
                         o2.takeDamage(magnitude); 
                         if (o is Bullet)

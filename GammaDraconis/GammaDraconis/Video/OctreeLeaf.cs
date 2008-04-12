@@ -25,7 +25,7 @@ class OctreeLeaf
     public void setContainedObjects(List<GameObject> value)
     {
         containedObjects = value;
-        Split();
+        split();
     }
 
     public List<GameObject> getContainedObjects()
@@ -48,7 +48,7 @@ class OctreeLeaf
         containerBox = value;
     }
 
-    protected void Split()
+    protected void split()
     {
         Vector3 half = containerBox.Max - containerBox.Min;
         Vector3 halfx = Vector3.UnitX * half;
@@ -64,6 +64,8 @@ class OctreeLeaf
             new BoundingBox(containerBox.Min + halfy + halfz, containerBox.Max - halfx),
             new BoundingBox(containerBox.Min + half, containerBox.Max)
         };
+        
+        childLeaves.Clear();
         foreach( BoundingBox tempBox in boxes)
         {
             OctreeLeaf tempLeaf = new OctreeLeaf(tempBox, maxDepth, currentDepth+1);
@@ -74,7 +76,7 @@ class OctreeLeaf
                 }
             }
             if (currentDepth < maxDepth){
-                tempLeaf.Split();
+                tempLeaf.split();
             }
             childLeaves.Add(tempLeaf);
         }

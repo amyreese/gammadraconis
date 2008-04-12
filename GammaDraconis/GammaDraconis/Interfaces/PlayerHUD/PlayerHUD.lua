@@ -141,7 +141,7 @@ function playerHUDs.update(gameTime, playerIndex)
 	end
 	for x,index in ipairs(playerHUDs) do
 		if( (status.checkpoint / checkpoints) > 0.25) then
-			index.arrows[playerIndex].RelativePosition = hudMapPositions[1]
+			index.arrows[playerIndex-1].RelativePosition = hudMapPositions[1]
 		end
 	end
 end

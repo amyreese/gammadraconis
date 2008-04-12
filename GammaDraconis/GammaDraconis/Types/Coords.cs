@@ -37,6 +37,8 @@ namespace GammaDraconis.Types
             R = Quaternion.Identity;
         }
 
+        public Coords(Vector3 v) : this(v.X, v.Y, v.Z) { }
+
         /// <summary>
         /// Get a Vector3 object containing this object's rotation.
         /// </summary>

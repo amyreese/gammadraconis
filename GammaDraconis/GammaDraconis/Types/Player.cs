@@ -130,7 +130,7 @@ namespace GammaDraconis.Types
         public Matrix getCameraLookAtMatrix()
         {
             Coords c = getCamera();
-            Matrix m = Matrix.CreateTranslation(0f, 1f, -10f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            Matrix m = Matrix.CreateTranslation(0f, 1f, -40f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
             return Matrix.CreateLookAt(c.pos(), m.Translation, c.up());
         }
 
@@ -138,7 +138,7 @@ namespace GammaDraconis.Types
         {
             Coords c = new Coords();
             c.R = position.R * camera.R;
-            c.T = Matrix.CreateTranslation(0f, 1f, 4f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            c.T = Matrix.CreateTranslation(0f, 1f, 3.5f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
             return c;
         }
 

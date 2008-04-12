@@ -67,11 +67,17 @@ hudBorder.RelativePosition = Vector2( 1024, 768 - 256 )
 hudBorder.RelativeRotation = 3.14/2
 playerHUDs[playerHudIndex].interface:AddComponent(hudBorder)
 
-reticule = Sprite(GammaDraconis, Rectangle(0,0,64,64))
+reticule = Sprite(GammaDraconis, Rectangle(0,64,64,64))
 reticule.textureName = "Resources/Textures/HUD/Elements"
 reticule.RelativePosition = Vector2( 512-32, 384-32 )
 reticule.RelativeRotation = 0
 playerHUDs[playerHudIndex].interface:AddComponent(reticule)
+
+target = Sprite(GammaDraconis, Rectangle(0,0,64,64))
+target.textureName = "Resources/Textures/HUD/Elements"
+target.RelativePosition = Vector2( 512-32, 384-32 )
+target.RelativeRotation = 0
+playerHUDs[playerHudIndex].interface:AddComponent(target)
 
 hudMap = Sprite(GammaDraconis, Rectangle( 320, 0, 192, 128 ))
 hudMap.textureName = "Resources/Textures/HUD/Elements"

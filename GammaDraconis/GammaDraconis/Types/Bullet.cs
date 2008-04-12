@@ -19,7 +19,6 @@ namespace GammaDraconis.Types
             rateR = 1f;
             dragL = 0f;
             dragR = 0f;
-
             models.Add(new FBXModel("Resources/Models/Shell", "", 0.1f));
         }
 
@@ -28,6 +27,7 @@ namespace GammaDraconis.Types
             Bullet b = new Bullet();
             b.damage = damage;
             b.timeToLive = timeToLive;
+            b.mass = mass;
             return b;
         }
     }

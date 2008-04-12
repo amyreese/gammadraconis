@@ -26,6 +26,7 @@ namespace GammaDraconis.Types
             bullet = new Bullet();
             bullet.damage = 10;
             bullet.timeToLive = 5;
+            bullet.mass = 5;
         }
 
         public Weapon clone()

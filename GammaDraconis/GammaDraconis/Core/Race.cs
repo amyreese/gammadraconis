@@ -56,19 +56,19 @@ namespace GammaDraconis.Core
             int point = info.checkpoint + offset;
 
             while (point > course.path.Count)
-            {
-                if (!course.loop || lap >= laps)
+            {           
+                if (course.loop)
                 {
-                    if (course.loop && point == course.path.Count + 1)
+                    if (lap >= laps && point == course.path.Count + 1)
                     {
                         return course.path[0];
                     }
-                    else
-                    {
-                        return null;
-                    }
                 }
-
+                else
+                {
+                    // past end of course
+                    return null;
+                }
                 lap++;
                 point -= course.path.Count;
             }

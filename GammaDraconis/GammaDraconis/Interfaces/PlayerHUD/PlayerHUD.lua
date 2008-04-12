@@ -73,6 +73,30 @@ reticule.RelativePosition = Vector2( 512-32, 384-32 )
 reticule.RelativeRotation = 0
 playerHUDs[playerHudIndex].interface:AddComponent(reticule)
 
+hudMap = Sprite(GammaDraconis, Rectangle( 320, 0, 192, 128 ))
+hudMap.textureName = "Resources/Textures/HUD/Elements"
+hudMap.RelativePosition = Vector2( 800, 600)
+hudMap.RelativeRotation = 0
+playerHUDs[playerHudIndex].interface:AddComponent(hudMap)
+
+hudMapPositions = {}
+hudMapPositions[0] = Vector2( 870, 700 )
+hudMapPositions[1] = Vector2( 940, 640 )
+hudMapPositions[2] = Vector2( 870, 580 )
+hudMapPositions[3] = Vector2( 800, 640 )
+
+playerHUDs[playerHudIndex].arrows = {}
+for x = 1,4 do
+	posArrow = Sprite(GammaDraconis, Rectangle(64 * x,0,64,64))
+	posArrow.RelativeScale = Vector2(0.5, 0.5);
+	posArrow.textureName = "Resources/Textures/HUD/Elements"
+	posArrow.RelativePosition = Vector2( 870, 700 )
+	posArrow.RelativeRotation = 0
+	playerHUDs[playerHudIndex].arrows[x-1] = posArrow
+	playerHUDs[playerHudIndex].interface:AddComponent(playerHUDs[playerHudIndex].arrows[x-1])
+end
+
+
 playerHUDs[playerHudIndex].statBar = StatusBar.new()
 playerHUDs[playerHudIndex].statBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].statBar.relocate( Vector2( 512-64, 128 ) )
@@ -96,9 +120,10 @@ function playerHUDs4update(gameTime)
 	playerHUDs.update(gameTime, 4)
 end
 function playerHUDs.update(gameTime, playerIndex)
+	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
+	local checkpoints = Engine.GetInstance().race.course.path.Count
 	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 4.1)
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
-	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
 	if status.place == 0 then
 		playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
 	else
@@ -106,6 +131,11 @@ function playerHUDs.update(gameTime, playerIndex)
 			playerHUDs[playerIndex].statusText.text = "Congratulations! You won!"
 		else
 			playerHUDs[playerIndex].statusText.text = "Place: " .. status.place 
+		end
+	end
+	for x,index in ipairs(playerHUDs) do
+		if( (status.checkpoint / checkpoints) > 0.25) then
+			index.arrows[playerIndex].RelativePosition = hudMapPositions[1]
 		end
 	end
 end

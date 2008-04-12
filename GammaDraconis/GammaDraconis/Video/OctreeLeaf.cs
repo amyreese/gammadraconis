@@ -92,6 +92,7 @@ class OctreeLeaf
                 outsideObjects.Add(obj);
             }
         }
+
         return outsideObjects;
     }
 }

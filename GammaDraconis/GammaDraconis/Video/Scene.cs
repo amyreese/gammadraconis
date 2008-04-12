@@ -42,6 +42,7 @@ namespace GammaDraconis.Video
         // References to all objects in the scene, *including* the player objects
         private Dictionary<int, List<GameObject>> objects;
         private OctreeLeaf octTreeRoot;
+        public bool debugBoundingBoxSize = false;
 
         /// <summary>
         /// Create a new Scene manager.
@@ -50,7 +51,7 @@ namespace GammaDraconis.Video
         {
             objects = new Dictionary<int, List<GameObject>>();
             //TODO: find root bounding box size
-            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-25000f),new Vector3(25000f)), 2, 0);
+            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-7500f),new Vector3(7500f)), 2, 0);
             octTreeRoot.setContainedObjects(new List<GameObject>());
         }
 
@@ -177,6 +178,7 @@ namespace GammaDraconis.Video
                     }
                 }
             }
+
             visibleObjects.AddRange(tempSkybox);
             visibleObjects.AddRange(tempScenery);
             visibleObjects.AddRange(temp);
@@ -221,6 +223,25 @@ namespace GammaDraconis.Video
                 objList.AddRange(tempList);
             }
             octTreeRoot.setContainedObjects(objList);
+            List<GameObject> outsideObjects = octTreeRoot.outsideOctree(objList);
+
+            String output = "----------------------------------------------------------------------------------------------\n";
+            if (outsideObjects.Count == 0)
+            {
+                output += "All objects contained within octree.\n";
+            }
+            else
+            {
+                foreach (GameObject outsideObj in outsideObjects)
+                {
+                    output += "GameObject: " + outsideObj + " at position: " + outsideObj.position.pos() + " not contained within the OcTree.\n";
+                }
+            }
+            if (debugBoundingBoxSize)
+            {
+                Console.WriteLine(output);
+            }
+           
         }
     }
 }

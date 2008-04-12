@@ -198,6 +198,7 @@ namespace GammaDraconis
             MainMenu,
             LevelSelectMenu,
             KeyBindingsMenu,
+            PlayerJoin,
             GameLoading,
             Game,
             LevelOver,
@@ -241,6 +242,7 @@ namespace GammaDraconis
              * */
             screens = new Dictionary<GameStates, Screen>();
             screens.Add(GameStates.MainMenu, new Screens.Menus.MainMenu(this));
+            screens.Add(GameStates.PlayerJoin, new PlayerJoinScreen(this));
             screens.Add(GameStates.GameLoading, new Screens.LevelLoadingScreen(this));
             screens.Add(GameStates.Game, new Screens.GameScreen(this));
             screens.Add(GameStates.LevelOver, new Screens.LevelOverScreen(this));

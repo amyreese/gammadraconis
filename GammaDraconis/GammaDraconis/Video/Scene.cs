@@ -137,7 +137,7 @@ namespace GammaDraconis.Video
         public List<GameObject> visible(Coords vantage)
         {
 
-            updateOctTreeObjects();
+            //updateOctTreeObjects();
 
             List<GameObject> visibleObjects;
             Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, vantage);

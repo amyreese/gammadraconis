@@ -107,7 +107,7 @@ namespace GammaDraconis.Screens.Menus
                 {
                     ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack");
                 }
-                gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
+                gammaDraconis.changeState(GammaDraconis.GameStates.PlayerJoin);
             }
             else if (command.Equals(Commands.Quit))
             {
@@ -125,7 +125,7 @@ namespace GammaDraconis.Screens.Menus
 
         protected override void Cancel()
         {
-            ItemSelected(Commands.Play);
+            //ItemSelected(Commands.Play);
         }
 
         public override void Update(GameTime gameTime)

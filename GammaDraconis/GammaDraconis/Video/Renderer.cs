@@ -101,7 +101,8 @@ namespace GammaDraconis.Video
         /// </summary>
         /// <param name="gameTime">Game time</param>
         /// <param name="scene">The scene manager</param>
-        public void render(GameTime gameTime, Scene scene)
+        public void render(GameTime gameTime, Scene scene) { render(gameTime, scene, true); }
+        public void render(GameTime gameTime, Scene scene, bool drawHUD)
         {
             int numPlayers = SetPlayerViewports();
 
@@ -117,8 +118,11 @@ namespace GammaDraconis.Video
                     List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].getCamera());
                     renderObjects(gameObjects, Player.players[playerIndex].getCameraLookAtMatrix());
 
-                    Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);
-                    Player.players[playerIndex].playerHUD.Draw(gameTime, Vector2.Zero, scale, 0);
+                    if (drawHUD)
+                    {
+                        Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);
+                        Player.players[playerIndex].playerHUD.Draw(gameTime, Vector2.Zero, scale, 0);
+                    }
                 }
                 else
                 {

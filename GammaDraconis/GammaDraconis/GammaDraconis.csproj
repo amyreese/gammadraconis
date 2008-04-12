@@ -76,6 +76,9 @@
     <Compile Include="Core\Input\MenuInput.cs" />
     <Compile Include="Core\Proto.cs" />
     <Compile Include="Core\Race.cs" />
+    <None Include="Lua\Things\Dummy.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Screens\LevelOverScreen.cs" />
     <Compile Include="Screens\LevelLoadingScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />

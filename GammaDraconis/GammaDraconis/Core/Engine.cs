@@ -376,8 +376,8 @@ namespace GammaDraconis.Core
                         
                         Vector3 oVelocity = o.velocity.pos() - ((o2.mass * c)/(o.mass + o2.mass)) * (1 + e) * n;
                         Vector3 o2Velocity = o2.velocity.pos() - ((o.mass * c)/(o.mass + o2.mass)) * (1 + e) * n;
-                        o.velocity = new Coords(oVelocity);
-                        o2.velocity = new Coords(o2Velocity);
+                        o.velocity.T = Matrix.CreateTranslation(oVelocity);
+                        o2.velocity.T = Matrix.CreateTranslation(o2Velocity);
 
 
                         o.takeDamage(magnitude);

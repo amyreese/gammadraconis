@@ -84,6 +84,16 @@
     <None Include="Resources\Audio\Sound\Plink_09.wav">
       <Name>Plink_09</Name>
     </None>
+    <Compile Include="Resources\Effects\MaterialShader20.fx">
+      <Name>MaterialShader20</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Resources\Effects\MaterialShader30.fx">
+      <Name>MaterialShader30</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <Compile Include="Resources\Models\Shell.fbx">
       <Name>Shell</Name>
       <Importer>FbxImporter</Importer>
@@ -171,6 +181,11 @@
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Effects\Includes.inc">
+      <Name>Includes</Name>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Audio\Music\" />

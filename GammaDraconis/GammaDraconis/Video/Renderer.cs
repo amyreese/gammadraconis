@@ -22,7 +22,10 @@ namespace GammaDraconis.Video
         public GammaDraconis game;
 
         private Viewport[] viewports;
-        
+
+        // Lighting properties
+        public Effect baseEffect;
+        public PointLight[] lights;
 
         public enum Viewports
         {
@@ -271,6 +274,21 @@ namespace GammaDraconis.Video
 
             return numPlayers;
         }
-        
+
+        protected override void LoadContent()
+        {
+            if (game.GraphicsDevice.GraphicsDeviceCapabilities.PixelShaderVersion.Major >= 3)
+            {
+                baseEffect = game.Content.Load<Effect>("Resources\\Effects\\MaterialShader30");
+                lights = new PointLight[8];
+            }
+            else
+            {
+                baseEffect = game.Content.Load<Effect>("Resources\\Effects\\MaterialShader20");
+                lights = new PointLight[2];
+            }
+
+            base.LoadContent();
+        }
     }
 }

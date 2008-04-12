@@ -95,6 +95,7 @@
     <Compile Include="Types\GameObject.cs" />
     <Compile Include="Types\MountPoint.cs" />
     <Compile Include="Types\Player.cs" />
+    <Compile Include="Types\PointLight.cs" />
     <Compile Include="Types\Racer.cs" />
     <Compile Include="Types\Course.cs" />
     <Compile Include="Types\Turret.cs" />

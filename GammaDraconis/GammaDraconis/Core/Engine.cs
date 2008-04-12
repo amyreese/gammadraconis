@@ -358,9 +358,28 @@ namespace GammaDraconis.Core
 
                         // TODO: this is almost definately not going to work properly in many, many situations.
                         Vector3 m = angle * magnitude;
-                        o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
-                        o.acceleration.T *= Matrix.CreateTranslation((m * o2.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
                         
+                        //Joe's collision stuff
+                        //o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
+                        //o.acceleration.T *= Matrix.CreateTranslation((m * o2.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
+                        
+                        //collision formulas taken from http://www.wheatchex.com/projects/collisions/
+                        //Seem to work ok with bullets, but ships colliding not working so well?
+
+                        //restitution coeff
+                        float e = 1;
+
+                        //normal unit vector from o to o2.
+                        Vector3 n = o2.position.pos() - o.position.pos();
+                        n.Normalize();
+                        float c = Vector3.Dot( n,(o.velocity.pos() - o2.velocity.pos()) );
+                        
+                        Vector3 oVelocity = o.velocity.pos() - ((o2.mass * c)/(o.mass + o2.mass)) * (1 + e) * n;
+                        Vector3 o2Velocity = o2.velocity.pos() - ((o.mass * c)/(o.mass + o2.mass)) * (1 + e) * n;
+                        o.velocity = new Coords(oVelocity);
+                        o2.velocity = new Coords(o2Velocity);
+
+
                         o.takeDamage(magnitude);
                         o2.takeDamage(magnitude); 
                         if (o is Bullet)

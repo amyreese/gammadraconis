@@ -131,14 +131,14 @@ namespace GammaDraconis.Types
         {
             Coords c = getCamera();
             Matrix m = Matrix.CreateTranslation(0f, 1f, -40f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
-            return Matrix.CreateLookAt(c.pos(), m.Translation, c.up());
+            return Matrix.CreateLookAt(c.pos() - velocity.pos() / 2, m.Translation, c.up());
         }
 
         public Coords getCamera()
         {
             Coords c = new Coords();
             c.R = position.R * camera.R;
-            c.T = Matrix.CreateTranslation(0f, 1f, 3.5f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            c.T = Matrix.CreateTranslation(0f, 1f, 4.5f) * Matrix.Invert(Matrix.CreateFromQuaternion(velocity.R)) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T * Matrix.CreateTranslation(velocity.pos() * -0.8f);
             return c;
         }
 

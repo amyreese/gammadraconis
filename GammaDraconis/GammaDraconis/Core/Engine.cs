@@ -421,6 +421,30 @@ namespace GammaDraconis.Core
                 deltaV = deltaV * Matrix.CreateFromQuaternion(gameObject.position.R);
                 gameObject.velocity.T *= Matrix.CreateTranslation(deltaV.Translation);
 
+                // Chop off velocity at a certain threshold
+                Vector3 v = gameObject.velocity.pos();
+                bool save = false;
+                float cutoff = 0.001f;
+                if (Math.Abs(v.X) < cutoff)
+                {
+                    v.X = 0f;
+                    save = true;
+                }
+                if (Math.Abs(v.Y) < cutoff)
+                {
+                    v.Y = 0f;
+                    save = true;
+                }
+                if (Math.Abs(v.Z) < cutoff)
+                {
+                    v.Z = 0f;
+                    save = true;
+                }
+                if (save)
+                {
+                    gameObject.velocity.T = Matrix.CreateTranslation(v);
+                }
+
                 // Apply velocity to position
                 Quaternion rotation = Quaternion.Slerp(Quaternion.Identity, gameObject.velocity.R, timestep);
                 rotation = qScale(rotation, gameObject.rateV);

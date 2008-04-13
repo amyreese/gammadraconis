@@ -108,7 +108,15 @@ end
             {
                 throw new ArgumentException("Function '" + function + "' does not seem to exist in the Lua");
             }
-            return luaFunction.Call(args);
+            try
+            {
+                return luaFunction.Call(args);
+            }
+            catch (LuaException e)
+            {
+                Console.WriteLine("Lua died!  F(): " + function);
+                return null;
+            }
         }
 
         public void RegisterFunction(String luaFunctionPath, String cFunctionName, Object objectInstance)

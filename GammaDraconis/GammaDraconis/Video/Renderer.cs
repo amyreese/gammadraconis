@@ -180,37 +180,27 @@ namespace GammaDraconis.Video
                     modelMatrix = Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
 
                     Model model = fbxmodel.model;
-                    Effect effect = fbxmodel._effect;
 
                     // Copy any parent transforms.
                     Matrix[] transforms = new Matrix[model.Bones.Count];
                     model.CopyAbsoluteBoneTransformsTo(transforms);
 
-                    effect.Begin();
-                    foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                    // Draw the model. A model can have multiple meshes, so loop.
+                    foreach (ModelMesh mesh in model.Meshes)
                     {
-                        pass.Begin();
-
-                        // Draw the model. A model can have multiple meshes, so loop.
-                        foreach (ModelMesh mesh in model.Meshes)
+                        // This is where the mesh orientation is set, as well as our camera and projection.
+                        foreach (BasicEffect mesheffect in mesh.Effects)
                         {
-                            // This is where the mesh orientation is set, as well as our camera and projection.
-                            foreach (BasicEffect mesheffect in mesh.Effects)
-                            {
-                                mesheffect.EnableDefaultLighting();
-                                mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
-                                //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-                                mesheffect.View = cameraMatrix;
-                                mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
-                                    GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 0.1f, viewingDistance);
-                            }
-                            // Draw the mesh, using the effects set above.
-                            mesh.Draw();
+                            mesheffect.EnableDefaultLighting();
+                            mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
+                            //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+                            mesheffect.View = cameraMatrix;
+                            mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
+                                GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 0.1f, viewingDistance);
                         }
-
-                        pass.End();
+                        // Draw the mesh, using the effects set above.
+                        mesh.Draw();
                     }
-                    effect.End();
                 }
             }
         }

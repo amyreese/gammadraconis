@@ -29,9 +29,10 @@ racers[2] = p3
 racers[3] = p4
 
 planet = GameObject()
-planet.position = Coords(0, 0, 0)
-planet.models:Add(FBXModel("Resources/Models/Planet", "", 1))
---gameScene:track(planet, GO_TYPE.SCENERY)
+planet.position = Coords(0, -4000, 0)
+planet.size = 1000
+planet.models:Add(FBXModel("Resources/Models/Planet", "", 4))
+gameScene:track(planet, GO_TYPE.SCENERY)
 
 skybox = GameObject()
 skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.5))

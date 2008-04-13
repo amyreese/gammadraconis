@@ -160,6 +160,7 @@ namespace GammaDraconis.Video
                     if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
                     {
                         tempSkybox.Add(gameobject);
+                        gameobject.position = vantage;
                     }
                     else
                     {
@@ -169,6 +170,7 @@ namespace GammaDraconis.Video
                             if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
                             {
                                 tempScenery.Add(gameobject);
+                                gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
                             }
                             else
                             {

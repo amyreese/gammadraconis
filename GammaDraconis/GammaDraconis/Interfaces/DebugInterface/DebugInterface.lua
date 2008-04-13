@@ -38,7 +38,7 @@ di.debugPlayerFourPosition = Text(GammaDraconis)
 di.debugPlayerPositionInterface:AddComponent(di.debugPlayerFourPosition)
 table.insert( di.debugTexts, di.debugPlayerFourPosition )
 
-di.debugPlayerPositionInterface.RelativePosition = Vector2(0, 0)
+di.debugPlayerPositionInterface.RelativePosition = Vector2(0, 64)
 
 di.debugPlayerPositions = false
 

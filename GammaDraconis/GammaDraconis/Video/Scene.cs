@@ -160,7 +160,7 @@ namespace GammaDraconis.Video
                     if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
                     {
                         tempSkybox.Add(gameobject);
-                        gameobject.position = vantage;
+                        gameobject.position.T = Matrix.CreateTranslation(vantage.pos());
                     }
                     else
                     {

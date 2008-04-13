@@ -104,15 +104,20 @@ end
 --TODO:Arrow position showing place/relative location of other players
 
 
-playerHUDs[playerHudIndex].statBar = StatusBar.new()
-playerHUDs[playerHudIndex].statBar.addToInterface(playerHUDs[playerHudIndex].interface)
-playerHUDs[playerHudIndex].statBar.relocate( Vector2( 512-64, 128 ) )
-playerHUDs[playerHudIndex].statBar.status.color = Color.Blue
+playerHUDs[playerHudIndex].speedBar = StatusBar.new()
+playerHUDs[playerHudIndex].speedBar.addToInterface(playerHUDs[playerHudIndex].interface)
+playerHUDs[playerHudIndex].speedBar.relocate( Vector2( 512-64, 128 ) )
+playerHUDs[playerHudIndex].speedBar.color( Color.Gray )
 
 playerHUDs[playerHudIndex].healthBar = StatusBar.new()
 playerHUDs[playerHudIndex].healthBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].healthBar.relocate( Vector2( 512-64, 64 ) )
-playerHUDs[playerHudIndex].healthBar.status.color = Color.Red
+playerHUDs[playerHudIndex].healthBar.color( Color.Red )
+
+playerHUDs[playerHudIndex].shieldBar = StatusBar.new()
+playerHUDs[playerHudIndex].shieldBar.addToInterface(playerHUDs[playerHudIndex].interface)
+playerHUDs[playerHudIndex].shieldBar.relocate( Vector2( 512-64, 96 ) )
+playerHUDs[playerHudIndex].shieldBar.color( Color.Blue )
 
 function playerHUDs1update(gameTime)
 	playerHUDs.update(gameTime, 1)
@@ -129,8 +134,9 @@ end
 function playerHUDs.update(gameTime, playerIndex)
 	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
 	local checkpoints = Engine.GetInstance().race.course.path.Count
-	playerHUDs[playerIndex].statBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 4.1)
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
+	playerHUDs[playerIndex].shieldBar.update(Player.players[playerIndex-1].shield / Player.players[playerIndex-1].maxShield)
+	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 4.1)
 	if status.place == 0 then
 		playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
 	else

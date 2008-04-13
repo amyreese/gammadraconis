@@ -24,6 +24,10 @@ if StatusBar == nil then
 		function bar.update( percentage )
 			bar.status.RelativeScale = Vector2( percentage, 1 )
 		end
+		function bar.color( color )
+			bar.background.color = color
+			bar.status.color = color
+		end
 		return bar
 	end
 end

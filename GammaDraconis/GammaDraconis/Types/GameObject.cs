@@ -56,6 +56,9 @@ namespace GammaDraconis.Types
         // Health and other attributes
         public float health;
         public float maxHealth;
+        public float shield;
+        public float maxShield;
+        public float shieldIncreaseRate;
         public bool invincible;
         public double shieldVisibilityTimer = 0;
 
@@ -100,6 +103,9 @@ namespace GammaDraconis.Types
             go.maxHealth = maxHealth;
             go.invincible = invincible;
             go.health = maxHealth;
+            go.maxShield = maxShield;
+            go.shield = maxShield;
+            go.shieldIncreaseRate = shieldIncreaseRate;
             go.OnDeathFunction = OnDeathFunction;
 
             return go;
@@ -198,11 +204,19 @@ namespace GammaDraconis.Types
         /// <param name="damage">The amount of damage.</param>
         public void takeDamage(float damage)
         {
-            if (!invincible)
+            if (!invincible && damage > 0)
             {
-                health -= damage;
+                if (shield > 0)
+                {
+                    shieldVisibilityTimer = Math.Max(shieldVisibilityTimer, 1);
+                }
+                shield -= damage;
+                if (shield < 0)
+                {
+                    health += shield;
+                    shield = 0;
+                }
             }
-            shieldVisibilityTimer = Math.Max(shieldVisibilityTimer, 1);
         }
 
         /// <summary>

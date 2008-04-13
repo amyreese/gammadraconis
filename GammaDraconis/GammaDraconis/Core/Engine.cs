@@ -326,6 +326,14 @@ namespace GammaDraconis.Core
                 {
                     o.OnDeath();
                 }
+                if (o.shield < o.maxShield)
+                {
+                    o.shield += timeMod * o.shieldIncreaseRate;
+                    if (o.shield > o.maxShield)
+                    {
+                        o.shield = o.maxShield;
+                    }
+                }
                 collidableGameObjects.Remove(o);
                 Vector3 oPos = o.position.pos();
                 foreach (GameObject o2 in collidableGameObjects)

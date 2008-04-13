@@ -34,8 +34,6 @@ namespace GammaDraconis.Types
             input = new PlayerInput(index);
             camera = new Coords();
             viewport = (Renderer.Viewports)index;
-            maxHealth = 100;
-            health = maxHealth;
             Player.players[(int)index] = this;
 
             playerHUD = (Interface)GammaDraconis.GetInstance().GameLua.DoString("playerHudIndex = " + ((int)index + 1) + "\nreturn dofile( 'Interfaces/PlayerHUD/PlayerHUD.lua' )")[0];
@@ -51,6 +49,7 @@ namespace GammaDraconis.Types
                 position = Engine.GetInstance().race.coord(this, 0);
                 velocity = new Coords();
                 health = maxHealth;
+                shield = maxShield;
                 invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
             }
             #endregion
@@ -164,6 +163,12 @@ namespace GammaDraconis.Types
             go.rateR = ship.rateR;
             go.dragL = ship.dragL;
             go.dragR = ship.dragR;
+
+            go.maxHealth = ship.maxHealth;
+            go.health = ship.maxHealth;
+            go.maxShield = ship.maxShield;
+            go.shield = ship.maxShield;
+            go.shieldIncreaseRate = ship.shieldIncreaseRate;
 
             foreach (FBXModel model in ship.models)
             {

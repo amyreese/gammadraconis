@@ -9,8 +9,8 @@ base = GameObject()
 base.dragR = 0
 base.dragL = 0
 base.mass = 100000
-base.size = 200
-base.maxHealth = 100
+base.size = 150
+base.maxHealth = 3000
 
 function asteroidDead(asteroid)
 	Engine.GetInstance().gameScene:ignore(asteroid, GO_TYPE.DEBRIS)

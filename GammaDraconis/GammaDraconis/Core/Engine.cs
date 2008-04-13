@@ -345,41 +345,34 @@ namespace GammaDraconis.Core
                     Vector3 o2Pos = o2.position.pos();
                     if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
                     {
-                        Vector3 angle = oPos - o2Pos;
-                        if (angle.LengthSquared() == 0)
+                        if (oPos == o2Pos)
                         {
-                            angle.X += 1;
+                            // TODO: Randomize some
+                            o.position.T *= Matrix.CreateTranslation(new Vector3(0, 0, 0.1f));
                         }
+                        float closeness = (o.size + o2.size) - (o.position.pos() - o2.position.pos()).Length();
 
-                        float magnitude = (o.velocity.matrix().Translation - o2.velocity.matrix().Translation).Length() * 150 + ((o.size + o2.size) - angle.Length()) / (o.size + o2.size) * 150;
-                        magnitude *= timeMod;
-
-                        angle.Normalize();
-
-                        // TODO: this is almost definately not going to work properly in many, many situations.
-                        Vector3 m = angle * magnitude;
-                        
-                        //Joe's collision stuff
-                        //o2.acceleration.T *= Matrix.CreateTranslation(-(m * o.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o2.acceleration.R));
-                        //o.acceleration.T *= Matrix.CreateTranslation((m * o2.mass / (o.mass + o2.mass)));// *Matrix.Invert(Matrix.CreateFromQuaternion(o.acceleration.R));
-                        
                         //collision formulas taken from http://www.wheatchex.com/projects/collisions/
                         //Seem to work ok with bullets, but ships colliding not working so well?
 
                         //restitution coeff
-                        float e = 1;
+                        float e = 0.5f;
 
                         //normal unit vector from o to o2.
                         Vector3 n = o2.position.pos() - o.position.pos();
                         n.Normalize();
-                        float c = Vector3.Dot( n,(o.velocity.pos() - o2.velocity.pos()) );
-                        
-                        Vector3 oVelocity = o.velocity.pos() - ((o2.mass * c)/(o.mass + o2.mass)) * (1 + e) * n;
-                        Vector3 o2Velocity = o2.velocity.pos() - ((o.mass * c)/(o.mass + o2.mass)) * (1 + e) * n;
+
+                        float c = Vector3.Dot(n, (o.velocity.pos() - o2.velocity.pos())) + closeness/ 50;
+
+                        Vector3 mod = (c / (o.mass + o2.mass)) * (1 + e) * n;
+                        Vector3 oVelocityMod = o2.mass * mod;
+                        Vector3 o2VelocityMod = o.mass * mod;
+                        Vector3 oVelocity = o.velocity.pos() - oVelocityMod;
+                        Vector3 o2Velocity = o2.velocity.pos() + o2VelocityMod;
                         o.velocity.T = Matrix.CreateTranslation(oVelocity);
                         o2.velocity.T = Matrix.CreateTranslation(o2Velocity);
 
-
+                        float magnitude = mod.Length() * o.mass * o2.mass / 25;
                         o.takeDamage(magnitude);
                         o2.takeDamage(magnitude); 
                         if (o is Bullet)

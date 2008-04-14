@@ -118,7 +118,10 @@ namespace GammaDraconis.Core
 
                 foreach (Player player in Player.players)
                 {
-                    player.playerHUD.Update(gameTime);
+                    if (player != null)
+                    {
+                        player.playerHUD.Update(gameTime);
+                    }
                 }
             }
             else

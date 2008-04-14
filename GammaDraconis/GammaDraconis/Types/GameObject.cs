@@ -240,7 +240,7 @@ namespace GammaDraconis.Types
                 {
                     if (translate)
                     {
-                        w.position.T = position.matrix() * mount.location.T;
+                        w.position.T = mount.location.T * position.matrix();
                         w.position.R = position.R * mount.location.R;
                     }
                     weapons.Add(w);
@@ -259,7 +259,7 @@ namespace GammaDraconis.Types
                         {
                             if (translate)
                             {
-                                w.position.T = position.matrix() * turret.location.matrix() * mount.location.T;
+                                w.position.T = mount.location.T * turret.location.matrix() * position.matrix();
                                 w.position.R = position.R * turret.location.R * mount.location.R;
                             }
                             weapons.Add(w);

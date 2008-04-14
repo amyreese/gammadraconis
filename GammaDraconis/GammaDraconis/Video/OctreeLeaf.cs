@@ -6,7 +6,7 @@ using GammaDraconis.Types;
 
 class OctreeLeaf
 {
-    private const int maxobj = 50;
+    private const int maxobj = 2;
     private List<GameObject> containedObjects;
     public List<OctreeLeaf> childLeaves;
     private BoundingBox containerBox;
@@ -75,7 +75,7 @@ class OctreeLeaf
                     tempLeaf.containedObjects.Add(obj);
                 }
             }
-            if (currentDepth < maxDepth){
+            if (currentDepth < maxDepth || tempLeaf.containedObjects.Count > maxobj){
                 tempLeaf.split();
             }
             childLeaves.Add(tempLeaf);
@@ -95,4 +95,5 @@ class OctreeLeaf
 
         return outsideObjects;
     }
+ 
 }

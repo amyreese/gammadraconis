@@ -202,6 +202,7 @@ namespace GammaDraconis
             LevelSelectMenu,
             KeyBindingsMenu,
             VideoSettingsMenu,
+            GeneralSettingsMenu,
             PlayerJoin,
             GameLoading,
             Game,
@@ -251,6 +252,7 @@ namespace GammaDraconis
             screens.Add(GameStates.Game, new Screens.GameScreen(this));
             screens.Add(GameStates.LevelOver, new Screens.LevelOverScreen(this));
             screens.Add(GameStates.VideoSettingsMenu, new Screens.Menus.VideoSettingsMenu(this));
+            screens.Add(GameStates.GeneralSettingsMenu, new Screens.Menus.GeneralSettingsMenu(this));
             /*
             screens.Add(GameStates.LevelSelectMenu, new Screens.Menus.LevelSelectScreen(this, levelsSetting));
             screens.Add(GameStates.KeyBindingsMenu, new Screens.Menus.KeyBindingsMenuScreen(this));

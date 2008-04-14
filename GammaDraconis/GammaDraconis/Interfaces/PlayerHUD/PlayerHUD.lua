@@ -132,21 +132,27 @@ function playerHUDs4update(gameTime)
 	playerHUDs.update(gameTime, 4)
 end
 function playerHUDs.update(gameTime, playerIndex)
-	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
 	local checkpoints = Engine.GetInstance().race.course.path.Count
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	playerHUDs[playerIndex].shieldBar.update(Player.players[playerIndex-1].shield / Player.players[playerIndex-1].maxShield)
 	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 4.1)
-	if status.place == 0 then
-		playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
+	if Engine.GetInstance().secondsToStart > 0 then
+		local sts = Engine.GetInstance().secondsToStart
+		local int = MSMath.Truncate(sts)
+		local dec = MSMath.Truncate(sts * 10) % 10
+		playerHUDs[playerIndex].statusText.text = "Race starts in... " .. int .. "." .. dec
 	else
-		if status.place == 1 then
-			playerHUDs[playerIndex].statusText.text = "Congratulations! You won!"
+		local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
+		if status.place == 0 then
+			playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
 		else
-			playerHUDs[playerIndex].statusText.text = "Place: " .. status.place 
+			if status.place == 1 then
+				playerHUDs[playerIndex].statusText.text = "Congratulations! You won!"
+			else
+				playerHUDs[playerIndex].statusText.text = "Place: " .. status.place 
+			end
 		end
 	end
-	
 end
 
 return playerHUDs[playerHudIndex].interface

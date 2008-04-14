@@ -81,6 +81,7 @@ namespace GammaDraconis.Core
         #endregion
 
         private double secondsToEnd = -1;
+        private double secondsToStart = Properties.Settings.Default.RaceStartDelay;
 
         #region Physics/AI/etc
         /// <summary>
@@ -104,13 +105,25 @@ namespace GammaDraconis.Core
                 secondsToEnd -= gameTime.ElapsedRealTime.TotalSeconds;
                 if (secondsToEnd < 0)
                 {
-                    ((LevelOverScreen)game.getScreen(GammaDraconis.GameStates.LevelOver)).LevelOver(race); 
+                    ((LevelOverScreen)game.getScreen(GammaDraconis.GameStates.LevelOver)).LevelOver(race);
                     game.changeState(GammaDraconis.GameStates.LevelOver);
                 }
             }
-            
-            Think(gameTime);
-            Physics(gameTime);
+
+            if (secondsToStart > 0)
+            {
+                secondsToStart -= gameTime.ElapsedRealTime.TotalSeconds;
+
+                foreach (Player player in Player.players)
+                {
+                    player.playerHUD.Update(gameTime);
+                }
+            }
+            else
+            {
+                Think(gameTime);
+                Physics(gameTime);
+            }
         }
 
         #region AI
@@ -370,7 +383,7 @@ namespace GammaDraconis.Core
                         Vector3 n = o2.position.pos() - o.position.pos();
                         n.Normalize();
 
-                        float c = Vector3.Dot(n, (o.velocity.pos() - o2.velocity.pos())) + closeness/ 50;
+                        float c = Vector3.Dot(n, (o.velocity.pos() - o2.velocity.pos())) + closeness / 50;
 
                         Vector3 mod = (c / (o.mass + o2.mass)) * (1 + e) * n;
                         Vector3 oVelocityMod = o2.mass * mod;
@@ -382,7 +395,7 @@ namespace GammaDraconis.Core
 
                         float magnitude = mod.Length() * o.mass * o2.mass / 25;
                         o.takeDamage(magnitude);
-                        o2.takeDamage(magnitude); 
+                        o2.takeDamage(magnitude);
                         if (o is Bullet)
                         {
                             gameScene.ignore(o, GO_TYPE.BULLET);

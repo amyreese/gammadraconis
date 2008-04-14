@@ -116,6 +116,7 @@ namespace GammaDraconis.Screens.Menus
             else if (command.Equals(Commands.TogglePPL))
             {
                 Properties.Settings.Default.PerPixelLighting = !Properties.Settings.Default.PerPixelLighting;
+                Properties.Settings.Default.Save();
             }
             else if (command.Equals(Commands.Back))
             {

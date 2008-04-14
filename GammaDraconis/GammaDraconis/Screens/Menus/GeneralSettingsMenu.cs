@@ -10,17 +10,18 @@ using GammaDraconis.Video;
 
 namespace GammaDraconis.Screens.Menus
 {
-    class MainMenu : MenuScreen
+    class GeneralSettingsMenu : MenuScreen
     {
         Racer racer;
         GameObject skybox;
         private Vector3 startLocation = new Vector3(20.0f, -1.35f, -12.0f);
+        private int timeToStartIndex;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="game"></param>
-        public MainMenu(GammaDraconis game)
+        public GeneralSettingsMenu(GammaDraconis game)
             : base(game)
         {
             skybox = new GameObject();
@@ -53,12 +54,8 @@ namespace GammaDraconis.Screens.Menus
         /// </summary>
         private class Commands
         {
-            public static string Play = "Play";
-            public static string Controls = "Controls";
-            public static string GeneralSettings = "GeneralSettings";
-            public static string VideoSettings = "VideoSettings";
-            public static string ToggleFullscreen = "ToggleFullscreen";
-            public static string Quit = "Quit";
+            public static string ToggleTimeToStart = "ToggleTimeToStart";
+            public static string Back = "Back";
         }
 
         /// <summary>
@@ -70,19 +67,12 @@ namespace GammaDraconis.Screens.Menus
             menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
             screenInterface.AddComponent(menuRegion);
 
-            menuItems = new MenuItem[6];
-            menuItems[0] = new MenuItem(gammaDraconis, Commands.Play);
-            menuItems[0].text = "Play";
-            menuItems[1] = new MenuItem(gammaDraconis, Commands.Controls);
-            menuItems[1].text = "Controls";
-            menuItems[2] = new MenuItem(gammaDraconis, Commands.GeneralSettings);
-            menuItems[2].text = "Gameplay Settings";
-            menuItems[3] = new MenuItem(gammaDraconis, Commands.VideoSettings);
-            menuItems[3].text = "Video Settings";
-            menuItems[4] = new MenuItem(gammaDraconis, Commands.ToggleFullscreen);
-            menuItems[4].text = "Toggle Fullscreen";
-            menuItems[5] = new MenuItem(gammaDraconis, Commands.Quit);
-            menuItems[5].text = "Quit";
+            menuItems = new MenuItem[2];
+            menuItems[0] = new MenuItem(gammaDraconis, Commands.ToggleTimeToStart);
+            menuItems[0].text = "Toggle Time To Start";
+            timeToStartIndex = 0;
+            menuItems[1] = new MenuItem(gammaDraconis, Commands.Back);
+            menuItems[1].text = "Back";
 
             AutoPositionMenuItems();
             
@@ -107,29 +97,18 @@ namespace GammaDraconis.Screens.Menus
         /// <param name="item">The menu item selected</param>
         protected override void ItemSelected(String command)
         {
-            if (command.Equals(Commands.Play))
+            if (command.Equals(Commands.ToggleTimeToStart))
             {
-                if (!gammaDraconis.GameStarted)
+                Properties.Settings.Default.RaceStartDelay++;
+                if (Properties.Settings.Default.RaceStartDelay > 10)
                 {
-                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack");
+                    Properties.Settings.Default.RaceStartDelay = 0;
                 }
-                gammaDraconis.changeState(GammaDraconis.GameStates.PlayerJoin);
+                Properties.Settings.Default.Save();
             }
-            else if (command.Equals(Commands.Quit))
+            else if (command.Equals(Commands.Back))
             {
-                Game.Exit();
-            }
-            else if (command.Equals(Commands.ToggleFullscreen))
-            {
-                gammaDraconis.ToggleFullscreen();
-            }
-            else if (command.Equals(Commands.GeneralSettings))
-            {
-                gammaDraconis.changeState(GammaDraconis.GameStates.GeneralSettingsMenu);
-            }
-            else if (command.Equals(Commands.VideoSettings))
-            {
-                gammaDraconis.changeState(GammaDraconis.GameStates.VideoSettingsMenu);
+                gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
             }
             else
             {
@@ -139,16 +118,20 @@ namespace GammaDraconis.Screens.Menus
 
         protected override void Cancel()
         {
-            //ItemSelected(Commands.Play);
+            ItemSelected(Commands.Back);
         }
 
         public override void Update(GameTime gameTime)
         {
+            menuItems[timeToStartIndex].text = "Race Start Delay: " + Properties.Settings.Default.RaceStartDelay + " seconds";
+
+            /*
             racer.position.T *= Matrix.CreateTranslation((float)(-7.5f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1.5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
             if (racer.position.pos().X < -20)
             {
                 racer.position.T = Matrix.CreateTranslation(startLocation);
             }
+             * */
             base.Update(gameTime);
         }
     }

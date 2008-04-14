@@ -58,5 +58,17 @@ namespace GammaDraconis.Properties {
                 this["PerPixelLighting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int RaceStartDelay {
+            get {
+                return ((int)(this["RaceStartDelay"]));
+            }
+            set {
+                this["RaceStartDelay"] = value;
+            }
+        }
     }
 }

@@ -100,6 +100,8 @@
     <Compile Include="Types\Course.cs" />
     <Compile Include="Types\Turret.cs" />
     <Compile Include="Types\Weapon.cs" />
+    <Compile Include="Video\BloomComponent.cs" />
+    <Compile Include="Video\BloomSettings.cs" />
     <Compile Include="Video\GUI\Text.cs" />
     <Compile Include="Video\GUI\Interface.cs" />
     <Compile Include="Video\GUI\InterfaceComponent.cs" />

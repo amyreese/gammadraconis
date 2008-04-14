@@ -183,6 +183,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resources\Effects\BloomCombine.fx">
+      <Name>BloomCombine</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Resources\Effects\BloomExtract.fx">
+      <Name>BloomExtract</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="Resources\Effects\Includes.inc">
       <Name>Includes</Name>
     </None>

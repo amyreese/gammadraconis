@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GammaDraconis.Core;
 using GammaDraconis.Types;
 using GammaDraconis.Video.GUI;
 
@@ -27,6 +28,9 @@ namespace GammaDraconis.Video
         public Effect baseEffect;
         public PointLight[] lights;
 
+        // Bloom shader
+        public BloomComponent bloom;
+
         public enum Viewports
         {
             WholeWindow = 0,
@@ -49,6 +53,8 @@ namespace GammaDraconis.Video
             this.game = game;
             game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);          
             viewports = new Viewport[9];
+
+            bloom = new BloomComponent(game);
 
             reset();
         }
@@ -134,6 +140,8 @@ namespace GammaDraconis.Video
             }
 
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
+
+            bloom.Draw(Engine.gameTime);
         }
 
         /// <summary>
@@ -151,6 +159,8 @@ namespace GammaDraconis.Video
 
             List<GameObject> gameObjects = scene.visible(coords);
             renderObjects(gameObjects, coords.camera());
+
+            bloom.Draw(Engine.gameTime);
         }
 
         /// <summary>

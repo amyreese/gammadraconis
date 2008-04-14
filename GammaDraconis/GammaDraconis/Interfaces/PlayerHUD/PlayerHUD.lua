@@ -80,7 +80,7 @@ target.RelativePosition = Vector2( 512-32, 384-32 )
 target.RelativeRotation = 0
 playerHUDs[playerHudIndex].interface:AddComponent(target)
 
-hudMap = Sprite(GammaDraconis, Rectangle( 320, 0, 192, 128 ))
+--[[hudMap = Sprite(GammaDraconis, Rectangle( 320, 0, 192, 128 ))
 hudMap.textureName = "Resources/Textures/HUD/Elements"
 hudMap.RelativePosition = Vector2( 800, 600)
 hudMap.RelativeRotation = 0
@@ -91,17 +91,21 @@ hudMapPositions[0] = Vector2( 870, 700 )
 hudMapPositions[1] = Vector2( 950, 650 )
 hudMapPositions[2] = Vector2( 870, 580 )
 hudMapPositions[3] = Vector2( 800, 640 )
+]]--
 
-playerHUDs[playerHudIndex].arrows = {}
+playerHUDs[playerHudIndex].finishBars = {}
 for x = 1,4 do
-	playerHUDs[playerHudIndex].arrows[x] = PositionArrow.new(x)
-	playerHUDs[playerHudIndex].arrows[x].addToInterface(playerHUDs[playerHudIndex].interface)
-	playerHUDs[playerHudIndex].arrows[x].relocate( Vector2( 800, 700 ) )
+	playerHUDs[playerHudIndex].finishBars[x] = StatusBar.new()
+	playerHUDs[playerHudIndex].finishBars[x].addToInterface(playerHUDs[playerHudIndex].interface)
+	playerHUDs[playerHudIndex].finishBars[x].relocate( Vector2( 800, 600 + (x * 25) ) )
+	playerHUDs[playerHudIndex].finishBars[x].color( Color.Yellow )
 end
 
 --TODO:Percent finsihed indicator in bar format
 --TODO:HUD indicator showing other users off screen (maybe on screen?)
 --TODO:Arrow position showing place/relative location of other players
+
+
 
 
 playerHUDs[playerHudIndex].speedBar = StatusBar.new()
@@ -143,6 +147,9 @@ function playerHUDs.update(gameTime, playerIndex)
 		playerHUDs[playerIndex].statusText.text = "Race starts in... " .. int .. "." .. dec
 	else
 		local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
+		for index, x in ipairs(playerHUDs) do
+			playerHUDs[index].finishBars[playerIndex].update(status.checkpoint / checkpoints)
+		end
 		if status.place == 0 then
 			playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
 		else

@@ -138,18 +138,20 @@ namespace GammaDraconis.Video
         {
 
             updateOctTreeObjects();
-
-            List<GameObject> visibleObjects;
-            Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, vantage);
-            List<GameObject> temp = new List<GameObject>();
-            List<GameObject> tempScenery = new List<GameObject>();
-            List<GameObject> tempSkybox = new List<GameObject>();
+           
             float aspRatio = GammaDraconis.renderer.aspectRatio;
             float viewAngle = GammaDraconis.renderer.viewingAngle;
             float viewDist = GammaDraconis.renderer.viewingDistance;
 
             Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
             BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
+            
+            List<GameObject> visibleObjects;
+            Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, viewFrustum);
+            List<GameObject> temp = new List<GameObject>();
+            List<GameObject> tempScenery = new List<GameObject>();
+            List<GameObject> tempSkybox = new List<GameObject>();
+           
             
             foreach (int tempKey in optimizedObjects.Keys)
             {
@@ -210,11 +212,30 @@ namespace GammaDraconis.Video
             return tObjects;
         }
 
-        public Dictionary<int, List<GameObject>> sortOctTree(out List<GameObject> entirelyVisible, Coords vantage)
+        public Dictionary<int, List<GameObject>> sortOctTree(out List<GameObject> entirelyVisible, BoundingFrustum viewFrustrum)
         {
-            entirelyVisible = new List<GameObject>();
-            //TODO: Look through the oct tree and return a more optimized Hashtable and seed entirely Visible with objects that are obviously visible
-            return objects;
+            Dictionary<int, List<GameObject>> tempObjects = objects;
+            List<GameObject> notVisible;
+            entirelyVisible = octTreeRoot.visible(out notVisible, viewFrustrum);
+            foreach (List<GameObject> tempList in objects.Values)
+            {
+                foreach (GameObject obj in notVisible)
+                {
+                    if(tempList.Contains(obj))
+                    {
+                        tempList.Remove(obj);
+                    }
+                }
+                foreach (GameObject obj in entirelyVisible)
+                {
+                    if(tempList.Contains(obj))
+                    {
+                        tempList.Remove(obj);
+                    }
+                }
+
+            }
+            return tempObjects;
         }
     
         public void updateOctTreeObjects()

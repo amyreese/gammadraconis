@@ -104,5 +104,32 @@ class OctreeLeaf
 
         return outsideObjects;
     }
- 
+
+    public List<GameObject> visible(out List<GameObject> notVisible, BoundingFrustum viewFrustrum)
+    {
+        List<GameObject> entirelyVisible = new List<GameObject>();
+        notVisible = new List<GameObject>();
+        ContainmentType contains = viewFrustrum.Contains(containerBox);
+        if (containedObjects.Count != 0)
+        {
+            if (contains == ContainmentType.Contains)
+            {
+                entirelyVisible.AddRange(containedObjects);
+            }
+            else if (contains == ContainmentType.Intersects)
+            {
+                foreach (OctreeLeaf child in childLeaves)
+                {
+                    List<GameObject> tempNotVisible;
+                    entirelyVisible.AddRange(child.visible(out tempNotVisible, viewFrustrum));
+                    notVisible.AddRange(tempNotVisible);
+                }
+            }
+            else if (contains == ContainmentType.Disjoint)
+            {
+                notVisible.AddRange(containedObjects);
+            }
+        }
+        return entirelyVisible;
+    }
 }

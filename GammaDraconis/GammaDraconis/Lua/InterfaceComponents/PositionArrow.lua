@@ -11,13 +11,16 @@ if PositionArrow == nil then
 			interface:AddComponent(arrow.sprite)
 		end
 		function arrow.relocate( position )
-			arrow.sprite = position
+			arrow.sprite.RelativePosition = position
 		end
 		function arrow.rotate( amt )
 			arrow.sprite.RelativeRotation = amt
 		end
 		function arrow.nextMapPoint( mapPoint )
 			arrow.sprite.RelativePosition = Vector2(mapPoint.X - arrow.sprite.RelativePosition.X, mapPoint.Y - arrow.sprite.RelativePosition.Y)
+		end
+		function arrow.Blink()
+			arrow.sprite.Visible = false
 		end
 		return arrow
 	end

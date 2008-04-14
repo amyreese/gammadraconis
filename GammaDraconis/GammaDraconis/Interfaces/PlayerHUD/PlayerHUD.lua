@@ -94,17 +94,24 @@ hudMapPositions[3] = Vector2( 800, 640 )
 ]]--
 
 playerHUDs[playerHudIndex].finishBars = {}
+playerHUDs[playerHudIndex].finishIcons = {}
 for x = 1,4 do
+	playerHUDs[playerHudIndex].finishIcons[x] = PositionArrow.new(x)
+	playerHUDs[playerHudIndex].finishIcons[x].addToInterface(playerHUDs[playerHudIndex].interface)
+	playerHUDs[playerHudIndex].finishIcons[x].relocate( Vector2( 750, 595 + (x * 30) ) )
 	playerHUDs[playerHudIndex].finishBars[x] = StatusBar.new()
 	playerHUDs[playerHudIndex].finishBars[x].addToInterface(playerHUDs[playerHudIndex].interface)
-	playerHUDs[playerHudIndex].finishBars[x].relocate( Vector2( 800, 600 + (x * 25) ) )
+	playerHUDs[playerHudIndex].finishBars[x].relocate( Vector2( 800, 600 + (x * 30) ) )
 	playerHUDs[playerHudIndex].finishBars[x].color( Color.Yellow )
 end
 
---TODO:Percent finsihed indicator in bar format
 --TODO:HUD indicator showing other users off screen (maybe on screen?)
---TODO:Arrow position showing place/relative location of other players
 
+
+--TODO:Arrow position showing place/relative location of other players
+	--Create 7 positions for arrows to take up
+	--Always have player in 4th position of 7
+	--Positions other players around relative to their current place
 
 
 
@@ -159,6 +166,18 @@ function playerHUDs.update(gameTime, playerIndex)
 				playerHUDs[playerIndex].statusText.text = "Place: " .. status.place 
 			end
 		end
+	end
+end
+
+function currentPlace( leading )
+	if leading == 0 then
+		return 4
+	elseif leading == 1 then
+		return 3
+	elseif leading == 2 then
+		return 2
+	elseif leading == 3 then
+		return 1
 	end
 end
 

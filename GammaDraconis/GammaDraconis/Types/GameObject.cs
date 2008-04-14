@@ -312,5 +312,13 @@ namespace GammaDraconis.Types
                 OnDeathFunction.Call(this);
             }
         }
+
+        public float maxVelocity
+        {
+            get
+            {
+                return 3.4f;
+            }
+        }
     }
 }

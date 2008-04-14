@@ -30,6 +30,7 @@ namespace GammaDraconis.Video
 
         // Bloom shader
         public BloomComponent bloom;
+        public MotionBlurComponent blur;
 
         public enum Viewports
         {
@@ -55,6 +56,7 @@ namespace GammaDraconis.Video
             viewports = new Viewport[9];
 
             bloom = new BloomComponent(game);
+            blur = new MotionBlurComponent(game);
 
             reset();
         }
@@ -127,6 +129,9 @@ namespace GammaDraconis.Video
 
                     List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].getCamera());
                     renderObjects(gameObjects, Player.players[playerIndex].getCameraLookAtMatrix());
+
+                    // Uncomment this line for motion blur!
+                    //blur.Render((Player.players[playerIndex].velocity.pos().Length() / Player.players[playerIndex].maxVelocity) * 0.5f);
                 }
                 else
                 {

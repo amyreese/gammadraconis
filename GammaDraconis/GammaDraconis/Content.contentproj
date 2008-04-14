@@ -198,6 +198,11 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
+    <Compile Include="Resources\Effects\RadialBlur.fx">
+      <Name>RadialBlur</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="Resources\Effects\Includes.inc">
       <Name>Includes</Name>
     </None>

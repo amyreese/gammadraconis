@@ -58,6 +58,7 @@ namespace GammaDraconis
             Window.AllowUserResizing = true;
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 768;
+            graphics.IsFullScreen = Properties.Settings.Default.FullScreen;
             graphics.ApplyChanges();
 
             renderer.reset();
@@ -97,6 +98,8 @@ namespace GammaDraconis
         public void ToggleFullscreen()
         {
             graphics.ToggleFullScreen();
+            Properties.Settings.Default.FullScreen = graphics.IsFullScreen;
+            Properties.Settings.Default.Save();
         }
 
         /// <summary>
@@ -198,6 +201,7 @@ namespace GammaDraconis
             MainMenu,
             LevelSelectMenu,
             KeyBindingsMenu,
+            VideoSettingsMenu,
             PlayerJoin,
             GameLoading,
             Game,
@@ -246,6 +250,7 @@ namespace GammaDraconis
             screens.Add(GameStates.GameLoading, new Screens.LevelLoadingScreen(this));
             screens.Add(GameStates.Game, new Screens.GameScreen(this));
             screens.Add(GameStates.LevelOver, new Screens.LevelOverScreen(this));
+            screens.Add(GameStates.VideoSettingsMenu, new Screens.Menus.VideoSettingsMenu(this));
             /*
             screens.Add(GameStates.LevelSelectMenu, new Screens.Menus.LevelSelectScreen(this, levelsSetting));
             screens.Add(GameStates.KeyBindingsMenu, new Screens.Menus.KeyBindingsMenuScreen(this));

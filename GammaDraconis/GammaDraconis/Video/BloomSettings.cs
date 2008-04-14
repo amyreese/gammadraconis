@@ -44,6 +44,8 @@ namespace GammaDraconis.Video
         public readonly float BloomSaturation;
         public readonly float BaseSaturation;
 
+        // Just a helper for toggling between bloom presets
+        public readonly int Index;
 
         #endregion
 
@@ -53,7 +55,7 @@ namespace GammaDraconis.Video
         /// </summary>
         public BloomSettings(string name, float bloomThreshold, float blurAmount,
                              float bloomIntensity, float baseIntensity,
-                             float bloomSaturation, float baseSaturation)
+                             float bloomSaturation, float baseSaturation, int index)
         {
             Name = name;
             BloomThreshold = bloomThreshold;
@@ -62,6 +64,7 @@ namespace GammaDraconis.Video
             BaseIntensity = baseIntensity;
             BloomSaturation = bloomSaturation;
             BaseSaturation = baseSaturation;
+            Index = index;
         }
         
 
@@ -71,12 +74,12 @@ namespace GammaDraconis.Video
         public static BloomSettings[] PresetSettings =
         {
             //                Name           Thresh  Blur Bloom  Base  BloomSat BaseSat
-            new BloomSettings("Default",     0.25f,  4,   1.25f, 1,    1,       1),
-            new BloomSettings("Soft",        0,      3,   1,     1,    1,       1),
-            new BloomSettings("Desaturated", 0.5f,   8,   2,     1,    0,       1),
-            new BloomSettings("Saturated",   0.25f,  4,   2,     1,    2,       0),
-            new BloomSettings("Blurry",      0,      2,   1,     0.1f, 1,       1),
-            new BloomSettings("Subtle",      0.5f,   2,   1,     1,    1,       1),
+            new BloomSettings("Default",     0.25f,  4,   1.25f, 1,    1,       1, 0),
+            new BloomSettings("Soft",        0,      3,   1,     1,    1,       1, 1),
+            new BloomSettings("Desaturated", 0.5f,   8,   2,     1,    0,       1, 2),
+            new BloomSettings("Saturated",   0.25f,  4,   2,     1,    2,       0, 3),
+            new BloomSettings("Blurry",      0,      2,   1,     0.1f, 1,       1, 4),
+            new BloomSettings("Subtle",      0.5f,   2,   1,     1,    1,       1, 5),
         };
     }
 }

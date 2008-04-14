@@ -38,7 +38,7 @@ namespace GammaDraconis.Video
             set { settings = value; }
         }
 
-        BloomSettings settings = BloomSettings.PresetSettings[5];
+        BloomSettings settings = BloomSettings.PresetSettings[Properties.Settings.Default.BloomSetting];
 
 
         // Optionally displays one of the intermediate buffers used

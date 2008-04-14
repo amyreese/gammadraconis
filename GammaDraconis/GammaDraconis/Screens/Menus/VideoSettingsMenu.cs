@@ -16,6 +16,7 @@ namespace GammaDraconis.Screens.Menus
         GameObject skybox;
         private Vector3 startLocation = new Vector3(20.0f, -1.35f, -12.0f);
         private int bloomIndex;
+        private int perPixelLightingIndex;
 
         /// <summary>
         /// 
@@ -55,6 +56,7 @@ namespace GammaDraconis.Screens.Menus
         private class Commands
         {
             public static string ToggleBloom = "ToggleBloom";
+            public static string TogglePPL = "TogglePPL";
             public static string Back = "Back";
         }
 
@@ -67,12 +69,15 @@ namespace GammaDraconis.Screens.Menus
             menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
             screenInterface.AddComponent(menuRegion);
 
-            menuItems = new MenuItem[2];
+            menuItems = new MenuItem[3];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.ToggleBloom);
             menuItems[0].text = "Toggle Bloom";
             bloomIndex = 0;
-            menuItems[1] = new MenuItem(gammaDraconis, Commands.Back);
-            menuItems[1].text = "Back";
+            menuItems[1] = new MenuItem(gammaDraconis, Commands.TogglePPL);
+            menuItems[1].text = "Toggle PPL";
+            perPixelLightingIndex = 1;
+            menuItems[2] = new MenuItem(gammaDraconis, Commands.Back);
+            menuItems[2].text = "Back";
 
             AutoPositionMenuItems();
             
@@ -108,6 +113,10 @@ namespace GammaDraconis.Screens.Menus
                 Properties.Settings.Default.BloomSetting = nextIndex;
                 Properties.Settings.Default.Save();
             }
+            else if (command.Equals(Commands.TogglePPL))
+            {
+                Properties.Settings.Default.PerPixelLighting = !Properties.Settings.Default.PerPixelLighting;
+            }
             else if (command.Equals(Commands.Back))
             {
                 gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
@@ -126,6 +135,7 @@ namespace GammaDraconis.Screens.Menus
         public override void Update(GameTime gameTime)
         {
             menuItems[bloomIndex].text = "Bloom: " + GammaDraconis.renderer.bloom.Settings.Name;
+            menuItems[perPixelLightingIndex].text = "Per Pixel Lighting: " + (Properties.Settings.Default.PerPixelLighting ? "Yes" : "No");
 
             /*
             racer.position.T *= Matrix.CreateTranslation((float)(-7.5f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1.5f * gameTime.ElapsedGameTime.TotalSeconds), 0);

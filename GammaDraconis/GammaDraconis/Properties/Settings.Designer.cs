@@ -46,5 +46,17 @@ namespace GammaDraconis.Properties {
                 this["FullScreen"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PerPixelLighting {
+            get {
+                return ((bool)(this["PerPixelLighting"]));
+            }
+            set {
+                this["PerPixelLighting"] = value;
+            }
+        }
     }
 }

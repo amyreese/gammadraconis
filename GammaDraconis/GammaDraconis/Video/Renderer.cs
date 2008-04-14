@@ -213,7 +213,7 @@ namespace GammaDraconis.Video
                         // This is where the mesh orientation is set, as well as our camera and projection.
                         foreach (BasicEffect mesheffect in mesh.Effects)
                         {
-                            mesheffect.PreferPerPixelLighting = true;
+                            mesheffect.PreferPerPixelLighting = Properties.Settings.Default.PerPixelLighting;
                             mesheffect.EnableDefaultLighting();
                             mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
                             //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);

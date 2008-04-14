@@ -6,12 +6,13 @@ using GammaDraconis.Types;
 
 class OctreeLeaf
 {
-    private const int maxobj = 2;
+    private const int maxobj = 200;
     private List<GameObject> containedObjects;
     public List<OctreeLeaf> childLeaves;
     private BoundingBox containerBox;
     private int maxDepth;
     private int currentDepth;
+    public bool debugOctreeDepth = false;
 
     public OctreeLeaf(BoundingBox bound, int max, int myDepth)
     {
@@ -75,11 +76,19 @@ class OctreeLeaf
                     tempLeaf.containedObjects.Add(obj);
                 }
             }
-            if (currentDepth < maxDepth || tempLeaf.containedObjects.Count > maxobj){
+            if (currentDepth < maxDepth && tempLeaf.containedObjects.Count != 0){
+                
                 tempLeaf.split();
             }
             childLeaves.Add(tempLeaf);
         }
+
+        if (debugOctreeDepth)
+        {
+                Console.WriteLine("Current node depth: " + currentDepth + " Next depth: " + (currentDepth + 1));  
+        }
+
+        
     }
 
     public List<GameObject> outsideOctree(List<GameObject> gameObjects)

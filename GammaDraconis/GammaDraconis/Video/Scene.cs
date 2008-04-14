@@ -51,7 +51,7 @@ namespace GammaDraconis.Video
         {
             objects = new Dictionary<int, List<GameObject>>();
             //TODO: find root bounding box size
-            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-7500f),new Vector3(7500f)), 2, 0);
+            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-7500f),new Vector3(7500f)), 3, 0);
             octTreeRoot.setContainedObjects(new List<GameObject>());
         }
 
@@ -137,7 +137,7 @@ namespace GammaDraconis.Video
         public List<GameObject> visible(Coords vantage)
         {
 
-            //updateOctTreeObjects();
+            updateOctTreeObjects();
 
             List<GameObject> visibleObjects;
             Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, vantage);

@@ -18,6 +18,7 @@ namespace GammaDraconis.Screens
         PlayerInput[] inputs;
         bool[] playersJoined = { true, true, true, true };
 
+        //bool[] playersJoined = { false, false, false, false };
         /// <summary>
         /// Initialize the player join screen.
         /// </summary>
@@ -64,13 +65,19 @@ namespace GammaDraconis.Screens
             /*
             for( int index = 0; index < inputs.Length; index ++ )
             {
-                if (inputs[index].inputPressed(PlayerInput.Commands.Join))
+                if (!playersJoined[index])
                 {
-                    playersJoined[index] = true;
+                    if (inputs[index].inputPressed(PlayerInput.Commands.Join))
+                    {
+                        playersJoined[index] = true;
+                    }
                 }
-                if (inputs[index].inputPressed(PlayerInput.Commands.Leave))
+                else
                 {
-                    playersJoined[index] = false;
+                    if (inputs[index].inputPressed(PlayerInput.Commands.Leave))
+                    {
+                        playersJoined[index] = false;
+                    }
                 }
             }
             */

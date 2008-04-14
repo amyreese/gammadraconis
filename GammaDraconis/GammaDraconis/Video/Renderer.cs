@@ -115,6 +115,7 @@ namespace GammaDraconis.Video
         {
             int numPlayers = SetPlayerViewports();
 
+            // Render all players' viewports
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
                 if (Player.players[playerIndex] != null)
@@ -126,12 +127,6 @@ namespace GammaDraconis.Video
 
                     List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].getCamera());
                     renderObjects(gameObjects, Player.players[playerIndex].getCameraLookAtMatrix());
-
-                    if (drawHUD)
-                    {
-                        Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);
-                        Player.players[playerIndex].playerHUD.Draw(gameTime, Vector2.Zero, scale, 0);
-                    }
                 }
                 else
                 {
@@ -139,9 +134,26 @@ namespace GammaDraconis.Video
                 }
             }
 
-            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
+            // Bloom post-processing
+            bloom.Render();
 
-            bloom.Draw(Engine.gameTime);
+            // Render players' HUDs
+            if (drawHUD)
+            {
+                for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
+                {
+                    if (Player.players[playerIndex] != null)
+                    {
+                        game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
+
+                        Vector2 scale = new Vector2(game.GraphicsDevice.Viewport.Width / 1024.0f, game.GraphicsDevice.Viewport.Height / 768.0f);
+                        Player.players[playerIndex].playerHUD.Draw(gameTime, Vector2.Zero, scale, 0);
+                    }
+                }
+            }
+
+            // Reset viewports
+            game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
         }
 
         /// <summary>
@@ -160,7 +172,7 @@ namespace GammaDraconis.Video
             List<GameObject> gameObjects = scene.visible(coords);
             renderObjects(gameObjects, coords.camera());
 
-            bloom.Draw(Engine.gameTime);
+            bloom.Render();
         }
 
         /// <summary>

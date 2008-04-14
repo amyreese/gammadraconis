@@ -38,7 +38,7 @@ namespace GammaDraconis.Video
             set { settings = value; }
         }
 
-        BloomSettings settings = BloomSettings.PresetSettings[0];
+        BloomSettings settings = BloomSettings.PresetSettings[5];
 
 
         // Optionally displays one of the intermediate buffers used
@@ -71,6 +71,8 @@ namespace GammaDraconis.Video
         {
             if (game == null)
                 throw new ArgumentNullException("game");
+
+            game.Components.Add(this);
         }
 
 
@@ -81,9 +83,9 @@ namespace GammaDraconis.Video
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            bloomExtractEffect = Game.Content.Load<Effect>("BloomExtract");
-            bloomCombineEffect = Game.Content.Load<Effect>("BloomCombine");
-            gaussianBlurEffect = Game.Content.Load<Effect>("GaussianBlur");
+            bloomExtractEffect = Game.Content.Load<Effect>("Resources/Effects/BloomExtract");
+            bloomCombineEffect = Game.Content.Load<Effect>("Resources/Effects/BloomCombine");
+            gaussianBlurEffect = Game.Content.Load<Effect>("Resources/Effects/GaussianBlur");
 
 
             // Look up the resolution and format of our main backbuffer.
@@ -132,11 +134,8 @@ namespace GammaDraconis.Video
         /// This is where it all happens. Grabs a scene that has already been rendered,
         /// and uses postprocess magic to add a glowing bloom effect over the top of it.
         /// </summary>
-        public override void Draw(GameTime gameTime)
+        public void Render()
         {
-            // Quit now, or else it blows up...
-            return;
-
             // Resolve the scene into a texture, so we can
             // use it as input data for the bloom processing.
             GraphicsDevice.ResolveBackBuffer(resolveTarget);

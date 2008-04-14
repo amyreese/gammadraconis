@@ -112,6 +112,7 @@ end
 	--Create 7 positions for arrows to take up
 	--Always have player in 4th position of 7
 	--Positions other players around relative to their current place
+	--Maybe put everyone in a 7 space table, with the player always 4th, and three empty spaces?
 
 
 

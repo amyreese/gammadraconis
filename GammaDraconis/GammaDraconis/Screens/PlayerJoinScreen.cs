@@ -16,6 +16,7 @@ namespace GammaDraconis.Screens
     class PlayerJoinScreen : Screen
     {
         PlayerInput[] inputs;
+        bool[] playersJoined = { true, true, true, true };
 
         /// <summary>
         /// Initialize the player join screen.
@@ -60,8 +61,40 @@ namespace GammaDraconis.Screens
                 gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
             }
 
+            /*
+            for( int index = 0; index < inputs.Length; index ++ )
+            {
+                if (inputs[index].inputPressed(PlayerInput.Commands.Join))
+                {
+                    playersJoined[index] = true;
+                }
+                if (inputs[index].inputPressed(PlayerInput.Commands.Leave))
+                {
+                    playersJoined[index] = false;
+                }
+            }
+            */
+
             if (input.inputPressed(MenuInput.Commands.Select))
             {
+                GameObject ship = Proto.getShip("Raptor");
+                List<Player> players = new List<Player>();
+                for (int index = 0; index < inputs.Length; index++)
+                {
+                    if (playersJoined[index])
+                    {
+
+                        players.Add(Player.cloneShip(ship, (PlayerIndex)index));
+                    }
+                    else
+                    {
+                        Player.players[index] = null;
+                    }
+                }
+
+                ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack", players );
+
+
                 gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
             }
             base.Update(gameTime);

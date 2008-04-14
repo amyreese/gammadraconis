@@ -110,8 +110,8 @@ namespace GammaDraconis.Core.Input
                     inputKeys.Add(Commands.MenuRight, "right");
                     inputKeys.Add(Commands.MenuSelect, "enter");
 
-                    inputKeys.Add(Commands.Join, "enter");
-                    inputKeys.Add(Commands.Leave, "backspace");
+                    inputKeys.Add(Commands.Join, "w");
+                    inputKeys.Add(Commands.Leave, "s");
                 }
                 else if (playerIndex == PlayerIndex.Two)
                 {

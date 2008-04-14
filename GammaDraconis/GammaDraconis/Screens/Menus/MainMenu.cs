@@ -111,9 +111,12 @@ namespace GammaDraconis.Screens.Menus
             {
                 if (!gammaDraconis.GameStarted)
                 {
-                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack");
+                    gammaDraconis.changeState(GammaDraconis.GameStates.PlayerJoin);
                 }
-                gammaDraconis.changeState(GammaDraconis.GameStates.PlayerJoin);
+                else
+                {
+                    gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
+                }
             }
             else if (command.Equals(Commands.Quit))
             {

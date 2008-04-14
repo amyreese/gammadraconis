@@ -5,28 +5,12 @@ local degreesBetweenCheckpoints = 360 / checkpoints
 gameScene = Scene()
 Engine.GetInstance().gameScene = gameScene
 
-ship = Proto.getShip("Raptor")
-p = Player.cloneShip(ship, PlayerIndex.One)
-p.position = Coords(radius - 4 * p.size, - 4 * p.size, -p.size, MSMath.PI, 0, 0)
-gameScene:track(p, GO_TYPE.RACER)
+racers = Engine.GetInstance().players
 
-p2 = Player.cloneShip(ship, PlayerIndex.Two)
-p2.position = Coords(radius + 4 * p2.size, - 4 * p2.size, -p2.size, MSMath.PI, 0, 0)
-gameScene:track(p2, GO_TYPE.RACER)
-
-p3 = Player.cloneShip(ship, PlayerIndex.Three)
-p3.position = Coords(radius - 4 * p3.size, 4 * p3.size, -p3.size, MSMath.PI, 0, 0)
-gameScene:track(p3, GO_TYPE.RACER)
-
-p4 = Player.cloneShip(ship, PlayerIndex.Four)
-p4.position = Coords(radius + 4 * p4.size, 4 * p4.size, -p4.size, MSMath.PI, 0, 0)
-gameScene:track(p4, GO_TYPE.RACER)
-
-racers = Racer[4]
-racers[0] = p
-racers[1] = p2
-racers[2] = p3
-racers[3] = p4
+for i = 0, racers.Length-1 do
+	gameScene:track(racers[i], GO_TYPE.RACER)
+	racers[i].position = Coords(radius - (4 + 2 * i) * racers[i].size, 0, - 2 * racers[i].size, MSMath.PI, 0, 0)
+end
 
 planet = GameObject()
 planet.position = Coords(0, -4000, 0)

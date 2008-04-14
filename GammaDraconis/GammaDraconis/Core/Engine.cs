@@ -36,7 +36,7 @@ namespace GammaDraconis.Core
         /// Starts up a game engine for the specified map
         /// </summary>
         /// <param name="mapName">The name given to the map in the file system</param>
-        public Engine(GammaDraconis game, String mapName)
+        public Engine(GammaDraconis game, String mapName, List<Player> players)
         {
             if (instance != null)
             {
@@ -53,6 +53,8 @@ namespace GammaDraconis.Core
             SetupGameRenderer();
 
             //Setup a course
+            this.players = players.ToArray();
+
             SetupCourse(mapName);
         }
         #endregion
@@ -499,6 +501,7 @@ namespace GammaDraconis.Core
         #region Race & Course
         public Race race;
         public Course course;
+        public Player[] players;
 
         /// <summary>
         /// Set up the course for AI's to follow.  This should be moved later

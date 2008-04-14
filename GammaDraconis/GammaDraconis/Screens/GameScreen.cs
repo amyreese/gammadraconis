@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using GammaDraconis.Core;
+using GammaDraconis.Types;
 
 namespace GammaDraconis.Screens
 {
@@ -35,10 +36,11 @@ namespace GammaDraconis.Screens
         /// Reload the engine, using the specified map
         /// </summary>
         /// <param name="map">The map to load</param>
-        public void ReloadEngine(String map)
+        public void ReloadEngine(String map, List<Player> players )
         {
             ready = false;
             this.map = map;
+            this.players = players;
             loadEngine();
             // TODO: do this in a thread once we work out Lua threading issues
             //new Thread(loadEngine).Start();
@@ -46,13 +48,14 @@ namespace GammaDraconis.Screens
 
         // The current map
         public String map;
+        private List<Player> players;
 
         /// <summary>
         /// Start up the engine using the current map
         /// </summary>
         protected void loadEngine()
         {
-            engine = new Engine(gammaDraconis, map);
+            engine = new Engine(gammaDraconis, map, players);
             ready = true;
         }
         #endregion

@@ -136,6 +136,37 @@ namespace GammaDraconis.Video
         /// </summary>
         public void Render()
         {
+            // Look up the resolution and format of our main backbuffer.
+            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+
+            int width = pp.BackBufferWidth;
+            int height = pp.BackBufferHeight;
+
+            // For some reason, LoadContent isn't being re-called when the screen changes size.
+            if (resolveTarget.Width != width || resolveTarget.Height != height)
+            {
+                SurfaceFormat format = pp.BackBufferFormat;
+
+                resolveTarget.Dispose();
+                renderTarget1.Dispose();
+                renderTarget2.Dispose();
+                // Create a texture for reading back the backbuffer contents.
+                resolveTarget = new ResolveTexture2D(GraphicsDevice, width, height, 1,
+                    format);
+
+                // Create two rendertargets for the bloom processing. These are half the
+                // size of the backbuffer, in order to minimize fillrate costs. Reducing
+                // the resolution in this way doesn't hurt quality, because we are going
+                // to be blurring the bloom images in any case.
+                width /= 2;
+                height /= 2;
+
+                renderTarget1 = new RenderTarget2D(GraphicsDevice, width, height, 1,
+                    format);
+                renderTarget2 = new RenderTarget2D(GraphicsDevice, width, height, 1,
+                    format);
+            }
+
             // Resolve the scene into a texture, so we can
             // use it as input data for the bloom processing.
             GraphicsDevice.ResolveBackBuffer(resolveTarget);

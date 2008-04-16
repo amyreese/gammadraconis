@@ -233,10 +233,21 @@ namespace GammaDraconis.Core.Input
             mousePosition = new Vector2(mouseState.X, mouseState.Y);
             float width = (float)GammaDraconis.GetInstance().GraphicsDevice.DisplayMode.Width;
             float height = (float)GammaDraconis.GetInstance().GraphicsDevice.DisplayMode.Height;
-            axisState["MouseX"] = (mouseState.X + GammaDraconis.GetInstance().Window.ClientBounds.X - (width/2)) / width;
-            axisState["MouseY"] = -(mouseState.Y + GammaDraconis.GetInstance().Window.ClientBounds.Y - (height/2)) / height;
-            
-            buttonState("Mouse1", mouseState.LeftButton);
+            float mouseX = (mouseState.X + GammaDraconis.GetInstance().Window.ClientBounds.X - (width/2)) / width;
+            float mouseY = -(mouseState.Y + GammaDraconis.GetInstance().Window.ClientBounds.Y - (height/2)) / height;
+            if (Math.Abs( mouseX ) < 0.02 )
+            {
+                axisState["MouseX"] = 0.0f;
+            } else {
+                axisState["MouseX"] = mouseX;
+            }
+            if (Math.Abs( mouseY ) < 0.02 )
+            {
+                axisState["MouseY"] = 0.0f;
+            } else {
+                axisState["MouseY"] = mouseY;
+            }
+                buttonState("Mouse1", mouseState.LeftButton);
             buttonState("Mouse2", mouseState.RightButton);
             buttonState("Mouse3", mouseState.MiddleButton);
 

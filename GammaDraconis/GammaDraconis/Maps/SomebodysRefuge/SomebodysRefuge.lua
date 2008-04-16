@@ -17,7 +17,7 @@ path = {
 	{x=200, y=0, z=-1200, yaw=-MathHelper.PiOver2, pitch=0, roll=0},
 	{x=400, y=0, z=-1400, yaw=0, pitch=0, roll=0},
 	{x=200, y=0, z=-2000, yaw=MathHelper.PiOver2, pitch=0, roll=0},
-	{x=-800, y=0, z=-1800, yaw=0, pitch=0, roll=0},
+	{x=-800, y=0, z=-1800, yaw=MathHelper.Pi, pitch=0, roll=0},
 	{x=-1000, y=0, z=-400, yaw=MathHelper.PiOver2, pitch=0, roll=0},
 --[[
 	{x=50, y=0, z=400, yaw=1.0, pitch=-0.3, roll=0},
@@ -44,16 +44,16 @@ for i,v in ipairs( path ) do
 	end
 end
 
-course.loop = true
+course.loop = false
 
 room1 = Room()
 room1.area = BoundingBox(Vector3(path[2].x - tunnelRadius, path[2].y - tunnelRadius, path[2].z - 3 * tunnelRadius), Vector3(path[2].x + tunnelRadius, path[2].y + tunnelRadius, path[2].z))
-room1.canSeeOutside = false
+room1.canSeeOutside = true
 gameScene.rooms:Add(room1)
 
 room2 = Room()
 room2.area = BoundingBox(Vector3(path[4].x - tunnelRadius, path[4].y - tunnelRadius, path[4].z - 3 * tunnelRadius), Vector3(path[4].x + tunnelRadius, path[4].y + tunnelRadius, path[4].z + 3 * tunnelRadius))
-room2.canSeeOutside = false
+room2.canSeeOutside = true
 room2.visibleRooms:Add(room1)
 room1.visibleRooms:Add(room2)
 gameScene.rooms:Add(room2)
@@ -92,6 +92,23 @@ room4.visibleRooms:Add(room6)
 room5.visibleRooms:Add(room6)
 gameScene.rooms:Add(room6)
 
+room7 = Room()
+room7.area = BoundingBox(Vector3(path[10].x - tunnelRadius, path[10].y - tunnelRadius, path[10].z), Vector3(path[10].x + tunnelRadius, path[10].y + tunnelRadius, path[10].z + 6 * tunnelRadius))
+room7.canSeeOutside = false
+room7.visibleRooms:Add(room5)
+room7.visibleRooms:Add(room6)
+room5.visibleRooms:Add(room7)
+room6.visibleRooms:Add(room7)
+gameScene.rooms:Add(room7)
+
+room8 = Room()
+room8.area = BoundingBox(Vector3(path[11].x - tunnelRadius, path[11].y - tunnelRadius, path[11].z), Vector3(path[11].x + tunnelRadius, path[11].y + tunnelRadius, path[11].z + tunnelRadius))
+room8.canSeeOutside = true
+room8.visibleRooms:Add(room6)
+room8.visibleRooms:Add(room7)
+room6.visibleRooms:Add(room8)
+room7.visibleRooms:Add(room8)
+gameScene.rooms:Add(room8)
 
 racers = Engine.GetInstance().players
 
@@ -116,5 +133,5 @@ gameScene:track(roid, GO_TYPE.DEBRIS)
 
 
 
-race = Race(course, 3, racers)
+race = Race(course, 1, racers)
 Engine.GetInstance().race = race

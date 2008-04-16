@@ -62,7 +62,18 @@ namespace GammaDraconis.Screens
                 _ready = value;
             }
         }
-
+        private bool _fresh = false;
+        public bool fresh
+        {
+            get
+            {
+                return _fresh;
+            }
+            set
+            {
+                _fresh = value;
+            }
+        }
         /// <summary>
         /// Updates the visible flag of the interface for this screen
         /// </summary>
@@ -97,6 +108,13 @@ namespace GammaDraconis.Screens
                 GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
                 GammaDraconis.renderer.render(gameTime, screenScene, new Coords());
             }
+
+            if (fresh)
+            {
+                onFreshLoad();
+                fresh = false;
+            }
+
             Vector2 scale = new Vector2(Game.Window.ClientBounds.Width / 1024.0f, Game.Window.ClientBounds.Height / 768.0f);
             screenInterface.Draw(gameTime, Vector2.Zero, scale, 0);
 #if DEBUG
@@ -105,6 +123,7 @@ namespace GammaDraconis.Screens
             base.Draw(gameTime);
         }
 
+        protected virtual void onFreshLoad() { }
 
         /// <summary>
         /// Draw the screen

@@ -142,21 +142,20 @@ namespace GammaDraconis.Core.Input
         /// <returns>Floating point axis position</returns>
         public float axis(string action)
         {
-            if (!oneGamepad)
-            {
-                return 0f;
-            }
-
             if (inputAxis.ContainsKey(action))
             {
                 string axis = inputAxis[action];
-
+                if (axisState.ContainsKey(axis))
+                {
+                    return axisState[axis];
+                }
                 string gp = "Pad" + (int)playerIndex + "-";
                 if (axisState.ContainsKey(gp + axis))
                 {
                     return axisState[gp + axis];
                 }
             }
+            
 
             return 0f;
         }
@@ -232,7 +231,11 @@ namespace GammaDraconis.Core.Input
             MouseState mouseState = Mouse.GetState();
 
             mousePosition = new Vector2(mouseState.X, mouseState.Y);
-
+            float width = (float)GammaDraconis.GetInstance().GraphicsDevice.DisplayMode.Width;
+            float height = (float)GammaDraconis.GetInstance().GraphicsDevice.DisplayMode.Height;
+            axisState["MouseX"] = (mouseState.X + GammaDraconis.GetInstance().Window.ClientBounds.X - (width/2)) / width;
+            axisState["MouseY"] = -(mouseState.Y + GammaDraconis.GetInstance().Window.ClientBounds.Y - (height/2)) / height;
+            
             buttonState("Mouse1", mouseState.LeftButton);
             buttonState("Mouse2", mouseState.RightButton);
             buttonState("Mouse3", mouseState.MiddleButton);
@@ -339,6 +342,8 @@ namespace GammaDraconis.Core.Input
             keys.Add("numpad9");
             keys.Add("numpad0");
 
+            axisState.Add("MouseX", 0f);
+            axisState.Add("MouseY", 0f);
             // Gamepad keys
             for(PlayerIndex index = PlayerIndex.One; index <= PlayerIndex.Four; index++)
             {

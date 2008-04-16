@@ -40,6 +40,12 @@ namespace GammaDraconis.Screens
             skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.5f));
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
+            setUpDummyShips();
+
+            base.Initialize();
+        }
+        protected void setUpDummyShips() 
+        {
             Player p1 = Player.cloneShip(Proto.getThing("Dummy", new Coords(0f, 0f, 5f, 0f, 0f, 0f)), PlayerIndex.One);
             screenScene.track(p1, GO_TYPE.RACER);
 
@@ -51,10 +57,11 @@ namespace GammaDraconis.Screens
 
             Player p4 = Player.cloneShip(Proto.getThing("Dummy", new Coords(-5f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f)), PlayerIndex.Four);
             screenScene.track(p4, GO_TYPE.RACER);
-
-            base.Initialize();
         }
-
+        protected override void onFreshLoad()
+        {
+            setUpDummyShips();
+        }
         public override void Update(GameTime gameTime)
         {
             if (input.inputPressed(Core.Input.MenuInput.Commands.Cancel))

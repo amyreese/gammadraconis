@@ -1,5 +1,5 @@
-local radius = 5000
-local checkpoints = 32
+local radius = 2500
+local checkpoints = 16
 local degreesBetweenCheckpoints = 360 / checkpoints
 
 gameScene = Scene()
@@ -22,18 +22,17 @@ skybox = GameObject()
 skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.5))
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 
-roid = Proto.getThing("Asteroid800A", Coords(- radius / 2,0,0), Coords(0.8,-0,0,0.004,0.001,0.0004))
+roid = Proto.getThing("Asteroid800A", Coords(- radius / 2,0,0), Coords(1.5,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800A", Coords(radius / 2,0,0), Coords(-0.8,0,0,0.004,0.001,0.0004))
+roid = Proto.getThing("Asteroid800A", Coords(radius / 2,0,0), Coords(-1.5,0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800B", Coords(0,0,-radius / 3), Coords(0,0,0.8, 0.001, 0.003, 0.001))
+roid = Proto.getThing("Asteroid800B", Coords(0,0,-radius / 3), Coords(0,0,1.5, 0.001, 0.003, 0.001))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800B", Coords(0,0,radius / 3), Coords(0,0,-0.8, 0.001, 0.003, 0.001))
+roid = Proto.getThing("Asteroid800B", Coords(0,0,radius / 3), Coords(0,0,-1.5, 0.001, 0.003, 0.001))
 gameScene:track(roid, GO_TYPE.DEBRIS)
-
 
 course = Course()
 Engine.GetInstance().course = course
@@ -61,5 +60,5 @@ end
 
 course.loop = true
 
-race = Race(course, 1, racers)
+race = Race(course, 3, racers)
 Engine.GetInstance().race = race

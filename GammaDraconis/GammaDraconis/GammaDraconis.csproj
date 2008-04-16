@@ -117,6 +117,7 @@
     <Compile Include="Video\MotionBlurComponent.cs" />
     <Compile Include="Video\OctreeLeaf.cs" />
     <Compile Include="Video\Renderer.cs" />
+    <Compile Include="Video\Room.cs" />
     <Compile Include="Video\Scene.cs" />
   </ItemGroup>
   <ItemGroup>

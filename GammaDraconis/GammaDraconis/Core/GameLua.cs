@@ -29,6 +29,7 @@ Matrix = import('Microsoft.Xna.Framework.Matrix')
 Rectangle = import('Microsoft.Xna.Framework.Rectangle')
 Vector2 = import('Microsoft.Xna.Framework.Vector2')
 Vector3 = import('Microsoft.Xna.Framework.Vector3')
+BoundingBox = import('Microsoft.Xna.Framework.BoundingBox')
 Color = import('Microsoft.Xna.Framework.Graphics.Color')
 PlayerIndex = import('Microsoft.Xna.Framework.PlayerIndex')
 using('GammaDraconis');
@@ -59,6 +60,7 @@ Race = import('GammaDraconis.Core.Race')
 GO_TYPE = import('GammaDraconis.Video.GO_TYPE')
 FBXModel = import('GammaDraconis.Video.FBXModel')
 Scene = import('GammaDraconis.Video.Scene')
+Room = import('GammaDraconis.Video.Room')
             ";
 
             DoString(initCode);

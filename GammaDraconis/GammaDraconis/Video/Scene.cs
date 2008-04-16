@@ -31,14 +31,16 @@ namespace GammaDraconis.Video
         static public int MISSILE = NORMAL;
         static public int COURSE = GHOST;
     }
-    
+
     /// <summary>
     /// The scene manager holds the 'world' the game is contained within.
     /// Background scenery, game objects, and other such items should be kept here.
     /// </summary>
     class Scene
     {
-        
+        public List<Room> rooms;
+        private bool disableOctTree = false;
+
         // References to all objects in the scene, *including* the player objects
         private Dictionary<int, List<GameObject>> objects;
         private OctreeLeaf octTreeRoot;
@@ -50,8 +52,9 @@ namespace GammaDraconis.Video
         public Scene()
         {
             objects = new Dictionary<int, List<GameObject>>();
+            rooms = new List<Room>();
             //TODO: find root bounding box size
-            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-7500f),new Vector3(7500f)), 3, 0);
+            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-7500f), new Vector3(7500f)), 3, 0);
             octTreeRoot.setContainedObjects(new List<GameObject>());
         }
 
@@ -136,47 +139,107 @@ namespace GammaDraconis.Video
         /// <returns>List of GameObjects to render</returns>
         public List<GameObject> visible(Coords vantage)
         {
-
-            updateOctTreeObjects();
-           
-            float aspRatio = GammaDraconis.renderer.aspectRatio;
-            float viewAngle = GammaDraconis.renderer.viewingAngle;
-            float viewDist = GammaDraconis.renderer.viewingDistance;
-
-            Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
-            BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
-            
-            List<GameObject> visibleObjects;
-            Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, viewFrustum);
+            Room roomIn = null;
+            foreach (Room room in rooms)
+            {
+                if (room.area.Contains(vantage.pos()) != ContainmentType.Disjoint)
+                {
+                    roomIn = room;
+                    break;
+                }
+            }
+            List<GameObject> visibleObjects = new List<GameObject>();
             List<GameObject> temp = new List<GameObject>();
             List<GameObject> tempScenery = new List<GameObject>();
             List<GameObject> tempSkybox = new List<GameObject>();
-           
-            
-            foreach (int tempKey in optimizedObjects.Keys)
+
+            if (roomIn == null || roomIn.canSeeOutside)
             {
-                List<GameObject> atemp = (List<GameObject>)optimizedObjects[tempKey];
-                foreach (GameObject gameobject in atemp)
+                updateOctTreeObjects();
+
+
+                float aspRatio = GammaDraconis.renderer.aspectRatio;
+                float viewAngle = GammaDraconis.renderer.viewingAngle;
+                float viewDist = GammaDraconis.renderer.viewingDistance;
+
+                Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
+                BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
+
+                Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, viewFrustum);
+
+
+
+                foreach (int tempKey in optimizedObjects.Keys)
                 {
-                    // Take care of some quick cases before doing any math.
-                    if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
+                    List<GameObject> atemp = (List<GameObject>)optimizedObjects[tempKey];
+                    foreach (GameObject gameobject in atemp)
                     {
-                        tempSkybox.Add(gameobject);
-                        gameobject.position.T = Matrix.CreateTranslation(vantage.pos());
-                    }
-                    else
-                    {
-                        
-                        if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
+                        // Take care of some quick cases before doing any math.
+                        if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
                         {
-                            if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
+                            tempSkybox.Add(gameobject);
+                            gameobject.position.T = Matrix.CreateTranslation(vantage.pos());
+                        }
+                        else
+                        {
+
+                            if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
                             {
-                                tempScenery.Add(gameobject);
-                                gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
+                                if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
+                                {
+                                    tempScenery.Add(gameobject);
+                                    gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
+                                }
+                                else
+                                {
+                                    temp.Add(gameobject);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else // roomIn != null
+            {
+                foreach (int tempKey in objects.Keys)
+                {
+
+                    foreach (GameObject gameobject in objects[tempKey])
+                    {
+                        if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
+                        {
+                            tempSkybox.Add(gameobject);
+                            gameobject.position.T = Matrix.CreateTranslation(vantage.pos());
+                        }
+                        else
+                        {
+                            bool visible = false;
+                            if (roomIn.area.Contains(gameobject.position.pos()) != ContainmentType.Disjoint)
+                            {
+                                visible = true;
                             }
                             else
                             {
-                                temp.Add(gameobject);
+                                foreach (Room room in roomIn.visibleRooms)
+                                {
+                                    if (room.area.Contains(gameobject.position.pos()) != ContainmentType.Disjoint)
+                                    {
+                                        visible = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (visible)
+                            {
+                                if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
+                                {
+                                    tempScenery.Add(gameobject);
+                                    gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
+                                }
+                                else
+                                {
+                                    temp.Add(gameobject);
+                                }
                             }
                         }
                     }
@@ -203,7 +266,7 @@ namespace GammaDraconis.Video
                 if ((tempKey & ofType) != 0)
                 {
                     List<GameObject> temp = (List<GameObject>)objects[tempKey];
-                    foreach(GameObject gameobject in temp)
+                    foreach (GameObject gameobject in temp)
                     {
                         tObjects.Add(gameobject);
                     }
@@ -214,6 +277,11 @@ namespace GammaDraconis.Video
 
         public Dictionary<int, List<GameObject>> sortOctTree(out List<GameObject> entirelyVisible, BoundingFrustum viewFrustrum)
         {
+            if (disableOctTree)
+            {
+                entirelyVisible = new List<GameObject>();
+                return objects;
+            }
             Dictionary<int, List<GameObject>> tempObjects = objects;
             List<GameObject> notVisible;
             entirelyVisible = octTreeRoot.visible(out notVisible, viewFrustrum);
@@ -221,14 +289,14 @@ namespace GammaDraconis.Video
             {
                 foreach (GameObject obj in notVisible)
                 {
-                    if(tempList.Contains(obj))
+                    if (tempList.Contains(obj))
                     {
                         tempList.Remove(obj);
                     }
                 }
                 foreach (GameObject obj in entirelyVisible)
                 {
-                    if(tempList.Contains(obj))
+                    if (tempList.Contains(obj))
                     {
                         tempList.Remove(obj);
                     }
@@ -237,7 +305,7 @@ namespace GammaDraconis.Video
             }
             return tempObjects;
         }
-    
+
         public void updateOctTreeObjects()
         {
             List<GameObject> objList = new List<GameObject>();
@@ -264,7 +332,7 @@ namespace GammaDraconis.Video
             {
                 Console.WriteLine(output);
             }
-           
+
         }
     }
 }

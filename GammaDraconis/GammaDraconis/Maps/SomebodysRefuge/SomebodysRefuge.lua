@@ -1,56 +1,25 @@
+local tunnelRadius = 200
+
 gameScene = Scene()
 Engine.GetInstance().gameScene = gameScene
 
-p = Player(PlayerIndex.One)
-gameScene:track(p, GO_TYPE.RACER)
-
-p2 = Player(PlayerIndex.Two)
-p2.position = Coords(20.0, -12.0, 28.0)
-gameScene:track(p2, GO_TYPE.RACER)
-
-p3 = Player(PlayerIndex.Three)
-p3.position = Coords(20.0, 12.0, 28.0)
-gameScene:track(p3, GO_TYPE.RACER)
-
-p4 = Player(PlayerIndex.Four)
-p4.position = Coords(20.0, 12.0, -28.0)
-gameScene:track(p4, GO_TYPE.RACER)
-
-r = Racer();
-r.position = Coords(0.0, 0.0, 0.0, 0.0, MSMath.PI, 0.0);
-r.models[0].scale = 2;
-gameScene:track(r, GO_TYPE.RACER);
-
-racers = Racer[5]
-racers[0] = p
-racers[1] = p2
-racers[2] = p3
-racers[3] = p4
-racers[4] = r
-
---[[
-checkpoint = GameObject()
-checkpoint.position = Coords(75, 0, -75, 0, 1.25 * MSMath.PI, 0)
-checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 10))
-gameScene:track(checkpoint, GO_TYPE.HUD)
-]]--
-
-planet = GameObject()
-planet.position = Coords(0, 0, -50)
-planet.models:Add(FBXModel("Resources/Models/Planet", "", 50))
-gameScene:track(planet, GO_TYPE.SCENERY)
-
-skybox = GameObject()
-skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 500*10000))
-gameScene:track(skybox, GO_TYPE.SKYBOX)
 
 course = Course()
 Engine.GetInstance().course = course
 
 path = {
-	{x=0, y=0, z=50, yaw=0, pitch=0, roll=0 },
-	{x=0, y=0, z=100, yaw=0.25, pitch=0, roll=1.5, path=true},
-	{x=0, y=0, z=200, yaw=0.5, pitch=0, roll=0},
+	{x=0, y=0, z=0, yaw=0, pitch=0, roll=0 },
+	{x=0, y=0, z=-400, yaw=0, pitch=0, roll=0},
+	{x=-200, y=0, z=-800, yaw=MathHelper.PiOver2, pitch=0, roll=0},
+	{x=-400, y=0, z=-1200, yaw=0, pitch=0, roll=0},
+	{x=-200, y=0, z=-1600, yaw=-MathHelper.PiOver2, pitch=0, roll=0},
+	{x=0, y=0, z=-1400, yaw=MathHelper.Pi, pitch=0, roll=0},
+	{x=200, y=0, z=-1200, yaw=-MathHelper.PiOver2, pitch=0, roll=0},
+	{x=400, y=0, z=-1400, yaw=0, pitch=0, roll=0},
+	{x=200, y=0, z=-2000, yaw=MathHelper.PiOver2, pitch=0, roll=0},
+	{x=-800, y=0, z=-1800, yaw=0, pitch=0, roll=0},
+	{x=-1000, y=0, z=-400, yaw=MathHelper.PiOver2, pitch=0, roll=0},
+--[[
 	{x=50, y=0, z=400, yaw=1.0, pitch=-0.3, roll=0},
 	{x=125, y=50, z=500, yaw=1.0, pitch=-0.4, roll=0},
 	{x=200, y=125, z=600, yaw=1.0, pitch=-0.5, roll=0},
@@ -58,6 +27,7 @@ path = {
 	{x=350, y=275, z=800, yaw=1.0, pitch=-0.2, roll=0},
 	{x=425, y=325, z=900, yaw=1.0, pitch=0.2, roll=0},
 	{x=575, y=200, z=1100, yaw=1.0, pitch=0.5, roll=0},
+	]]--
 	}
 
 -- TODO: Find a way to add intermediate points for AI
@@ -68,13 +38,83 @@ for i,v in ipairs( path ) do
 
 		checkpoint = GameObject()
 		checkpoint.position = position
-		checkpoint.size = 25
-		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 10))
+		checkpoint.size = 50
+		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 0.5))
 		gameScene:track(checkpoint, GO_TYPE.HUD)
 	end
 end
 
 course.loop = true
 
-race = Race(course, 1, racers)
+room1 = Room()
+room1.area = BoundingBox(Vector3(path[2].x - tunnelRadius, path[2].y - tunnelRadius, path[2].z - 3 * tunnelRadius), Vector3(path[2].x + tunnelRadius, path[2].y + tunnelRadius, path[2].z))
+room1.canSeeOutside = false
+gameScene.rooms:Add(room1)
+
+room2 = Room()
+room2.area = BoundingBox(Vector3(path[4].x - tunnelRadius, path[4].y - tunnelRadius, path[4].z - 3 * tunnelRadius), Vector3(path[4].x + tunnelRadius, path[4].y + tunnelRadius, path[4].z + 3 * tunnelRadius))
+room2.canSeeOutside = false
+room2.visibleRooms:Add(room1)
+room1.visibleRooms:Add(room2)
+gameScene.rooms:Add(room2)
+
+room3 = Room()
+room3.area = BoundingBox(Vector3(path[6].x - tunnelRadius, path[6].y - tunnelRadius, path[6].z - 2 * tunnelRadius), Vector3(path[6].x + tunnelRadius, path[6].y + tunnelRadius, path[6].z + 2 * tunnelRadius))
+room3.canSeeOutside = false
+room3.visibleRooms:Add(room2)
+room2.visibleRooms:Add(room3)
+gameScene.rooms:Add(room3)
+
+room4 = Room()
+room4.area = BoundingBox(Vector3(path[8].x - tunnelRadius, path[8].y - tunnelRadius, path[8].z - 2 * tunnelRadius), Vector3(path[8].x + tunnelRadius, path[8].y + tunnelRadius, path[8].z + 2 * tunnelRadius))
+room4.canSeeOutside = false
+room4.visibleRooms:Add(room2)
+room4.visibleRooms:Add(room3)
+room2.visibleRooms:Add(room4)
+room3.visibleRooms:Add(room4)
+gameScene.rooms:Add(room4)
+
+room5 = Room()
+room5.area = BoundingBox(Vector3(path[9].x - tunnelRadius, path[9].y - tunnelRadius, path[9].z - tunnelRadius), Vector3(path[9].x + tunnelRadius, path[9].y + tunnelRadius, path[9].z + tunnelRadius))
+room5.canSeeOutside = false
+room5.visibleRooms:Add(room3)
+room5.visibleRooms:Add(room4)
+room3.visibleRooms:Add(room5)
+room4.visibleRooms:Add(room5)
+gameScene.rooms:Add(room5)
+
+room6 = Room()
+room6.area = BoundingBox(Vector3(path[9].x - 6 * tunnelRadius, path[9].y - tunnelRadius, path[9].z - tunnelRadius), Vector3(path[9].x - tunnelRadius, path[9].y + tunnelRadius, path[9].z + tunnelRadius))
+room6.canSeeOutside = false
+room6.visibleRooms:Add(room4)
+room6.visibleRooms:Add(room5)
+room4.visibleRooms:Add(room6)
+room5.visibleRooms:Add(room6)
+gameScene.rooms:Add(room6)
+
+
+racers = Engine.GetInstance().players
+
+for i = 0, racers.Length-1 do
+	gameScene:track(racers[i], GO_TYPE.RACER)
+	racers[i].position = Coords(path[1].x - (4 + 2 * i) * racers[i].size, path[1].y, path[1].z + 2 * racers[i].size, path[1].pitch, path[1].yaw, path[1].roll)
+end
+
+planet = GameObject()
+planet.position = Coords(0, 0, -500)
+planet.size = 1000
+planet.models:Add(FBXModel("Resources/Models/Planet", "", 4))
+--gameScene:track(planet, GO_TYPE.SCENERY)
+
+skybox = GameObject()
+skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.5))
+gameScene:track(skybox, GO_TYPE.SKYBOX)
+
+roid = Proto.getThing("Asteroid800A", Coords(- 500,0,0))
+roid.invincible = true
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+
+
+race = Race(course, 3, racers)
 Engine.GetInstance().race = race

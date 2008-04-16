@@ -23,9 +23,9 @@ ship.dragL = 1.2
 ship.rateR = 2
 ship.dragR = 3
 
-ship.maxHealth = 100;
-ship.maxShield = 50;
-ship.shieldIncreaseRate = 5;
+ship.maxHealth = 500;
+ship.maxShield = 200;
+ship.shieldIncreaseRate = 20;
 
 ship.models:Add(shipModel)
 ship.shieldModel = shieldModel

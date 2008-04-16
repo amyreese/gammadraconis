@@ -9,7 +9,7 @@ racers = Engine.GetInstance().players
 
 for i = 0, racers.Length-1 do
 	gameScene:track(racers[i], GO_TYPE.RACER)
-	racers[i].position = Coords(radius - (4 + 2 * i) * racers[i].size, 0, - 2 * racers[i].size, MSMath.PI, 0, 0)
+	racers[i].position = Coords(radius - (-4 + 2.1 * i) * racers[i].size, 0, - 2 * racers[i].size, MSMath.PI, 0, 0)
 end
 
 planet = GameObject()
@@ -22,16 +22,16 @@ skybox = GameObject()
 skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.5))
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 
-roid = Proto.getThing("Asteroid800A", Coords(- radius / 2,0,0), Coords(1.5,-0,0,0.004,0.001,0.0004))
+roid = Proto.getThing("Asteroid800A", Coords(- radius / 2,5,5), Coords(1.5,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800A", Coords(radius / 2,0,0), Coords(-1.5,0,0,0.004,0.001,0.0004))
+roid = Proto.getThing("Asteroid800A", Coords(radius / 2,-5,-5), Coords(-1.5,0,0,0.003,0.004,0.0002))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800B", Coords(0,0,-radius / 3), Coords(0,0,1.5, 0.001, 0.003, 0.001))
+roid = Proto.getThing("Asteroid800B", Coords(5,5,- 2 * radius / 3), Coords(0,0,1.5, 0.001, 0.003, 0.001))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800B", Coords(0,0,radius / 3), Coords(0,0,-1.5, 0.001, 0.003, 0.001))
+roid = Proto.getThing("Asteroid800B", Coords(-5,-5, 2 * radius / 3), Coords(0,0,-1.5, 0.002, 0.001, 0.003))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
 course = Course()

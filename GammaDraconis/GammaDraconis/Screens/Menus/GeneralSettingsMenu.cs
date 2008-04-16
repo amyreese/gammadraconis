@@ -16,6 +16,7 @@ namespace GammaDraconis.Screens.Menus
         GameObject skybox;
         private Vector3 startLocation = new Vector3(20.0f, -1.35f, -12.0f);
         private int timeToStartIndex;
+        private int useMouseIndex;
 
         /// <summary>
         /// 
@@ -55,6 +56,7 @@ namespace GammaDraconis.Screens.Menus
         private class Commands
         {
             public static string ToggleTimeToStart = "ToggleTimeToStart";
+            public static string ToggleUseMouse = "ToggleUseMouse";
             public static string Back = "Back";
         }
 
@@ -67,12 +69,15 @@ namespace GammaDraconis.Screens.Menus
             menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
             screenInterface.AddComponent(menuRegion);
 
-            menuItems = new MenuItem[2];
+            menuItems = new MenuItem[3];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.ToggleTimeToStart);
             menuItems[0].text = "Toggle Time To Start";
             timeToStartIndex = 0;
-            menuItems[1] = new MenuItem(gammaDraconis, Commands.Back);
-            menuItems[1].text = "Back";
+            menuItems[1] = new MenuItem(gammaDraconis, Commands.ToggleUseMouse);
+            menuItems[1].text = "Toggle Use Mouse";
+            useMouseIndex = 1;
+            menuItems[2] = new MenuItem(gammaDraconis, Commands.Back);
+            menuItems[2].text = "Back";
 
             AutoPositionMenuItems();
             
@@ -106,6 +111,11 @@ namespace GammaDraconis.Screens.Menus
                 }
                 Properties.Settings.Default.Save();
             }
+            else if (command.Equals(Commands.ToggleUseMouse))
+            {
+                Properties.Settings.Default.PlayerOneUseMouse = !Properties.Settings.Default.PlayerOneUseMouse;
+                Properties.Settings.Default.Save();
+            }
             else if (command.Equals(Commands.Back))
             {
                 gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
@@ -124,6 +134,7 @@ namespace GammaDraconis.Screens.Menus
         public override void Update(GameTime gameTime)
         {
             menuItems[timeToStartIndex].text = "Race Start Delay: " + Properties.Settings.Default.RaceStartDelay + " seconds";
+            menuItems[useMouseIndex].text = "Use Mouse Navigation: " + Properties.Settings.Default.PlayerOneUseMouse;
 
             /*
             racer.position.T *= Matrix.CreateTranslation((float)(-7.5f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1.5f * gameTime.ElapsedGameTime.TotalSeconds), 0);

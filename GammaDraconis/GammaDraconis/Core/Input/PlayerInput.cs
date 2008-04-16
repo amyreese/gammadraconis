@@ -112,8 +112,11 @@ namespace GammaDraconis.Core.Input
 
                     inputKeys.Add(Commands.Join, "w");
                     inputKeys.Add(Commands.Leave, "s");
-                    inputAxis.Add(Commands.Pitch, "MouseY");
-                    inputAxis.Add(Commands.Yaw, "MouseX");
+                    if (Properties.Settings.Default.PlayerOneUseMouse)
+                    {
+                        inputAxis.Add(Commands.Pitch, "MouseY");
+                        inputAxis.Add(Commands.Yaw, "MouseX");
+                    }
                 }
                 else if (playerIndex == PlayerIndex.Two)
                 {

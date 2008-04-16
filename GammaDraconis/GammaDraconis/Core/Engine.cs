@@ -382,13 +382,13 @@ namespace GammaDraconis.Core
                         //Seem to work ok with bullets, but ships colliding not working so well?
 
                         //restitution coeff
-                        float e = 0.5f;
+                        float e = 0.75f;
 
                         //normal unit vector from o to o2.
                         Vector3 n = o2.position.pos() - o.position.pos();
                         n.Normalize();
 
-                        float c = Vector3.Dot(n, (o.velocity.pos() - o2.velocity.pos())) + closeness / 50;
+                        float c = Vector3.Dot(n, (o.velocity.pos() - o2.velocity.pos())) + closeness / 50 + 0.01f;
 
                         Vector3 mod = (c / (o.mass + o2.mass)) * (1 + e) * n;
                         Vector3 oVelocityMod = o2.mass * mod;

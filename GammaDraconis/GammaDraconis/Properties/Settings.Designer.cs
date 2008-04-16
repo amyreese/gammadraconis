@@ -70,5 +70,17 @@ namespace GammaDraconis.Properties {
                 this["RaceStartDelay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PlayerOneUseMouse {
+            get {
+                return ((bool)(this["PlayerOneUseMouse"]));
+            }
+            set {
+                this["PlayerOneUseMouse"] = value;
+            }
+        }
     }
 }

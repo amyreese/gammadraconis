@@ -29,7 +29,13 @@ function asteroidDead(asteroid)
 		local roid6 = roid1:clone()
 		local roid7 = roid1:clone()
 		local roid8 = roid1:clone()
-		local offset = roid1.size * 0.97
+		local roid9 = roid1:clone()
+		local roidA = roid1:clone()
+		local roidB = roid1:clone()
+		local roidC = roid1:clone()
+		local roidD = roid1:clone()
+		local roidE = roid1:clone()
+		local offset = roid1.size * 1.25
 		roid1.position = Coords(oldPos.X + offset, oldPos.Y + offset, oldPos.Z + offset)
 		roid2.position = Coords(oldPos.X + offset, oldPos.Y + offset, oldPos.Z - offset)
 		roid3.position = Coords(oldPos.X + offset, oldPos.Y - offset, oldPos.Z + offset)
@@ -38,14 +44,56 @@ function asteroidDead(asteroid)
 		roid6.position = Coords(oldPos.X - offset, oldPos.Y + offset, oldPos.Z - offset)
 		roid7.position = Coords(oldPos.X - offset, oldPos.Y - offset, oldPos.Z + offset)
 		roid8.position = Coords(oldPos.X - offset, oldPos.Y - offset, oldPos.Z - offset)
-		Engine.GetInstance().gameScene:track(roid1, GO_TYPE.DEBRIS)
-		Engine.GetInstance().gameScene:track(roid2, GO_TYPE.DEBRIS)
-		Engine.GetInstance().gameScene:track(roid3, GO_TYPE.DEBRIS)
-		Engine.GetInstance().gameScene:track(roid4, GO_TYPE.DEBRIS)
-		Engine.GetInstance().gameScene:track(roid5, GO_TYPE.DEBRIS)
-		Engine.GetInstance().gameScene:track(roid6, GO_TYPE.DEBRIS)
-		Engine.GetInstance().gameScene:track(roid7, GO_TYPE.DEBRIS)
-		Engine.GetInstance().gameScene:track(roid8, GO_TYPE.DEBRIS)
+		offset = offset * 2
+		roid9.position = Coords(oldPos.X + offset, oldPos.Y, oldPos.Z)
+		roidA.position = Coords(oldPos.X - offset, oldPos.Y, oldPos.Z)
+		roidB.position = Coords(oldPos.X, oldPos.Y + offset, oldPos.Z)
+		roidC.position = Coords(oldPos.X, oldPos.Y - offset, oldPos.Z)
+		roidD.position = Coords(oldPos.X, oldPos.Y, oldPos.Z + offset)
+		roidE.position = Coords(oldPos.X, oldPos.Y, oldPos.Z - offset)
+		local spawnChance = 0.4
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid1, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid2, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid3, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid4, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid5, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid6, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid7, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid8, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roid9, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roidA, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roidB, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roidC, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roidD, GO_TYPE.DEBRIS)
+		end
+		if math.random() < spawnChance then
+			Engine.GetInstance().gameScene:track(roidE, GO_TYPE.DEBRIS)
+		end
 	end
 end
 

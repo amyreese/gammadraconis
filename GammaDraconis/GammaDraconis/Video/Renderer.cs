@@ -49,7 +49,7 @@ namespace GammaDraconis.Video
         {
             aspectRatio = 0;
             viewingAngle = 60f;
-            viewingDistance = 20000f;
+            viewingDistance = 15000f;
 
             this.game = game;
             game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);          

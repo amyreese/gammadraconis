@@ -209,7 +209,7 @@ namespace GammaDraconis.Video
             parameters["BaseSaturation"].SetValue(Settings.BaseSaturation);
 
             GraphicsDevice.Textures[1] = resolveTarget;
-
+                            
             Viewport viewport = GraphicsDevice.Viewport;
 
             DrawFullscreenQuad(renderTarget1.GetTexture(),

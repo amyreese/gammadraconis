@@ -25,7 +25,7 @@ namespace GammaDraconis.Video.GUI
             RelativePosition = Vector2.Zero;
             RelativeScale = Vector2.One;
             RelativeRotation = 0;
-            Visible = false;
+            Visible = true;
             Enabled = false;
         }
 

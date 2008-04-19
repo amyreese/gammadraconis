@@ -43,10 +43,13 @@ namespace GammaDraconis.Core.Input
             public static String MenuLeft = "MenuLeft";
             public static String MenuRight = "MenuRight";
             public static String MenuSelect = "MenuSelect";
+
+            public static String GameStart = "GameStart";
         }
 
         /// <summary>
         /// Initialize the Input manager's state and preferences.
+        /// DEPRECATED. PlayerInput should be created through InputManager.
         /// </summary>
         public PlayerInput( PlayerIndex playerIndex )
             : base(playerIndex)
@@ -145,6 +148,11 @@ namespace GammaDraconis.Core.Input
             }
         }
 
+        /// <summary>
+        /// Set each player's key bindings depending on what control scheme they are using.
+        /// </summary>
+        /// <param name="playerIndex"></param>
+        /// <param name="controlScheme"></param>
         public PlayerInput(PlayerIndex playerIndex, InputManager.ControlScheme controlScheme)
             : base(playerIndex)
         {
@@ -170,8 +178,7 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.MenuRight, "PadRight");
                 inputKeys.Add(Commands.MenuSelect, "PadA");
 
-                inputKeys.Add(Commands.Join, "PadA");
-                inputKeys.Add(Commands.Leave, "PadBack");
+                inputKeys.Add(Commands.GameStart, "PadStart");
             }
             else if (controlScheme == InputManager.ControlScheme.KeyboardWASD)
             {
@@ -183,8 +190,11 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.RollRight, "d");
                 inputKeys.Add(Commands.ThrottleUp, "w");
                 inputKeys.Add(Commands.ThrottleDown, "s");
+
                 inputKeys.Add(Commands.Fire1, "space");
                 inputKeys.Add(Commands.Fire2, "enter");
+                inputKeys.Add(Commands.Pause, "p");
+                inputKeys.Add(Commands.Menu, "escape");
 
                 inputKeys.Add(Commands.MenuUp, "up");
                 inputKeys.Add(Commands.MenuDown, "down");
@@ -192,11 +202,7 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.MenuRight, "right");
                 inputKeys.Add(Commands.MenuSelect, "enter");
 
-                inputKeys.Add(Commands.Join, "w");
-                inputKeys.Add(Commands.Leave, "s");
-
-                inputKeys.Add(Commands.Pause, "p");
-                inputKeys.Add(Commands.Menu, "escape");
+                inputKeys.Add(Commands.GameStart, "enter");
             }
             else if (controlScheme == InputManager.ControlScheme.KeyboardNumPad)
             {
@@ -208,8 +214,11 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.RollRight, "numpad9");
                 inputKeys.Add(Commands.ThrottleUp, "numpad5");
                 inputKeys.Add(Commands.ThrottleDown, "numpad0");
+
                 inputKeys.Add(Commands.Fire1, "numpad1");
                 inputKeys.Add(Commands.Fire2, "numpad3");
+                inputKeys.Add(Commands.Pause, "p");
+                inputKeys.Add(Commands.Menu, "escape");
 
                 inputKeys.Add(Commands.MenuUp, "numpad8");
                 inputKeys.Add(Commands.MenuDown, "numpad2");
@@ -217,12 +226,11 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.MenuRight, "numpad6");
                 inputKeys.Add(Commands.MenuSelect, "numpad0");
 
-                inputKeys.Add(Commands.Join, "numpad5");
-                inputKeys.Add(Commands.Leave, "numpad0");
-
-                inputKeys.Add(Commands.Pause, "p");
-                inputKeys.Add(Commands.Menu, "escape");
+                inputKeys.Add(Commands.GameStart, "enter");
             }
+
+            inputKeys.Add(Commands.Join, inputKeys[Commands.Fire1]);
+            inputKeys.Add(Commands.Leave, inputKeys[Commands.Menu]);
         }
     }
 }

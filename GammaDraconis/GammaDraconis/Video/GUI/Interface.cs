@@ -12,12 +12,22 @@ namespace GammaDraconis.Video.GUI
     public class Interface : InterfaceComponent
     {
         private List<InterfaceComponent> subComponents;
+
         public void AddComponent(InterfaceComponent component)
         {
             subComponents.Add(component);
-            component.Visible = Visible;
             component.Enabled = Enabled;
         }
+
+        public void AddComponents(InterfaceComponent[] components)
+        {
+            foreach (InterfaceComponent component in components)
+            {
+                subComponents.Add(component);
+                component.Enabled = Enabled;
+            }
+        }
+
         public void RemoveComponent(InterfaceComponent component)
         {
             subComponents.Remove(component);
@@ -27,18 +37,6 @@ namespace GammaDraconis.Video.GUI
             : base(game)
         {
             subComponents = new List<InterfaceComponent>();
-        }
-
-        protected override void OnVisibleChanged(object sender, EventArgs args)
-        {
-            if (subComponents != null)
-            {
-                foreach (InterfaceComponent component in subComponents)
-                {
-                    component.Visible = Visible;
-                }
-            }
-            base.OnVisibleChanged(sender, args);
         }
 
         protected override void OnEnabledChanged(object sender, EventArgs args)
@@ -58,7 +56,8 @@ namespace GammaDraconis.Video.GUI
             CalculateResultingValues(position, scale, rotation, out position, out scale, out rotation);
             foreach (InterfaceComponent component in subComponents)
             {
-                component.Draw(gameTime, position, scale, rotation);
+                if(component.Visible)
+                    component.Draw(gameTime, position, scale, rotation);
             }
         }
     }

@@ -19,6 +19,12 @@ namespace GammaDraconis.Video.GUI
         {
         }
 
+        public Text(GammaDraconis game, string text)
+            : base(game)
+        {
+            this.text = text;
+        }
+
         protected override void LoadContent()
         {
             if (spriteFontName != null)

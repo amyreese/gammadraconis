@@ -15,11 +15,13 @@ namespace GammaDraconis.Core.Input
 
         private Dictionary<PlayerIndex, ControlScheme> controlMappings;
         private PlayerIndex mouseUser;
+        private bool mouseInUse;
 
         public InputManager()
         {
             controlMappings = new Dictionary<PlayerIndex, ControlScheme>();
             AutoRegisterControlSchemes();
+            mouseInUse = false;
         }
 
         public void AutoRegisterControlSchemes()
@@ -89,6 +91,11 @@ namespace GammaDraconis.Core.Input
                     return false;
 
             return true;
+        }
+
+        public bool IsMouseAvailable()
+        {
+            return !mouseInUse;
         }
 
         public PlayerInput GetPlayerInput(PlayerIndex p)

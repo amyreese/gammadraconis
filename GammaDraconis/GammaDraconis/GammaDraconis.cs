@@ -50,6 +50,7 @@ namespace GammaDraconis
             GameLua = new GameLua();
             Proto.init();
 
+            InputManager = new InputManager();
 #if DEBUG
             DebugInterface = (Interface)GameLua.DoString("return dofile( 'Interfaces/DebugInterface/DebugInterface.lua' )")[0];
 #endif
@@ -76,6 +77,19 @@ namespace GammaDraconis
             private set
             {
                 _GameLua = value;
+            }
+        }
+
+        private InputManager _InputManager;
+        internal InputManager InputManager
+        {
+            get
+            {
+                return _InputManager;
+            }
+            private set
+            {
+                _InputManager = value;
             }
         }
 

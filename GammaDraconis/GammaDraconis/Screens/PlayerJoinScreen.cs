@@ -31,10 +31,10 @@ namespace GammaDraconis.Screens
 
         public override void Initialize()
         {
-            inputs[0] = new PlayerInput(PlayerIndex.One);
-            inputs[1] = new PlayerInput(PlayerIndex.Two);
-            inputs[2] = new PlayerInput(PlayerIndex.Three);
-            inputs[3] = new PlayerInput(PlayerIndex.Four);
+            inputs[0] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.One);
+            inputs[1] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Two);
+            inputs[2] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Three);
+            inputs[3] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Four);
 
             GameObject skybox = new GameObject();
             skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.5f));

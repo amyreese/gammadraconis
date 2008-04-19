@@ -31,7 +31,7 @@ namespace GammaDraconis.Types
         {
             this.index = index;
 
-            input = new PlayerInput(index);
+            input = GammaDraconis.GetInstance().InputManager.GetPlayerInput(index);
             camera = new Coords();
             viewport = (Renderer.Viewports)index;
             Player.players[(int)index] = this;

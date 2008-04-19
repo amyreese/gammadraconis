@@ -13,6 +13,9 @@ if PositionArrow == nil then
 		function arrow.relocate( position )
 			arrow.sprite.RelativePosition = position
 		end
+		function arrow.relocateY( num )
+			arrow.sprite.RelativePosition = Vector2(arrow.sprite.RelativePosition.X, num)
+		end
 		function arrow.rotate( amt )
 			arrow.sprite.RelativeRotation = amt
 		end
@@ -21,6 +24,9 @@ if PositionArrow == nil then
 		end
 		function arrow.Blink()
 			arrow.sprite.Visible = false
+		end
+		function arrow.rescale( amt )
+			arrow.sprite.RelativeScale = amt 
 		end
 		return arrow
 	end

@@ -20,6 +20,7 @@ namespace GammaDraconis.Video
         static public int THINKABLE = 8;
         static public int MOVABLE = 16;
         static public int COLLIDABLE = 32;
+        static public int INPUT_BASED = 64;
 
         // Composite
         static public int GHOST = THINKABLE | MOVABLE;
@@ -27,6 +28,7 @@ namespace GammaDraconis.Video
         static public int DEBRIS = MOVABLE | COLLIDABLE;
 
         static public int RACER = NORMAL;
+        static public int PLAYER = RACER | INPUT_BASED;
         static public int BULLET = NORMAL;
         static public int MISSILE = NORMAL;
         static public int COURSE = GHOST;
@@ -326,6 +328,9 @@ namespace GammaDraconis.Video
 
         public List<GameObject> sortObjects(Dictionary<int, List<GameObject>> likelyVisible)
         {
+
+            //Add in order: SKYBOX/SCENERY objects first, PLAYER objects last
+
             List<GameObject> listedObjects = new List<GameObject>();
             foreach (int key in likelyVisible.Keys)
             {

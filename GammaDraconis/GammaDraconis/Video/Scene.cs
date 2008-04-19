@@ -148,11 +148,12 @@ namespace GammaDraconis.Video
                     break;
                 }
             }
-            List<GameObject> visibleObjects = new List<GameObject>();
+            Dictionary<int, List<GameObject>> visibleObjects = new Dictionary<int, List<GameObject>>();
             List<GameObject> temp = new List<GameObject>();
             List<GameObject> tempScenery = new List<GameObject>();
             List<GameObject> tempSkybox = new List<GameObject>();
-
+            List<GameObject> tempVisibleObjects = new List<GameObject>();
+                
             if (roomIn == null || roomIn.canSeeOutside)
             {
                 updateOctTreeObjects();
@@ -168,6 +169,12 @@ namespace GammaDraconis.Video
                 Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, viewFrustum);
 
 
+                //TODO:TEMPORARY FIX
+                tempVisibleObjects = new List<GameObject>();
+                foreach (List<GameObject> list in visibleObjects.Values)
+                {
+                    tempVisibleObjects.AddRange(list);
+                }
 
                 foreach (int tempKey in optimizedObjects.Keys)
                 {
@@ -246,10 +253,10 @@ namespace GammaDraconis.Video
                 }
             }
 
-            visibleObjects.AddRange(tempSkybox);
-            visibleObjects.AddRange(tempScenery);
-            visibleObjects.AddRange(temp);
-            return visibleObjects;
+            tempVisibleObjects.AddRange(tempSkybox);
+            tempVisibleObjects.AddRange(tempScenery);
+            tempVisibleObjects.AddRange(temp);
+            return tempVisibleObjects;
         }
 
         /// <summary>
@@ -275,35 +282,40 @@ namespace GammaDraconis.Video
             return tObjects;
         }
 
-        public Dictionary<int, List<GameObject>> sortOctTree(out List<GameObject> entirelyVisible, BoundingFrustum viewFrustrum)
+        public Dictionary<int, List<GameObject>> sortOctTree(out Dictionary<int, List<GameObject>> entirelyVisible, BoundingFrustum viewFrustrum)
         {
+            Dictionary<int, List<GameObject>> optimizedObjectDictionary = new Dictionary<int,List<GameObject>>();
+            entirelyVisible = new Dictionary<int, List<GameObject>>();
             if (disableOctTree)
             {
-                entirelyVisible = new List<GameObject>();
                 return objects;
             }
-            Dictionary<int, List<GameObject>> tempObjects = objects;
             List<GameObject> notVisible;
-            entirelyVisible = octTreeRoot.visible(out notVisible, viewFrustrum);
-            foreach (List<GameObject> tempList in objects.Values)
+            List<GameObject> entirelyVisibleList = octTreeRoot.visible(out notVisible, viewFrustrum);
+            foreach (int tempKey in objects.Keys)
             {
+                entirelyVisible.Add(tempKey, new List<GameObject>());
+                
+                List<GameObject> objectTypeList = objects[tempKey];
                 foreach (GameObject obj in notVisible)
                 {
-                    if (tempList.Contains(obj))
+                    if (objectTypeList.Contains(obj))
                     {
-                        tempList.Remove(obj);
+                        objectTypeList.Remove(obj);
                     }
                 }
-                foreach (GameObject obj in entirelyVisible)
+                foreach (GameObject obj in entirelyVisibleList)
                 {
-                    if (tempList.Contains(obj))
+                    if (objectTypeList.Contains(obj))
                     {
-                        tempList.Remove(obj);
+                        objectTypeList.Remove(obj);
+                        entirelyVisible[tempKey].Add(obj);
                     }
                 }
+                optimizedObjectDictionary.Add(tempKey, objectTypeList);
 
             }
-            return tempObjects;
+            return optimizedObjectDictionary;
         }
 
         public void updateOctTreeObjects()
@@ -333,6 +345,16 @@ namespace GammaDraconis.Video
                 Console.WriteLine(output);
             }
 
+        }
+
+        public List<GameObject> sortObjects(Dictionary<int, List<GameObject>> likelyVisible)
+        {
+            List<GameObject> listedObjects = new List<GameObject>();
+            foreach (int key in likelyVisible.Keys)
+            {
+                listedObjects.AddRange(likelyVisible[key]);
+            }
+            return listedObjects;
         }
     }
 }

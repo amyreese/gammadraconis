@@ -15,6 +15,17 @@ namespace GammaDraconis.Video
     /// </summary>
     class Renderer : DrawableGameComponent
     {
+        private int secondsPerQuip = 5;
+        private String[] missingPlayerQuips = { 
+            "No Player!", 
+            "Ningun Jugador!", 
+            "Kein Spieler!", 
+            "Nenhum Jogador!",
+            "Nessun Giocatore!",
+            "Geen Speler!",
+            "Aucun Joueur!"
+        };
+
         // The aspect ratio determines how to scale 3d to 2d projection.
         public float aspectRatio;
         public float viewingAngle;
@@ -23,6 +34,8 @@ namespace GammaDraconis.Video
         public GammaDraconis game;
 
         private Viewport[] viewports;
+
+        private Viewports[] MissingPlayerViewports;
 
         // Lighting properties
         public Effect baseEffect;
@@ -37,6 +50,7 @@ namespace GammaDraconis.Video
 
         public enum Viewports
         {
+            None = -1,
             WholeWindow = 0,
             TopLeft = 1,
             TopRight = 2,
@@ -48,14 +62,15 @@ namespace GammaDraconis.Video
             RightSide = 8,
         }
 
-        public Renderer(GammaDraconis game) : base(game)
+        public Renderer(GammaDraconis game)
+            : base(game)
         {
             aspectRatio = 0;
             viewingAngle = 60f;
             viewingDistance = 15000f;
 
             this.game = game;
-            game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);          
+            game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);
             viewports = new Viewport[9];
 
             PostProcessShader shader = new PostProcessShader(game);
@@ -71,7 +86,7 @@ namespace GammaDraconis.Video
             shader.effects.Add("Resources/Effects/BloomCombine");
             shader.divisions.Add(2);
              */
-            
+
 
             shaders = new Dictionary<string, PostProcessShader>();
             shaders.Add("bloom", shader);
@@ -92,13 +107,13 @@ namespace GammaDraconis.Video
             viewports[(int)Viewports.WholeWindow] = new Viewport();
             viewports[(int)Viewports.WholeWindow].X = 0;
             viewports[(int)Viewports.WholeWindow].Y = 0;
-            
+
             viewports[(int)Viewports.WholeWindow].Width = game.Window.ClientBounds.Width;
             viewports[(int)Viewports.WholeWindow].Height = game.Window.ClientBounds.Height;
-            
+
             viewports[(int)Viewports.TopHalf] = viewports[(int)Viewports.WholeWindow];
             viewports[(int)Viewports.TopHalf].Height = viewports[(int)Viewports.TopHalf].Height / 2;
-            
+
             viewports[(int)Viewports.BottomHalf] = viewports[(int)Viewports.TopHalf];
             viewports[(int)Viewports.BottomHalf].Y = viewports[(int)Viewports.BottomHalf].Height;
 
@@ -159,7 +174,21 @@ namespace GammaDraconis.Video
                 }
                 else
                 {
-                    // TODO: Draw something noteworthy in the empty slots?
+                    if (MissingPlayerViewports[playerIndex] != Viewports.None)
+                    {
+                        game.GraphicsDevice.Viewport = viewports[(int)MissingPlayerViewports[playerIndex]];
+                        game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+                        Interface i = new Interface(game);
+                        Text t = new Text(game);
+                        t.spriteFontName = "Resources/Fonts/Menu";
+                        t.text = missingPlayerQuips[(gameTime.TotalRealTime.Seconds / secondsPerQuip) % missingPlayerQuips.Length];
+                        t.center = true;
+                        t.RelativePosition = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
+                        t.color = Color.WhiteSmoke;
+                        i.AddComponent(t);
+                        i.Draw(gameTime, Vector2.Zero, Vector2.One, 0);
+                        // TODO: Draw something noteworthy in the empty slots?
+                    }
                 }
             }
 
@@ -223,7 +252,7 @@ namespace GammaDraconis.Video
             Matrix objectMatrix, modelMatrix;
 
             PostProcessShader shader = shaders["bloom"];
-            
+
             foreach (GameObject gameObject in objects)
             {
                 objectMatrix = worldMatrix * gameObject.position.matrix();
@@ -269,14 +298,20 @@ namespace GammaDraconis.Video
                         game.GraphicsDevice.SetRenderTarget(1, shader.source);
                         mesh.Draw();
 
+                        game.GraphicsDevice.SetRenderTarget(1, null);
+
                     }
                 }
             }
 
         }
 
-        private static int SetPlayerViewports()
+        private int SetPlayerViewports()
         {
+            MissingPlayerViewports = new Viewports[Player.players.Length];
+            for( int x = 0; x < MissingPlayerViewports.Length; x++ ) {
+                MissingPlayerViewports[x] = Viewports.None;
+            }
             int numPlayers = 0;
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
@@ -285,7 +320,7 @@ namespace GammaDraconis.Video
                     numPlayers++;
                 }
             }
-            
+
             if (numPlayers == 1)
             {
                 for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
@@ -295,7 +330,9 @@ namespace GammaDraconis.Video
                         Player.players[playerIndex].viewport = Viewports.WholeWindow;
                     }
                 }
-            } else if (numPlayers == 2) {
+            }
+            else if (numPlayers == 2)
+            {
                 bool foundFirst = false;
                 for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
                 {
@@ -312,23 +349,40 @@ namespace GammaDraconis.Video
                         }
                     }
                 }
-            } else if (numPlayers == 3 || numPlayers == 4)
+            }
+            else if (numPlayers == 3 || numPlayers == 4)
             {
                 if (Player.players[0] != null)
                 {
                     Player.players[0].viewport = Viewports.TopLeft;
                 }
+                else
+                {
+                    MissingPlayerViewports[0] = Viewports.TopLeft;
+                }
                 if (Player.players[1] != null)
                 {
                     Player.players[1].viewport = Viewports.TopRight;
+                }
+                else
+                {
+                    MissingPlayerViewports[1] = Viewports.TopRight;
                 }
                 if (Player.players[2] != null)
                 {
                     Player.players[2].viewport = Viewports.BottomLeft;
                 }
+                else
+                {
+                    MissingPlayerViewports[2] = Viewports.BottomLeft;
+                }
                 if (Player.players[3] != null)
                 {
                     Player.players[3].viewport = Viewports.BottomRight;
+                }
+                else
+                {
+                    MissingPlayerViewports[3] = Viewports.BottomRight;
                 }
             }
 

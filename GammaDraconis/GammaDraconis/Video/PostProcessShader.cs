@@ -98,10 +98,12 @@ namespace GammaDraconis.Video
                 target = new RenderTarget2D(game.GraphicsDevice, width / divisions[i], height / divisions[i], 1, format);
                 
                 DrawFullscreenQuad(texture, target, effect);
+                texture.Dispose();
                 texture = target.GetTexture();
 
                 target.Dispose();
             }
+            game.GraphicsDevice.SetRenderTarget(1, null);
         }
 
         /// <summary>

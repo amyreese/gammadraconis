@@ -63,26 +63,15 @@ namespace GammaDraconis.Screens
 
         public override void Initialize()
         {
-            inputs[0] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.One);
-            playerJoinText[0].text = "Press " + inputs[0].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
-
-            inputs[1] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Two);
-            playerJoinText[1].text = "Press " + inputs[1].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
-
-            inputs[2] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Three);
-            playerJoinText[2].text = "Press " + inputs[2].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
-
-            inputs[3] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Four);
-            playerJoinText[3].text = "Press " + inputs[3].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
-
             GameObject skybox = new GameObject();
             skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.5f));
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
-            setUpDummyShips();
+            onFreshLoad();
 
             base.Initialize();
         }
+
         protected void setUpDummyShips() 
         {
             Player p1 = Player.cloneShip(Proto.getThing("Dummy", new Coords(0f, 0f, 5f, 0f, 0f, 0f)), PlayerIndex.One);
@@ -97,10 +86,19 @@ namespace GammaDraconis.Screens
             Player p4 = Player.cloneShip(Proto.getThing("Dummy", new Coords(-5f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f)), PlayerIndex.Four);
             screenScene.track(p4, GO_TYPE.RACER);
         }
+
         protected override void onFreshLoad()
         {
+            GammaDraconis.GetInstance().InputManager.AutoRegisterControlSchemes();
+
+            inputs[0] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.One);
+            inputs[1] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Two);
+            inputs[2] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Three);
+            inputs[3] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Four);
+
             setUpDummyShips();
         }
+
         public override void Update(GameTime gameTime)
         {
             /*
@@ -114,11 +112,25 @@ namespace GammaDraconis.Screens
             {
                 if (!playersJoined[index])
                 {
-                    if (inputs[index].inputPressed(PlayerInput.Commands.Join))
+                    try
                     {
-                        playersJoined[index] = true;
-                        startGameText.Visible = false;
-                        startGame = false;
+                        playerJoinText[index].text = "Press " + inputs[index].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
+
+                        if (inputs[index].inputPressed(PlayerInput.Commands.Join))
+                        {
+                            playersJoined[index] = true;
+                            startGameText.Visible = false;
+                            startGame = false;
+                        }
+                    }
+                    catch
+                    {
+                        playerJoinText[index].text = "Connect Controller";
+                    }
+
+                    if (inputs[index].inputPressed(PlayerInput.Commands.Menu))
+                    {
+                        gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
                     }
                 }
                 else
@@ -136,7 +148,8 @@ namespace GammaDraconis.Screens
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.GameStart))
                     {
-                        startGame = true;
+                        if (playersReady[index])
+                            startGame = true;
                     }
                 }
 

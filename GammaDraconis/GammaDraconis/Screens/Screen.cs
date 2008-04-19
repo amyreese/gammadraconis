@@ -63,7 +63,7 @@ namespace GammaDraconis.Screens
             }
         }
         private bool _fresh = false;
-        public bool fresh
+        public bool Fresh
         {
             get
             {
@@ -109,12 +109,6 @@ namespace GammaDraconis.Screens
                 GammaDraconis.renderer.render(gameTime, screenScene, new Coords());
             }
 
-            if (fresh)
-            {
-                onFreshLoad();
-                fresh = false;
-            }
-
             Vector2 scale = new Vector2(Game.Window.ClientBounds.Width / 1024.0f, Game.Window.ClientBounds.Height / 768.0f);
             screenInterface.Draw(gameTime, Vector2.Zero, scale, 0);
 #if DEBUG
@@ -132,6 +126,17 @@ namespace GammaDraconis.Screens
         public override void Draw(GameTime gameTime)
         {
             Draw(gameTime, true);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (Fresh)
+            {
+                onFreshLoad();
+                Fresh = false;
+            }
+
+            base.Update(gameTime);
         }
     }
 }

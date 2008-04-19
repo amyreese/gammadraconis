@@ -277,8 +277,11 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.GameStart, "enter");
             }
 
-            inputKeys.Add(Commands.Join, inputKeys[Commands.Fire1]);
-            inputKeys.Add(Commands.Leave, inputKeys[Commands.Menu]);
+            if (controlScheme != InputManager.ControlScheme.None)
+            {
+                inputKeys.Add(Commands.Join, inputKeys[Commands.Fire1]);
+                inputKeys.Add(Commands.Leave, inputKeys[Commands.Menu]);
+            }
         }
     }
 }

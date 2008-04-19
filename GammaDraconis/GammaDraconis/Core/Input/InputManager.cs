@@ -20,78 +20,94 @@ namespace GammaDraconis.Core.Input
         public InputManager()
         {
             controlMappings = new Dictionary<PlayerIndex, ControlScheme>();
+            controlMappings.Add(PlayerIndex.One, ControlScheme.None);
+            controlMappings.Add(PlayerIndex.Two, ControlScheme.None);
+            controlMappings.Add(PlayerIndex.Three, ControlScheme.None);
+            controlMappings.Add(PlayerIndex.Four, ControlScheme.None);
+
             AutoRegisterControlSchemes();
+
             mouseInUse = false;
+        }
+
+        private void ResetControlSchemes()
+        {
+            controlMappings[PlayerIndex.One] = ControlScheme.None;
+            controlMappings[PlayerIndex.Two] = ControlScheme.None;
+            controlMappings[PlayerIndex.Three] = ControlScheme.None;
+            controlMappings[PlayerIndex.Four] = ControlScheme.None;
         }
 
         public void AutoRegisterControlSchemes()
         {
+            ResetControlSchemes();
+
             if (GamePad.GetCapabilities(PlayerIndex.One).IsConnected)
             {
-                controlMappings.Add(PlayerIndex.One, ControlScheme.GamePad);
+                controlMappings[PlayerIndex.One] = ControlScheme.GamePad;
             }
             else
             {
-                controlMappings.Add(PlayerIndex.One, ControlScheme.KeyboardWASD);
+                controlMappings[PlayerIndex.One] = ControlScheme.KeyboardWASD;
             }
 
             if (GamePad.GetCapabilities(PlayerIndex.Two).IsConnected)
             {
-                controlMappings.Add(PlayerIndex.Two, ControlScheme.GamePad);
+                controlMappings[PlayerIndex.Two] = ControlScheme.GamePad;
             }
             else
             {
                 if (IsSchemeAvailable(ControlScheme.KeyboardWASD))
                 {
-                    controlMappings.Add(PlayerIndex.Two, ControlScheme.KeyboardWASD);
+                    controlMappings[PlayerIndex.Two] = ControlScheme.KeyboardWASD;
                 }
                 else
                 {
-                    controlMappings.Add(PlayerIndex.Two, ControlScheme.KeyboardNumPad);
+                    controlMappings[PlayerIndex.Two] = ControlScheme.KeyboardNumPad;
                 }
             }
 
             if (GamePad.GetCapabilities(PlayerIndex.Three).IsConnected)
             {
-                controlMappings.Add(PlayerIndex.Three, ControlScheme.GamePad);
+                controlMappings[PlayerIndex.Three] = ControlScheme.GamePad;
             }
             else
             {
                 if (IsSchemeAvailable(ControlScheme.KeyboardWASD))
                 {
-                    controlMappings.Add(PlayerIndex.Three, ControlScheme.KeyboardWASD);
+                    controlMappings[PlayerIndex.Three] = ControlScheme.KeyboardWASD;
                 }
                 else if (IsSchemeAvailable(ControlScheme.KeyboardNumPad))
                 {
-                    controlMappings.Add(PlayerIndex.Three, ControlScheme.KeyboardNumPad);
+                    controlMappings[PlayerIndex.Three] = ControlScheme.KeyboardNumPad;
                 }
                 else
                 {
-                    controlMappings.Add(PlayerIndex.Three, ControlScheme.KeyboardNumPad2);
+                    controlMappings[PlayerIndex.Three] = ControlScheme.KeyboardNumPad2;
                 }
             }
 
             if (GamePad.GetCapabilities(PlayerIndex.Four).IsConnected)
             {
-                controlMappings.Add(PlayerIndex.Four, ControlScheme.GamePad);
+                controlMappings[PlayerIndex.Four] = ControlScheme.GamePad;
             }
             else
             {
                 if (IsSchemeAvailable(ControlScheme.KeyboardWASD))
                 {
-                    controlMappings.Add(PlayerIndex.Four, ControlScheme.KeyboardWASD);
+                    controlMappings[PlayerIndex.Four] = ControlScheme.KeyboardWASD;
                 }
                 else if (IsSchemeAvailable(ControlScheme.KeyboardNumPad))
                 {
-                    controlMappings.Add(PlayerIndex.Four, ControlScheme.KeyboardNumPad);
+                    controlMappings[PlayerIndex.Four] = ControlScheme.KeyboardNumPad;
                 }
                 else if (IsSchemeAvailable(ControlScheme.KeyboardNumPad2))
                 {
-                    controlMappings.Add(PlayerIndex.Four, ControlScheme.KeyboardNumPad2);
+                    controlMappings[PlayerIndex.Four] = ControlScheme.KeyboardNumPad2;
                 }
                 else
                 {
-                    controlMappings.Add(PlayerIndex.Four, ControlScheme.KeyboardNumPad3);
+                    controlMappings[PlayerIndex.Four] = ControlScheme.KeyboardNumPad3;
                 }
             }
         }

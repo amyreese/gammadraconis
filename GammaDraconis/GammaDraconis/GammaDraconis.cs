@@ -239,6 +239,7 @@ namespace GammaDraconis
             screens[currentGameState].Visible = false;
             screens[toState].Visible = true;
             currentGameState = toState;
+            screens[currentGameState].Fresh = true;
         }
 
         private Dictionary<GameStates, Screen> screens;

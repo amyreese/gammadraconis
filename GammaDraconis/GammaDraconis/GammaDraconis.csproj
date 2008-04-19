@@ -71,6 +71,7 @@
     <Compile Include="Core\Audio.cs" />
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\GameLua.cs" />
+    <Compile Include="Core\Input\InputManager.cs" />
     <Compile Include="Core\Input\PlayerInput.cs" />
     <Compile Include="Core\Input\Input.cs" />
     <Compile Include="Core\Input\MenuInput.cs" />

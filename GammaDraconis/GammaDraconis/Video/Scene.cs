@@ -67,7 +67,7 @@ namespace GammaDraconis.Video
         {
             if (objects.ContainsKey(type))
             {
-                ((List<GameObject>)objects[type]).Add(gameObject);
+                objects[type].Add(gameObject);
             }
             else
             {
@@ -85,7 +85,7 @@ namespace GammaDraconis.Video
         {
             if (objects.ContainsKey(type))
             {
-                ((List<GameObject>)objects[type]).Remove(gameObject);
+                objects[type].Remove(gameObject);
             }
         }
 
@@ -149,10 +149,6 @@ namespace GammaDraconis.Video
                 }
             }
             Dictionary<int, List<GameObject>> visibleObjects = new Dictionary<int, List<GameObject>>();
-            List<GameObject> temp = new List<GameObject>();
-            List<GameObject> tempScenery = new List<GameObject>();
-            List<GameObject> tempSkybox = new List<GameObject>();
-            List<GameObject> tempVisibleObjects = new List<GameObject>();
                 
             if (roomIn == null || roomIn.canSeeOutside)
             {
@@ -167,24 +163,20 @@ namespace GammaDraconis.Video
                 BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
 
                 Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, viewFrustum);
-
-
-                //TODO:TEMPORARY FIX
-                tempVisibleObjects = new List<GameObject>();
-                foreach (List<GameObject> list in visibleObjects.Values)
-                {
-                    tempVisibleObjects.AddRange(list);
-                }
+              
 
                 foreach (int tempKey in optimizedObjects.Keys)
                 {
-                    List<GameObject> atemp = (List<GameObject>)optimizedObjects[tempKey];
-                    foreach (GameObject gameobject in atemp)
+                    if (!visibleObjects.ContainsKey(tempKey))
+                        visibleObjects.Add(tempKey, new List<GameObject>());
+
+                    List<GameObject> tempKeyObjects = optimizedObjects[tempKey];
+                    foreach (GameObject gameobject in tempKeyObjects)
                     {
                         // Take care of some quick cases before doing any math.
                         if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
                         {
-                            tempSkybox.Add(gameobject);
+                            visibleObjects[GO_TYPE.SKYBOX].Add(gameobject);
                             gameobject.position.T = Matrix.CreateTranslation(vantage.pos());
                         }
                         else
@@ -193,14 +185,8 @@ namespace GammaDraconis.Video
                             if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
                             {
                                 if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
-                                {
-                                    tempScenery.Add(gameobject);
                                     gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
-                                }
-                                else
-                                {
-                                    temp.Add(gameobject);
-                                }
+                                visibleObjects[tempKey].Add(gameobject);
                             }
                         }
                     }
@@ -215,7 +201,7 @@ namespace GammaDraconis.Video
                     {
                         if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)
                         {
-                            tempSkybox.Add(gameobject);
+                            visibleObjects[GO_TYPE.SKYBOX].Add(gameobject);
                             gameobject.position.T = Matrix.CreateTranslation(vantage.pos());
                         }
                         else
@@ -239,24 +225,15 @@ namespace GammaDraconis.Video
                             if (visible)
                             {
                                 if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
-                                {
-                                    tempScenery.Add(gameobject);
                                     gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
-                                }
-                                else
-                                {
-                                    temp.Add(gameobject);
-                                }
+                                visibleObjects[tempKey].Add(gameobject);
                             }
                         }
                     }
                 }
             }
-
-            tempVisibleObjects.AddRange(tempSkybox);
-            tempVisibleObjects.AddRange(tempScenery);
-            tempVisibleObjects.AddRange(temp);
-            return tempVisibleObjects;
+            
+            return sortObjects(visibleObjects);
         }
 
         /// <summary>

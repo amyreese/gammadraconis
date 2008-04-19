@@ -28,6 +28,11 @@ if StatusBar == nil then
 			bar.background.color = color
 			bar.status.color = color
 		end
+		function bar.visible( vis )
+			bar.background.Visible = vis
+			bar.status.Visible = vis
+			bar.overlay.Visible = vis
+		end
 		return bar
 	end
 end

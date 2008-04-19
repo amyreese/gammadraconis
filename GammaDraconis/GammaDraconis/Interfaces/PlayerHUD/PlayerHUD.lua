@@ -111,17 +111,18 @@ for x = 1,4 do
 	--Initialize icons to determine what place the player is in
 	playerHUDs[playerHudIndex].placeIcons[x] = PositionArrow.new(x)
 	playerHUDs[playerHudIndex].placeIcons[x].addToInterface(playerHUDs[playerHudIndex].interface)
-	playerHUDs[playerHudIndex].placeIcons[x].relocate( Vector2( 40 * x, 300 ) )
+	playerHUDs[playerHudIndex].placeIcons[x].relocate( Vector2( 10 * x, 300 ) )
 	playerHUDs[playerHudIndex].placeIcons[x].rescale( Vector2( .75, .75))
+	playerHUDs[playerHudIndex].placeIcons[x].rotate( -MathHelper.PiOver2 )
 end
 
-playerHUDs[playerHudIndex].placeIcons[playerHudIndex].rescale( Vector2( 1.0, 1.0))
+--playerHUDs[playerHudIndex].placeIcons[playerHudIndex].rescale( Vector2( 1.0, 1.0))
 
 --TODO:HUD indicator showing other users off screen (maybe on screen?)
 
 
 --Table containing 7 screen positions
-screenPositions = {threeAhead = 180, twoAhead = 220, oneAhead = 260, tied = 300,  oneBehind = 340, twoBehind = 380, threeBehind = 420}
+screenPositions = {420, 380, 340, 300, 260, 220, 180}
 	
 	
 
@@ -142,21 +143,21 @@ playerHUDs[playerHudIndex].shieldBar.addToInterface(playerHUDs[playerHudIndex].i
 playerHUDs[playerHudIndex].shieldBar.relocate( Vector2( 512-64, 96 ) )
 playerHUDs[playerHudIndex].shieldBar.color( Color.Blue )
 
-function currentPlace( leading )
-	if leading == 0 then
-		return 4
-	elseif leading == 1 then
-		return 3
-	elseif leading == 2 then
-		return 2
-	elseif leading == 3 then
+function currentPlace( following )
+	if following == 0 then
 		return 1
+	elseif following == 1 then
+		return 2
+	elseif following == 2 then
+		return 3
+	elseif following == 3 then
+		return 4
 	end
 end
 
 function getPlace( playerIndex )
 	local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
-	return currentPlace(status.leading)
+	return currentPlace(status.following)
 end
 
 function playerHUDs1update(gameTime)
@@ -172,7 +173,7 @@ function playerHUDs4update(gameTime)
 	playerHUDs.update(gameTime, 4)
 end
 function playerHUDs.update(gameTime, playerIndex)
-	local checkpoints = Engine.GetInstance().race.course.path.Count
+	local checkpoints = Engine.GetInstance().race.course.path.Count * Engine.GetInstance().race.laps
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	playerHUDs[playerIndex].shieldBar.update(Player.players[playerIndex-1].shield / Player.players[playerIndex-1].maxShield)
 	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 4.1)
@@ -181,34 +182,34 @@ function playerHUDs.update(gameTime, playerIndex)
 		local int = MSMath.Truncate(sts)
 		local dec = MSMath.Truncate(sts * 10) % 10
 		playerHUDs[playerIndex].statusText.text = "Race starts in... " .. int .. "." .. dec
+		for p = 1,4 do
+			if Player.players[p-1] == nil then
+					playerHUDs[playerIndex].placeIcons[p].Blink()
+					playerHUDs[playerIndex].finishBars[p].visible( false )
+					playerHUDs[playerIndex].finishIcons[p].Blink()
+			end
+		end
 	else
 		local status = Engine.GetInstance().race:status(Player.players[playerIndex-1])
-		for index, x in ipairs(playerHUDs) do
-			playerHUDs[index].finishBars[playerIndex].update(status.checkpoint / checkpoints)
-		end
 		if status.place == 0 then
-			playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
-			for x = 1,4 do
-				if (x ~= playerIndex) then
-					local place = getPlace(x)
-					local relPlace = currentPlace(status.leading) - place
-					if relPlace == 1 then
-						playerHUDs[playerIndex].placeIcons[x].relocateY( screenPositions['oneAhead'] )
-					elseif relPlace == 2 then
-						playerHUDs[playerIndex].placeIcons[x].relocateY( screenPositions['twoAhead'] )
-					elseif relPlace == 3 then
-						playerHUDs[playerIndex].placeIcons[x].relocateY( screenPositions['threeAhead'] )
-					elseif relPlace == -1 then
-						playerHUDs[playerIndex].placeIcons[x].relocateY( screenPositions['oneBehind'] )
-					elseif relPlace == -2 then
-						playerHUDs[playerIndex].placeIcons[x].relocateY( screenPositions['twoBehind'] )
-					elseif relPlace == -3 then
-						playerHUDs[playerIndex].placeIcons[x].relocateY( screenPositions['threeBehind'] )
-					elseif relPlace == 0 then
-						playerHUDs[playerIndex].placeIcons[x].relocateY( screenPositions['tied'] )
+			for p = 1,4 do
+				if Player.players[p-1] ~= nil then
+					local pStatus = status
+					if p ~= playerIndex then
+						pStatus = Engine.GetInstance().race:status(Player.players[p-1]) 
 					end
+					local relPlace = (pStatus.checkpoint * pStatus.lap) - (status.checkpoint * status.lap)
+					if relPlace < -3 then
+						relPlace = -3
+					elseif relPlace > 3 then
+						relPlace = 3
+					end
+					relPlace = relPlace + 4
+					playerHUDs[playerIndex].placeIcons[p].relocateY( screenPositions[relPlace] )
+					playerHUDs[playerIndex].finishBars[p].update(pStatus.checkpoint / checkpoints)
 				end
 			end
+			playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following
 		else
 			if status.place == 1 then
 				playerHUDs[playerIndex].statusText.text = "Congratulations! You won!"

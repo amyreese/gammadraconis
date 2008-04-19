@@ -46,6 +46,12 @@ end
 
 course.loop = false
 
+--tunnel = GameObject()
+--tunnel.position = Coords(500,0,-500)
+--tunnel.size = 100
+--tunnel.models:Add(FBXModel("Resources/Models/Tunnel", "", 50))
+--gameScene:track(tunnel, GO_TYPE.THINKABLE)
+
 room1 = Room()
 room1.area = BoundingBox(Vector3(path[2].x - tunnelRadius, path[2].y - tunnelRadius, path[2].z - 3 * tunnelRadius), Vector3(path[2].x + tunnelRadius, path[2].y + tunnelRadius, path[2].z))
 room1.canSeeOutside = true

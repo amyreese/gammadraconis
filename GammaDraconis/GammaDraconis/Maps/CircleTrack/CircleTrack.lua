@@ -18,6 +18,12 @@ planet.size = 1000
 planet.models:Add(FBXModel("Resources/Models/Planet", "", 4))
 gameScene:track(planet, GO_TYPE.SCENERY)
 
+--tunnel = GameObject()
+--tunnel.position = Coords(1100,5,5)
+--tunnel.size = 100
+--tunnel.models:Add(FBXModel("Resources/Models/Tunnel", "", 100))
+--gameScene:track(tunnel, GO_TYPE.COLLIDABLE)
+
 skybox = GameObject()
 skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.5))
 gameScene:track(skybox, GO_TYPE.SKYBOX)

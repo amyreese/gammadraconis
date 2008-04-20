@@ -37,12 +37,11 @@ namespace GammaDraconis.Video
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
 
-            if (width != source.Width || height != source.Height)
+            if (source.Width != width || source.Height != height)
             {
-                //source.Dispose();
+                source.Dispose();
                 source = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
             }
-
         }
 
         protected override void LoadContent()
@@ -56,27 +55,26 @@ namespace GammaDraconis.Video
                 _effects.Add(game.Content.Load<Effect>(effects[i]));
             }
 
-            PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
-            SurfaceFormat format = pp.BackBufferFormat;
+            pp = game.GraphicsDevice.PresentationParameters;
+            format = pp.BackBufferFormat;
 
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
 
             source = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
-            
+
             base.LoadContent();
         }
 
         protected override void UnloadContent()
         {
-            //source.Dispose();
+            source.Dispose();
 
             base.UnloadContent();
         }
 
         public void Render()
         {
-            PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
             SurfaceFormat format = pp.BackBufferFormat;
 
             int width = pp.BackBufferWidth;
@@ -86,24 +84,28 @@ namespace GammaDraconis.Video
 
             ResolveTexture2D resolveTexture = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
             game.GraphicsDevice.ResolveBackBuffer(resolveTexture);
-            
-            RenderTarget2D target;
+
+            game.GraphicsDevice.SetRenderTarget(1, null);
+
             Texture2D texture = (Texture2D)resolveTexture;
             
             for (int i = 0; i < effects.Count; i++)
             {
-                Console.WriteLine("Rendering Shader: " + effects[i]);
                 Effect effect = _effects[i];
 
-                target = new RenderTarget2D(game.GraphicsDevice, width / divisions[i], height / divisions[i], 1, format);
-                
-                DrawFullscreenQuad(texture, target, effect);
-                texture.Dispose();
-                texture = target.GetTexture();
+                width = pp.BackBufferWidth / divisions[i];
+                height = pp.BackBufferHeight / divisions[i];
 
-                target.Dispose();
+                if (source.Width != width || source.Height != height)
+                {
+                    source.Dispose();
+                    source = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
+                }
+                
+                DrawFullscreenQuad(texture, source, effect);
+                texture.Dispose();
+                texture = source.GetTexture();
             }
-            game.GraphicsDevice.SetRenderTarget(1, null);
         }
 
         /// <summary>

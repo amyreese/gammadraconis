@@ -37,11 +37,22 @@ namespace GammaDraconis.Video.Shaders
         {
             base.reset();
 
-            // Bloom Extract
+            // Pass 1: draw the scene into rendertarget 1, using a
+            // shader that extracts only the brightest parts of the image.
             _effects[0].Parameters["BloomThreshold"].SetValue(
                 Settings.BloomThreshold);
 
-            // Bloom Combine
+            // Pass 2: draw from rendertarget 1 into rendertarget 2,
+            // using a shader to apply a horizontal gaussian blur filter.
+            SetBlurEffectParameters(_effects[1], 1.0f / (float)source.Width, 0);
+
+            // Pass 3: draw from rendertarget 2 back into rendertarget 1,
+            // using a shader to apply a vertical gaussian blur filter.
+            SetBlurEffectParameters(_effects[2], 0, 1.0f / (float)source.Height);
+
+            // Pass 4: draw both rendertarget 1 and the original scene
+            // image back into the main backbuffer, using a shader that
+            // combines them to produce the final bloomed result.
             EffectParameterCollection parameters = _effects[3].Parameters;
 
             parameters["BloomIntensity"].SetValue(Settings.BloomIntensity);

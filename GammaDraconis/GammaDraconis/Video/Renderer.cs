@@ -133,6 +133,10 @@ namespace GammaDraconis.Video
             int numPlayers = SetPlayerViewports();
 
             // TODO: Reset post-process shaders
+            foreach (PostProcessShader shader in shaders.Values)
+            {
+                shader.reset();
+            }
 
             // Render all players' viewports
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
@@ -170,6 +174,10 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
 
             // TODO: Render post-process shaders
+            foreach (PostProcessShader shader in shaders.Values)
+            {
+                //shader.Render();
+            }
 
             // Render players' HUDs
             if (drawHUD)
@@ -204,11 +212,19 @@ namespace GammaDraconis.Video
             aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
             // TODO: Reset post-process shaders
+            foreach (PostProcessShader shader in shaders.Values)
+            {
+                shader.reset();
+            }
 
             List<GameObject> gameObjects = scene.visible(coords);
             renderObjects(gameObjects, coords.camera());
 
             // TODO: Render post-process shaders
+            foreach (PostProcessShader shader in shaders.Values)
+            {
+                //shader.Render();
+            }
         }
 
         /// <summary>
@@ -246,6 +262,8 @@ namespace GammaDraconis.Video
                     // Draw the model. A model can have multiple meshes, so loop.
                     foreach (ModelMesh mesh in model.Meshes)
                     {
+                        bool meshbloom = false;
+
                         // This is where the mesh orientation is set, as well as our camera and projection.
                         foreach (BasicEffect mesheffect in mesh.Effects)
                         {
@@ -256,6 +274,10 @@ namespace GammaDraconis.Video
                             mesheffect.View = cameraMatrix;
                             mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
                                 GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 0.1f, viewingDistance);
+                            if (mesheffect.EmissiveColor != Vector3.Zero)
+                            {
+                                meshbloom = true;
+                            }
                         }
 
                         // Draw the mesh, using the effects set above.
@@ -263,6 +285,17 @@ namespace GammaDraconis.Video
                         mesh.Draw();
 
                         // TODO: Render to shader-specific targets
+                        if (meshbloom)
+                        {
+                            PostProcessShader bloom = shaders["bloom"];
+                            game.GraphicsDevice.SetRenderTarget(1, bloom.source);
+                            mesh.Draw();
+                        }
+                        if (fbxmodel.shader != "" && shaders.ContainsKey(fbxmodel.shader))
+                        {
+                            game.GraphicsDevice.SetRenderTarget(1, shaders[fbxmodel.shader].source);
+                            mesh.Draw();
+                        }
 
                         game.GraphicsDevice.SetRenderTarget(1, null);
 

@@ -93,6 +93,7 @@ namespace GammaDraconis.Video.Shaders
             {
                 Effect effect = _effects[i];
 
+                /*
                 width = pp.BackBufferWidth / divisions[i];
                 height = pp.BackBufferHeight / divisions[i];
 
@@ -101,11 +102,15 @@ namespace GammaDraconis.Video.Shaders
                     source.Dispose();
                     source = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
                 }
+                */
                 
                 DrawFullscreenQuad(texture, source, effect);
+                /*
                 texture.Dispose();
                 texture = source.GetTexture();
+                 */
             }
+            texture.Dispose();
         }
 
         /// <summary>

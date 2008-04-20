@@ -176,7 +176,7 @@ namespace GammaDraconis.Video
             // TODO: Render post-process shaders
             foreach (PostProcessShader shader in shaders.Values)
             {
-                //shader.Render();
+                shader.Render();
             }
 
             // Render players' HUDs
@@ -223,7 +223,7 @@ namespace GammaDraconis.Video
             // TODO: Render post-process shaders
             foreach (PostProcessShader shader in shaders.Values)
             {
-                //shader.Render();
+                shader.Render();
             }
         }
 

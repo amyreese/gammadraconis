@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Core;
 using GammaDraconis.Types;
 using GammaDraconis.Video.GUI;
+using GammaDraconis.Video.Shaders;
 
 namespace GammaDraconis.Video
 {
@@ -73,26 +74,7 @@ namespace GammaDraconis.Video
             game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);
             viewports = new Viewport[9];
 
-            PostProcessShader shader = new PostProcessShader(game);
-            shader.effects.Add("Resources/Effects/BloomExtract");
-            shader.divisions.Add(1);
-            /*
-            shader.effects.Add("Resources/Effects/BloomExtract");
-            shader.divisions.Add(2);
-            shader.effects.Add("Resources/Effects/GaussianBlur");
-            shader.divisions.Add(2);
-            shader.effects.Add("Resources/Effects/GaussianBlur");
-            shader.divisions.Add(2);
-            shader.effects.Add("Resources/Effects/BloomCombine");
-            shader.divisions.Add(2);
-             */
-
-
             shaders = new Dictionary<string, PostProcessShader>();
-            shaders.Add("bloom", shader);
-
-            bloom = new BloomComponent(game);
-            blur = new MotionBlurComponent(game);
 
             reset();
         }
@@ -153,8 +135,7 @@ namespace GammaDraconis.Video
         {
             int numPlayers = SetPlayerViewports();
 
-            PostProcessShader shader = shaders["bloom"];
-            shader.reset();
+            // TODO: Reset post-process shaders
 
             // Render all players' viewports
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
@@ -168,9 +149,6 @@ namespace GammaDraconis.Video
 
                     List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].getCamera());
                     renderObjects(gameObjects, Player.players[playerIndex].getCameraLookAtMatrix());
-
-                    // Uncomment this line for motion blur!
-                    //blur.Render((Player.players[playerIndex].velocity.pos().Length() / Player.players[playerIndex].maxVelocity) * 0.5f);
                 }
                 else
                 {
@@ -193,10 +171,8 @@ namespace GammaDraconis.Video
             }
 
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
-            shader.Render();
 
-            // Bloom post-processing
-            //bloom.Render();
+            // TODO: Render post-process shaders
 
             // Render players' HUDs
             if (drawHUD)
@@ -230,15 +206,12 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
             aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
-            PostProcessShader shader = shaders["bloom"];
-            shader.reset();
+            // TODO: Reset post-process shaders
 
             List<GameObject> gameObjects = scene.visible(coords);
             renderObjects(gameObjects, coords.camera());
 
-            shader.Render();
-
-            //bloom.Render();
+            // TODO: Render post-process shaders
         }
 
         /// <summary>
@@ -250,8 +223,6 @@ namespace GammaDraconis.Video
         {
             Matrix worldMatrix = Matrix.Identity;
             Matrix objectMatrix, modelMatrix;
-
-            PostProcessShader shader = shaders["bloom"];
 
             foreach (GameObject gameObject in objects)
             {
@@ -294,9 +265,7 @@ namespace GammaDraconis.Video
                         game.GraphicsDevice.SetRenderTarget(0, null);
                         mesh.Draw();
 
-                        // Draw the mesh to the shader source
-                        game.GraphicsDevice.SetRenderTarget(1, shader.source);
-                        mesh.Draw();
+                        // TODO: Render to shader-specific targets
 
                         game.GraphicsDevice.SetRenderTarget(1, null);
 

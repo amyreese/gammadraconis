@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GammaDraconis.Video
+namespace GammaDraconis.Video.Shaders
 {
     class PostProcessShader : DrawableGameComponent
     {

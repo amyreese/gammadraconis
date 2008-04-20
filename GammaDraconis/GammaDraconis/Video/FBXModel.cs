@@ -24,12 +24,16 @@ namespace GammaDraconis.Video
         // Visibility
         public bool visible = true;
 
+        // Post-process shader
+        public string shader;
+
         public FBXModel(string filename) : this(filename, "") { }
         public FBXModel(string filename, string effect) : this(filename, effect, 1f) { }
         public FBXModel(string filename, string effect, float scale) : base(GammaDraconis.GetInstance())
         {
             this.filename = filename;
             this.scale = scale;
+            shader = effect;
             offset = new Coords();
             GammaDraconis.GetInstance().Components.Add(this);
         }

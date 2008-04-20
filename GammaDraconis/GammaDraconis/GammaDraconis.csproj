@@ -120,7 +120,8 @@
     <Compile Include="Video\Renderer.cs" />
     <Compile Include="Video\Room.cs" />
     <Compile Include="Video\Scene.cs" />
-    <Compile Include="Video\PostProcessShader.cs" />
+    <Compile Include="Video\Shaders\Bloom.cs" />
+    <Compile Include="Video\Shaders\PostProcessShader.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content.contentproj">

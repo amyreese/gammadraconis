@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------------
 #endregion
 
-namespace GammaDraconis.Video
+namespace GammaDraconis.Video.Shaders
 {
     /// <summary>
     /// Class holds all the settings used to tweak the bloom effect.

@@ -10,7 +10,7 @@ namespace GammaDraconis.Video.Shaders
     {
         public List<string> effects;
         public List<int> divisions;
-        private List<Effect> _effects;
+        protected List<Effect> _effects;
 
         public SpriteBatch spriteBatch;
         public RenderTarget2D source;
@@ -29,7 +29,7 @@ namespace GammaDraconis.Video.Shaders
             divisions = new List<int>();
         }
 
-        public void reset()
+        public virtual void reset()
         {
             pp = game.GraphicsDevice.PresentationParameters;
             format = pp.BackBufferFormat;

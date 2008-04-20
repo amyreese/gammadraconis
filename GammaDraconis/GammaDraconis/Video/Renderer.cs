@@ -45,10 +45,6 @@ namespace GammaDraconis.Video
         // Post process shaders
         public Dictionary<string, PostProcessShader> shaders;
 
-        // Bloom shader
-        public BloomComponent bloom;
-        public MotionBlurComponent blur;
-
         public enum Viewports
         {
             None = -1,
@@ -75,6 +71,7 @@ namespace GammaDraconis.Video
             viewports = new Viewport[9];
 
             shaders = new Dictionary<string, PostProcessShader>();
+            shaders.Add("bloom", new Bloom(game));
 
             reset();
         }

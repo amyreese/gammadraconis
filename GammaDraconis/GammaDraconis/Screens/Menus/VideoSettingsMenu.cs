@@ -7,6 +7,7 @@ using GammaDraconis.Core;
 using GammaDraconis.Video.GUI;
 using GammaDraconis.Types;
 using GammaDraconis.Video;
+using GammaDraconis.Video.Shaders;
 
 namespace GammaDraconis.Screens.Menus
 {
@@ -104,12 +105,12 @@ namespace GammaDraconis.Screens.Menus
         {
             if (command.Equals(Commands.ToggleBloom))
             {
-                int nextIndex = GammaDraconis.renderer.bloom.Settings.Index + 1;
+                int nextIndex = ((Bloom)GammaDraconis.renderer.shaders["bloom"]).Settings.Index + 1;
                 if (nextIndex == BloomSettings.PresetSettings.Length)
                 {
                     nextIndex = 0;
                 }
-                GammaDraconis.renderer.bloom.Settings = BloomSettings.PresetSettings[nextIndex];
+                ((Bloom)GammaDraconis.renderer.shaders["bloom"]).Settings = BloomSettings.PresetSettings[nextIndex];
                 Properties.Settings.Default.BloomSetting = nextIndex;
                 Properties.Settings.Default.Save();
             }
@@ -135,7 +136,7 @@ namespace GammaDraconis.Screens.Menus
 
         public override void Update(GameTime gameTime)
         {
-            menuItems[bloomIndex].text = "Bloom: " + GammaDraconis.renderer.bloom.Settings.Name;
+            menuItems[bloomIndex].text = "Bloom: " + ((Bloom)GammaDraconis.renderer.shaders["bloom"]).Settings.Name;
             menuItems[perPixelLightingIndex].text = "Per Pixel Lighting: " + (Properties.Settings.Default.PerPixelLighting ? "Yes" : "No");
 
             /*

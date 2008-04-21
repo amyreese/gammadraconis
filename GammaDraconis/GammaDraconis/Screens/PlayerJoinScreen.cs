@@ -89,6 +89,7 @@ namespace GammaDraconis.Screens
 
         protected override void onFreshLoad()
         {
+            // Detect any new controllers
             GammaDraconis.GetInstance().InputManager.AutoRegisterControlSchemes();
 
             inputs[0] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.One);
@@ -96,22 +97,25 @@ namespace GammaDraconis.Screens
             inputs[2] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Three);
             inputs[3] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Four);
 
+            // Reset state variables
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                playersJoined[i] = false;
+                playersReady[i] = false;
+            }
+            startGame = false;
+
             setUpDummyShips();
         }
 
         public override void Update(GameTime gameTime)
-        {
-            /*
-            if (input.inputPressed(Core.Input.MenuInput.Commands.Cancel))
-            {
-                gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
-            }
-            */
-            
+        {          
             for( int index = 0; index < inputs.Length; index++ )
             {
                 if (!playersJoined[index])
                 {
+                    // Player has not joined game.
+
                     try
                     {
                         playerJoinText[index].text = "Press " + inputs[index].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
@@ -135,19 +139,30 @@ namespace GammaDraconis.Screens
                 }
                 else
                 {
+                    // Player has joined game
+
                     if (inputs[index].inputPressed(PlayerInput.Commands.Leave))
                     {
                         if (playersReady[index])
+                        {
+                            // If the player is ready, return them to ship selection.
                             playersReady[index] = false;
+                            startGameText.Visible = false;
+                        }
                         else
+                        {
+                            // If the player is not ready, have them leave the game.
                             playersJoined[index] = false;
+                        }
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.Join))
                     {
+                        // Make the player ready.
                         playersReady[index] = true;
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.GameStart))
                     {
+                        // If this player is ready, start the game.
                         if (playersReady[index])
                             startGame = true;
                     }
@@ -156,34 +171,33 @@ namespace GammaDraconis.Screens
                 playerJoinText[index].Visible = !playersJoined[index];
             }
 
-            if ((playersJoined[0] == true) || (playersJoined[1] == true) || (playersJoined[2] == true) || (playersJoined[3] == true))
+            // Check for game start conditions.
+            if (((playersJoined[0] == true) || (playersJoined[1] == true) || (playersJoined[2] == true) || (playersJoined[3] == true)) &&
+                (playersJoined[0] == playersReady[0]) && (playersJoined[1] == playersReady[1]) && 
+                (playersJoined[2] == playersReady[2]) && (playersJoined[3] == playersReady[3]))
             {
-                if ((playersJoined[0] == playersReady[0]) && (playersJoined[1] == playersReady[1]) &&
-                    (playersJoined[2] == playersReady[2]) && (playersJoined[3] == playersReady[3]))
+                startGameText.Visible = true;
+
+                if (startGame)
                 {
-                    startGameText.Visible = true;
-
-                    if (startGame)
+                    GameObject ship = Proto.getShip("Raptor");
+                    List<Player> players = new List<Player>();
+                    for (int index = 0; index < inputs.Length; index++)
                     {
-                        GameObject ship = Proto.getShip("Raptor");
-                        List<Player> players = new List<Player>();
-                        for (int index = 0; index < inputs.Length; index++)
+                        if (playersJoined[index])
                         {
-                            if (playersJoined[index])
-                            {
 
-                                players.Add(Player.cloneShip(ship, (PlayerIndex)index));
-                            }
-                            else
-                            {
-                                Player.players[index] = null;
-                            }
+                            players.Add(Player.cloneShip(ship, (PlayerIndex)index));
                         }
-
-                        ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack", players);
-
-                        gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
+                        else
+                        {
+                            Player.players[index] = null;
+                        }
                     }
+
+                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack", players);
+
+                    gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
                 }
             }
 

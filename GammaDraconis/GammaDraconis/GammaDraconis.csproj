@@ -108,6 +108,7 @@
     <Compile Include="Types\Course.cs" />
     <Compile Include="Types\Turret.cs" />
     <Compile Include="Types\Weapon.cs" />
+    <Compile Include="Video\GUI\Selector.cs" />
     <Compile Include="Video\Shaders\BloomSettings.cs" />
     <Compile Include="Video\GUI\Text.cs" />
     <Compile Include="Video\GUI\Interface.cs" />

@@ -24,6 +24,7 @@ namespace GammaDraconis.Screens
 
         private Text[] playerJoinText;
         private Text startGameText;
+        private Selector[] shipSelection;
 
         //bool[] playersJoined = { false, false, false, false };
         /// <summary>
@@ -37,19 +38,33 @@ namespace GammaDraconis.Screens
 
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];
+            shipSelection = new Selector[4];
+
             for (int i = 0; i < 4; i++)
             {
                 playerJoinText[i] = new Text(game);
                 playerJoinText[i].color = Color.White;
                 playerJoinText[i].spriteFontName = "Resources/Fonts/Menu";
                 playerJoinText[i].center = true;
+
+                shipSelection[i] = new Selector(game, "Raptor", "Ship2", "Ship3");
+                shipSelection[i].color = Color.White;
+                shipSelection[i].spriteFontName = "Resources/Fonts/Menu";
+                shipSelection[i].center = true;
             }
+
             playerJoinText[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
             playerJoinText[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
             playerJoinText[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
             playerJoinText[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
 
+            shipSelection[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
+            shipSelection[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
+            shipSelection[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
+            shipSelection[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
+
             screenInterface.AddComponents(playerJoinText);
+            screenInterface.AddComponents(shipSelection);
 
             startGameText = new Text(game, "Press Start to Begin the Race!");
             startGameText.Visible = false;
@@ -137,28 +152,36 @@ namespace GammaDraconis.Screens
                         gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
                     }
                 }
-                else
+                else if (!playersReady[index])
                 {
-                    // Player has joined game
+                    // Player has joined game, but isn't ready
 
                     if (inputs[index].inputPressed(PlayerInput.Commands.Leave))
                     {
-                        if (playersReady[index])
-                        {
-                            // If the player is ready, return them to ship selection.
-                            playersReady[index] = false;
-                            startGameText.Visible = false;
-                        }
-                        else
-                        {
-                            // If the player is not ready, have them leave the game.
-                            playersJoined[index] = false;
-                        }
+                        // The player leaves the game.
+                        playersJoined[index] = false;
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.Join))
                     {
                         // Make the player ready.
                         playersReady[index] = true;
+                    }
+                    else if (inputs[index].inputPressed(PlayerInput.Commands.MenuLeft))
+                    {
+                        shipSelection[index].PrevSelection();
+                    }
+                    else if (inputs[index].inputPressed(PlayerInput.Commands.MenuRight))
+                    {
+                        shipSelection[index].NextSelection();
+                    }
+                }
+                else
+                {
+                    if (inputs[index].inputPressed(PlayerInput.Commands.Leave))
+                    {
+                        // If the player is ready, return them to ship selection.
+                        playersReady[index] = false;
+                        startGameText.Visible = false;
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.GameStart))
                     {
@@ -169,6 +192,7 @@ namespace GammaDraconis.Screens
                 }
 
                 playerJoinText[index].Visible = !playersJoined[index];
+                shipSelection[index].Visible = playersJoined[index];
             }
 
             // Check for game start conditions.

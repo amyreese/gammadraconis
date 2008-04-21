@@ -156,6 +156,15 @@ namespace GammaDraconis.Core.Input
         public PlayerInput(PlayerIndex playerIndex, InputManager.ControlScheme controlScheme)
             : base(playerIndex)
         {
+            if (playerIndex == PlayerIndex.One)
+            {
+                if (Properties.Settings.Default.PlayerOneUseMouse)
+                {
+                    inputAxis.Add(Commands.Pitch, "MouseY");
+                    inputAxis.Add(Commands.Yaw, "MouseX");
+                }
+            }
+            
             if (controlScheme == InputManager.ControlScheme.GamePad)
             {
                 inputAxis.Add(Commands.Yaw, "LeftX");

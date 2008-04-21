@@ -37,11 +37,11 @@ namespace GammaDraconis.Video.Shaders
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
 
-            if (source.Width != width || source.Height != height)
-            {
+//            if (source.Width != width || source.Height != height)
+//            {
                 source.Dispose();
                 source = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
-            }
+//            }
         }
 
         protected override void LoadContent()
@@ -80,6 +80,7 @@ namespace GammaDraconis.Video.Shaders
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
 
+            /*
             game.GraphicsDevice.SetRenderTarget(1, source);
 
             ResolveTexture2D resolveTexture = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
@@ -88,9 +89,19 @@ namespace GammaDraconis.Video.Shaders
             game.GraphicsDevice.SetRenderTarget(1, null);
 
             Texture2D texture = (Texture2D)resolveTexture;
-            
+             */
+            //texture = source.GetTexture();
+
             for (int i = 0; i < effects.Count; i++)
             {
+                game.GraphicsDevice.SetRenderTarget(1, source);
+
+                ResolveTexture2D resolveTexture = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
+                game.GraphicsDevice.ResolveBackBuffer(resolveTexture);
+
+                game.GraphicsDevice.SetRenderTarget(1, null);
+                Texture2D texture = (Texture2D)resolveTexture;
+
                 Effect effect = _effects[i];
 
                 /*
@@ -105,12 +116,14 @@ namespace GammaDraconis.Video.Shaders
                 */
                 
                 DrawFullscreenQuad(texture, source, effect);
+
+                texture.Dispose();
                 /*
                 texture.Dispose();
                 texture = source.GetTexture();
                  */
             }
-            texture.Dispose();
+            //texture.Dispose();
         }
 
         /// <summary>
@@ -121,7 +134,7 @@ namespace GammaDraconis.Video.Shaders
                                 Effect effect)
         {
             game.GraphicsDevice.SetRenderTarget(2, renderTarget);
-            game.GraphicsDevice.Clear(Color.Black);
+            //game.GraphicsDevice.Clear(Color.Black);
 
             DrawFullscreenQuad(texture,
                                renderTarget.Width, renderTarget.Height,

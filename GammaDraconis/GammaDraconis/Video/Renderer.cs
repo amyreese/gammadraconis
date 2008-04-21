@@ -16,6 +16,8 @@ namespace GammaDraconis.Video
     /// </summary>
     class Renderer : DrawableGameComponent
     {
+        private bool enableShaders = false;
+
         private int secondsPerQuip = 5;
         private String[] missingPlayerQuips = { 
             "No Player!", 
@@ -174,9 +176,12 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.Viewport = viewports[(int)Viewports.WholeWindow];
 
             // TODO: Render post-process shaders
-            foreach (PostProcessShader shader in shaders.Values)
+            if (enableShaders)
             {
-                shader.Render();
+                foreach (PostProcessShader shader in shaders.Values)
+                {
+                    shader.Render();
+                }
             }
 
             // Render players' HUDs
@@ -221,9 +226,12 @@ namespace GammaDraconis.Video
             renderObjects(gameObjects, coords.camera());
 
             // TODO: Render post-process shaders
-            foreach (PostProcessShader shader in shaders.Values)
+            if (enableShaders)
             {
-                shader.Render();
+                foreach (PostProcessShader shader in shaders.Values)
+                {
+                    shader.Render();
+                }
             }
         }
 

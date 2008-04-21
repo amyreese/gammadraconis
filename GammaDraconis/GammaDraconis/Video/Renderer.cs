@@ -151,7 +151,7 @@ namespace GammaDraconis.Video
                     aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
                     List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].getCamera());
-                    renderObjects(gameObjects, Player.players[playerIndex].getCameraLookAtMatrix());
+                    renderObjects(gameObjects, Player.players[playerIndex]);
                 }
                 else
                 {
@@ -223,7 +223,7 @@ namespace GammaDraconis.Video
             }
 
             List<GameObject> gameObjects = scene.visible(coords);
-            renderObjects(gameObjects, coords.camera());
+            renderObjects(gameObjects, coords.camera(), null);
 
             // TODO: Render post-process shaders
             if (enableShaders)
@@ -240,11 +240,12 @@ namespace GammaDraconis.Video
         /// </summary>
         /// <param name="objects"></param>
         /// <param name="cameraMatrix"></param>
-        private void renderObjects(List<GameObject> objects, Matrix cameraMatrix)
+        /// <param name="player">Player who is relevant to the rendering being done. Leave null if it is not a
+        ///                      player specific scene.</param>
+        private void renderObjects(List<GameObject> objects, Matrix cameraMatrix, Player player)
         {
             Matrix worldMatrix = Matrix.Identity;
             Matrix objectMatrix, modelMatrix;
-
             foreach (GameObject gameObject in objects)
             {
                 objectMatrix = worldMatrix * gameObject.position.matrix();
@@ -260,9 +261,8 @@ namespace GammaDraconis.Video
                     }
 
                     modelMatrix = Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
-
                     Model model = fbxmodel.model;
-
+                    
                     // Copy any parent transforms.
                     Matrix[] transforms = new Matrix[model.Bones.Count];
                     model.CopyAbsoluteBoneTransformsTo(transforms);
@@ -310,6 +310,18 @@ namespace GammaDraconis.Video
                     }
                 }
             }
+        }
+        /// <summary>
+        /// Render a set of objects for a given player.
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="player">Player who is relevant to the rendering being done. Player's camera will be used as the scene
+        ///                      camera, and player's race status can affect how things are rendered. Leave null if it is not a
+        ///                      player specific scene.</param>
+        private void renderObjects(List<GameObject> objects, Player player)
+        {
+            Matrix cameraMatrix = player.getCameraLookAtMatrix();
+            renderObjects(objects, cameraMatrix, player);
 
         }
 

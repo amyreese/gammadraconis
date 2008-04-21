@@ -198,7 +198,8 @@ namespace GammaDraconis.Video
             {
                 foreach (int tempKey in objects.Keys)
                 {
-
+                    if (!visibleObjects.ContainsKey(tempKey))
+                        visibleObjects.Add(tempKey, new List<GameObject>());
                     foreach (GameObject gameobject in objects[tempKey])
                     {
                         if ((tempKey & GO_TYPE.SKYBOX) == GO_TYPE.SKYBOX)

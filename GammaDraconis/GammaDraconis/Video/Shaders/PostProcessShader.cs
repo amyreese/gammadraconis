@@ -37,11 +37,11 @@ namespace GammaDraconis.Video.Shaders
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
 
-//            if (source.Width != width || source.Height != height)
-//            {
+            if (source.Width != width || source.Height != height)
+            {
                 source.Dispose();
                 source = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
-//            }
+            }
         }
 
         protected override void LoadContent()

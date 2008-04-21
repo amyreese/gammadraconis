@@ -19,15 +19,6 @@ path = {
 	{x=200, y=0, z=-2000, yaw=MathHelper.PiOver2, pitch=0, roll=0},
 	{x=-800, y=0, z=-1800, yaw=MathHelper.Pi, pitch=0, roll=0},
 	{x=-1000, y=0, z=-400, yaw=MathHelper.PiOver2, pitch=0, roll=0},
---[[
-	{x=50, y=0, z=400, yaw=1.0, pitch=-0.3, roll=0},
-	{x=125, y=50, z=500, yaw=1.0, pitch=-0.4, roll=0},
-	{x=200, y=125, z=600, yaw=1.0, pitch=-0.5, roll=0},
-	{x=275, y=200, z=700, yaw=1.0, pitch=-0.4, roll=0},
-	{x=350, y=275, z=800, yaw=1.0, pitch=-0.2, roll=0},
-	{x=425, y=325, z=900, yaw=1.0, pitch=0.2, roll=0},
-	{x=575, y=200, z=1100, yaw=1.0, pitch=0.5, roll=0},
-	]]--
 	}
 
 -- TODO: Find a way to add intermediate points for AI
@@ -43,6 +34,18 @@ for i,v in ipairs( path ) do
 		gameScene:track(checkpoint, GO_TYPE.HUD)
 	end
 end
+
+function buildAsteroidTunnel( x, y, radius, rotation )
+	for i=0,10 do
+		local rad = MathHelper.Pi * (i / 10)
+		local pos = Vector3( MSMath.Cos(rad), MSMath.Sin(rad), 0 )
+		local roid = Proto.getThing("Asteroid800A", Coords(pos.X + x, pos.Y + y, pos.Z))
+		roid.invincible = true
+		gameScene:track(roid, GO_TYPE.DEBRIS)
+	end
+end
+
+buildAsteroidTunnel( 0, 0, 1000, 0 );
 
 course.loop = false
 

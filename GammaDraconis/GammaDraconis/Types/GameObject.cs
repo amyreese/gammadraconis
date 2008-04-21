@@ -61,6 +61,7 @@ namespace GammaDraconis.Types
         public float shieldIncreaseRate;
         public bool invincible;
         public double shieldVisibilityTimer = 0;
+        public bool immobile;
 
         public LuaInterface.LuaFunction OnDeathFunction;
 

@@ -103,6 +103,7 @@ namespace GammaDraconis.Types
 
             go.maxHealth = maxHealth;
             go.invincible = invincible;
+            go.immobile = immobile;
             go.health = maxHealth;
             go.maxShield = maxShield;
             go.shield = maxShield;

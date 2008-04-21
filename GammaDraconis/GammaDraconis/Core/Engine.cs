@@ -358,15 +358,19 @@ namespace GammaDraconis.Core
                 {
                     if (o is Bullet && o2 is Bullet)
                     {
-                        break;
+                        continue;
                     }
                     if (o.ownedBy == o2 || o2.ownedBy == o)
                     {
-                        break;
+                        continue;
+                    }
+                    if (o.immobile && o2.immobile && o.invincible && o2.invincible)
+                    {
+                        continue;
                     }
                     if (o is Player && o2 is Player && (o.invincible || o2.invincible))
                     {
-                        break;
+                        continue;
                     }
                     Vector3 o2Pos = o2.position.pos();
                     if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
@@ -438,6 +442,10 @@ namespace GammaDraconis.Core
 
             foreach (GameObject gameObject in gameObjects)
             {
+                if (gameObject.immobile)
+                {
+                    continue;
+                }
                 // Calculate timesteps
                 float timestep = gameTime.ElapsedGameTime.Milliseconds / 1000f; // Target 1+ fps
 

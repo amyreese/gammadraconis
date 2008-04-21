@@ -28,6 +28,14 @@ namespace GammaDraconis.Video.GUI
             UpdateText();
         }
 
+        public Selector(GammaDraconis game, IEnumerable<string> selections)
+            : base(game)
+        {
+            this.selections = new List<string>(selections);
+
+            UpdateText();
+        }
+
         public void AddSelection(string selection)
         {
             selections.Add(selection);

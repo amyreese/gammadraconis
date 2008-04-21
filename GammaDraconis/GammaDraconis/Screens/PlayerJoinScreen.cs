@@ -47,7 +47,7 @@ namespace GammaDraconis.Screens
                 playerJoinText[i].spriteFontName = "Resources/Fonts/Menu";
                 playerJoinText[i].center = true;
 
-                shipSelection[i] = new Selector(game, "Raptor", "Ship2", "Ship3");
+                shipSelection[i] = new Selector(game, Proto.ship.Keys);
                 shipSelection[i].color = Color.White;
                 shipSelection[i].spriteFontName = "Resources/Fonts/Menu";
                 shipSelection[i].center = true;
@@ -204,13 +204,13 @@ namespace GammaDraconis.Screens
 
                 if (startGame)
                 {
-                    GameObject ship = Proto.getShip("Raptor");
+                    GameObject ship;
                     List<Player> players = new List<Player>();
                     for (int index = 0; index < inputs.Length; index++)
                     {
                         if (playersJoined[index])
                         {
-
+                            ship = Proto.getShip(shipSelection[index].CurrentSelection);
                             players.Add(Player.cloneShip(ship, (PlayerIndex)index));
                         }
                         else

@@ -21,6 +21,9 @@ namespace GammaDraconis.Types
         public PlayerInput input;
         public Coords camera;
         public Renderer.Viewports viewport;
+        public Vector3 relativeLookAt;              //A Vector3 that determines the point relative to the ship the viewport is looking at
+        public Vector3 relativeLookFrom;            //A Vector3 that determines the point relative to the ship the viewport is looking from
+        public float relationalScale = 0.0f;               //A float that acts as an index for relativeLookAt and relativeLookFrom
 
         double invulnerabilityTimer = 0;
 
@@ -126,18 +129,20 @@ namespace GammaDraconis.Types
             #endregion
         }
 
+        //Where the viewport is looking at
         public Matrix getCameraLookAtMatrix()
         {
             Coords c = getCamera();
-            Matrix m = Matrix.CreateTranslation(0f, 1f, -40f) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            Matrix m = Matrix.CreateTranslation(relativeLookAt) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
             return Matrix.CreateLookAt(c.pos() - velocity.pos() / 2, m.Translation, c.up());
         }
 
+        //Where the viewport is looking from
         public Coords getCamera()
         {
             Coords c = new Coords();
             c.R = position.R * camera.R;
-            c.T = Matrix.CreateTranslation(0f, 1f, 4.5f) * Matrix.Invert(Matrix.CreateFromQuaternion(velocity.R)) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T * Matrix.CreateTranslation(velocity.pos() * -0.8f);
+            c.T = Matrix.CreateTranslation(relativeLookFrom) * Matrix.Invert(Matrix.CreateFromQuaternion(velocity.R)) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T * Matrix.CreateTranslation(velocity.pos() * -0.8f);
             return c;
         }
 
@@ -173,6 +178,7 @@ namespace GammaDraconis.Types
             foreach (FBXModel model in ship.models)
             {
                 go.models.Add(model.clone());
+                go.relationalScale = model.scale;
             }
 
             if (ship.shieldModel != null)
@@ -189,6 +195,9 @@ namespace GammaDraconis.Types
             {
                 go.turrets.Add(turret.clone());
             }
+
+            go.relativeLookAt = new Vector3(0f, 1f, go.relationalScale * -1600.0f);
+            go.relativeLookFrom = new Vector3(0f, 1f, go.relationalScale * 180.0f);
 
             return go;
         }

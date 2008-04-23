@@ -24,7 +24,7 @@ namespace GammaDraconis.Screens
 
         private Text[] playerJoinText;
         private Text startGameText;
-        private Selector[] shipSelection;
+        private Selector[] shipSelector;
 
         //bool[] playersJoined = { false, false, false, false };
         /// <summary>
@@ -38,7 +38,7 @@ namespace GammaDraconis.Screens
 
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];
-            shipSelection = new Selector[4];
+            shipSelector = new Selector[4];
 
             for (int i = 0; i < 4; i++)
             {
@@ -47,10 +47,10 @@ namespace GammaDraconis.Screens
                 playerJoinText[i].spriteFontName = "Resources/Fonts/Menu";
                 playerJoinText[i].center = true;
 
-                shipSelection[i] = new Selector(game, Proto.ship.Keys);
-                shipSelection[i].color = Color.White;
-                shipSelection[i].spriteFontName = "Resources/Fonts/Menu";
-                shipSelection[i].center = true;
+                shipSelector[i] = new Selector(game, Proto.ship.Keys);
+                shipSelector[i].color = Color.White;
+                shipSelector[i].spriteFontName = "Resources/Fonts/Menu";
+                shipSelector[i].center = true;
             }
 
             playerJoinText[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
@@ -58,13 +58,13 @@ namespace GammaDraconis.Screens
             playerJoinText[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
             playerJoinText[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
 
-            shipSelection[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
-            shipSelection[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
-            shipSelection[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
-            shipSelection[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
+            shipSelector[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
+            shipSelector[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
+            shipSelector[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
+            shipSelector[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
 
             screenInterface.AddComponents(playerJoinText);
-            screenInterface.AddComponents(shipSelection);
+            screenInterface.AddComponents(shipSelector);
 
             startGameText = new Text(game, "Press Start to Begin the Race!");
             startGameText.Visible = false;
@@ -124,7 +124,11 @@ namespace GammaDraconis.Screens
         }
 
         public override void Update(GameTime gameTime)
-        {          
+        {
+            // Update must be called on the base class first in order call onFreshLoad, if necessary.
+            base.Update(gameTime);
+
+            // Handle input from all players.
             for( int index = 0; index < inputs.Length; index++ )
             {
                 if (!playersJoined[index])
@@ -138,7 +142,6 @@ namespace GammaDraconis.Screens
                         if (inputs[index].inputPressed(PlayerInput.Commands.Join))
                         {
                             playersJoined[index] = true;
-                            startGameText.Visible = false;
                             startGame = false;
                         }
                     }
@@ -168,11 +171,11 @@ namespace GammaDraconis.Screens
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuLeft))
                     {
-                        shipSelection[index].PrevSelection();
+                        shipSelector[index].PrevSelection();
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuRight))
                     {
-                        shipSelection[index].NextSelection();
+                        shipSelector[index].NextSelection();
                     }
                 }
                 else
@@ -192,7 +195,8 @@ namespace GammaDraconis.Screens
                 }
 
                 playerJoinText[index].Visible = !playersJoined[index];
-                shipSelection[index].Visible = playersJoined[index];
+                shipSelector[index].Visible = playersJoined[index];
+                startGameText.Visible = startGame;
             }
 
             // Check for game start conditions.
@@ -204,13 +208,14 @@ namespace GammaDraconis.Screens
 
                 if (startGame)
                 {
+                    // Set up game objects and begin the game.
                     GameObject ship;
                     List<Player> players = new List<Player>();
                     for (int index = 0; index < inputs.Length; index++)
                     {
                         if (playersJoined[index])
                         {
-                            ship = Proto.getShip(shipSelection[index].CurrentSelection);
+                            ship = Proto.getShip(shipSelector[index].CurrentSelection);
                             players.Add(Player.cloneShip(ship, (PlayerIndex)index));
                         }
                         else
@@ -224,8 +229,6 @@ namespace GammaDraconis.Screens
                     gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
                 }
             }
-
-            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

@@ -74,7 +74,12 @@ namespace GammaDraconis.Video
 
             shaders = new Dictionary<string, PostProcessShader>();
             shaders.Add("bloom", new Bloom(game));
-
+            Bloom desat = new Bloom(game);
+            desat.Settings = BloomSettings.PresetSettings[2];
+            shaders.Add("desat", desat);
+            Bloom sat = new Bloom(game);
+            sat.Settings = BloomSettings.PresetSettings[3];
+            shaders.Add("sat", sat);
             reset();
         }
 
@@ -260,6 +265,20 @@ namespace GammaDraconis.Video
                         continue;
                     }
 
+                    if (gameObject is Checkpoint)
+                    {
+                        int currentLocation = Engine.GetInstance().race.status(player, true).checkpoint;
+                        int checkpointPosition = ((Checkpoint)gameObject).racePosition;
+                        if (checkpointPosition > currentLocation)
+                        {
+                            // TODO: change differentiation from visible/invisible to differences in how the checkpoints are rendered (color? brightness?)
+                            fbxmodel.visible = true;
+                        }
+                        else
+                        {
+                            fbxmodel.visible = false;
+                        }
+                    }
                     modelMatrix = Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
                     Model model = fbxmodel.model;
                     

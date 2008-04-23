@@ -22,14 +22,14 @@ path = {
 	}
 
 -- TODO: Find a way to add intermediate points for AI
+checkpointPosition = 0;
 for i,v in ipairs( path ) do
 	local position = Coords( v.x, v.y, v.z, v.pitch, v.yaw, v.roll)
 	if not v.path then
 		course.path:Add(position)
-
-		checkpoint = GameObject()
+		checkpointPosition = checkpointPosition + 1;
+		checkpoint = Checkpoint()
 		checkpoint.position = position
-		checkpoint.size = 50
 		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 0.5))
 		gameScene:track(checkpoint, GO_TYPE.HUD)
 	end

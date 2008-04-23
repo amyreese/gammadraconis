@@ -25,6 +25,8 @@ namespace GammaDraconis.Screens
         private Text[] playerJoinText;
         private Text startGameText;
         private Selector[] shipSelector;
+        private GameObject[] selectedShip;
+        private Coords[] playerCoords;
 
         //bool[] playersJoined = { false, false, false, false };
         /// <summary>
@@ -36,9 +38,16 @@ namespace GammaDraconis.Screens
         {
             inputs = new PlayerInput[4];
 
+            playerCoords = new Coords[4];
+            playerCoords[0] = new Coords(0f, 0f, 5f, 0f, 0f, 0f);
+            playerCoords[1] = new Coords(5f, 0f, 0f, 0f, (float)MathHelper.PiOver4, 0f);
+            playerCoords[2] = new Coords(0f, 0f, -5f, 0f, (float)MathHelper.PiOver2, 0f);
+            playerCoords[3] = new Coords(-5f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f);
+
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];
             shipSelector = new Selector[4];
+            selectedShip = new GameObject[4];
 
             for (int i = 0; i < 4; i++)
             {
@@ -51,19 +60,22 @@ namespace GammaDraconis.Screens
                 shipSelector[i].color = Color.White;
                 shipSelector[i].spriteFontName = "Resources/Fonts/Menu";
                 shipSelector[i].center = true;
+
+                selectedShip[i] = Proto.getShip(shipSelector[i].CurrentSelection, playerCoords[i]);
+                selectedShip[i].yaw(1);
+                screenScene.track(selectedShip[i], GO_TYPE.RACER);
             }
 
             playerJoinText[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
             playerJoinText[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
             playerJoinText[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
             playerJoinText[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
+            screenInterface.AddComponents(playerJoinText);
 
             shipSelector[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
             shipSelector[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
             shipSelector[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
             shipSelector[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
-
-            screenInterface.AddComponents(playerJoinText);
             screenInterface.AddComponents(shipSelector);
 
             startGameText = new Text(game, "Press Start to Begin the Race!");
@@ -72,7 +84,6 @@ namespace GammaDraconis.Screens
             startGameText.spriteFontName = "Resources/Fonts/Menu";
             startGameText.center = true;
             startGameText.RelativePosition = new Vector2(1024 / 2, 768 / 2);
-
             screenInterface.AddComponent(startGameText);
         }
 
@@ -89,16 +100,16 @@ namespace GammaDraconis.Screens
 
         protected void setUpDummyShips() 
         {
-            Player p1 = Player.cloneShip(Proto.getThing("Dummy", new Coords(0f, 0f, 5f, 0f, 0f, 0f)), PlayerIndex.One);
+            Player p1 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[0]), PlayerIndex.One);
             screenScene.track(p1, GO_TYPE.RACER);
 
-            Player p2 = Player.cloneShip(Proto.getThing("Dummy", new Coords(5f, 0f, 0f, 0f, (float)MathHelper.PiOver4, 0f)), PlayerIndex.Two);
-            screenScene.track(p2, GO_TYPE.RACER); 
+            Player p2 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[1]), PlayerIndex.Two);
+            screenScene.track(p2, GO_TYPE.RACER);
 
-            Player p3 = Player.cloneShip(Proto.getThing("Dummy", new Coords(0f, 0f, -5f, 0f, (float)MathHelper.PiOver2, 0f)), PlayerIndex.Three);
+            Player p3 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[2]), PlayerIndex.Three);
             screenScene.track(p3, GO_TYPE.RACER);
 
-            Player p4 = Player.cloneShip(Proto.getThing("Dummy", new Coords(-5f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f)), PlayerIndex.Four);
+            Player p4 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[3]), PlayerIndex.Four);
             screenScene.track(p4, GO_TYPE.RACER);
         }
 
@@ -172,10 +183,12 @@ namespace GammaDraconis.Screens
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuLeft))
                     {
                         shipSelector[index].PrevSelection();
+                        selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, playerCoords[index]);
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuRight))
                     {
                         shipSelector[index].NextSelection();
+                        selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, playerCoords[index]);
                     }
                 }
                 else

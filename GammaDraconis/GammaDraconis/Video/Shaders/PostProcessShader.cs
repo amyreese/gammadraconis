@@ -80,50 +80,37 @@ namespace GammaDraconis.Video.Shaders
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
 
-            /*
-            game.GraphicsDevice.SetRenderTarget(1, source);
-
-            ResolveTexture2D resolveTexture = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
-            game.GraphicsDevice.ResolveBackBuffer(resolveTexture);
-
-            game.GraphicsDevice.SetRenderTarget(1, null);
-
-            Texture2D texture = (Texture2D)resolveTexture;
-             */
-            //texture = source.GetTexture();
-
             for (int i = 0; i < effects.Count; i++)
             {
                 game.GraphicsDevice.SetRenderTarget(1, source);
 
-                ResolveTexture2D resolveTexture = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
-                game.GraphicsDevice.ResolveBackBuffer(resolveTexture);
+                ResolveTexture2D resolveTextureB = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
+                game.GraphicsDevice.ResolveBackBuffer(resolveTextureB);
 
                 game.GraphicsDevice.SetRenderTarget(1, null);
-                Texture2D texture = (Texture2D)resolveTexture;
+                Texture2D texture = (Texture2D)resolveTextureB;
 
                 Effect effect = _effects[i];
-
                 /*
+                //This doesn't work because it fucks with the size
                 width = pp.BackBufferWidth / divisions[i];
                 height = pp.BackBufferHeight / divisions[i];
-
+                */
+                //It seems that this is triggered so often it runs the system out of memory
+                // when the divisions are in place. Never triggered without it
                 if (source.Width != width || source.Height != height)
                 {
                     source.Dispose();
                     source = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
                 }
-                */
                 
                 DrawFullscreenQuad(texture, source, effect);
 
                 texture.Dispose();
-                /*
-                texture.Dispose();
+                
                 texture = source.GetTexture();
-                 */
+                
             }
-            //texture.Dispose();
         }
 
         /// <summary>
@@ -134,7 +121,7 @@ namespace GammaDraconis.Video.Shaders
                                 Effect effect)
         {
             game.GraphicsDevice.SetRenderTarget(2, renderTarget);
-            //game.GraphicsDevice.Clear(Color.Black);
+            game.GraphicsDevice.Clear(Color.Black);
 
             DrawFullscreenQuad(texture,
                                renderTarget.Width, renderTarget.Height,

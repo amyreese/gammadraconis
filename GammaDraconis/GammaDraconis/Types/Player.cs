@@ -196,8 +196,8 @@ namespace GammaDraconis.Types
                 go.turrets.Add(turret.clone());
             }
 
-            go.relativeLookAt = new Vector3(0f, 1f, go.relationalScale * -1600.0f);
-            go.relativeLookFrom = new Vector3(0f, 1f, go.relationalScale * 180.0f);
+            go.relativeLookAt = new Vector3(0f, 0.5f, -40.5f);
+            go.relativeLookFrom = new Vector3(0f, 10f, ship.size * 2);
 
             return go;
         }

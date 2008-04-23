@@ -142,7 +142,7 @@ namespace GammaDraconis.Types
         {
             Coords c = new Coords();
             c.R = position.R * camera.R;
-            c.T = Matrix.CreateTranslation(relativeLookFrom) * Matrix.Invert(Matrix.CreateFromQuaternion(velocity.R)) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T * Matrix.CreateTranslation(velocity.pos() * -0.8f);
+            c.T = Matrix.CreateTranslation(relativeLookFrom) * Matrix.Invert(Matrix.CreateFromQuaternion(velocity.R)) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T * Matrix.CreateTranslation(velocity.pos() * -0.4f);
             return c;
         }
 

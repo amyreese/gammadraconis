@@ -43,6 +43,7 @@ Text = import('GammaDraconis.Video.GUI.Text')
 
 Bullet = import('GammaDraconis.Types.Bullet')
 Checkpoint = import('GammaDraconis.Types.Checkpoint')
+Skybox = import('GammaDraconis.Types.Skybox')
 Coords = import('GammaDraconis.Types.Coords')
 Course = import('GammaDraconis.Types.Course')
 GameObject = import('GammaDraconis.Types.GameObject')

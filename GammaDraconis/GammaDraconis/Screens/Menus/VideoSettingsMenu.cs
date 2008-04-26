@@ -26,8 +26,7 @@ namespace GammaDraconis.Screens.Menus
         public VideoSettingsMenu(GammaDraconis game)
             : base(game)
         {
-			skybox = new GameObject();
-			skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.195f));
+			skybox = new Skybox();
 			screenScene.track(skybox, GO_TYPE.SKYBOX);
 
 

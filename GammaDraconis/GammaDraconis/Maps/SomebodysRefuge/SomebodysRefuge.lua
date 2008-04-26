@@ -191,8 +191,7 @@ planet.size = 1000
 planet.models:Add(FBXModel("Resources/Models/Planet", "", 4))
 --gameScene:track(planet, GO_TYPE.SCENERY)
 
-skybox = GameObject()
-skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.5))
+skybox = Skybox()
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 
 roid = Proto.getThing("Asteroid800A", Coords(- 500,0,0))

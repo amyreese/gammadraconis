@@ -101,6 +101,7 @@
     <Compile Include="Types\Bullet.cs" />
     <Compile Include="Types\Checkpoint.cs" />
     <Compile Include="Types\Coords.cs" />
+    <Compile Include="Types\Skybox.cs" />
     <Compile Include="Types\GameObject.cs" />
     <Compile Include="Types\MountPoint.cs" />
     <Compile Include="Types\Player.cs" />

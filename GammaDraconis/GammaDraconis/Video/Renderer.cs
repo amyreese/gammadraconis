@@ -276,7 +276,8 @@ namespace GammaDraconis.Video
 			{
 				return;
 			}
-
+			// TODO: We need to get an appropriate colored fog if we really want to not fog the skybox
+			bool enableFog = true; // || !(gameObject is Skybox);
 			if (gameObject is Checkpoint)
 			{
 				int currentLocation = Engine.GetInstance().race.status(player, true).checkpoint;
@@ -307,7 +308,7 @@ namespace GammaDraconis.Video
 				foreach (BasicEffect mesheffect in mesh.Effects)
 				{
 					mesheffect.PreferPerPixelLighting = Properties.Settings.Default.PerPixelLighting;
-					mesheffect.FogEnabled = true;
+					mesheffect.FogEnabled = enableFog;
 					mesheffect.FogStart = viewingDistance / 2;
 					mesheffect.FogEnd = viewingDistance * 1.25f;
 					mesheffect.FogColor = new Vector3(0, 0, 0);
@@ -316,7 +317,7 @@ namespace GammaDraconis.Video
 					//effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
 					mesheffect.View = cameraMatrix;
 					mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
-						GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 0.1f, viewingDistance);
+						GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 10f, viewingDistance);
 					if (mesheffect.EmissiveColor != Vector3.Zero)
 					{
 						meshbloom = true;

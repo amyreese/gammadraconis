@@ -250,86 +250,97 @@ namespace GammaDraconis.Video
         private void renderObjects(List<GameObject> objects, Matrix cameraMatrix, Player player)
         {
             Matrix worldMatrix = Matrix.Identity;
-            Matrix objectMatrix, modelMatrix;
-            foreach (GameObject gameObject in objects)
-            {
-                objectMatrix = worldMatrix * gameObject.position.matrix();
+            Matrix objectMatrix;
+			foreach (GameObject gameObject in objects)
+			{
+				objectMatrix = worldMatrix * gameObject.position.matrix();
 
-                List<FBXModel> fbxmodels = new List<FBXModel>(gameObject.models);
-                fbxmodels.Add(gameObject.shieldModel);
+				List<FBXModel> fbxmodels = new List<FBXModel>(gameObject.models);
 
-                foreach (FBXModel fbxmodel in fbxmodels)
-                {
-                    if (fbxmodel == null || !fbxmodel.visible)
-                    {
-                        continue;
-                    }
+				foreach (FBXModel fbxmodel in fbxmodels)
+				{
+					renderFBXModel(gameObject, fbxmodel, cameraMatrix, objectMatrix, player);
+				}
+			}
+			foreach (GameObject gameObject in objects)
+			{
+				objectMatrix = worldMatrix * gameObject.position.matrix();
+				renderFBXModel(gameObject, gameObject.shieldModel, cameraMatrix, objectMatrix, player);
+			}
+		}
 
-                    if (gameObject is Checkpoint)
-                    {
-                        int currentLocation = Engine.GetInstance().race.status(player, true).checkpoint;
-                        int checkpointPosition = ((Checkpoint)gameObject).racePosition;
-                        if (checkpointPosition > currentLocation)
-                        {
-                            // TODO: change differentiation from visible/invisible to differences in how the checkpoints are rendered (color? brightness?)
-                            fbxmodel.visible = true;
-                        }
-                        else
-                        {
-                            fbxmodel.visible = false;
-                        }
-                    }
-                    modelMatrix = Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
-                    Model model = fbxmodel.model;
-                    
-                    // Copy any parent transforms.
-                    Matrix[] transforms = new Matrix[model.Bones.Count];
-                    model.CopyAbsoluteBoneTransformsTo(transforms);
+		private void renderFBXModel(GameObject gameObject, FBXModel fbxmodel, Matrix cameraMatrix, Matrix objectMatrix, Player player)
+		{
+			Matrix modelMatrix;
+			if (fbxmodel == null || !fbxmodel.visible)
+			{
+				return;
+			}
 
-                    // Draw the model. A model can have multiple meshes, so loop.
-                    foreach (ModelMesh mesh in model.Meshes)
-                    {
-                        bool meshbloom = false;
+			if (gameObject is Checkpoint)
+			{
+				int currentLocation = Engine.GetInstance().race.status(player, true).checkpoint;
+				int checkpointPosition = ((Checkpoint)gameObject).racePosition;
+				if (checkpointPosition > currentLocation)
+				{
+					// TODO: change differentiation from visible/invisible to differences in how the checkpoints are rendered (color? brightness?)
+					fbxmodel.visible = true;
+				}
+				else
+				{
+					fbxmodel.visible = false;
+				}
+			}
+			modelMatrix = Matrix.CreateScale(fbxmodel.scale) * objectMatrix * fbxmodel.offset.matrix();
+			Model model = fbxmodel.model;
 
-                        // This is where the mesh orientation is set, as well as our camera and projection.
-                        foreach (BasicEffect mesheffect in mesh.Effects)
-                        {
-                            mesheffect.PreferPerPixelLighting = Properties.Settings.Default.PerPixelLighting;
-                            mesheffect.EnableDefaultLighting();
-                            mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
-                            //effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-                            mesheffect.View = cameraMatrix;
-                            mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
-                                GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 0.1f, viewingDistance);
-                            if (mesheffect.EmissiveColor != Vector3.Zero)
-                            {
-                                meshbloom = true;
-                            }
-                        }
+			// Copy any parent transforms.
+			Matrix[] transforms = new Matrix[model.Bones.Count];
+			model.CopyAbsoluteBoneTransformsTo(transforms);
 
-                        // Draw the mesh, using the effects set above.
-                        game.GraphicsDevice.SetRenderTarget(0, null);
-                        mesh.Draw();
+			// Draw the model. A model can have multiple meshes, so loop.
+			foreach (ModelMesh mesh in model.Meshes)
+			{
+				bool meshbloom = false;
 
-                        // TODO: Render to shader-specific targets
-                        if (meshbloom)
-                        {
-                            PostProcessShader bloom = shaders["bloom"];
-                            game.GraphicsDevice.SetRenderTarget(1, bloom.source);
-                            mesh.Draw();
-                        }
-                        if (fbxmodel.shader != "" && shaders.ContainsKey(fbxmodel.shader))
-                        {
-                            game.GraphicsDevice.SetRenderTarget(1, shaders[fbxmodel.shader].source);
-                            mesh.Draw();
-                        }
+				// This is where the mesh orientation is set, as well as our camera and projection.
+				foreach (BasicEffect mesheffect in mesh.Effects)
+				{
+					mesheffect.PreferPerPixelLighting = Properties.Settings.Default.PerPixelLighting;
+					mesheffect.EnableDefaultLighting();
+					mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
+					//effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+					mesheffect.View = cameraMatrix;
+					mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
+						GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 0.1f, viewingDistance);
+					if (mesheffect.EmissiveColor != Vector3.Zero)
+					{
+						meshbloom = true;
+					}
+				}
 
-                        game.GraphicsDevice.SetRenderTarget(1, null);
+				// Draw the mesh, using the effects set above.
+				game.GraphicsDevice.SetRenderTarget(0, null);
+				mesh.Draw();
 
-                    }
-                }
-            }
-        }
+				// TODO: Render to shader-specific targets
+				if (meshbloom)
+				{
+					PostProcessShader bloom = shaders["bloom"];
+					game.GraphicsDevice.SetRenderTarget(1, bloom.source);
+					mesh.Draw();
+				}
+				if (fbxmodel.shader != "" && shaders.ContainsKey(fbxmodel.shader))
+				{
+					game.GraphicsDevice.SetRenderTarget(1, shaders[fbxmodel.shader].source);
+					mesh.Draw();
+				}
+
+				game.GraphicsDevice.SetRenderTarget(1, null);
+
+			}
+		}
+
         /// <summary>
         /// Render a set of objects for a given player.
         /// </summary>

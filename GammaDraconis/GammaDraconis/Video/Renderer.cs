@@ -308,7 +308,7 @@ namespace GammaDraconis.Video
 				{
 					mesheffect.PreferPerPixelLighting = Properties.Settings.Default.PerPixelLighting;
 					mesheffect.FogEnabled = true;
-					mesheffect.FogStart = viewingDistance / 8;
+					mesheffect.FogStart = viewingDistance / 2;
 					mesheffect.FogEnd = viewingDistance * 1.25f;
 					mesheffect.FogColor = new Vector3(0, 0, 0);
 					mesheffect.EnableDefaultLighting();

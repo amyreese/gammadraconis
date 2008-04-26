@@ -1,5 +1,5 @@
 
-shipModel = FBXModel("Resources/Models/Raptor", "", .25)
+shipModel = FBXModel("Resources/Models/Raptor", "", 0.25)
 shieldModel = FBXModel("Resources/Models/Shield", "", 0.25)
 shieldModel.visible = false
 

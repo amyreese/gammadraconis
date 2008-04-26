@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 using GammaDraconis.Types;
 
 namespace GammaDraconis.Core
@@ -134,13 +135,44 @@ namespace GammaDraconis.Core
             {
                 if (ship.ContainsKey(name))
                 {
-                    return Racer.cloneShip(ship[name]);
+                    Racer go = Racer.cloneShip(ship[name]);
+                    go.position = position;
+                    go.velocity = velocity;
+                    return go;
                 }
                 return null;
             }
         }
         public static Racer getRacer(string name, Coords position) { return getRacer(name, position, new Coords()); }
         public static Racer getRacer(string name) { return getRacer(name, new Coords(), new Coords()); }
+
+        /// <summary>
+        /// Get a prototype clone with given name, position, and velocity.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <param name="index">Player index</param>
+        /// <param name="position">New Position</param>
+        /// <returns></returns>
+        public static Player getPlayer(string name, PlayerIndex index, Coords position)
+        {
+            if (racer.ContainsKey(name))
+            {
+                Player go = Player.cloneShip(racer[name].clone(), index);
+                go.position = position;
+                return go;
+            }
+            else
+            {
+                if (ship.ContainsKey(name))
+                {
+                    Player go = Player.cloneShip(ship[name], index);
+                    go.position = position;
+                    return go;
+                }
+                return null;
+            }
+        }
+        public static Player getPlayer(string name, PlayerIndex index) { return getPlayer(name, index, new Coords()); }
 
         /// <summary>
         /// Get a prototype clone with given name, position, and velocity.

@@ -80,6 +80,8 @@ namespace GammaDraconis.Video.Shaders
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
 
+            Texture2D texture = null;
+
             for (int i = 0; i < effects.Count; i++)
             {
                 game.GraphicsDevice.SetRenderTarget(1, source);
@@ -88,7 +90,7 @@ namespace GammaDraconis.Video.Shaders
                 game.GraphicsDevice.ResolveBackBuffer(resolveTextureB);
 
                 game.GraphicsDevice.SetRenderTarget(1, null);
-                Texture2D texture = (Texture2D)resolveTextureB;
+                texture = (Texture2D)resolveTextureB;
 
                 Effect effect = _effects[i];
                 /*
@@ -110,6 +112,11 @@ namespace GammaDraconis.Video.Shaders
                 
                 texture = source.GetTexture();
                 
+            }
+
+            if (texture != null)
+            {
+                texture.Dispose();
             }
         }
 

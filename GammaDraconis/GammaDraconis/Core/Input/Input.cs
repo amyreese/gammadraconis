@@ -106,27 +106,30 @@ namespace GammaDraconis.Core.Input
         {
             if (inputKeys.ContainsKey(action))
             {
-                string key = inputKeys[action];
-                
-                if (keyPresses.ContainsKey(key)) // keyboard/mouse
+                string[] keys = inputKeys[action].Split('|');
+
+                foreach (string key in keys)
                 {
-                    if (keyPresses[key])
+                    if (keyPresses.ContainsKey(key)) // keyboard/mouse
                     {
-                        keyPresses[key] = false;
-                        return true;
-                    }
-                }
-                else // gamepad
-                {
-                    PlayerIndex istart = oneGamepad ? playerIndex : PlayerIndex.One;
-                    PlayerIndex iend = oneGamepad ? playerIndex : PlayerIndex.Four;
-                    for (PlayerIndex index = istart; index <= iend; index++)
-                    {
-                        string gp = "Pad" + (int)index + "-";
-                        if (keyPresses.ContainsKey(gp + key) && keyPresses[gp + key])
+                        if (keyPresses[key])
                         {
-                            keyPresses[gp + key] = false;
+                            keyPresses[key] = false;
                             return true;
+                        }
+                    }
+                    else // gamepad
+                    {
+                        PlayerIndex istart = oneGamepad ? playerIndex : PlayerIndex.One;
+                        PlayerIndex iend = oneGamepad ? playerIndex : PlayerIndex.Four;
+                        for (PlayerIndex index = istart; index <= iend; index++)
+                        {
+                            string gp = "Pad" + (int)index + "-";
+                            if (keyPresses.ContainsKey(gp + key) && keyPresses[gp + key])
+                            {
+                                keyPresses[gp + key] = false;
+                                return true;
+                            }
                         }
                     }
                 }

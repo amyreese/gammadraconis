@@ -71,23 +71,26 @@ namespace GammaDraconis.Core.Input
         {
             if (inputKeys.ContainsKey(action))
             {
-                string key = inputKeys[action];
-                
-                if (keyStates.ContainsKey(key)) // keyboard/mouse
-                {
-                   return keyStates[key] == KeyState.Down;
-                }
-                else // gamepad
-                {
-                    PlayerIndex istart = oneGamepad ? playerIndex : PlayerIndex.One;
-                    PlayerIndex iend = oneGamepad ? playerIndex : PlayerIndex.Four;
+                string[] keys = inputKeys[action].Split('|');
 
-                    for (PlayerIndex index = istart; index <= iend; index++)
+                foreach (string key in keys)
+                {
+                    if (keyStates.ContainsKey(key)) // keyboard/mouse
                     {
-                        string gp = "Pad" + (int)index + "-";
-                        if (keyStates.ContainsKey(gp + key) && keyStates[gp + key] == KeyState.Down)
+                        return keyStates[key] == KeyState.Down;
+                    }
+                    else // gamepad
+                    {
+                        PlayerIndex istart = oneGamepad ? playerIndex : PlayerIndex.One;
+                        PlayerIndex iend = oneGamepad ? playerIndex : PlayerIndex.Four;
+
+                        for (PlayerIndex index = istart; index <= iend; index++)
                         {
-                            return true;
+                            string gp = "Pad" + (int)index + "-";
+                            if (keyStates.ContainsKey(gp + key) && keyStates[gp + key] == KeyState.Down)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }

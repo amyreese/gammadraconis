@@ -14,7 +14,7 @@ namespace GammaDraconis.Screens.Menus
     {
         Racer racer;
         GameObject skybox;
-        private Vector3 startLocation = new Vector3(20.0f, -1.35f, -12.0f);
+        private Vector3 startLocation = new Vector3(120.0f, -4.35f, -100.0f);
 
         /// <summary>
         /// 
@@ -24,7 +24,7 @@ namespace GammaDraconis.Screens.Menus
             : base(game)
         {
             skybox = new GameObject();
-            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.05f));
+            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.195f));
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
 
@@ -147,8 +147,8 @@ namespace GammaDraconis.Screens.Menus
 
         public override void Update(GameTime gameTime)
         {
-            racer.position.T *= Matrix.CreateTranslation((float)(-7.5f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1.5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
-            if (racer.position.pos().X < -20)
+            racer.position.T *= Matrix.CreateTranslation((float)(-25f * gameTime.ElapsedGameTime.TotalSeconds), (float)(5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
+            if (racer.position.pos().X < -120)
             {
                 racer.position.T = Matrix.CreateTranslation(startLocation);
             }

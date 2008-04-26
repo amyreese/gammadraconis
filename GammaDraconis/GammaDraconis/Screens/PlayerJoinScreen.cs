@@ -89,7 +89,7 @@ namespace GammaDraconis.Screens
         public override void Initialize()
         {
             GameObject skybox = new GameObject();
-            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.5f));
+            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.195f));
             screenScene.track(skybox, GO_TYPE.SKYBOX);
 
             onFreshLoad();

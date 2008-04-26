@@ -15,8 +15,8 @@ namespace GammaDraconis.Screens.Menus
     {
         Racer racer;
         GameObject skybox;
-        private Vector3 startLocation = new Vector3(20.0f, -1.35f, -12.0f);
-        private int bloomIndex;
+		private Vector3 startLocation = new Vector3(120.0f, -4.35f, -100.0f);
+		private int bloomIndex;
         private int perPixelLightingIndex;
 
         /// <summary>
@@ -26,21 +26,21 @@ namespace GammaDraconis.Screens.Menus
         public VideoSettingsMenu(GammaDraconis game)
             : base(game)
         {
-            skybox = new GameObject();
-            skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.05f));
-            screenScene.track(skybox, GO_TYPE.SKYBOX);
+			skybox = new GameObject();
+			skybox.models.Add(new FBXModel("Resources/Models/Skybox", "", 0.195f));
+			screenScene.track(skybox, GO_TYPE.SKYBOX);
 
 
-            racer = Proto.getRacer("Raptor");
-            racer.position = new Coords(startLocation.X, startLocation.Y, startLocation.Z, 0.2f, 1.5f, 1.0f);
-            racer.models[0].scale *= 1;
-            racer.size *= 1;
-            screenScene.track(racer, GO_TYPE.RACER);
+			racer = Proto.getRacer("Raptor");
+			racer.position = new Coords(startLocation.X, startLocation.Y, startLocation.Z, 0.2f, 1.5f, 1.0f);
+			racer.models[0].scale *= 1;
+			racer.size *= 1;
+			screenScene.track(racer, GO_TYPE.RACER);
 
-            GameObject planet = new GameObject();
-            planet.position = new Coords(500f, -300f, -1250f);
-            planet.models.Add(new FBXModel("Resources/Models/Planet", "", 1f));
-            screenScene.track(planet, GO_TYPE.SCENERY);
+			GameObject planet = new GameObject();
+			planet.position = new Coords(500f, -300f, -1250f);
+			planet.models.Add(new FBXModel("Resources/Models/Planet", "", 1f));
+			screenScene.track(planet, GO_TYPE.SCENERY);
 
             Text NameText = new Text(game);
             NameText.text = "Gamma Draconis";
@@ -139,13 +139,13 @@ namespace GammaDraconis.Screens.Menus
             menuItems[bloomIndex].text = "Bloom: " + ((Bloom)GammaDraconis.renderer.shaders["bloom"]).Settings.Name;
             menuItems[perPixelLightingIndex].text = "Per Pixel Lighting: " + (Properties.Settings.Default.PerPixelLighting ? "Yes" : "No");
 
-            /*
-            racer.position.T *= Matrix.CreateTranslation((float)(-7.5f * gameTime.ElapsedGameTime.TotalSeconds), (float)(1.5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
-            if (racer.position.pos().X < -20)
-            {
-                racer.position.T = Matrix.CreateTranslation(startLocation);
-            }
-             * */
+			/*
+			racer.position.T *= Matrix.CreateTranslation((float)(-25f * gameTime.ElapsedGameTime.TotalSeconds), (float)(5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
+			if (racer.position.pos().X < -120)
+			{
+				racer.position.T = Matrix.CreateTranslation(startLocation);
+			}
+			*/
             base.Update(gameTime);
         }
     }

@@ -25,7 +25,7 @@ gameScene:track(planet, GO_TYPE.SCENERY)
 --gameScene:track(tunnel, GO_TYPE.COLLIDABLE)
 
 skybox = GameObject()
-skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.5))
+skybox.models:Add(FBXModel("Resources/Models/Skybox", "", 0.195))
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 
 roid = Proto.getThing("Asteroid800A", Coords(- radius / 2,5,5), Coords(1.5,-0,0,0.004,0.001,0.0004))

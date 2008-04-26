@@ -30,7 +30,7 @@ for i,v in ipairs( path ) do
 		checkpointPosition = checkpointPosition + 1;
 		checkpoint = Checkpoint()
 		checkpoint.position = position
-		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 0.5))
+		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 0.195))
 		gameScene:track(checkpoint, GO_TYPE.HUD)
 	end
 end

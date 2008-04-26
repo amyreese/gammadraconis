@@ -66,7 +66,7 @@ namespace GammaDraconis.Video
         {
             aspectRatio = 0;
             viewingAngle = 60f;
-            viewingDistance = 15000f;
+            viewingDistance = 5000f;
 
             this.game = game;
             game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);
@@ -307,6 +307,10 @@ namespace GammaDraconis.Video
 				foreach (BasicEffect mesheffect in mesh.Effects)
 				{
 					mesheffect.PreferPerPixelLighting = Properties.Settings.Default.PerPixelLighting;
+					mesheffect.FogEnabled = true;
+					mesheffect.FogStart = viewingDistance / 8;
+					mesheffect.FogEnd = viewingDistance * 1.25f;
+					mesheffect.FogColor = new Vector3(0, 0, 0);
 					mesheffect.EnableDefaultLighting();
 					mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
 					//effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);

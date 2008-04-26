@@ -22,6 +22,10 @@ namespace GammaDraconis.Types
             models = new List<FBXModel>();
             mounts = new List<MountPoint>();
             turrets = new List<Turret>();
+
+            relationalScale = 1.0f;
+            relativeLookAt = new Vector3(0f, 0f, -1f);
+            relativeLookFrom = new Vector3(0f, 1f, 40f);
         }
 
 
@@ -42,6 +46,13 @@ namespace GammaDraconis.Types
         public float dragL = 1f;
         public float dragR = 3f;
         public float size = 1f;
+
+        // Camera settings
+        public Coords camera;
+        public Renderer.Viewports viewport;
+        public Vector3 relativeLookAt;              //A Vector3 that determines the point relative to the ship the viewport is looking at
+        public Vector3 relativeLookFrom;            //A Vector3 that determines the point relative to the ship the viewport is looking from
+        public float relationalScale = 0.0f;               //A float that acts as an index for relativeLookAt and relativeLookFrom
 
         // Visual properties
         public List<FBXModel> models;
@@ -110,6 +121,10 @@ namespace GammaDraconis.Types
             go.shieldIncreaseRate = shieldIncreaseRate;
             go.OnDeathFunction = OnDeathFunction;
 
+            go.relativeLookAt = new Vector3(relativeLookAt.X, relativeLookAt.Y, relativeLookAt.Z);
+            go.relativeLookFrom = new Vector3(relativeLookFrom.X, relativeLookFrom.Y, relativeLookFrom.Z);
+            go.relationalScale = relationalScale;
+            
             return go;
         }
 
@@ -190,6 +205,23 @@ namespace GammaDraconis.Types
             amount = -MathHelper.Clamp(amount, -1f, 1f) * 0.1f;
             acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Up, 1.0f * amount); // yaw
             acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, 0.4f * amount);  // roll
+        }
+
+        //Where the viewport is looking at
+        public Matrix getCameraLookAtMatrix()
+        {
+            Coords c = getCamera();
+            Matrix m = Matrix.CreateTranslation(relativeLookAt) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T;
+            return Matrix.CreateLookAt(c.pos() - velocity.pos() / 2, m.Translation, c.up());
+        }
+
+        //Where the viewport is looking from
+        public Coords getCamera()
+        {
+            Coords c = new Coords();
+            c.R = position.R * camera.R;
+            c.T = Matrix.CreateTranslation(relativeLookFrom) * Matrix.Invert(Matrix.CreateFromQuaternion(velocity.R)) * Matrix.CreateFromQuaternion(camera.R) * Matrix.CreateFromQuaternion(position.R) * position.T * Matrix.CreateTranslation(velocity.pos() * -0.4f);
+            return c;
         }
 
         /// <summary>

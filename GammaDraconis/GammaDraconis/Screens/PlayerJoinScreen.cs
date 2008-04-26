@@ -73,8 +73,8 @@ namespace GammaDraconis.Screens
 
             shipSelector[0].RelativePosition = new Vector2(1024 / 4, (768 + 350) / 4 );
             shipSelector[1].RelativePosition = new Vector2(3 * (1024 / 4), (768 + 350) / 4);
-            shipSelector[2].RelativePosition = new Vector2(1024 / 4, 3 * ((768 + 350) / 4));
-            shipSelector[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * ((768 + 350) / 4));
+            shipSelector[2].RelativePosition = new Vector2(1024 / 4, (3 * 768 + 350) / 4);
+            shipSelector[3].RelativePosition = new Vector2(3 * (1024 / 4), (3 * 768 + 350) / 4);
             screenInterface.AddComponents(shipSelector);
 
             startGameText = new Text(game, "Press Start to Begin the Race!");

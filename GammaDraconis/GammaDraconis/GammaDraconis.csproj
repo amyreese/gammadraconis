@@ -99,6 +99,7 @@
     <Compile Include="Screens\PlayerJoinScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Types\Bullet.cs" />
+    <Compile Include="Types\Checkpoint.cs" />
     <Compile Include="Types\Coords.cs" />
     <Compile Include="Types\GameObject.cs" />
     <Compile Include="Types\MountPoint.cs" />

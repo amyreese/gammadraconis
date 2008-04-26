@@ -6,9 +6,11 @@ namespace GammaDraconis.Types
 {
     class Checkpoint : GameObject
     {
+        public int racePosition;
         public Checkpoint() : base()
         {
             size = 50.0f;
+            racePosition = 0;
         }
     }
 }

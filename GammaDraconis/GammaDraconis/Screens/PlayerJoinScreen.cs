@@ -39,10 +39,10 @@ namespace GammaDraconis.Screens
             inputs = new PlayerInput[4];
 
             playerCoords = new Coords[4];
-            playerCoords[0] = new Coords(0f, 0f, 5f, 0f, 0f, 0f);
-            playerCoords[1] = new Coords(5f, 0f, 0f, 0f, (float)MathHelper.PiOver4, 0f);
-            playerCoords[2] = new Coords(0f, 0f, -5f, 0f, (float)MathHelper.PiOver2, 0f);
-            playerCoords[3] = new Coords(-5f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f);
+            playerCoords[0] = new Coords(0f, 0f, 40f, 0f, 0f, 0f);
+            playerCoords[1] = new Coords(40f, 0f, 0f, 0f, (float)MathHelper.PiOver4, 0f);
+            playerCoords[2] = new Coords(0f, 0f, -40f, 0f, (float)MathHelper.PiOver2, 0f);
+            playerCoords[3] = new Coords(-40f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f);
 
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];
@@ -62,7 +62,6 @@ namespace GammaDraconis.Screens
                 shipSelector[i].center = true;
 
                 selectedShip[i] = Proto.getShip(shipSelector[i].CurrentSelection, playerCoords[i]);
-                selectedShip[i].yaw(1);
                 screenScene.track(selectedShip[i], GO_TYPE.RACER);
             }
 
@@ -72,10 +71,10 @@ namespace GammaDraconis.Screens
             playerJoinText[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
             screenInterface.AddComponents(playerJoinText);
 
-            shipSelector[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
-            shipSelector[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
-            shipSelector[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
-            shipSelector[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
+            shipSelector[0].RelativePosition = new Vector2(1024 / 4, (768 + 350) / 4 );
+            shipSelector[1].RelativePosition = new Vector2(3 * (1024 / 4), (768 + 350) / 4);
+            shipSelector[2].RelativePosition = new Vector2(1024 / 4, 3 * ((768 + 350) / 4));
+            shipSelector[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * ((768 + 350) / 4));
             screenInterface.AddComponents(shipSelector);
 
             startGameText = new Text(game, "Press Start to Begin the Race!");
@@ -146,6 +145,8 @@ namespace GammaDraconis.Screens
                 {
                     // Player has not joined game.
 
+                    screenScene.ignore(selectedShip[index]);
+
                     try
                     {
                         playerJoinText[index].text = "Press " + inputs[index].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
@@ -154,6 +155,8 @@ namespace GammaDraconis.Screens
                         {
                             playersJoined[index] = true;
                             startGame = false;
+
+                            screenScene.track(selectedShip[index], GO_TYPE.RACER);
                         }
                     }
                     catch
@@ -183,12 +186,18 @@ namespace GammaDraconis.Screens
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuLeft))
                     {
                         shipSelector[index].PrevSelection();
+
+                        screenScene.ignore(selectedShip[index]);
                         selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, playerCoords[index]);
+                        screenScene.track(selectedShip[index], GO_TYPE.RACER);
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuRight))
                     {
                         shipSelector[index].NextSelection();
+
+                        screenScene.ignore(selectedShip[index]);
                         selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, playerCoords[index]);
+                        screenScene.track(selectedShip[index], GO_TYPE.RACER);
                     }
                 }
                 else
@@ -210,6 +219,7 @@ namespace GammaDraconis.Screens
                 playerJoinText[index].Visible = !playersJoined[index];
                 shipSelector[index].Visible = playersJoined[index];
                 startGameText.Visible = startGame;
+                selectedShip[index].position.R *= Quaternion.CreateFromYawPitchRoll((float)Math.PI / 60f, 0f, 0f);
             }
 
             // Check for game start conditions.

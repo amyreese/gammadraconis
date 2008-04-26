@@ -56,12 +56,6 @@ for i,v in ipairs( path ) do
 	local position = Coords( v.x, v.y, v.z, v.pitch, v.yaw, v.roll)
 	if not v.path then
 		course.path:Add(position)
-		checkpointPosition = checkpointPosition + 1
-		checkpoint = Checkpoint()
-		checkpoint.racePosition = checkpointPosition
-		checkpoint.position = position
-		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 0.5))
-		gameScene:track(checkpoint, GO_TYPE.HUD)
 	end
 end
 

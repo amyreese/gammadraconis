@@ -79,8 +79,14 @@ namespace GammaDraconis.Core
 
             return course.path[point - 1].Clone();
         }
+
         public Coords nextCoord(Racer racer) { 
             return coord(racer, 1); 
+        }
+
+        public int length()
+        {
+            return course.path.Count;
         }
 
         /// <summary>

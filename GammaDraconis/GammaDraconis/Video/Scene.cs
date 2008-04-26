@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GammaDraconis.Types;
+using GammaDraconis.Core;
+
 
 namespace GammaDraconis.Video
 {
@@ -16,7 +18,7 @@ namespace GammaDraconis.Video
     {
         static public int SKYBOX = 1;
         static public int SCENERY = 2; // Never checked for thinking or physics, always drawn first and facing the viewer, uncollideable
-        static public int HUD = 4;
+        static public int CHECKPOINT = 4;
         static public int THINKABLE = 8;
         static public int MOVABLE = 16;
         static public int COLLIDABLE = 32;
@@ -133,13 +135,21 @@ namespace GammaDraconis.Video
             return thinkables;
         }
 
+        public List<GameObject> visible(Player player)
+        {
+            return visible(player.getCamera(), player);
+        }
+
         /// <summary>
         /// Return a list of GameObjects that are within range and 
         /// viewing arc of the given vantage point coordinates.
         /// </summary>
         /// <param name="vantage">Vantage point Coords to render from</param>
+        /// <param name="player">player relevant to the scene</param>
         /// <returns>List of GameObjects to render</returns>
-        public List<GameObject> visible(Coords vantage)
+      
+        
+        public List<GameObject> visible(Coords vantage, Player player)
         {
             Room roomIn = null;
             foreach (Room room in rooms)
@@ -187,7 +197,10 @@ namespace GammaDraconis.Video
                             if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
                             {
                                 if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
+                                {
                                     gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
+                                }
+                                
                                 visibleObjects[tempKey].Add(gameobject);
                             }
                         }
@@ -233,6 +246,29 @@ namespace GammaDraconis.Video
                             }
                         }
                     }
+                }
+            }
+            // Player specific visibility logic
+            if (visibleObjects.ContainsKey(GO_TYPE.CHECKPOINT))
+            {
+                foreach (GameObject gameObject in visibleObjects[GO_TYPE.CHECKPOINT])
+                {
+                    RaceStatus status = Engine.GetInstance().race.status(player, true);
+                    int lap = status.lap;
+                    int currentLocation = status.checkpoint;
+                    int checkpointPosition = ((Checkpoint)gameObject).racePosition;
+                    if (checkpointPosition > currentLocation)
+                    {
+                        // TODO: change differentiation from visible/invisible to differences in how the checkpoints are rendered (color? brightness?)
+                        gameObject.models[0].visible = true;
+                        gameObject.models[1].visible = false;
+                    }
+                    else
+                    {
+                        gameObject.models[0].visible = false;
+                        gameObject.models[1].visible = true;
+                    }
+
                 }
             }
             

@@ -520,6 +520,15 @@ namespace GammaDraconis.Core
         public void SetupCourse(String mapName)
         {
             GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
+            int racePosition = 1;
+            foreach (Coords coords in course.path) 
+            {
+		        GameObject gameObject = Proto.getThing("Checkpoint", coords);
+                Checkpoint checkpoint = Checkpoint.cloneObject(gameObject);
+                checkpoint.racePosition = racePosition;
+                gameScene.track(checkpoint, GO_TYPE.CHECKPOINT);
+                racePosition = racePosition + 1;
+            }
         }
         #endregion
 

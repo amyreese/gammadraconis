@@ -155,7 +155,7 @@ namespace GammaDraconis.Video
                     game.GraphicsDevice.RenderState.DepthBufferEnable = true;
                     aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
-                    List<GameObject> gameObjects = scene.visible(Player.players[playerIndex].getCamera());
+                    List<GameObject> gameObjects = scene.visible(Player.players[playerIndex]);
                     renderObjects(gameObjects, Player.players[playerIndex]);
                 }
                 else
@@ -227,7 +227,7 @@ namespace GammaDraconis.Video
                 shader.reset();
             }
 
-            List<GameObject> gameObjects = scene.visible(coords);
+            List<GameObject> gameObjects = scene.visible(coords, null);
             renderObjects(gameObjects, coords.camera(), null);
 
             // TODO: Render post-process shaders

@@ -156,7 +156,7 @@ namespace GammaDraconis.Core.Input
         public PlayerInput(PlayerIndex playerIndex, InputManager.ControlScheme controlScheme)
             : base(playerIndex)
         {
-            if (playerIndex == PlayerIndex.One)
+            if ((playerIndex == PlayerIndex.One) && !GamePad.GetCapabilities(PlayerIndex.One).IsConnected)
             {
                 if (Properties.Settings.Default.PlayerOneUseMouse)
                 {

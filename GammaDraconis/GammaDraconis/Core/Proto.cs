@@ -131,17 +131,23 @@ namespace GammaDraconis.Core
                 go.velocity = velocity;
                 return go;
             }
-            else
+            else if (ship.ContainsKey(name))
             {
-                if (ship.ContainsKey(name))
-                {
-                    Racer go = Racer.cloneShip(ship[name]);
-                    go.position = position;
-                    go.velocity = velocity;
-                    return go;
-                }
-                return null;
+                Racer go = Racer.cloneShip(ship[name]);
+                go.position = position;
+                go.velocity = velocity;
+                return go;
             }
+            else if (thing.ContainsKey(name))
+            {
+                Racer go = Racer.cloneShip(thing[name]);
+                go.position = position;
+                go.velocity = velocity;
+                return go;
+            }
+
+            Console.WriteLine("Proto.getRacer() failed!");
+            return null;
         }
         public static Racer getRacer(string name, Coords position) { return getRacer(name, position, new Coords()); }
         public static Racer getRacer(string name) { return getRacer(name, new Coords(), new Coords()); }
@@ -157,20 +163,28 @@ namespace GammaDraconis.Core
         {
             if (racer.ContainsKey(name))
             {
-                Player go = Player.cloneShip(racer[name].clone(), index);
-                go.position = position;
+                Player go = Player.cloneShip(racer[name], index);
+                go.position = new Coords();
+                go.velocity = new Coords();
                 return go;
             }
-            else
+            else if (ship.ContainsKey(name))
             {
-                if (ship.ContainsKey(name))
-                {
-                    Player go = Player.cloneShip(ship[name], index);
-                    go.position = position;
-                    return go;
-                }
-                return null;
+                Player go = Player.cloneShip(ship[name], index);
+                go.position = new Coords();
+                go.velocity = new Coords();
+                return go;
             }
+            else if (thing.ContainsKey(name))
+            {
+                Player go = Player.cloneShip(thing[name], index);
+                go.position = new Coords();
+                go.velocity = new Coords();
+                return go;
+            }
+
+            Console.WriteLine("Proto.getPlayer() failed!");
+            return null;
         }
         public static Player getPlayer(string name, PlayerIndex index) { return getPlayer(name, index, new Coords()); }
 

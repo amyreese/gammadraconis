@@ -164,21 +164,21 @@ namespace GammaDraconis.Core
             if (racer.ContainsKey(name))
             {
                 Player go = Player.cloneShip(racer[name], index);
-                go.position = new Coords();
+                go.position = position;
                 go.velocity = new Coords();
                 return go;
             }
             else if (ship.ContainsKey(name))
             {
                 Player go = Player.cloneShip(ship[name], index);
-                go.position = new Coords();
+                go.position = position;
                 go.velocity = new Coords();
                 return go;
             }
             else if (thing.ContainsKey(name))
             {
                 Player go = Player.cloneShip(thing[name], index);
-                go.position = new Coords();
+                go.position = position;
                 go.velocity = new Coords();
                 return go;
             }

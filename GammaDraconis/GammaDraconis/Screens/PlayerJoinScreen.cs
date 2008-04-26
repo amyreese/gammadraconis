@@ -27,6 +27,7 @@ namespace GammaDraconis.Screens
         private Selector[] shipSelector;
         private GameObject[] selectedShip;
         private Coords[] playerCoords;
+        private Coords[] shipCoords;
 
         //bool[] playersJoined = { false, false, false, false };
         /// <summary>
@@ -39,10 +40,16 @@ namespace GammaDraconis.Screens
             inputs = new PlayerInput[4];
 
             playerCoords = new Coords[4];
-            playerCoords[0] = new Coords(0f, 0f, 40f, 0f, 0f, 0f);
-            playerCoords[1] = new Coords(40f, 0f, 0f, 0f, (float)MathHelper.PiOver4, 0f);
-            playerCoords[2] = new Coords(0f, 0f, -40f, 0f, (float)MathHelper.PiOver2, 0f);
-            playerCoords[3] = new Coords(-40f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f);
+            playerCoords[0] = new Coords(0f, 0f, -5f, 0f, 0f, 0f);
+            playerCoords[1] = new Coords(-5f, 0f, 0f, 0f, (float)MathHelper.PiOver4, 0f);
+            playerCoords[2] = new Coords(0f, 0f, 5f, 0f, (float)MathHelper.PiOver2, 0f);
+            playerCoords[3] = new Coords(5f, 0f, 0f, 0f, (float)3 * MathHelper.PiOver4, 0f);
+
+            shipCoords = new Coords[4];
+            shipCoords[0] = new Coords(0f, 0f, -40f, 0f, 0f, 0f);
+            shipCoords[1] = new Coords(-40f, 0f, 0f, 0f, 0, 0f);
+            shipCoords[2] = new Coords(0f, 0f, 40f, 0f, 0, 0f);
+            shipCoords[3] = new Coords(40f, 0f, 0f, 0f, 0, 0f);
 
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];
@@ -61,7 +68,7 @@ namespace GammaDraconis.Screens
                 shipSelector[i].spriteFontName = "Resources/Fonts/Menu";
                 shipSelector[i].center = true;
 
-                selectedShip[i] = Proto.getShip(shipSelector[i].CurrentSelection, playerCoords[i]);
+                selectedShip[i] = Proto.getShip(shipSelector[i].CurrentSelection, shipCoords[i]);
                 screenScene.track(selectedShip[i], GO_TYPE.RACER);
             }
 
@@ -99,16 +106,16 @@ namespace GammaDraconis.Screens
 
         protected void setUpDummyShips() 
         {
-            Player p1 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[0]), PlayerIndex.One);
+            Player p1 = Proto.getPlayer("Dummy", PlayerIndex.One, playerCoords[0]);
             screenScene.track(p1, GO_TYPE.RACER);
 
-            Player p2 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[1]), PlayerIndex.Two);
+            Player p2 = Proto.getPlayer("Dummy", PlayerIndex.Two, playerCoords[1]);
             screenScene.track(p2, GO_TYPE.RACER);
 
-            Player p3 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[2]), PlayerIndex.Three);
+            Player p3 = Proto.getPlayer("Dummy", PlayerIndex.Three, playerCoords[2]);
             screenScene.track(p3, GO_TYPE.RACER);
 
-            Player p4 = Player.cloneShip(Proto.getThing("Dummy", playerCoords[3]), PlayerIndex.Four);
+            Player p4 = Proto.getPlayer("Dummy", PlayerIndex.Four, playerCoords[3]);
             screenScene.track(p4, GO_TYPE.RACER);
         }
 
@@ -188,7 +195,7 @@ namespace GammaDraconis.Screens
                         shipSelector[index].PrevSelection();
 
                         screenScene.ignore(selectedShip[index]);
-                        selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, playerCoords[index]);
+                        selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, shipCoords[index]);
                         screenScene.track(selectedShip[index], GO_TYPE.RACER);
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuRight))
@@ -196,7 +203,7 @@ namespace GammaDraconis.Screens
                         shipSelector[index].NextSelection();
 
                         screenScene.ignore(selectedShip[index]);
-                        selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, playerCoords[index]);
+                        selectedShip[index] = Proto.getShip(shipSelector[index].CurrentSelection, shipCoords[index]);
                         screenScene.track(selectedShip[index], GO_TYPE.RACER);
                     }
                 }

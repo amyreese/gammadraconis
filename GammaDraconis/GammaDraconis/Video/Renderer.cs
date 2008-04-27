@@ -328,21 +328,23 @@ namespace GammaDraconis.Video
 				game.GraphicsDevice.SetRenderTarget(0, null);
 				mesh.Draw();
 
-				// TODO: Render to shader-specific targets
-				if (meshbloom)
-				{
-					PostProcessShader bloom = shaders["bloom"];
-					game.GraphicsDevice.SetRenderTarget(1, bloom.source);
-					mesh.Draw();
-				}
-				if (fbxmodel.shader != "" && shaders.ContainsKey(fbxmodel.shader))
-				{
-					game.GraphicsDevice.SetRenderTarget(1, shaders[fbxmodel.shader].source);
-					mesh.Draw();
-				}
+                if (enableShaders)
+                {
+                    // TODO: Render to shader-specific targets
+                    if (meshbloom)
+                    {
+                        PostProcessShader bloom = shaders["bloom"];
+                        game.GraphicsDevice.SetRenderTarget(1, bloom.source);
+                        mesh.Draw();
+                    }
+                    if (fbxmodel.shader != "" && shaders.ContainsKey(fbxmodel.shader))
+                    {
+                        game.GraphicsDevice.SetRenderTarget(1, shaders[fbxmodel.shader].source);
+                        mesh.Draw();
+                    }
 
-				game.GraphicsDevice.SetRenderTarget(1, null);
-
+                    game.GraphicsDevice.SetRenderTarget(1, null);
+                }
 			}
 		}
 

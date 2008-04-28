@@ -23,7 +23,7 @@ ship.dragL = 1.2
 ship.rateR = 2
 ship.dragR = 3
 
-ship.relativeLookAt = Vector3(0,0,-150)
+ship.relativeLookAt = Vector3(0,0,-300)
 ship.relativeLookFrom = Vector3(0,8,45)
 
 ship.maxHealth = 500;

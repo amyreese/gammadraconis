@@ -19,15 +19,27 @@ namespace GammaDraconis.Types
             rateR = 1f;
             dragL = 0f;
             dragR = 0f;
-            models.Add(new FBXModel("Resources/Models/Shell", "", 0.1f));
         }
 
         public Bullet clone()
         {
             Bullet b = new Bullet();
+            
             b.damage = damage;
             b.timeToLive = timeToLive;
             b.mass = mass;
+            b.size = size;
+
+            b.rateL = rateL;
+            b.rateR = rateR;
+            b.dragL = dragL;
+            b.dragR = dragR;
+
+            foreach (FBXModel model in models)
+            {
+                b.models.Add(model.clone());
+            }
+
             return b;
         }
     }

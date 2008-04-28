@@ -312,7 +312,12 @@ namespace GammaDraconis.Video
 					mesheffect.FogStart = viewingDistance / 2;
 					mesheffect.FogEnd = viewingDistance * 1.25f;
 					mesheffect.FogColor = new Vector3(0, 0, 0);
-					mesheffect.EnableDefaultLighting();
+
+                    if (fbxmodel.lighted)
+                    {
+                        mesheffect.EnableDefaultLighting();
+                    }
+
                     mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
 					//effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
 					mesheffect.View = cameraMatrix;

@@ -23,6 +23,7 @@ namespace GammaDraconis.Video
 
         // Visibility
         public bool visible = true;
+        public bool lighted = true;
 
         // Post-process shader
         public string shader;
@@ -54,6 +55,7 @@ namespace GammaDraconis.Video
             fbxmodel.model = model;
 
             fbxmodel.visible = visible;
+            fbxmodel.lighted = lighted;
 
             return fbxmodel;
         }

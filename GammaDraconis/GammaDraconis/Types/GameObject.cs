@@ -25,7 +25,7 @@ namespace GammaDraconis.Types
 
             relationalScale = 1.0f;
             relativeLookAt = new Vector3(0f, 0f, -1f);
-            relativeLookFrom = new Vector3(0f, 1f, 40f);
+            relativeLookFrom = new Vector3(0f, 0f, 0f);
         }
 
         public int fakeTransparency = -1;

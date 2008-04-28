@@ -46,10 +46,10 @@ namespace GammaDraconis.Screens
             playerCoords[3] = new Coords(300f, 0f, 0f, 0f, 0f, 0f);
 
             shipCoords = new Coords[4];
-            shipCoords[0] = new Coords(  0f, 0f, -5f, 0.3f, 0f, 0f);
-            shipCoords[1] = new Coords(100f, 0f, -5f, 0.3f, 0f, 0f);
-            shipCoords[2] = new Coords(200f, 0f, -5f, 0.3f, 0f, 0f);
-            shipCoords[3] = new Coords(300f, 0f, -5f, 0.3f, 0f, 0f);
+            shipCoords[0] = new Coords(  0f, 0f, -40f, 0.3f, 0f, 0f);
+            shipCoords[1] = new Coords(100f, 0f, -40f, 0.3f, 0f, 0f);
+            shipCoords[2] = new Coords(200f, 0f, -40f, 0.3f, 0f, 0f);
+            shipCoords[3] = new Coords(300f, 0f, -40f, 0.3f, 0f, 0f);
 
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];

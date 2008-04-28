@@ -66,7 +66,7 @@ namespace GammaDraconis.Video
         {
             aspectRatio = 0;
             viewingAngle = 60f;
-            viewingDistance = 5000f;
+            viewingDistance = 15000f;
 
             this.game = game;
             game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);
@@ -277,7 +277,7 @@ namespace GammaDraconis.Video
 				return;
 			}
 			// TODO: We need to get an appropriate colored fog if we really want to not fog the skybox
-			bool enableFog = true; // || !(gameObject is Skybox);
+			bool enableFog = false; // || !(gameObject is Skybox);
 			if (gameObject is Checkpoint)
 			{
 				int currentLocation = Engine.GetInstance().race.status(player, true).checkpoint;

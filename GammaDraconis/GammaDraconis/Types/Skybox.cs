@@ -9,7 +9,7 @@ namespace GammaDraconis.Types
     {
 		public Skybox() : base()
 		{
-			models.Add(new FBXModel("Resources/Models/Skybox", "", 0.195f));
+			models.Add(new FBXModel("Resources/Models/Skybox", "", 0.195f * 3));
 		}
     }
 }

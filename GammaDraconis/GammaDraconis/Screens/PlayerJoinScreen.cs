@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,6 +25,7 @@ namespace GammaDraconis.Screens
 
         private Text[] playerJoinText;
         private Text startGameText;
+        private Selector trackSelector;
         private Selector[] shipSelector;
         private GameObject[] selectedShip;
         private Coords[] playerCoords;
@@ -91,6 +93,14 @@ namespace GammaDraconis.Screens
             startGameText.center = true;
             startGameText.RelativePosition = new Vector2(1024 / 2, 768 / 2);
             screenInterface.AddComponent(startGameText);
+
+            trackSelector = new Selector(game);
+            trackSelector.Visible = false;
+            trackSelector.color = Color.White;
+            trackSelector.spriteFontName = "Resources/Fonts/Menu";
+            trackSelector.center = true;
+            trackSelector.RelativePosition = new Vector2(1024 / 2, 768 / 2);
+            screenInterface.AddComponent(trackSelector);
         }
 
         public override void Initialize()
@@ -120,6 +130,8 @@ namespace GammaDraconis.Screens
 
         protected override void onFreshLoad()
         {
+            setUpDummyShips();
+
             // Detect any new controllers
             GammaDraconis.GetInstance().InputManager.AutoRegisterControlSchemes();
 
@@ -136,7 +148,16 @@ namespace GammaDraconis.Screens
             }
             startGame = false;
 
-            setUpDummyShips();
+            // Load list of maps.
+            if (Directory.Exists("Maps"))
+            {
+                string[] maps = Directory.GetDirectories("Maps");
+
+                foreach (string map in maps)
+                {
+                    trackSelector.AddSelection(map.Substring(map.IndexOf("\\") + 1));
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -212,19 +233,28 @@ namespace GammaDraconis.Screens
                     {
                         // If the player is ready, return them to ship selection.
                         playersReady[index] = false;
-                        startGameText.Visible = false;
+                        trackSelector.Visible = false;
                     }
-                    else if (inputs[index].inputPressed(PlayerInput.Commands.GameStart))
+                    else if (inputs[index].inputPressed(PlayerInput.Commands.GameStart) ||
+                        inputs[index].inputPressed(PlayerInput.Commands.Join))
                     {
                         // If this player is ready, start the game.
                         if (playersReady[index])
                             startGame = true;
                     }
+                    else if (inputs[index].inputPressed(PlayerInput.Commands.MenuLeft))
+                    {
+                        trackSelector.PrevSelection();
+                    }
+                    else if (inputs[index].inputPressed(PlayerInput.Commands.MenuRight))
+                    {
+                        trackSelector.NextSelection();
+                    }
                 }
 
                 playerJoinText[index].Visible = !playersJoined[index];
                 shipSelector[index].Visible = playersJoined[index];
-                startGameText.Visible = startGame;
+                trackSelector.Visible = startGame;
                 selectedShip[index].position.R *= Quaternion.CreateFromYawPitchRoll((float)Math.PI / 60f, 0f, 0f);
             }
 
@@ -233,7 +263,7 @@ namespace GammaDraconis.Screens
                 (playersJoined[0] == playersReady[0]) && (playersJoined[1] == playersReady[1]) && 
                 (playersJoined[2] == playersReady[2]) && (playersJoined[3] == playersReady[3]))
             {
-                startGameText.Visible = true;
+                trackSelector.Visible = true;
 
                 if (startGame)
                 {
@@ -253,7 +283,7 @@ namespace GammaDraconis.Screens
                         }
                     }
 
-                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine("CircleTrack", players);
+                    ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine(trackSelector.CurrentSelection, players);
 
                     gammaDraconis.changeState(GammaDraconis.GameStates.GameLoading);
                 }

@@ -9,7 +9,7 @@ namespace GammaDraconis.Types
         public int racePosition;
         public Checkpoint() : base()
         {
-            size = 50.0f;
+            size = 500.0f;
             racePosition = 0;
         }
 
@@ -19,6 +19,17 @@ namespace GammaDraconis.Types
             checkpoint.position = gameObject.position;
             checkpoint.models = gameObject.models;
             return checkpoint;
+        }
+
+        public Checkpoint clone()
+        {
+            Checkpoint go = new Checkpoint();
+            go.size = size;
+            go.racePosition = racePosition;
+            go.position = position;
+            go.models = models;
+
+            return go;
         }
     }
 }

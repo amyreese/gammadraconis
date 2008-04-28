@@ -8,16 +8,16 @@ namespace GammaDraconis.Types
     class Course
     {
         // Course definition
-        public List<Coords> path;
+        public List<Checkpoint> path;
         public bool loop;
 
-        public Course() : this(new Coords[0], false) { }
-        public Course(Coords[] points, bool loop)
+        public Course() : this(new Checkpoint[0], false) { }
+        public Course(Checkpoint[] points, bool loop)
         {
             this.loop = loop;
-            path = new List<Coords>();
+            path = new List<Checkpoint>();
 
-            foreach (Coords point in points)
+            foreach (Checkpoint point in points)
             {
                 path.Add(point);
             }

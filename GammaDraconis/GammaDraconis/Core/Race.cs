@@ -49,7 +49,7 @@ namespace GammaDraconis.Core
         /// <param name="racer">The racer object</param>
         /// <param name="offset">How many coordinates forward in the race</param>
         /// <returns>Coordinate object, or Null if past end of race</returns>
-        public Coords coord(Racer racer, int offset)
+        public Checkpoint checkpoint(Racer racer, int offset)
         {
             RaceStatus info = status(racer, true);
             int lap = info.lap;
@@ -77,11 +77,11 @@ namespace GammaDraconis.Core
                 point = course.path.Count;
             }
 
-            return course.path[point - 1].Clone();
+            return course.path[point - 1].clone();
         }
 
-        public Coords nextCoord(Racer racer) { 
-            return coord(racer, 1); 
+        public Checkpoint nextCheckpoint(Racer racer) { 
+            return checkpoint(racer, 1); 
         }
 
         public int length()
@@ -119,8 +119,8 @@ namespace GammaDraconis.Core
             {
                 if (!finishedRacers.Contains(r))
                 {
-                    BoundingSphere checkpointSphere = new BoundingSphere(nextCoord(r).pos(), 75.0f);
-                    BoundingSphere racerSphere = new BoundingSphere(r.position.pos(), 10.0f);
+                    BoundingSphere checkpointSphere = new BoundingSphere(nextCheckpoint(r).position.pos(), nextCheckpoint(r).size);
+                    BoundingSphere racerSphere = new BoundingSphere(r.position.pos(), r.size);
                     if (checkpointSphere.Intersects(racerSphere))
                     {
                         state[r] += 1;

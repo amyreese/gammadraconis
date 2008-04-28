@@ -183,7 +183,7 @@ namespace GammaDraconis.Core
                         gameObject.throttle(1.0f);
 
                         Vector3 r = gameObject.position.pos();
-                        Vector3 cp = course.path[0].pos();
+                        Vector3 cp = course.path[0].position.pos();
                         Vector3 rprojection = Vector3.Multiply(r, -2);
                         rprojection = Vector3.Add(r, rprojection);
 
@@ -231,9 +231,9 @@ namespace GammaDraconis.Core
                         //gameObject.roll(q.Z * q.W);
 
                         //TODO: When the ship reaches a point, make it smoothly go for the next point
-                        if (Vector3.Distance(course.path[0].pos(), gameObject.position.pos()) < 10)
+                        if (Vector3.Distance(course.path[0].position.pos(), gameObject.position.pos()) < 10)
                         {
-                            Coords temp1 = course.path[0];
+                            Checkpoint temp1 = course.path[0];
                             course.path.RemoveAt(0);
                             course.path.Add(temp1);
                         }
@@ -242,7 +242,7 @@ namespace GammaDraconis.Core
                     {
                         //gameObject.throttle(0.1f);
                         Vector3 racerPosition = gameObject.position.pos();
-                        Vector3 checkpointPosition = race.nextCoord((Racer)gameObject).pos();
+                        Vector3 checkpointPosition = race.nextCheckpoint((Racer)gameObject).position.pos();
                         Vector3 checkpointOffset = checkpointPosition - racerPosition;
                         Vector3 racerForward = Matrix.CreateFromQuaternion(gameObject.position.R).Forward;
 
@@ -289,7 +289,7 @@ namespace GammaDraconis.Core
                     {
                         //gameObject.throttle(0.1f);
                         Vector3 racerPosition = gameObject.position.pos();
-                        Vector3 checkpointPosition = race.nextCoord((Racer)gameObject).pos();
+                        Vector3 checkpointPosition = race.nextCheckpoint((Racer)gameObject).position.pos();
                         Vector3 checkpointOffset = checkpointPosition - racerPosition;
                         Vector3 racerForward = Matrix.CreateFromQuaternion(gameObject.position.R).Forward;
 
@@ -406,6 +406,10 @@ namespace GammaDraconis.Core
                     Vector3 o2Pos = o2.position.pos();
                     if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
                     {
+                        if (o is Checkpoint || o2 is Checkpoint)
+                        {
+                            int i = 0;
+                        }
                         if (oPos == o2Pos)
                         {
                             // TODO: Randomize some
@@ -551,15 +555,7 @@ namespace GammaDraconis.Core
         public void SetupCourse(String mapName)
         {
             GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
-            int racePosition = 1;
-            foreach (Coords coords in course.path) 
-            {
-		        GameObject gameObject = Proto.getThing("Checkpoint", coords);
-                Checkpoint checkpoint = Checkpoint.cloneObject(gameObject);
-                checkpoint.racePosition = racePosition;
-                gameScene.track(checkpoint, GO_TYPE.CHECKPOINT);
-                racePosition = racePosition + 1;
-            }
+            
         }
         #endregion
 

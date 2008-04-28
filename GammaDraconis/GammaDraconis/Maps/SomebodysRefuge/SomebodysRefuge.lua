@@ -27,14 +27,18 @@ for i,v in ipairs( path ) do
 	local position = Coords( v.x, v.y, v.z, v.pitch, v.yaw, v.roll)
 	if not v.path then
 		course.path:Add(position)
+		
+		--[[
 		checkpointPosition = checkpointPosition + 1;
 		checkpoint = Checkpoint()
 		checkpoint.position = position
 		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", 0.195))
 		gameScene:track(checkpoint, GO_TYPE.HUD)
+		]]--
 	end
 end
 
+--[[
 local spinMod = 0
 function buildAsteroidTunnel( x, y, z, radius, rotation )
 	local rotMod = MathHelper.PiOver2 * spinMod
@@ -99,6 +103,7 @@ buildAsteroidTunnel( 320, 0, -1880, radius, 2 * MathHelper.PiOver2 / 5 );
 buildAsteroidTunnel( 280, 0, -1920, radius, 3 * MathHelper.PiOver2 / 5 );
 buildAsteroidTunnel( 240, 0, -1960, radius, 4 * MathHelper.PiOver2 / 5 );
 buildAsteroidTunnel( 200, 0, -2000, radius, MathHelper.PiOver2 );
+]]--
 
 --[[
 	{x=200, y=0, z=-2000, yaw=MathHelper.PiOver2, pitch=0, roll=0},
@@ -108,12 +113,10 @@ buildAsteroidTunnel( 200, 0, -2000, radius, MathHelper.PiOver2 );
 
 course.loop = false
 
---tunnel = GameObject()
---tunnel.position = Coords(500,0,-500)
---tunnel.size = 100
---tunnel.models:Add(FBXModel("Resources/Models/Tunnel", "", 50))
---gameScene:track(tunnel, GO_TYPE.THINKABLE)
+tunnel = Proto.getThing("AsteroidTunnel", Coords(500, 0, -1000))
+gameScene:track(tunnel, GO_TYPE.DEBRIS)
 
+--[[
 room1 = Room()
 room1.area = BoundingBox(Vector3(path[2].x - tunnelRadius, path[2].y - tunnelRadius, path[2].z - 3 * tunnelRadius), Vector3(path[2].x + tunnelRadius, path[2].y + tunnelRadius, path[2].z))
 room1.canSeeOutside = true
@@ -177,6 +180,7 @@ room8.visibleRooms:Add(room7)
 room6.visibleRooms:Add(room8)
 room7.visibleRooms:Add(room8)
 gameScene.rooms:Add(room8)
+]]--
 
 racers = Engine.GetInstance().players
 

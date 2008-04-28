@@ -206,6 +206,11 @@
     <None Include="Resources\Effects\Includes.inc">
       <Name>Includes</Name>
     </None>
+    <Compile Include="Resources\Models\Particle.fbx">
+      <Name>Particle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <Compile Include="Resources\Models\Arrow.fbx">
       <Name>Arrow</Name>
       <Importer>FbxImporter</Importer>

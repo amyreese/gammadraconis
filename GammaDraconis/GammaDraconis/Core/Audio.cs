@@ -24,9 +24,9 @@ namespace GammaDraconis.Core
 		/// </summary>
         static public void init()
         {
-            audioEngine = new AudioEngine("Resources/Audio/Engine.xgs");
-            soundBank = new SoundBank(audioEngine, "Resources/Audio/Audio.xsb");
-            waveBank = new WaveBank(audioEngine, "Resources/Audio/Audio.xwb");
+            //audioEngine = new AudioEngine("Resources/Audio/Engine.xgs");
+            //soundBank = new SoundBank(audioEngine, "Resources/Audio/Audio.xsb");
+            //waveBank = new WaveBank(audioEngine, "Resources/Audio/Audio.xwb");
 
             cues = new Dictionary<string,Cue>();
             repeat = new Dictionary<string,bool>();
@@ -40,7 +40,7 @@ namespace GammaDraconis.Core
         static public void play(String cue, bool overlap)
         {
             cache(cue);
-            if (cues[cue].IsPrepared)
+            /*if (cues[cue].IsPrepared)
             {
                 cues[cue].Play();
             }
@@ -52,7 +52,7 @@ namespace GammaDraconis.Core
             {
                 recache(cue);
                 cues[cue].Play();
-            }
+            }*/
         }
 
         /// <summary>
@@ -121,8 +121,8 @@ namespace GammaDraconis.Core
         {
             if (!cues.ContainsKey(cue))
             {
-                cues.Add(cue, soundBank.GetCue(cue));
-                repeat.Add(cue, false);
+                //cues.Add(cue, soundBank.GetCue(cue));
+                //repeat.Add(cue, false);
             }
         }
 

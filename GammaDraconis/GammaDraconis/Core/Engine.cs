@@ -142,9 +142,40 @@ namespace GammaDraconis.Core
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.think(gameTime);
+                //Draw arrow if next checkpoint isn't visible
+                /*
+                 * Point arrow towards checkpoint
+                 * Place Arrow above the player
+                if (gameObject is Player)
+                {
+                    Vector3 nextCheckpointPos = race.nextCoord((Racer)gameObject).pos();
 
+                    float aspRatio = GammaDraconis.renderer.aspectRatio;
+                    float viewAngle = GammaDraconis.renderer.viewingAngle;
+                    float viewDist = GammaDraconis.renderer.viewingDistance;
+
+                    Coords vantage = gameObject.position;
+                    Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
+                    BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
+
+                    Player player = (Player)gameObject;
+
+                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 1)) == ContainmentType.Disjoint)
+                    {
+                        player.enableArrow();
+                        player.arrow.position.T.Forward = nextCheckpointPos;
+                        gameScene.track(player.arrow, GO_TYPE.SCENERY);
+                    }
+                    else
+                    {
+                        gameScene.ignore(player.arrow, GO_TYPE.SCENERY);
+                        ((Player)gameObject).disableArrow();
+                    }
+                }*/
                 if (AITest)
                 {
+                    
+
                     //Make the object follow the course
                     if (gameObject is Racer && !(gameObject is Player))
                     {

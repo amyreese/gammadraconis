@@ -19,6 +19,7 @@ namespace GammaDraconis.Types
 
         public PlayerIndex index;
         public PlayerInput input;
+        public GameObject arrow;
         
         double invulnerabilityTimer = 0;
 
@@ -34,6 +35,8 @@ namespace GammaDraconis.Types
             viewport = (Renderer.Viewports)index;
             Player.players[(int)index] = this;
 
+            arrow = Proto.getThing("CheckpointArrow", new Coords());
+            
             playerHUD = (Interface)GammaDraconis.GetInstance().GameLua.DoString("playerHudIndex = " + ((int)index + 1) + "\nreturn dofile( 'Interfaces/PlayerHUD/PlayerHUD.lua' )")[0];
         }
 
@@ -179,6 +182,17 @@ namespace GammaDraconis.Types
 
             return go;
         }
+
+        public void enableArrow() 
+        {
+            Console.WriteLine("Arrow Enabled");
+            arrow.position = new Coords(position.pos());
+            arrow.position.T.M33 += 3;
+        }
+        public void disableArrow() {
+            Console.WriteLine("Arrow Disabled");
+        }
     }
+
 }
  

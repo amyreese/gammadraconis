@@ -180,6 +180,11 @@
       <HintPath>.\Microsoft.VC90.CRT.manifest</HintPath>
     </NativeReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Lua\Things\CheckpointArrow.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.NestedContent.targets" />

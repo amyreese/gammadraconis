@@ -28,6 +28,7 @@ namespace GammaDraconis.Types
             relativeLookFrom = new Vector3(0f, 1f, 40f);
         }
 
+        public int fakeTransparency = -1;
 
         public GameObject ownedBy;
 

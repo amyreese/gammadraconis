@@ -253,7 +253,7 @@ namespace GammaDraconis.Video
             Matrix objectMatrix;
 			foreach (GameObject gameObject in objects)
 			{
-				objectMatrix = worldMatrix * gameObject.position.matrix();
+                objectMatrix = worldMatrix * gameObject.position.matrix();
 
 				List<FBXModel> fbxmodels = new List<FBXModel>(gameObject.models);
 
@@ -261,11 +261,11 @@ namespace GammaDraconis.Video
 				{
 					renderFBXModel(gameObject, fbxmodel, cameraMatrix, objectMatrix, player);
 				}
-			}
+            }
 			foreach (GameObject gameObject in objects)
 			{
 				objectMatrix = worldMatrix * gameObject.position.matrix();
-				renderFBXModel(gameObject, gameObject.shieldModel, cameraMatrix, objectMatrix, player);
+                    renderFBXModel(gameObject, gameObject.shieldModel, cameraMatrix, objectMatrix, player);
 			}
 		}
 
@@ -313,7 +313,7 @@ namespace GammaDraconis.Video
 					mesheffect.FogEnd = viewingDistance * 1.25f;
 					mesheffect.FogColor = new Vector3(0, 0, 0);
 					mesheffect.EnableDefaultLighting();
-					mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
+                    mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
 					//effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
 					mesheffect.View = cameraMatrix;
 					mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),

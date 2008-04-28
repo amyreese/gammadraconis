@@ -9,16 +9,13 @@ Engine.GetInstance().course = course
 
 path = {
 	{x=0, y=0, z=0, yaw=0, pitch=0, roll=0 },
-	{x=0, y=0, z=-400, yaw=0, pitch=0, roll=0},
-	{x=-200, y=0, z=-800, yaw=MathHelper.PiOver2, pitch=0, roll=0},
-	{x=-400, y=0, z=-1200, yaw=0, pitch=0, roll=0},
-	{x=-200, y=0, z=-1600, yaw=-MathHelper.PiOver2, pitch=0, roll=0},
-	{x=0, y=0, z=-1400, yaw=MathHelper.Pi, pitch=0, roll=0},
-	{x=200, y=0, z=-1200, yaw=-MathHelper.PiOver2, pitch=0, roll=0},
-	{x=400, y=0, z=-1400, yaw=0, pitch=0, roll=0},
-	{x=200, y=0, z=-2000, yaw=MathHelper.PiOver2, pitch=0, roll=0},
-	{x=-800, y=0, z=-1800, yaw=MathHelper.Pi, pitch=0, roll=0},
-	{x=-1000, y=0, z=-400, yaw=MathHelper.PiOver2, pitch=0, roll=0},
+	{x=50, y=50, z=-400, yaw=0, pitch=0, roll=0},
+	{x=150, y=-75, z=-1000, yaw=0, pitch=0, roll=0},
+	{x=275, y=-300, z=-1600, yaw=MathHelper.PiOver2 / 4, pitch=0, roll=0},
+	{x=150, y=-250, z=-2000, yaw=MathHelper.PiOver4, pitch=0, roll=0},
+	{x=-400, y=400, z=-2500, yaw=MathHelper.PiOver4, pitch=MathHelper.PiOver2, roll=0},
+	{x=-300, y=700, z=-2900, yaw=-MathHelper.PiOver4, pitch=0, roll=0},
+	{x=-75, y=830, z=-3500, yaw=0, pitch=0, roll=0},
 	}
 
 -- TODO: Find a way to add intermediate points for AI
@@ -38,7 +35,6 @@ for i,v in ipairs( path ) do
 	end
 end
 
---[[
 local spinMod = 0
 function buildAsteroidTunnel( x, y, z, radius, rotation )
 	local rotMod = MathHelper.PiOver2 * spinMod
@@ -56,65 +52,38 @@ function buildAsteroidTunnel( x, y, z, radius, rotation )
 	end
 end
 
-local radius = 210
-buildAsteroidTunnel( 0, 0, -400, radius, 0 );
-buildAsteroidTunnel( 0, 0, -500, radius, 0 );
-buildAsteroidTunnel( 0, 0, -600, radius, 0 );
-buildAsteroidTunnel( -40, 0, -640, radius, MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -80, 0, -680, radius, 2 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -120, 0, -720, radius, 3 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -160, 0, -760, radius, 4 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -200, 0, -800, radius, MathHelper.PiOver2 );
-buildAsteroidTunnel( -240, 0, -840, radius, 4 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -280, 0, -880, radius, 3 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -320, 0, -920, radius, 2 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -360, 0, -960, radius, MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -400, 0, -1000, radius, 0 );
-buildAsteroidTunnel( -400, 0, -1100, radius, 0 );
-buildAsteroidTunnel( -400, 0, -1200, radius, 0 );
-buildAsteroidTunnel( -400, 0, -1300, radius, 0 );
-buildAsteroidTunnel( -400, 0, -1400, radius, 0 );
-buildAsteroidTunnel( -360, 0, -1440, radius, -MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -320, 0, -1480, radius, -2 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -280, 0, -1520, radius, -3 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -240, 0, -1560, radius, -4 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( -200, 0, -1600, radius, -MathHelper.PiOver2 );
-buildAsteroidTunnel( -160, 0, -1560, radius, -MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( -120, 0, -1520, radius, -2 * MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( -80, 0, -1480, radius, -3 * MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( -40, 0, -1440, radius, -4 * MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( 0, 0, -1400, radius, -MathHelper.Pi );
-buildAsteroidTunnel( 40, 0, -1360, radius, -4 * MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( 80, 0, -1320, radius, -3 * MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( 120, 0, -1280, radius, -2 * MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( 160, 0, -1240, radius, -MathHelper.PiOver2 / 5 - MathHelper.PiOver2 );
-buildAsteroidTunnel( 200, 0, -1200, radius, -MathHelper.PiOver2 );
-buildAsteroidTunnel( 240, 0, -1240, radius, -4 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 280, 0, -1280, radius, -3 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 320, 0, -1320, radius, -2 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 360, 0, -1360, radius, -MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 400, 0, -1400, radius, 0 );
-buildAsteroidTunnel( 400, 0, -1500, radius, 0 );
-buildAsteroidTunnel( 400, 0, -1600, radius, 0 );
-buildAsteroidTunnel( 400, 0, -1700, radius, 0 );
-buildAsteroidTunnel( 400, 0, -1800, radius, 0 );
-buildAsteroidTunnel( 360, 0, -1840, radius, MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 320, 0, -1880, radius, 2 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 280, 0, -1920, radius, 3 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 240, 0, -1960, radius, 4 * MathHelper.PiOver2 / 5 );
-buildAsteroidTunnel( 200, 0, -2000, radius, MathHelper.PiOver2 );
-]]--
+local radius = 200
+
+buildAsteroidTunnel( 50, 50, -400, radius, MathHelper.PiOver2 / 3 );
+buildAsteroidTunnel( 50, 50, -450, radius, 0 );
+buildAsteroidTunnel( 50, 50, -550, radius, 0 );
+buildAsteroidTunnel( 50, 50, -700, radius, 0 );
+buildAsteroidTunnel( 100, 0, -800, radius, 0 );
+buildAsteroidTunnel( 100, -25, -900, radius, 0 );
+buildAsteroidTunnel( 150, -75, -1000, radius, 0 );
+buildAsteroidTunnel( 175, -100, -1100, radius, 0 );
+buildAsteroidTunnel( 200, -125, -1200, radius, 0 );
+buildAsteroidTunnel( 225, -200, -1300, radius, 0 );
+buildAsteroidTunnel( 275, -250, -1400, radius, 0 );
+buildAsteroidTunnel( 300, -250, -1500, radius, 0 );
+buildAsteroidTunnel( 275, -300, -1600, radius, MathHelper.PiOver2 / 4 );
+buildAsteroidTunnel( 250, -300, -1700, radius, MathHelper.PiOver2 / 4 );
+buildAsteroidTunnel( 225, -300, -1800, radius, MathHelper.PiOver2 / 4 );
+buildAsteroidTunnel( 200, -275, -1900, radius, MathHelper.PiOver2 / 4 );
+buildAsteroidTunnel( 150, -250, -2000, radius, MathHelper.PiOver2 / 4 );
 
 --[[
-	{x=200, y=0, z=-2000, yaw=MathHelper.PiOver2, pitch=0, roll=0},
-	{x=-800, y=0, z=-1800, yaw=MathHelper.Pi, pitch=0, roll=0},
-	{x=-1000, y=0, z=-400, yaw=MathHelper.PiOver2, pitch=0, roll=0},
+	{x=130, y=-260, z=-2000, yaw=MathHelper.PiOver4, pitch=0, roll=0},
+	{x=-400, y=400, z=-2500, yaw=MathHelper.PiOver4, pitch=MathHelper.PiOver2, roll=0},
+	{x=-300, y=700, z=-2900, yaw=-MathHelper.PiOver4, pitch=0, roll=0},
+	{x=-75, y=830, z=-3500, yaw=0, pitch=0, roll=0},
 ]]--
 
 course.loop = false
 
-tunnel = Proto.getThing("AsteroidTunnel", Coords(500, 0, -1000))
-gameScene:track(tunnel, GO_TYPE.DEBRIS)
+tunnel = Proto.getThing("AsteroidTunnel", Coords(0, 0, -2000))
+tunnel.fakeTransparency = 0;
+gameScene:track(tunnel, GO_TYPE.GHOST)
 
 --[[
 room1 = Room()

@@ -18,11 +18,12 @@ namespace GammaDraconis.Video
     {
         static public int SKYBOX = 1;
         static public int SCENERY = 2; // Never checked for thinking or physics, always drawn first and facing the viewer, uncollideable
-        static public int CHECKPOINT = 4;
-        static public int THINKABLE = 8;
-        static public int MOVABLE = 16;
-        static public int COLLIDABLE = 32;
-        static public int INPUT_BASED = 64;
+        static public int DUST = 4;
+        static public int CHECKPOINT = 8;
+        static public int THINKABLE = 16;
+        static public int MOVABLE = 32;
+        static public int COLLIDABLE = 64;
+        static public int INPUT_BASED = 128;
 
         // Composite
         static public int GHOST = THINKABLE | MOVABLE;
@@ -272,7 +273,16 @@ namespace GammaDraconis.Video
                 }
             }
             
-            return sortObjects(visibleObjects);
+            List<GameObject> shownObjects = sortObjects(visibleObjects);
+            if (player == null)
+            {
+                Console.WriteLine("No player.");
+            }
+            else
+            {
+                shownObjects.AddRange(player.dust);
+            }
+            return shownObjects;
         }
 
         /// <summary>

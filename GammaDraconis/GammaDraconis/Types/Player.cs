@@ -16,6 +16,7 @@ namespace GammaDraconis.Types
     class Player : Racer
     {
         public static Player[] players = new Player[4];
+        public static Random random = new Random();
 
         public PlayerIndex index;
         public PlayerInput input;
@@ -24,6 +25,10 @@ namespace GammaDraconis.Types
         double invulnerabilityTimer = 0;
 
         public Interface playerHUD;
+
+        public List<GameObject> dust;
+        public static float dustCount = 60;
+        public static float dustDistance = 350f;
 
         public Player(PlayerIndex index)
             : base()
@@ -38,6 +43,24 @@ namespace GammaDraconis.Types
             arrow = Proto.getThing("CheckpointArrow", new Coords());
             
             playerHUD = (Interface)GammaDraconis.GetInstance().GameLua.DoString("playerHudIndex = " + ((int)index + 1) + "\nreturn dofile( 'Interfaces/PlayerHUD/PlayerHUD.lua' )")[0];
+
+            dust = new List<GameObject>();
+        }
+
+        public void setupDust() {
+            float dist = 2f * dustDistance;
+            float dist2 = dustDistance;
+            
+            for (int i = 0; i < dustCount; i++)
+            {
+                float fx = (float)random.NextDouble() * dist - dist2;
+                float fy = (float)random.NextDouble() * dist - dist2;
+                float fz = (float)random.NextDouble() * dist - dist2;
+                
+                GameObject dusto = Proto.getThing("Dust");
+                dusto.position.T = Matrix.CreateTranslation(fx, fy, fz) * position.matrix();
+                dust.Add(dusto);
+            }
         }
 
         public override void think(GameTime gameTime)
@@ -123,6 +146,27 @@ namespace GammaDraconis.Types
                 {
                     fire();
                 }
+            }
+            #endregion
+
+            #region It's getting dusty in here
+            Vector3 pos = position.pos();
+            Matrix m = position.matrix();
+
+            float dist = 1f * dustDistance;
+            float dist2 = 0.5f * dustDistance;
+            float distZ = dustDistance * 0.8f;
+
+            foreach (GameObject dusto in dust)
+            {
+                if (Vector3.Distance(pos, dusto.position.pos()) > dustDistance)
+                {
+                    float fx = (float)random.NextDouble() * dist - dist2;
+                    float fy = (float)random.NextDouble() * dist - dist2;
+
+                    dusto.position.T = Matrix.CreateTranslation(fx, fy, -distZ) * m;
+                }
+
             }
             #endregion
         }

@@ -56,6 +56,11 @@ namespace GammaDraconis.Core
             this.players = players.ToArray();
 
             SetupCourse(mapName);
+
+            foreach (Player player in this.players)
+            {
+                player.setupDust();
+            }
         }
         #endregion
 

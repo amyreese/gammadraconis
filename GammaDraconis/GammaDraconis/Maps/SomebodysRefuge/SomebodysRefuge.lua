@@ -13,8 +13,8 @@ path = {
 	{x=150, y=-75, z=-1000, yaw=0, pitch=0, roll=0},
 	{x=275, y=-300, z=-1600, yaw=MathHelper.PiOver2 / 4, pitch=0, roll=0},
 	{x=150, y=-250, z=-2000, yaw=MathHelper.PiOver4, pitch=0, roll=0},
-	{x=-400, y=400, z=-2500, yaw=MathHelper.PiOver4, pitch=MathHelper.PiOver2, roll=0},
-	{x=-300, y=700, z=-2900, yaw=-MathHelper.PiOver4, pitch=0, roll=0},
+	{x=-350, y=400, z=-2500, yaw=MathHelper.PiOver2 / 8, pitch=MathHelper.PiOver2, roll=0},
+	{x=-400, y=700, z=-2900, yaw=-MathHelper.PiOver4 / 4, pitch=MathHelper.PiOver2 / 8, roll=0},
 	{x=-75, y=830, z=-3500, yaw=0, pitch=0, roll=0},
 	}
 
@@ -23,38 +23,40 @@ checkpointPosition = 0;
 for i,v in ipairs( path ) do
 	local position = Coords( v.x, v.y, v.z, v.pitch, v.yaw, v.roll)
 	if not v.path then
-		checkpointPosition = checkpointPosition + 1;
+		checkpointPosition = checkpointPosition + 1
 		checkpoint = Checkpoint()
-		checkpointscale = 0.195
+		checkpointscale = 0.5
 		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", checkpointscale))
 		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint2", "", checkpointscale))
 		checkpoint.size = 210 * checkpointscale
-		checkpoint.position = position
+		checkpoint.position = position 
 		checkpoint.racePosition = checkpointPosition
-		course.path:Add(checkpoint)
-		gameScene:track(checkpoint, GO_TYPE.CHECKPOINT)
-
+		course.path:Add( checkpoint )
+		gameScene:track(checkpoint, GO_TYPE.CHECKPOINT);
 	end
 end
 
 local spinMod = 0
-function buildAsteroidTunnel( x, y, z, radius, rotation )
+local numAsteroids = 14
+function buildAsteroidTunnel( x, y, z, radius, rotationY, rotationX )
+    rotationX = rotationX or 0
 	local rotMod = MathHelper.PiOver2 * spinMod
 	spinMod = 1 - spinMod
-	for i=0,10 do
-		local rad = MathHelper.Pi * (i / 5) + rotMod
+	for i=0,numAsteroids do
+		local rad = MathHelper.Pi * (i / (numAsteroids / 2)) + rotMod
 		local pos = Vector3( MSMath.Cos(rad) * radius, MSMath.Sin(rad) * radius, 0 )
-		pos = Matrix.Multiply(Matrix.CreateTranslation(pos), Matrix.CreateRotationY(rotation)).Translation
+		pos = Matrix.Multiply(Matrix.CreateTranslation(pos), Matrix.Multiply(Matrix.CreateRotationY(rotationY), Matrix.CreateRotationX(rotationX))).Translation
 		local roid = Proto.getThing("Asteroid800A", Coords(pos.X + x, pos.Y + y, pos.Z + z))
 		roid.immobile = true
 		roid:scaleModels(0.6)
 		roid.size = roid.size * 0.6
 		roid.invincible = true
+		roid.models:Clear()
 		gameScene:track(roid, GO_TYPE.DEBRIS)
 	end
 end
 
-local radius = 200
+local radius = 250
 
 buildAsteroidTunnel( 50, 50, -400, radius, MathHelper.PiOver2 / 3 );
 buildAsteroidTunnel( 50, 50, -450, radius, 0 );
@@ -73,6 +75,51 @@ buildAsteroidTunnel( 250, -300, -1700, radius, MathHelper.PiOver2 / 4 );
 buildAsteroidTunnel( 225, -300, -1800, radius, MathHelper.PiOver2 / 4 );
 buildAsteroidTunnel( 200, -275, -1900, radius, MathHelper.PiOver2 / 4 );
 buildAsteroidTunnel( 150, -250, -2000, radius, MathHelper.PiOver2 / 4 );
+
+radius = 300
+
+buildAsteroidTunnel(   100, -225, -2025, radius, MathHelper.PiOver2 / 4, MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel(   75, -200, -2050, radius, MathHelper.PiOver2 / 4, MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel(    0, -150, -2100, radius, MathHelper.PiOver2 / 4, 2 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel(  -50, -100, -2150, radius, MathHelper.PiOver2 / 4, 3 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel( -100,  -50, -2200, radius, MathHelper.PiOver2 / 4, 4 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel( -150,   -0, -2250, radius, MathHelper.PiOver2 / 4, 5 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel( -200,  100, -2300, radius, MathHelper.PiOver2 / 5, 6 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel( -250,  150, -2350, radius, MathHelper.PiOver2 / 6, 7 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel( -300,  225, -2400, radius, MathHelper.PiOver2 / 7, 8 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel( -325,  300, -2450, radius, MathHelper.PiOver2 / 8, 9 * MathHelper.PiOver2 / 10 );
+buildAsteroidTunnel( -350,  400, -2500, radius, MathHelper.PiOver2 / 8, MathHelper.PiOver2 );
+
+radius = 325
+
+buildAsteroidTunnel( -350,  400, -2550, radius, MathHelper.PiOver2 / 8, 7 * MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -350,  450, -2600, radius, 0, 6 * MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -325,  500, -2650, radius, - MathHelper.PiOver2 / 4 / 6, 5 * MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -300,  525, -2700, radius, - 2 * MathHelper.PiOver2 / 4 / 6, 4 * MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -300,  550, -2750, radius, - 3 * MathHelper.PiOver2 / 4 / 6, 3 * MathHelper.PiOver2 / 8 );
+
+radius = 275
+buildAsteroidTunnel( -350,  600, -2800, radius, - 4 * MathHelper.PiOver2 / 4 / 6, 2 * MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -375,  650, -2850, radius, - 5 * MathHelper.PiOver2 / 4 / 6, MathHelper.PiOver2 / 8 );
+
+
+radius = 240
+buildAsteroidTunnel( -400,  700, -2900, radius, -MathHelper.PiOver4 / 4, MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -350,  720, -2950, radius, -MathHelper.PiOver4 / 4, MathHelper.PiOver2 / 8 );
+radius = 250
+buildAsteroidTunnel( -300,  740, -3000, radius, -MathHelper.PiOver4 / 4, MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -250,  760, -3050, radius, -MathHelper.PiOver4 / 4, MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -200,  780, -3100, radius, -MathHelper.PiOver4 / 4, MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -150,  810, -3150, radius, -MathHelper.PiOver4 / 4, MathHelper.PiOver2 / 8 );
+buildAsteroidTunnel( -100,  840, -3200, radius, -MathHelper.PiOver4 / 5, MathHelper.PiOver2 / 7 );
+buildAsteroidTunnel( -115,  860, -3250, radius, -MathHelper.PiOver4 / 5, MathHelper.PiOver2 / 7 );
+buildAsteroidTunnel( -130,  880, -3300, radius, -MathHelper.PiOver4 / 6, MathHelper.PiOver2 / 6 );
+buildAsteroidTunnel( -115,  860, -3350, radius, -MathHelper.PiOver4 / 6, MathHelper.PiOver2 / 6 );
+radius = 200
+buildAsteroidTunnel( -100,  840, -3400, radius, -MathHelper.PiOver4 / 7, MathHelper.PiOver2 / 5 );
+buildAsteroidTunnel( -80,  835, -3450, radius, -MathHelper.PiOver4 / 7, MathHelper.PiOver2 / 5 );
+
+buildAsteroidTunnel( -75,  830, -3500, radius, MathHelper.PiOver4 / 8, MathHelper.PiOver2 / 4 );
 
 --[[
 	{x=130, y=-260, z=-2000, yaw=MathHelper.PiOver4, pitch=0, roll=0},

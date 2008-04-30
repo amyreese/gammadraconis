@@ -82,5 +82,29 @@ namespace GammaDraconis.Properties {
                 this["PlayerOneUseMouse"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1024")]
+        public int HorizontalResolution {
+            get {
+                return ((int)(this["HorizontalResolution"]));
+            }
+            set {
+                this["HorizontalResolution"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("768")]
+        public int VerticalResolution {
+            get {
+                return ((int)(this["VerticalResolution"]));
+            }
+            set {
+                this["VerticalResolution"] = value;
+            }
+        }
     }
 }

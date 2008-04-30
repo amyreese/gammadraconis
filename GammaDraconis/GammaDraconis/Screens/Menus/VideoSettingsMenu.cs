@@ -18,6 +18,9 @@ namespace GammaDraconis.Screens.Menus
 		private Vector3 startLocation = new Vector3(120.0f, -4.35f, -100.0f);
 		private int bloomIndex;
         private int perPixelLightingIndex;
+        private int resolutionIndex;
+        private int currentResolutionIndex;
+        private string[] resolutionList = { "800x600", "1024x768", "1280x1024", "1600x1200" };
 
         /// <summary>
         /// 
@@ -28,7 +31,6 @@ namespace GammaDraconis.Screens.Menus
         {
 			skybox = new Skybox();
 			screenScene.track(skybox, GO_TYPE.SKYBOX);
-
 
 			racer = Proto.getRacer("Raptor");
 			racer.position = new Coords(startLocation.X, startLocation.Y, startLocation.Z, 0.2f, 1.5f, 1.0f);
@@ -57,6 +59,7 @@ namespace GammaDraconis.Screens.Menus
         {
             public static string ToggleBloom = "ToggleBloom";
             public static string TogglePPL = "TogglePPL";
+            public static string ToggleResolution = "ToggleResolution";
             public static string Back = "Back";
         }
 
@@ -69,15 +72,18 @@ namespace GammaDraconis.Screens.Menus
             menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
             screenInterface.AddComponent(menuRegion);
 
-            menuItems = new MenuItem[3];
+            menuItems = new MenuItem[4];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.ToggleBloom);
             menuItems[0].text = "Toggle Bloom";
             bloomIndex = 0;
             menuItems[1] = new MenuItem(gammaDraconis, Commands.TogglePPL);
             menuItems[1].text = "Toggle PPL";
             perPixelLightingIndex = 1;
-            menuItems[2] = new MenuItem(gammaDraconis, Commands.Back);
-            menuItems[2].text = "Back";
+            menuItems[2] = new MenuItem(gammaDraconis, Commands.ToggleResolution);
+            menuItems[2].text = "Display Resolution";
+            resolutionIndex = 2;
+            menuItems[3] = new MenuItem(gammaDraconis, Commands.Back);
+            menuItems[3].text = "Back";
 
             AutoPositionMenuItems();
             
@@ -122,6 +128,19 @@ namespace GammaDraconis.Screens.Menus
             {
                 gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
             }
+            else if (command.Equals(Commands.ToggleResolution))
+            {
+                if (++currentResolutionIndex == resolutionList.Length)
+                    currentResolutionIndex = 0;
+
+                Properties.Settings.Default.HorizontalResolution = int.Parse(resolutionList[currentResolutionIndex].Split('x')[0]);
+                Properties.Settings.Default.VerticalResolution = int.Parse(resolutionList[currentResolutionIndex].Split('x')[1]);
+
+                gammaDraconis.graphics.PreferredBackBufferWidth = Properties.Settings.Default.HorizontalResolution;
+                gammaDraconis.graphics.PreferredBackBufferHeight = Properties.Settings.Default.VerticalResolution;
+                gammaDraconis.graphics.ApplyChanges();
+                GammaDraconis.renderer.reset();
+            }
             else
             {
                 Console.WriteLine("Not yet implemented!");
@@ -137,6 +156,7 @@ namespace GammaDraconis.Screens.Menus
         {
             menuItems[bloomIndex].text = "Bloom: " + ((Bloom)GammaDraconis.renderer.shaders["bloom"]).Settings.Name;
             menuItems[perPixelLightingIndex].text = "Per Pixel Lighting: " + (Properties.Settings.Default.PerPixelLighting ? "Yes" : "No");
+            menuItems[resolutionIndex].text = "Display Resolution: " + Properties.Settings.Default.HorizontalResolution + "x" + Properties.Settings.Default.VerticalResolution;
 
 			/*
 			racer.position.T *= Matrix.CreateTranslation((float)(-25f * gameTime.ElapsedGameTime.TotalSeconds), (float)(5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
@@ -146,6 +166,13 @@ namespace GammaDraconis.Screens.Menus
 			}
 			*/
             base.Update(gameTime);
+        }
+
+        protected override void onFreshLoad()
+        {
+            for (currentResolutionIndex = 0; currentResolutionIndex < resolutionList.Length; currentResolutionIndex++)
+                if (Properties.Settings.Default.HorizontalResolution <= int.Parse(resolutionList[currentResolutionIndex].Split('x')[0]))
+                    break;
         }
     }
 }

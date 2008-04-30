@@ -51,7 +51,7 @@ function buildAsteroidTunnel( x, y, z, radius, rotationY, rotationX )
 		roid:scaleModels(0.6)
 		roid.size = roid.size * 0.6
 		roid.invincible = true
-		roid.models:Clear()
+		--roid.models:Clear()
 		gameScene:track(roid, GO_TYPE.DEBRIS)
 	end
 end
@@ -121,25 +121,18 @@ buildAsteroidTunnel( -80,  835, -3450, radius, -MathHelper.PiOver4 / 7, MathHelp
 
 buildAsteroidTunnel( -75,  830, -3500, radius, MathHelper.PiOver4 / 8, MathHelper.PiOver2 / 4 );
 
---[[
-	{x=130, y=-260, z=-2000, yaw=MathHelper.PiOver4, pitch=0, roll=0},
-	{x=-400, y=400, z=-2500, yaw=MathHelper.PiOver4, pitch=MathHelper.PiOver2, roll=0},
-	{x=-300, y=700, z=-2900, yaw=-MathHelper.PiOver4, pitch=0, roll=0},
-	{x=-75, y=830, z=-3500, yaw=0, pitch=0, roll=0},
-]]--
-
 course.loop = false
 
 tunnel = Proto.getThing("AsteroidTunnel", Coords(0, 0, -2000))
 tunnel.fakeTransparency = 0;
 gameScene:track(tunnel, GO_TYPE.GHOST)
 
---[[
 room1 = Room()
-room1.area = BoundingBox(Vector3(path[2].x - tunnelRadius, path[2].y - tunnelRadius, path[2].z - 3 * tunnelRadius), Vector3(path[2].x + tunnelRadius, path[2].y + tunnelRadius, path[2].z))
-room1.canSeeOutside = true
+room1.area = BoundingBox(Vector3(-1500, -1500, -1000), Vector3(1500, 1500, -2000))
+room1.canSeeOutside = false
 gameScene.rooms:Add(room1)
 
+--[[
 room2 = Room()
 room2.area = BoundingBox(Vector3(path[4].x - tunnelRadius, path[4].y - tunnelRadius, path[4].z - 3 * tunnelRadius), Vector3(path[4].x + tunnelRadius, path[4].y + tunnelRadius, path[4].z + 3 * tunnelRadius))
 room2.canSeeOutside = true

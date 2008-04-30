@@ -146,9 +146,9 @@ namespace GammaDraconis.Core
                 /*
                  * Point arrow towards checkpoint
                  * Place Arrow above the player
-                if (gameObject is Player)
+                */if (gameObject is Player)
                 {
-                    Vector3 nextCheckpointPos = race.nextCoord((Racer)gameObject).pos();
+                    Vector3 nextCheckpointPos = race.nextCheckpoint((Racer)gameObject).position.pos();
 
                     float aspRatio = GammaDraconis.renderer.aspectRatio;
                     float viewAngle = GammaDraconis.renderer.viewingAngle;
@@ -162,16 +162,29 @@ namespace GammaDraconis.Core
 
                     if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 1)) == ContainmentType.Disjoint)
                     {
-                        player.enableArrow();
-                        player.arrow.position.T.Forward = nextCheckpointPos;
+                        player.arrow.position = new Coords(player.position.pos());
+                        
+                        //Point arrow towards next checkpoint
+                        Vector3 target = Vector3.Normalize(nextCheckpointPos - player.arrow.position.pos());
+                        double angle = Math.Acos((double)Vector3.Dot(player.arrow.position.T.Forward, target));
+                        Vector3 axis = Vector3.Cross(player.arrow.position.T.Forward, target);
+                        axis.Normalize();
+                        player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis,(float)-angle);
+
+                        //Position arrow above the player
+                        player.arrow.position.T = Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix();
+                        
+                        //Add the arrow for tracking
                         gameScene.track(player.arrow, GO_TYPE.SCENERY);
+
+
                     }
                     else
                     {
+                        //Remove the arrow from tracking
                         gameScene.ignore(player.arrow, GO_TYPE.SCENERY);
-                        ((Player)gameObject).disableArrow();
                     }
-                }*/
+                }
                 if (AITest)
                 {
                     

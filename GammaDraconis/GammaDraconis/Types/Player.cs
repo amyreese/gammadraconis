@@ -182,17 +182,6 @@ namespace GammaDraconis.Types
 
             return go;
         }
-
-        public void enableArrow() 
-        {
-            Console.WriteLine("Arrow Enabled");
-            arrow.position = new Coords(position.pos());
-            arrow.position.T.M33 += 3;
-        }
-        public void disableArrow() {
-            Console.WriteLine("Arrow Disabled");
-        }
     }
 
 }
- 

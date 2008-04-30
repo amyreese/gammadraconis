@@ -326,6 +326,7 @@ namespace GammaDraconis.Types
                     b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
                     b.position.T = Matrix.CreateTranslation(b.position.pos());
                     b.position.R = weapon.position.R * weapon.fireFrom.R;
+                    b.lastPosition = b.position.Clone();
                     b.velocity = velocity.Clone();
                     b.throttle(1f);
 

@@ -9,7 +9,7 @@ base = GameObject()
 base.dragR = 0
 base.dragL = 0
 base.mass = 100000
-base.size = 150
+base.size = 100
 base.maxHealth = 3000
 
 function asteroidDead(asteroid)

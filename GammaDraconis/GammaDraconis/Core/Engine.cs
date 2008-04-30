@@ -422,6 +422,18 @@ namespace GammaDraconis.Core
                         continue;
                     }
                     Vector3 o2Pos = o2.position.pos();
+                    /*if (o is Bullet)
+                    {
+
+                        collideBullet((Bullet)o, o2);
+                        continue;
+                    }
+                    if (o2 is Bullet)
+                    {
+                        collideBullet((Bullet)o2, o);
+                        continue;
+                    }*/
+                    
                     if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
                     {
                         if (o is Checkpoint || o2 is Checkpoint)
@@ -499,6 +511,11 @@ namespace GammaDraconis.Core
                 {
                     continue;
                 }
+
+                if (gameObject is Bullet)
+                {
+                    ((Bullet)gameObject).lastPosition = gameObject.position.Clone();
+                }
                 // Calculate timesteps
                 float timestep = gameTime.ElapsedGameTime.Milliseconds / 1000f; // Target 1+ fps
 
@@ -556,14 +573,35 @@ namespace GammaDraconis.Core
                 // Zero acceleration
                 gameObject.acceleration.R = Quaternion.Identity;
                 gameObject.acceleration.T = Matrix.Identity;
+
             }
             #endregion
+        }
+
+        private void collideBullet(Bullet bullet, GameObject o2)
+        {
+            Vector3 originalPosition = bullet.lastPosition.pos();
+            Vector3 newPosition = bullet.position.pos();
+            Vector3 forwardVector = bullet.position.pos() - bullet.lastPosition.pos();
+            Ray forwardRay = new Ray(bullet.lastPosition.pos(), forwardVector);
+            BoundingSphere sphere = new BoundingSphere(o2.position.pos(), o2.size);
+            float? intersectDistance = sphere.Intersects(forwardRay);
+            
+            if (intersectDistance != null)
+            {
+                if ((float)intersectDistance < forwardVector.Length())
+                {
+                    gameScene.ignore(bullet, GO_TYPE.BULLET);
+                    o2.takeDamage(bullet.damage);
+                }
+            }
         }
         #endregion
         #endregion
 
         #region Race & Course
-        public Race race;
+        
+public Race race;
         public Course course;
         public Player[] players;
 

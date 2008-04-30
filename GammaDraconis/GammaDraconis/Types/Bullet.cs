@@ -12,6 +12,7 @@ namespace GammaDraconis.Types
     {
         public float damage;
         public double timeToLive;
+        public Coords lastPosition;
 
         public Bullet()
         {
@@ -19,6 +20,7 @@ namespace GammaDraconis.Types
             rateR = 1f;
             dragL = 0f;
             dragR = 0f;
+            lastPosition = position;
         }
 
         public Bullet clone()
@@ -29,12 +31,12 @@ namespace GammaDraconis.Types
             b.timeToLive = timeToLive;
             b.mass = mass;
             b.size = size;
+            b.lastPosition = lastPosition.Clone(); 
 
             b.rateL = rateL;
             b.rateR = rateR;
             b.dragL = dragL;
             b.dragR = dragR;
-
             foreach (FBXModel model in models)
             {
                 b.models.Add(model.clone());

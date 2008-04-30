@@ -47,7 +47,7 @@ namespace GammaDraconis.Types
             #region Death handling
             if (health <= 0)
             {
-                position = Engine.GetInstance().race.checkpoint(this, 0).position;
+                position = Engine.GetInstance().race.checkpoint(this, 0).position.Clone();
                 velocity = new Coords();
                 health = maxHealth;
                 shield = maxShield;

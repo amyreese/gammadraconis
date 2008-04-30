@@ -27,16 +27,28 @@ gameScene:track(planet, GO_TYPE.SCENERY)
 skybox = Skybox()
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 
-roid = Proto.getThing("Asteroid800A", Coords(- radius / 2,5,5), Coords(1.5,-0,0,0.004,0.001,0.0004))
+roid = Proto.getThing("Asteroid800A", Coords(2000,5,-500), Coords(1.5,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800A", Coords(radius / 2,-5,-5), Coords(-1.5,0,0,0.003,0.004,0.0002))
+roid = Proto.getThing("Asteroid800A", Coords(3000,-5,-500), Coords(-1.5,0,0,0.003,0.004,0.0002))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800B", Coords(5,5,- 2 * radius / 3), Coords(0,0,1.5, 0.001, 0.003, 0.001))
+roid = Proto.getThing("Asteroid800A", Coords(-500,5,2600), Coords(1.5,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800B", Coords(-5,-5, 2 * radius / 3), Coords(0,0,-1.5, 0.002, 0.001, 0.003))
+roid = Proto.getThing("Asteroid800A", Coords(500,-5,2600), Coords(-1.5,0,0,0.003,0.004,0.0002))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800A", Coords(-2000,5,500), Coords(1.5,-0,0,0.004,0.001,0.0004))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800A", Coords(-3000,-5,500), Coords(-1.5,0,0,0.003,0.004,0.0002))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800B", Coords(-2800,5,500), Coords(0,0,1.5, 0.001, 0.003, 0.001))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800B", Coords(-2000,5,0), Coords(0,0,-1.5, 0.002, 0.001, 0.003))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
 course = Course()

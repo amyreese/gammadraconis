@@ -33,10 +33,10 @@ gameScene:track(roid, GO_TYPE.DEBRIS)
 roid = Proto.getThing("Asteroid800A", Coords(3000,-5,-500), Coords(-1.5,0,0,0.003,0.004,0.0002))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800A", Coords(-500,5,2600), Coords(1.5,-0,0,0.004,0.001,0.0004))
+roid = Proto.getThing("Asteroid800A", Coords(-500,5,2600), Coords(10.5,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
-roid = Proto.getThing("Asteroid800A", Coords(500,-5,2600), Coords(-1.5,0,0,0.003,0.004,0.0002))
+roid = Proto.getThing("Asteroid800A", Coords(500,-5,2600), Coords(-10.5,0,0,0.003,0.004,0.0002))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
 roid = Proto.getThing("Asteroid800A", Coords(-2000,5,500), Coords(1.5,-0,0,0.004,0.001,0.0004))
@@ -50,6 +50,10 @@ gameScene:track(roid, GO_TYPE.DEBRIS)
 
 roid = Proto.getThing("Asteroid800B", Coords(-2000,5,0), Coords(0,0,-1.5, 0.002, 0.001, 0.003))
 gameScene:track(roid, GO_TYPE.DEBRIS)
+
+--tunnel = Proto.getThing("AsteroidTunnel", Coords(-2000, 0, 500))
+--tunnel.fakeTransparency = 0;
+--gameScene:track(tunnel, GO_TYPE.GHOST)
 
 course = Course()
 Engine.GetInstance().course = course

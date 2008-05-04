@@ -111,19 +111,17 @@
     <Compile Include="Types\Turret.cs" />
     <Compile Include="Types\Weapon.cs" />
     <Compile Include="Video\GUI\Selector.cs" />
+    <Compile Include="Video\Shaders\Bloom.cs" />
     <Compile Include="Video\Shaders\BloomSettings.cs" />
     <Compile Include="Video\GUI\Text.cs" />
     <Compile Include="Video\GUI\Interface.cs" />
     <Compile Include="Video\GUI\InterfaceComponent.cs" />
     <Compile Include="Video\GUI\Sprite.cs" />
     <Compile Include="Video\FBXModel.cs" />
-    <Compile Include="Video\MotionBlurComponent.cs" />
     <Compile Include="Video\OctreeLeaf.cs" />
     <Compile Include="Video\Renderer.cs" />
     <Compile Include="Video\Room.cs" />
     <Compile Include="Video\Scene.cs" />
-    <Compile Include="Video\Shaders\Bloom.cs" />
-    <Compile Include="Video\Shaders\PostProcessShader.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content.contentproj">

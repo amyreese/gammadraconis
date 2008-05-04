@@ -16,7 +16,7 @@ namespace GammaDraconis.Video
     /// </summary>
     class Renderer : DrawableGameComponent
     {
-        private bool enableShaders = false;
+        private bool enableShaders = true;
 
         private int secondsPerQuip = 5;
         private String[] missingPlayerQuips = { 
@@ -45,7 +45,7 @@ namespace GammaDraconis.Video
         public PointLight[] lights;
 
         // Post process shaders
-        public Dictionary<string, PostProcessShader> shaders;
+        public Bloom bloomShader;
 
         public enum Viewports
         {
@@ -72,14 +72,9 @@ namespace GammaDraconis.Video
             game.Window.ClientSizeChanged += new EventHandler(Window_ClientSizeChanged);
             viewports = new Viewport[9];
 
-            shaders = new Dictionary<string, PostProcessShader>();
-            shaders.Add("bloom", new Bloom(game));
-            Bloom desat = new Bloom(game);
-            desat.Settings = BloomSettings.PresetSettings[2];
-            shaders.Add("desat", desat);
-            Bloom sat = new Bloom(game);
-            sat.Settings = BloomSettings.PresetSettings[3];
-            shaders.Add("sat", sat);
+            bloomShader = new Bloom(game);
+            game.Components.Add(bloomShader);
+            
             reset();
         }
 
@@ -139,12 +134,6 @@ namespace GammaDraconis.Video
         {
             int numPlayers = SetPlayerViewports();
 
-            // TODO: Reset post-process shaders
-            foreach (PostProcessShader shader in shaders.Values)
-            {
-                shader.reset();
-            }
-
             // Render all players' viewports
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
@@ -183,10 +172,7 @@ namespace GammaDraconis.Video
             // TODO: Render post-process shaders
             if (enableShaders)
             {
-                foreach (PostProcessShader shader in shaders.Values)
-                {
-                    shader.Render();
-                }
+                bloomShader.Render();
             }
 
             // Render players' HUDs
@@ -221,22 +207,13 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
             aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
-            // TODO: Reset post-process shaders
-            foreach (PostProcessShader shader in shaders.Values)
-            {
-                shader.reset();
-            }
-
             List<GameObject> gameObjects = scene.visible(coords, null);
             renderObjects(gameObjects, coords.camera(), null);
 
             // TODO: Render post-process shaders
             if (enableShaders)
             {
-                foreach (PostProcessShader shader in shaders.Values)
-                {
-                    shader.Render();
-                }
+                bloomShader.Render();
             }
         }
 
@@ -338,17 +315,8 @@ namespace GammaDraconis.Video
                     // TODO: Render to shader-specific targets
                     if (meshbloom)
                     {
-                        PostProcessShader bloom = shaders["bloom"];
-                        game.GraphicsDevice.SetRenderTarget(1, bloom.source);
-                        mesh.Draw();
+                        //mesh.Draw();
                     }
-                    if (fbxmodel.shader != "" && shaders.ContainsKey(fbxmodel.shader))
-                    {
-                        game.GraphicsDevice.SetRenderTarget(1, shaders[fbxmodel.shader].source);
-                        mesh.Draw();
-                    }
-
-                    game.GraphicsDevice.SetRenderTarget(1, null);
                 }
 			}
 		}

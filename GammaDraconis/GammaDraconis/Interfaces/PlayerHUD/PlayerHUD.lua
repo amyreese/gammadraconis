@@ -176,7 +176,7 @@ function playerHUDs.update(gameTime, playerIndex)
 	local checkpoints = Engine.GetInstance().race.course.path.Count * Engine.GetInstance().race.laps
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	playerHUDs[playerIndex].shieldBar.update(Player.players[playerIndex-1].shield / Player.players[playerIndex-1].maxShield)
-	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 4.1)
+	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 6.5)
 	if Engine.GetInstance().secondsToStart > 0 then
 		local sts = Engine.GetInstance().secondsToStart
 		local int = MSMath.Truncate(sts)

@@ -8,7 +8,7 @@ course = Course()
 Engine.GetInstance().course = course
 
 path = {
-	{x=0, y=0, z=0, yaw=0, pitch=0, roll=0 },
+	{x=0, y=0, z=1000, yaw=0, pitch=0, roll=0 },
 	{x=50, y=50, z=-400, yaw=0, pitch=0, roll=0},
 	{x=150, y=-75, z=-1000, yaw=0, pitch=0, roll=0},
 	{x=275, y=-300, z=-1600, yaw=MathHelper.PiOver2 / 4, pitch=0, roll=0},
@@ -17,6 +17,25 @@ path = {
 	{x=-400, y=700, z=-2900, yaw=-MathHelper.PiOver4 / 4, pitch=MathHelper.PiOver2 / 8, roll=0},
 	{x=-75, y=830, z=-3500, yaw=0, pitch=0, roll=0},
 	}
+	
+local radius = 4000
+local checkpoints = 8
+local degreesBetweenCheckpoints = 90 / checkpoints
+for i = 0, 90 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
+	local rad = MathHelper.ToRadians(i)
+	local x = MSMath.Cos(rad)
+	local z = MSMath.Sin(rad)
+	table.insert( path, {x=-75, y=x*radius + 830-radius, z=-z*radius - 4000, pitch=-rad, yaw=0, roll=0} )
+end
+local radius2 = 1000
+checkpoints = 4
+degreesBetweenCheckpoints = 145 / checkpoints
+for i = 90, 235 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
+	local rad = MathHelper.ToRadians(i)
+	local x = MSMath.Cos(rad)
+	local z = MSMath.Sin(rad)
+	table.insert( path, {x=-75, y=x*radius2 + 830-radius, z=-z*radius2 - 3000 - radius, pitch=-rad, yaw=0, roll=0} )
+end
 
 -- TODO: Find a way to add intermediate points for AI
 checkpointPosition = 0;

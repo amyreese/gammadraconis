@@ -151,7 +151,8 @@ namespace GammaDraconis.Core
                 /*
                  * Point arrow towards checkpoint
                  * Place Arrow above the player
-                */if (gameObject is Player)
+                */
+                if (gameObject is Player)
                 {
                     Vector3 nextCheckpointPos = race.nextCheckpoint((Racer)gameObject).position.pos();
 
@@ -165,24 +166,22 @@ namespace GammaDraconis.Core
 
                     Player player = (Player)gameObject;
 
-                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 1)) == ContainmentType.Disjoint)
+                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
                     {
+                        //Position arrow above the player
                         player.arrow.position = new Coords(player.position.pos());
+                        player.arrow.position.T = Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix();
                         
                         //Point arrow towards next checkpoint
                         Vector3 target = Vector3.Normalize(nextCheckpointPos - player.arrow.position.pos());
                         double angle = Math.Acos((double)Vector3.Dot(player.arrow.position.T.Forward, target));
                         Vector3 axis = Vector3.Cross(player.arrow.position.T.Forward, target);
                         axis.Normalize();
-                        player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis,(float)-angle);
+                        axis.X = -axis.X;
+                        player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis,(float)angle);
 
-                        //Position arrow above the player
-                        player.arrow.position.T = Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix();
-                        
                         //Add the arrow for tracking
                         gameScene.track(player.arrow, GO_TYPE.SCENERY);
-
-
                     }
                     else
                     {

@@ -87,6 +87,3 @@ for i = 0, racers.Length-1 do
 end
 
 course.loop = true
-
-race = Race(course, 3, racers)
-Engine.GetInstance().race = race

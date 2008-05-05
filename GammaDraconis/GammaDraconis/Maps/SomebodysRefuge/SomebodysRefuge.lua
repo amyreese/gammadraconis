@@ -156,13 +156,6 @@ room2.canSeeOutside = true
 room1.visibleRooms:Add(room2)
 gameScene.rooms:Add(room2)
 
-racers = Engine.GetInstance().players
-
-for i = 0, racers.Length-1 do
-	gameScene:track(racers[i], GO_TYPE.RACER)
-	racers[i].position = Coords(path[1].x - (4 + 2 * i) * racers[i].size, path[1].y, path[1].z + 2 * racers[i].size, path[1].pitch, path[1].yaw, path[1].roll)
-end
-
 planet = GameObject()
 planet.position = Coords(0, 0, -500)
 planet.size = 1000
@@ -173,6 +166,3 @@ skybox = Skybox()
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 Skybox.lights[0] = Light(Vector3(-0.05,  0.1, -1), Vector3(0.9, 0.7, 0.7), Vector3(1,1,1))
 Skybox.lights[1] = Light(Vector3( 0.95, -0.9,  1), Vector3(0.4, 0.4, 0.4), Vector3(0.5,0.5,0.5))
-
-race = Race(course, 1, racers)
-Engine.GetInstance().race = race

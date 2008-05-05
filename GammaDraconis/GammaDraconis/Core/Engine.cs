@@ -612,7 +612,18 @@ public Race race;
         public void SetupCourse(String mapName)
         {
             GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
-            
+
+            Matrix spot = course.path[0].position.matrix();
+            Vector3 pos = spot.Translation;
+            Vector3 rot = spot.Forward;
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                gameScene.track(players[i], GO_TYPE.RACER);
+                players[i].position = new Coords(pos.X - (4 + 2 * i) * players[i].size, pos.Y, pos.Z + 2 * players[i].size, rot.Y, pos.X, pos.Z);
+            }
+
+            race = new Race(course, players);
         }
         #endregion
 

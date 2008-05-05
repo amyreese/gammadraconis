@@ -31,10 +31,10 @@ namespace GammaDraconis.Core
         /// </summary>
         /// <param name="course">The race course</param>
         /// <param name="racers">The racers</param>
-        public Race(Course course, int laps, Racer[] racers)
+        public Race(Course course, Racer[] racers)
         {
             this.course = course;
-            this.laps = (course.loop ? laps : 1);
+            this.laps = (course.loop ? course.laps : 1);
             state = new Dictionary<Racer, int>();
             foreach (Racer racer in racers)
             {

@@ -10,11 +10,13 @@ namespace GammaDraconis.Types
         // Course definition
         public List<Checkpoint> path;
         public bool loop;
+        public int laps;
 
-        public Course() : this(new Checkpoint[0], false) { }
-        public Course(Checkpoint[] points, bool loop)
+        public Course() : this(new Checkpoint[0], false, 1) { }
+        public Course(Checkpoint[] points, bool loop, int laps)
         {
             this.loop = loop;
+            this.laps = laps;
             path = new List<Checkpoint>();
 
             foreach (Checkpoint point in points)

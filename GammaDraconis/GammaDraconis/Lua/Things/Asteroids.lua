@@ -17,7 +17,7 @@ function asteroidDead(asteroid)
 	if asteroid.maxHealth > base.maxHealth / 8 then
 		local roid1 = asteroid:clone()
 		roid1.size = asteroid.size / 2
-		roid1:scaleModels(0.5)
+		roid1:scaleModels(0.35)
 		roid1.mass = asteroid.mass / 2
 		roid1.maxHealth = asteroid.maxHealth / 2
 		roid1.velocity = asteroid.velocity;

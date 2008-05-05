@@ -133,6 +133,11 @@ namespace GammaDraconis.Video
         {
             int numPlayers = SetPlayerViewports();
 
+            if (enableShaders)
+            {
+                bloomShader.Reset();
+            }
+
             // Render all players' viewports
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
             {
@@ -206,6 +211,11 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
             aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
+            if (enableShaders)
+            {
+                bloomShader.Reset();
+            }
+            
             List<GameObject> gameObjects = scene.visible(coords, null);
             renderObjects(gameObjects, coords.camera(), null);
 

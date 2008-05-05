@@ -127,7 +127,7 @@ namespace GammaDraconis.Video.Shaders
 
         #region Draw
 
-        private void reset()
+        public void Reset()
         {
             // Look up the resolution and format of our main backbuffer.
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
@@ -137,9 +137,12 @@ namespace GammaDraconis.Video.Shaders
 
             SurfaceFormat format = pp.BackBufferFormat;
 
-            // Create a texture for reading back the backbuffer contents.
-            resolveTarget = new ResolveTexture2D(GraphicsDevice, width, height, 1,
-                format);
+            if (resolveTarget.Width != width || resolveTarget.Height != height)
+            {
+                // Create a texture for reading back the backbuffer contents.
+                resolveTarget = new ResolveTexture2D(GraphicsDevice, width, height, 1,
+                    format);
+            }
 
             // Create two rendertargets for the bloom processing. These are half the
             // size of the backbuffer, in order to minimize fillrate costs. Reducing
@@ -148,10 +151,13 @@ namespace GammaDraconis.Video.Shaders
             width /= 2;
             height /= 2;
 
-            renderTarget1 = new RenderTarget2D(GraphicsDevice, width, height, 1,
-                format);
-            renderTarget2 = new RenderTarget2D(GraphicsDevice, width, height, 1,
-                format);
+            if (renderTarget1.Width != width || renderTarget1.Height != height)
+            {
+                renderTarget1 = new RenderTarget2D(GraphicsDevice, width, height, 1,
+                    format);
+                renderTarget2 = new RenderTarget2D(GraphicsDevice, width, height, 1,
+                    format);
+            }
         }
 
         /// <summary>

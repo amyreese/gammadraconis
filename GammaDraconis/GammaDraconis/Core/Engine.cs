@@ -181,12 +181,12 @@ namespace GammaDraconis.Core
                         player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis,(float)angle);
 
                         //Add the arrow for tracking
-                        gameScene.track(player.arrow, GO_TYPE.SCENERY);
+                        gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
                     }
                     else
                     {
                         //Remove the arrow from tracking
-                        gameScene.ignore(player.arrow, GO_TYPE.SCENERY);
+                        gameScene.ignore(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
                     }
                 }
                 if (AITest)

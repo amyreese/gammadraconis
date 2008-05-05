@@ -24,6 +24,7 @@ namespace GammaDraconis.Video
         static public int MOVABLE = 32;
         static public int COLLIDABLE = 64;
         static public int INPUT_BASED = 128;
+        static public int DIRECTIONAL_ARROW = 256;
 
         // Composite
         static public int GHOST = THINKABLE | MOVABLE;
@@ -272,7 +273,22 @@ namespace GammaDraconis.Video
 
                 }
             }
-            
+
+            if (visibleObjects.ContainsKey(GO_TYPE.DIRECTIONAL_ARROW))
+            {
+                List<GameObject> removeTheseArrows = new List<GameObject>();
+                foreach (GameObject gameObject in visibleObjects[GO_TYPE.DIRECTIONAL_ARROW])
+                {
+                    if(!player.arrow.Equals(gameObject)){
+                        removeTheseArrows.Add(gameObject);
+                    }
+                }
+                foreach (GameObject gameObject in removeTheseArrows)
+                {
+                    visibleObjects[GO_TYPE.DIRECTIONAL_ARROW].Remove(gameObject);
+                }
+            }
+
             List<GameObject> shownObjects = sortObjects(visibleObjects);
             if (player == null)
             {

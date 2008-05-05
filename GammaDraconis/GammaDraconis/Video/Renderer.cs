@@ -42,7 +42,6 @@ namespace GammaDraconis.Video
 
         // Lighting properties
         public Effect baseEffect;
-        public PointLight[] lights;
 
         // Post process shaders
         public Bloom bloomShader;
@@ -292,7 +291,37 @@ namespace GammaDraconis.Video
 
                     if (fbxmodel.lighted)
                     {
-                        mesheffect.EnableDefaultLighting();
+                        //mesheffect.EnableDefaultLighting();
+                        mesheffect.AmbientLightColor = Skybox.ambient;
+                        
+                        mesheffect.LightingEnabled = true;
+
+                        if (Skybox.lights[0] != null && Skybox.lights[0].enabled)
+                        {
+                            BasicDirectionalLight light = mesheffect.DirectionalLight0;
+                            light.Enabled = Skybox.lights[0].enabled;
+                            light.Direction = Skybox.lights[0].direction;
+                            light.DiffuseColor = Skybox.lights[0].diffuse;
+                            light.SpecularColor = Skybox.lights[0].specular;
+                        }
+
+                        if (Skybox.lights[1] != null && Skybox.lights[1].enabled)
+                        {
+                            BasicDirectionalLight light = mesheffect.DirectionalLight1;
+                            light.Enabled = Skybox.lights[1].enabled;
+                            light.Direction = Skybox.lights[1].direction;
+                            light.DiffuseColor = Skybox.lights[1].diffuse;
+                            light.SpecularColor = Skybox.lights[1].specular;
+                        }
+
+                        if (Skybox.lights[2] != null && Skybox.lights[2].enabled)
+                        {
+                            BasicDirectionalLight light = mesheffect.DirectionalLight2;
+                            light.Enabled = Skybox.lights[2].enabled;
+                            light.Direction = Skybox.lights[2].direction;
+                            light.DiffuseColor = Skybox.lights[2].diffuse;
+                            light.SpecularColor = Skybox.lights[2].specular;
+                        }
                     }
 
                     mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
@@ -423,12 +452,10 @@ namespace GammaDraconis.Video
             if (game.GraphicsDevice.GraphicsDeviceCapabilities.PixelShaderVersion.Major >= 3)
             {
                 baseEffect = game.Content.Load<Effect>("Resources\\Effects\\MaterialShader30");
-                lights = new PointLight[8];
             }
             else
             {
                 baseEffect = game.Content.Load<Effect>("Resources\\Effects\\MaterialShader20");
-                lights = new PointLight[2];
             }
 
             base.LoadContent();

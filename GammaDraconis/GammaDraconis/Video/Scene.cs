@@ -60,7 +60,7 @@ namespace GammaDraconis.Video
             objects = new Dictionary<int, List<GameObject>>();
             rooms = new List<Room>();
             //TODO: find root bounding box size
-            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-7500f), new Vector3(7500f)), 3, 0);
+            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-15000f), new Vector3(15000f)), 3, 0);
             octTreeRoot.setContainedObjects(new List<GameObject>());
         }
 
@@ -379,6 +379,7 @@ namespace GammaDraconis.Video
             {
                 foreach (GameObject outsideObj in outsideObjects)
                 {
+                    outsideObj.health = 0;
                     output += "GameObject: " + outsideObj + " at position: " + outsideObj.position.pos() + " not contained within the OcTree.\n";
                 }
             }

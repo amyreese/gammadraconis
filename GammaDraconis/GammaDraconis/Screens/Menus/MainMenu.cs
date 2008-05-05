@@ -25,7 +25,8 @@ namespace GammaDraconis.Screens.Menus
         {
             skybox = new Skybox();
             screenScene.track(skybox, GO_TYPE.SKYBOX);
-
+            Skybox.lights[0] = new Light(new Vector3(-0.05f,  0.1f, -1f), new Vector3(0.9f, 0.7f, 0.7f), new Vector3(1f,1f,1f));
+            Skybox.lights[1] = new Light(new Vector3(0.95f, -0.9f, 1f), new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.5f, 0.5f, 0.5f));
 
             racer = Proto.getRacer("Raptor");
             racer.position = new Coords(startLocation.X, startLocation.Y, startLocation.Z, 0.2f, 1.5f, 1.0f);

@@ -19,6 +19,8 @@ gameScene:track(planet, GO_TYPE.SCENERY)
 
 skybox = Skybox()
 gameScene:track(skybox, GO_TYPE.SKYBOX)
+Skybox.lights[0] = Light(Vector3(-0.05,  0.1, -1), Vector3(0.9, 0.7, 0.7), Vector3(1,1,1))
+Skybox.lights[1] = Light(Vector3( 0.95, -0.9,  1), Vector3(0.4, 0.4, 0.4), Vector3(0.5,0.5,0.5))
 
 roid = Proto.getThing("Asteroid800A", Coords(2000,5,-500), Coords(1.5,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
@@ -80,7 +82,8 @@ end
 racers = Engine.GetInstance().players
 for i = 0, racers.Length-1 do
 	gameScene:track(racers[i], GO_TYPE.RACER)
-	racers[i].position = Coords(path[1].x - (4 + 2 * i) * racers[i].size, path[1].y, path[1].z + 2 * racers[i].size, path[1].pitch, path[1].yaw, path[1].roll)
+	--racers[i].position = Coords(path[1].x - (4 + 2 * i) * racers[i].size, path[1].y, path[1].z + 2 * racers[i].size, path[1].pitch, path[1].yaw, path[1].roll)
+	racers[i].position = Coords()
 end
 
 course.loop = true

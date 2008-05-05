@@ -61,6 +61,7 @@ Race = import('GammaDraconis.Core.Race')
 
 GO_TYPE = import('GammaDraconis.Video.GO_TYPE')
 FBXModel = import('GammaDraconis.Video.FBXModel')
+Light = import('GammaDraconis.Video.Light')
 Scene = import('GammaDraconis.Video.Scene')
 Room = import('GammaDraconis.Video.Room')
             ";

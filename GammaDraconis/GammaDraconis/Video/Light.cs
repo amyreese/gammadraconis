@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace GammaDraconis.Types
+namespace GammaDraconis.Video
 {
     public class Light
     {

@@ -290,11 +290,7 @@ namespace GammaDraconis.Video
             }
 
             List<GameObject> shownObjects = sortObjects(visibleObjects);
-            if (player == null)
-            {
-                Console.WriteLine("No player.");
-            }
-            else
+            if (player != null)
             {
                 shownObjects.AddRange(player.dust);
             }

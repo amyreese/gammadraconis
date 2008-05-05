@@ -171,6 +171,8 @@ planet.models:Add(FBXModel("Resources/Models/Planet", "", 4))
 
 skybox = Skybox()
 gameScene:track(skybox, GO_TYPE.SKYBOX)
+Skybox.lights[0] = Light(Vector3(-0.05,  0.1, -1), Vector3(0.9, 0.7, 0.7), Vector3(1,1,1))
+Skybox.lights[1] = Light(Vector3( 0.95, -0.9,  1), Vector3(0.4, 0.4, 0.4), Vector3(0.5,0.5,0.5))
 
 race = Race(course, 1, racers)
 Engine.GetInstance().race = race

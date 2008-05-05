@@ -614,14 +614,14 @@ public Race race;
             GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
             course.init();
 
-            Matrix spot = course.checkpoints[0].position.matrix();
-            Vector3 pos = spot.Translation;
-            Vector3 rot = spot.Forward;
+            Coords spot = course.checkpoints[0].position;
+            Vector3 pos = spot.pos();
 
             for (int i = 0; i < players.Length; i++)
             {
                 gameScene.track(players[i], GO_TYPE.RACER);
-                players[i].position = new Coords(pos.X - (4 + 2 * i) * players[i].size, pos.Y, pos.Z + 2 * players[i].size, rot.X, rot.Y, rot.Z);
+                players[i].position = new Coords(pos.X - (4 + 2 * i) * players[i].size, pos.Y, pos.Z + 2 * players[i].size);
+                players[i].position.R = spot.R;
             }
 
             race = new Race(course, players);

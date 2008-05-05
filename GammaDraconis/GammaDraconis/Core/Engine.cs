@@ -166,22 +166,21 @@ namespace GammaDraconis.Core
 
                     Player player = (Player)gameObject;
 
-                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
+                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 1)) == ContainmentType.Disjoint|| true)
                     {
                         //Position arrow above the player
-                        player.arrow.position = new Coords(player.position.pos());
-                        player.arrow.position.T = Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix();
-                        
-                        //Point arrow towards next checkpoint
-                        Vector3 target = Vector3.Normalize(nextCheckpointPos - player.arrow.position.pos());
-                        double angle = Math.Acos((double)Vector3.Dot(player.arrow.position.T.Forward, target));
-                        Vector3 axis = Vector3.Cross(player.arrow.position.T.Forward, target);
-                        axis.Normalize();
-                        axis.X = -axis.X;
-                        player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis,(float)angle);
+                        player.arrow.position = new Coords();
+                        player.arrow.position.T = Matrix.CreateTranslation((Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix()).Translation);
 
+                        //Point arrow towards next checkpoint
+                        Matrix lookAtCheckpoint = Matrix.CreateLookAt(nextCheckpointPos, player.arrow.position.pos(), player.arrow.position.up());
+                        
+                        Vector3 scale;
+                        Vector3 translation;
+                        lookAtCheckpoint.Decompose(out scale, out player.arrow.position.R, out translation);
                         //Add the arrow for tracking
-                        gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
+                        if( !gameScene.typedObjects(GO_TYPE.DIRECTIONAL_ARROW).Contains(player.arrow) )
+                            gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
                     }
                     else
                     {

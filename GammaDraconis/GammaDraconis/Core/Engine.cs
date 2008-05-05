@@ -147,47 +147,6 @@ namespace GammaDraconis.Core
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.think(gameTime);
-                //Draw arrow if next checkpoint isn't visible
-                /*
-                 * Point arrow towards checkpoint
-                 * Place Arrow above the player
-                */
-                if (gameObject is Player)
-                {
-                    Vector3 nextCheckpointPos = race.nextCheckpoint((Racer)gameObject).position.pos();
-
-                    float aspRatio = GammaDraconis.renderer.aspectRatio;
-                    float viewAngle = GammaDraconis.renderer.viewingAngle;
-                    float viewDist = GammaDraconis.renderer.viewingDistance;
-
-                    Coords vantage = gameObject.position;
-                    Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
-                    BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
-
-                    Player player = (Player)gameObject;
-
-                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 1)) == ContainmentType.Disjoint|| true)
-                    {
-                        //Position arrow above the player
-                        player.arrow.position = new Coords();
-                        player.arrow.position.T = Matrix.CreateTranslation((Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix()).Translation);
-
-                        //Point arrow towards next checkpoint
-                        Matrix lookAtCheckpoint = Matrix.CreateLookAt(nextCheckpointPos, player.arrow.position.pos(), player.arrow.position.up());
-                        
-                        Vector3 scale;
-                        Vector3 translation;
-                        lookAtCheckpoint.Decompose(out scale, out player.arrow.position.R, out translation);
-                        //Add the arrow for tracking
-                        if( !gameScene.typedObjects(GO_TYPE.DIRECTIONAL_ARROW).Contains(player.arrow) )
-                            gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
-                    }
-                    else
-                    {
-                        //Remove the arrow from tracking
-                        gameScene.ignore(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
-                    }
-                }
                 if (AITest)
                 {
                     
@@ -572,6 +531,50 @@ namespace GammaDraconis.Core
                 gameObject.acceleration.R = Quaternion.Identity;
                 gameObject.acceleration.T = Matrix.Identity;
 
+                #region Update arrows
+                //Draw arrow if next checkpoint isn't visible
+                /*
+                 * Point arrow towards checkpoint
+                 * Place Arrow above the player
+                */
+                if (gameObject is Player)
+                {
+                    Vector3 nextCheckpointPos = race.nextCheckpoint((Racer)gameObject).position.pos();
+
+                    float aspRatio = GammaDraconis.renderer.aspectRatio;
+                    float viewAngle = GammaDraconis.renderer.viewingAngle;
+                    float viewDist = GammaDraconis.renderer.viewingDistance;
+
+                    Coords vantage = gameObject.position;
+                    Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
+                    BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
+
+                    Player player = (Player)gameObject;
+
+                    if (true || viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
+                    {
+                        //Position arrow above the player
+                        player.arrow.position = new Coords();
+                        player.arrow.position.T = Matrix.CreateTranslation((Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix()).Translation);
+
+                        //Point arrow towards next checkpoint
+                        Vector3 target = Vector3.Normalize(nextCheckpointPos - player.arrow.position.pos());
+                        double angle = Math.Acos((double)Vector3.Dot(player.arrow.position.T.Forward, target));
+                        Vector3 axis = Vector3.Cross(player.arrow.position.T.Forward, target);
+                        axis.Normalize();
+                        axis.X = -axis.X;
+                        player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis, (float)angle);
+
+                        //Add the arrow for tracking
+                        gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
+                    }
+                    else
+                    {
+                        //Remove the arrow from tracking
+                        gameScene.ignore(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
+                    }
+                }
+                #endregion
             }
             #endregion
         }

@@ -73,7 +73,10 @@ namespace GammaDraconis.Video
         {
             if (objects.ContainsKey(type))
             {
-                objects[type].Add(gameObject);
+                if (!objects[type].Contains(gameObject))
+                {
+                    objects[type].Add(gameObject);
+                }
             }
             else
             {

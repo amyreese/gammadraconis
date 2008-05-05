@@ -61,7 +61,7 @@ gameScene:track(roid, GO_TYPE.DEBRIS)
 course = Course()
 Engine.GetInstance().course = course
 
-TODO: Build tools that create left turns, right turns, up turns and down turns, and perhaps some mixes?  Spirals?
+--TODO: Build tools that create left turns, right turns, up turns and down turns, and perhaps some mixes?  Spirals?
 path = {}
 for i = 0, 360  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
 	local rad = MathHelper.ToRadians(i)

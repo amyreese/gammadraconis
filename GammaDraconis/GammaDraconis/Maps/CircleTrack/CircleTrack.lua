@@ -62,28 +62,13 @@ for i = 0, 360 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
 end
 
 -- TODO: Find a way to add intermediate points for AI
-checkpointPosition = 0;
 for i,v in ipairs( path ) do
 	local position = Coords( v.x, v.y, v.z, v.pitch, v.yaw, v.roll)
 	if not v.path then
-		checkpointPosition = checkpointPosition + 1
-		checkpoint = Checkpoint()
-		checkpointscale = 0.5
-		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint", "", checkpointscale))
-		checkpoint.models:Add(FBXModel("Resources/Models/Checkpoint2", "", checkpointscale))
-		checkpoint.size = 210 * checkpointscale
-		checkpoint.position = position 
-		checkpoint.racePosition = checkpointPosition
-		course.path:Add( checkpoint )
-		gameScene:track(checkpoint, GO_TYPE.CHECKPOINT);
+		course.path:Add( position )
+		course.types:Add( "Checkpoint" )
 	end
 end
 
-racers = Engine.GetInstance().players
-for i = 0, racers.Length-1 do
-	gameScene:track(racers[i], GO_TYPE.RACER)
-	--racers[i].position = Coords(path[1].x - (4 + 2 * i) * racers[i].size, path[1].y, path[1].z + 2 * racers[i].size, path[1].pitch, path[1].yaw, path[1].roll)
-	racers[i].position = Coords()
-end
-
 course.loop = true
+course.laps = 3

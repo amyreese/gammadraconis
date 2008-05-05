@@ -158,7 +158,7 @@ namespace GammaDraconis.Core
                         gameObject.throttle(1.0f);
 
                         Vector3 r = gameObject.position.pos();
-                        Vector3 cp = course.path[0].position.pos();
+                        Vector3 cp = course.checkpoints[0].position.pos();
                         Vector3 rprojection = Vector3.Multiply(r, -2);
                         rprojection = Vector3.Add(r, rprojection);
 
@@ -206,11 +206,11 @@ namespace GammaDraconis.Core
                         //gameObject.roll(q.Z * q.W);
 
                         //TODO: When the ship reaches a point, make it smoothly go for the next point
-                        if (Vector3.Distance(course.path[0].position.pos(), gameObject.position.pos()) < 10)
+                        if (Vector3.Distance(course.checkpoints[0].position.pos(), gameObject.position.pos()) < 10)
                         {
-                            Checkpoint temp1 = course.path[0];
-                            course.path.RemoveAt(0);
-                            course.path.Add(temp1);
+                            Checkpoint temp1 = course.checkpoints[0];
+                            course.checkpoints.RemoveAt(0);
+                            course.checkpoints.Add(temp1);
                         }
                     }
                     else if (gameObject == Player.players[1])
@@ -612,15 +612,16 @@ public Race race;
         public void SetupCourse(String mapName)
         {
             GammaDraconis.GetInstance().GameLua.LoadMap(mapName);
+            course.init();
 
-            Matrix spot = course.path[0].position.matrix();
+            Matrix spot = course.checkpoints[0].position.matrix();
             Vector3 pos = spot.Translation;
             Vector3 rot = spot.Forward;
 
             for (int i = 0; i < players.Length; i++)
             {
                 gameScene.track(players[i], GO_TYPE.RACER);
-                players[i].position = new Coords(pos.X - (4 + 2 * i) * players[i].size, pos.Y, pos.Z + 2 * players[i].size, rot.Y, pos.X, pos.Z);
+                players[i].position = new Coords(pos.X - (4 + 2 * i) * players[i].size, pos.Y, pos.Z + 2 * players[i].size, rot.X, rot.Y, rot.Z);
             }
 
             race = new Race(course, players);

@@ -59,9 +59,9 @@ namespace GammaDraconis.Core
             {           
                 if (course.loop)
                 {
-                    if (lap >= laps && point == course.path.Count + 1)
+                    if (lap >= laps && point == course.checkpoints.Count + 1)
                     {
-                        return course.path[0];
+                        return course.checkpoints[0];
                     }
                 }
                 else
@@ -77,7 +77,7 @@ namespace GammaDraconis.Core
                 point = course.path.Count;
             }
 
-            return course.path[point - 1].clone();
+            return course.checkpoints[point - 1].clone();
         }
 
         public Checkpoint nextCheckpoint(Racer racer) { 
@@ -86,7 +86,7 @@ namespace GammaDraconis.Core
 
         public int length()
         {
-            return course.path.Count;
+            return course.checkpoints.Count;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace GammaDraconis.Core
                     if (checkpointSphere.Intersects(racerSphere))
                     {
                         state[r] += 1;
-                        if (state[r] == laps * course.path.Count + ( course.loop ? 1 : 0 ))
+                        if (state[r] == laps * course.checkpoints.Count + (course.loop ? 1 : 0))
                         {
                             finishedRacers.Add(r);
                             if (finishedRacers.Count == state.Count)

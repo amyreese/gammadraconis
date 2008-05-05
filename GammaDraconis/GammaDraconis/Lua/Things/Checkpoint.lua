@@ -8,5 +8,5 @@ modelB = FBXModel("Resources/Models/Checkpoint2", "", 0.5)
 modelB.lighted = false
 checkpoint.models:Add(modelB)
 
-checkpoint.size = 500
+checkpoint.size = 100
 Proto.thing:Add("Checkpoint", checkpoint)

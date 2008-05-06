@@ -16,7 +16,8 @@ namespace GammaDraconis.Video
     /// </summary>
     class Renderer : DrawableGameComponent
     {
-        private bool enableShaders = true;
+        public bool enableShaders = true;
+        private bool renderBloom;
 
         private int secondsPerQuip = 5;
         private String[] missingPlayerQuips = { 
@@ -133,10 +134,7 @@ namespace GammaDraconis.Video
         {
             int numPlayers = SetPlayerViewports();
 
-            if (enableShaders)
-            {
-                bloomShader.Reset();
-            }
+            renderBloom = false;
 
             // Render all players' viewports
             for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
@@ -176,6 +174,42 @@ namespace GammaDraconis.Video
             // TODO: Render post-process shaders
             if (enableShaders)
             {
+                renderBloom = true;
+                bloomShader.Reset();
+
+                // Render all players' viewports
+                for (int playerIndex = 0; playerIndex < Player.players.Length; playerIndex++)
+                {
+                    if (Player.players[playerIndex] != null)
+                    {
+                        game.GraphicsDevice.Viewport = viewports[(int)Player.players[playerIndex].viewport];
+                        game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+                        game.GraphicsDevice.RenderState.DepthBufferEnable = true;
+                        aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
+
+                        List<GameObject> gameObjects = scene.visible(Player.players[playerIndex]);
+                        renderObjects(gameObjects, Player.players[playerIndex]);
+                    }
+                    else
+                    {
+                        if (MissingPlayerViewports[playerIndex] != Viewports.None)
+                        {
+                            game.GraphicsDevice.Viewport = viewports[(int)MissingPlayerViewports[playerIndex]];
+                            game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+                            Interface i = new Interface(game);
+                            Text t = new Text(game);
+                            t.spriteFontName = "Resources/Fonts/Menu";
+                            t.text = missingPlayerQuips[(gameTime.TotalRealTime.Seconds / secondsPerQuip) % missingPlayerQuips.Length];
+                            t.center = true;
+                            t.RelativePosition = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
+                            t.color = Color.WhiteSmoke;
+                            i.AddComponent(t);
+                            i.Draw(gameTime, Vector2.Zero, Vector2.One, 0);
+                            // TODO: Draw something noteworthy in the empty slots?
+                        }
+                    }
+                }
+
                 bloomShader.Render();
             }
 
@@ -211,17 +245,19 @@ namespace GammaDraconis.Video
             game.GraphicsDevice.RenderState.DepthBufferEnable = true;
             aspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
-            if (enableShaders)
-            {
-                bloomShader.Reset();
-            }
-            
+            renderBloom = false;
+
             List<GameObject> gameObjects = scene.visible(coords, null);
             renderObjects(gameObjects, coords.camera(), null);
 
             // TODO: Render post-process shaders
             if (enableShaders)
             {
+                renderBloom = true;
+                bloomShader.Reset();
+
+                renderObjects(gameObjects, coords.camera(), null);
+
                 bloomShader.Render();
             }
         }
@@ -285,12 +321,19 @@ namespace GammaDraconis.Video
 			Matrix[] transforms = new Matrix[model.Bones.Count];
 			model.CopyAbsoluteBoneTransformsTo(transforms);
 
-			// Draw the model. A model can have multiple meshes, so loop.
+            // Draw the model. A model can have multiple meshes, so loop.
 			foreach (ModelMesh mesh in model.Meshes)
 			{
 				bool meshbloom = false;
+                foreach (BasicEffect mesheffect in mesh.Effects)
+                {
+                    if (mesheffect.EmissiveColor != Vector3.Zero)
+                    {
+                        meshbloom = true;
+                    }
+                }
 
-				// This is where the mesh orientation is set, as well as our camera and projection.
+                // This is where the mesh orientation is set, as well as our camera and projection.
 				foreach (BasicEffect mesheffect in mesh.Effects)
 				{
 					mesheffect.PreferPerPixelLighting = Properties.Settings.Default.PerPixelLighting;
@@ -299,64 +342,32 @@ namespace GammaDraconis.Video
 					mesheffect.FogEnd = viewingDistance * 1.25f;
 					mesheffect.FogColor = new Vector3(0, 0, 0);
 
-                    if (fbxmodel.lighted)
-                    {
-                        //mesheffect.EnableDefaultLighting();
-                        mesheffect.AmbientLightColor = Skybox.ambient;
-                        
-                        mesheffect.LightingEnabled = true;
-
-                        if (Skybox.lights[0] != null && Skybox.lights[0].enabled)
-                        {
-                            BasicDirectionalLight light = mesheffect.DirectionalLight0;
-                            light.Enabled = Skybox.lights[0].enabled;
-                            light.Direction = Skybox.lights[0].direction;
-                            light.DiffuseColor = Skybox.lights[0].diffuse;
-                            light.SpecularColor = Skybox.lights[0].specular;
-                        }
-
-                        if (Skybox.lights[1] != null && Skybox.lights[1].enabled)
-                        {
-                            BasicDirectionalLight light = mesheffect.DirectionalLight1;
-                            light.Enabled = Skybox.lights[1].enabled;
-                            light.Direction = Skybox.lights[1].direction;
-                            light.DiffuseColor = Skybox.lights[1].diffuse;
-                            light.SpecularColor = Skybox.lights[1].specular;
-                        }
-
-                        if (Skybox.lights[2] != null && Skybox.lights[2].enabled)
-                        {
-                            BasicDirectionalLight light = mesheffect.DirectionalLight2;
-                            light.Enabled = Skybox.lights[2].enabled;
-                            light.Direction = Skybox.lights[2].direction;
-                            light.DiffuseColor = Skybox.lights[2].diffuse;
-                            light.SpecularColor = Skybox.lights[2].specular;
-                        }
-                    }
-
                     mesheffect.World = transforms[mesh.ParentBone.Index] * modelMatrix;
 					//effect.View = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
 					mesheffect.View = cameraMatrix;
 					mesheffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewingAngle),
 						GammaDraconis.GetInstance().GraphicsDevice.Viewport.AspectRatio, 10f, viewingDistance);
-					if (mesheffect.EmissiveColor != Vector3.Zero)
-					{
-						meshbloom = true;
-					}
+
+                    if (renderBloom)
+                    {
+                        if (meshbloom)
+                        {
+                            applyLights(mesheffect, fbxmodel.lighted);
+                        }
+                        else
+                        {
+                            mesheffect.LightingEnabled = true;
+                            mesheffect.AmbientLightColor = Vector3.Zero;
+                        }
+                    }
+                    else
+                    {
+                        applyLights(mesheffect, fbxmodel.lighted);
+                    }
 				}
 
-				// Draw the mesh, using the effects set above.
-				game.GraphicsDevice.SetRenderTarget(0, null);
-				mesh.Draw();
+                mesh.Draw();
 
-                if (enableShaders)
-                {
-                    // TODO: Render to shader-specific targets
-                    if (meshbloom)
-                    {
-                        //mesh.Draw();
-                    }
-                }
 			}
 		}
 
@@ -372,6 +383,47 @@ namespace GammaDraconis.Video
             Matrix cameraMatrix = player.getCameraLookAtMatrix();
             renderObjects(objects, cameraMatrix, player);
 
+        }
+
+        private void applyLights(BasicEffect effect, bool lighted)
+        {
+            if (lighted)
+            {
+                effect.AmbientLightColor = Skybox.ambient;
+
+                effect.LightingEnabled = true;
+
+                if (Skybox.lights[0] != null && Skybox.lights[0].enabled)
+                {
+                    BasicDirectionalLight light = effect.DirectionalLight0;
+                    light.Enabled = Skybox.lights[0].enabled;
+                    light.Direction = Skybox.lights[0].direction;
+                    light.DiffuseColor = Skybox.lights[0].diffuse;
+                    light.SpecularColor = Skybox.lights[0].specular;
+                }
+
+                if (Skybox.lights[1] != null && Skybox.lights[1].enabled)
+                {
+                    BasicDirectionalLight light = effect.DirectionalLight1;
+                    light.Enabled = Skybox.lights[1].enabled;
+                    light.Direction = Skybox.lights[1].direction;
+                    light.DiffuseColor = Skybox.lights[1].diffuse;
+                    light.SpecularColor = Skybox.lights[1].specular;
+                }
+
+                if (Skybox.lights[2] != null && Skybox.lights[2].enabled)
+                {
+                    BasicDirectionalLight light = effect.DirectionalLight2;
+                    light.Enabled = Skybox.lights[2].enabled;
+                    light.Direction = Skybox.lights[2].direction;
+                    light.DiffuseColor = Skybox.lights[2].diffuse;
+                    light.SpecularColor = Skybox.lights[2].specular;
+                }
+            }
+            else
+            {
+                effect.AmbientLightColor = Vector3.One;
+            }
         }
 
         private int SetPlayerViewports()

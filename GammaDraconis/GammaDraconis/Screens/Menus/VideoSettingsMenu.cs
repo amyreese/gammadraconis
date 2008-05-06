@@ -16,7 +16,8 @@ namespace GammaDraconis.Screens.Menus
         Racer racer;
         GameObject skybox;
 		private Vector3 startLocation = new Vector3(120.0f, -4.35f, -100.0f);
-		private int bloomIndex;
+        private int bloomIndex;
+		private int bloomTypeIndex;
         private int perPixelLightingIndex;
         private int resolutionIndex;
         private int currentResolutionIndex;
@@ -58,6 +59,7 @@ namespace GammaDraconis.Screens.Menus
         private class Commands
         {
             public static string ToggleBloom = "ToggleBloom";
+            public static string ToggleBloomType = "ToggleBloomType";
             public static string TogglePPL = "TogglePPL";
             public static string ToggleResolution = "ToggleResolution";
             public static string Back = "Back";
@@ -72,18 +74,21 @@ namespace GammaDraconis.Screens.Menus
             menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
             screenInterface.AddComponent(menuRegion);
 
-            menuItems = new MenuItem[4];
+            menuItems = new MenuItem[5];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.ToggleBloom);
-            menuItems[0].text = "Toggle Bloom";
+            menuItems[0].text = "Bloom Enabled";
             bloomIndex = 0;
-            menuItems[1] = new MenuItem(gammaDraconis, Commands.TogglePPL);
-            menuItems[1].text = "Toggle PPL";
-            perPixelLightingIndex = 1;
-            menuItems[2] = new MenuItem(gammaDraconis, Commands.ToggleResolution);
-            menuItems[2].text = "Display Resolution";
-            resolutionIndex = 2;
-            menuItems[3] = new MenuItem(gammaDraconis, Commands.Back);
-            menuItems[3].text = "Back";
+            menuItems[1] = new MenuItem(gammaDraconis, Commands.ToggleBloomType);
+            menuItems[1].text = "Bloom Type";
+            bloomTypeIndex = 1;
+            menuItems[2] = new MenuItem(gammaDraconis, Commands.TogglePPL);
+            menuItems[2].text = "Toggle PPL";
+            perPixelLightingIndex = 2;
+            menuItems[3] = new MenuItem(gammaDraconis, Commands.ToggleResolution);
+            menuItems[3].text = "Display Resolution";
+            resolutionIndex = 3;
+            menuItems[4] = new MenuItem(gammaDraconis, Commands.Back);
+            menuItems[4].text = "Back";
 
             AutoPositionMenuItems();
             
@@ -109,6 +114,13 @@ namespace GammaDraconis.Screens.Menus
         protected override void ItemSelected(String command)
         {
             if (command.Equals(Commands.ToggleBloom))
+            {
+                bool enabled = !GammaDraconis.renderer.enableShaders;
+                GammaDraconis.renderer.enableShaders = enabled;
+                Properties.Settings.Default.BloomEnabled = enabled;
+                Properties.Settings.Default.Save();
+            }
+            else if (command.Equals(Commands.ToggleBloomType))
             {
                 int nextIndex = GammaDraconis.renderer.bloomShader.Settings.Index + 1;
                 if (nextIndex == BloomSettings.PresetSettings.Length)
@@ -154,7 +166,8 @@ namespace GammaDraconis.Screens.Menus
 
         public override void Update(GameTime gameTime)
         {
-            menuItems[bloomIndex].text = "Bloom: " + GammaDraconis.renderer.bloomShader.Settings.Name;
+            menuItems[bloomIndex].text = "Bloom: " + (GammaDraconis.renderer.enableShaders ? "Enabled" : "Disabled");
+            menuItems[bloomTypeIndex].text = "Bloom Type: " + GammaDraconis.renderer.bloomShader.Settings.Name;
             menuItems[perPixelLightingIndex].text = "Per Pixel Lighting: " + (Properties.Settings.Default.PerPixelLighting ? "Yes" : "No");
             menuItems[resolutionIndex].text = "Display Resolution: " + Properties.Settings.Default.HorizontalResolution + "x" + Properties.Settings.Default.VerticalResolution;
 

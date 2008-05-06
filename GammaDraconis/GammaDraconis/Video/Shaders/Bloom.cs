@@ -26,10 +26,12 @@ namespace GammaDraconis.Video.Shaders
         Effect bloomCombineEffect;
         Effect gaussianBlurEffect;
 
-        ResolveTexture2D resolveTarget;
-        RenderTarget2D renderTarget1;
-        RenderTarget2D renderTarget2;
+        public ResolveTexture2D resolveTarget;
+        public ResolveTexture2D resolveTarget2;
+        public RenderTarget2D renderTarget1;
+        public RenderTarget2D renderTarget2;
 
+        Game game;
 
         // Choose what display settings the bloom should use.
         public BloomSettings Settings
@@ -71,6 +73,7 @@ namespace GammaDraconis.Video.Shaders
         {
             if (game == null)
                 throw new ArgumentNullException("game");
+            this.game = game;
         }
 
 
@@ -95,8 +98,8 @@ namespace GammaDraconis.Video.Shaders
             SurfaceFormat format = pp.BackBufferFormat;
 
             // Create a texture for reading back the backbuffer contents.
-            resolveTarget = new ResolveTexture2D(GraphicsDevice, width, height, 1,
-                format);
+            resolveTarget = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
+            resolveTarget2 = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
 
             // Create two rendertargets for the bloom processing. These are half the
             // size of the backbuffer, in order to minimize fillrate costs. Reducing
@@ -105,10 +108,8 @@ namespace GammaDraconis.Video.Shaders
             width /= 2;
             height /= 2;
 
-            renderTarget1 = new RenderTarget2D(GraphicsDevice, width, height, 1,
-                format);
-            renderTarget2 = new RenderTarget2D(GraphicsDevice, width, height, 1,
-                format);
+            renderTarget1 = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
+            renderTarget2 = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
         }
 
 
@@ -118,6 +119,7 @@ namespace GammaDraconis.Video.Shaders
         protected override void UnloadContent()
         {
             resolveTarget.Dispose();
+            resolveTarget2.Dispose();
             renderTarget1.Dispose();
             renderTarget2.Dispose();
         }
@@ -140,8 +142,8 @@ namespace GammaDraconis.Video.Shaders
             if (resolveTarget.Width != width || resolveTarget.Height != height)
             {
                 // Create a texture for reading back the backbuffer contents.
-                resolveTarget = new ResolveTexture2D(GraphicsDevice, width, height, 1,
-                    format);
+                resolveTarget = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
+                resolveTarget2 = new ResolveTexture2D(game.GraphicsDevice, width, height, 1, format);
             }
 
             // Create two rendertargets for the bloom processing. These are half the
@@ -153,11 +155,11 @@ namespace GammaDraconis.Video.Shaders
 
             if (renderTarget1.Width != width || renderTarget1.Height != height)
             {
-                renderTarget1 = new RenderTarget2D(GraphicsDevice, width, height, 1,
-                    format);
-                renderTarget2 = new RenderTarget2D(GraphicsDevice, width, height, 1,
-                    format);
+                renderTarget1 = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
+                renderTarget2 = new RenderTarget2D(game.GraphicsDevice, width, height, 1, format);
             }
+
+            GraphicsDevice.ResolveBackBuffer(resolveTarget);
         }
 
         /// <summary>
@@ -170,14 +172,15 @@ namespace GammaDraconis.Video.Shaders
 
             // Resolve the scene into a texture, so we can
             // use it as input data for the bloom processing.
-            GraphicsDevice.ResolveBackBuffer(resolveTarget);
+            GraphicsDevice.ResolveBackBuffer(resolveTarget2);
 
             // Pass 1: draw the scene into rendertarget 1, using a
             // shader that extracts only the brightest parts of the image.
             bloomExtractEffect.Parameters["BloomThreshold"].SetValue(
                 Settings.BloomThreshold);
 
-            DrawFullscreenQuad(resolveTarget, renderTarget1,
+            // Assuming that the renderer will draw into 'renderTarget'
+            DrawFullscreenQuad(resolveTarget2, renderTarget1,
                                bloomExtractEffect,
                                IntermediateBuffer.PreBloom);
 

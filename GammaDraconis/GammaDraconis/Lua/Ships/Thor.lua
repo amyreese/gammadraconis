@@ -1,5 +1,7 @@
 
 shipModel = FBXModel("Resources/Models/Thor", "", 1.25)
+shipModel2 = FBXModel("Resources/Models/Thor2", "", 1.25)
+shipModel2.lighted = false
 shieldModel = FBXModel("Resources/Models/Shield", "", 0.25)
 shieldModel.visible = false
 
@@ -31,6 +33,7 @@ ship.maxShield = 200;
 ship.shieldIncreaseRate = 20;
 
 ship.models:Add(shipModel)
+ship.models:Add(shipModel2)
 ship.shieldModel = shieldModel
 
 ship.mounts:Add(mountR)

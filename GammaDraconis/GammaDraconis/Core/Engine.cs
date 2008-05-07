@@ -383,7 +383,7 @@ namespace GammaDraconis.Core
                         continue;
                     }
                     Vector3 o2Pos = o2.position.pos();
-                    /*if (o is Bullet)
+                    if (o is Bullet)
                     {
 
                         collideBullet((Bullet)o, o2);
@@ -393,7 +393,7 @@ namespace GammaDraconis.Core
                     {
                         collideBullet((Bullet)o2, o);
                         continue;
-                    }*/
+                    }
                     
                     if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
                     {
@@ -431,7 +431,8 @@ namespace GammaDraconis.Core
                         float magnitude = mod.Length() * o.mass * o2.mass / 25;
                         o.takeDamage(magnitude);
                         o2.takeDamage(magnitude);
-                        if (o is Bullet)
+                        
+                        /*if (o is Bullet)
                         {
                             gameScene.ignore(o, GO_TYPE.BULLET);
                             o2.takeDamage(((Bullet)o).damage);
@@ -440,7 +441,8 @@ namespace GammaDraconis.Core
                         {
                             gameScene.ignore(o2, GO_TYPE.BULLET);
                             o.takeDamage(((Bullet)o2).damage);
-                        }
+                        }*/
+                         
                     }
                 }
             }
@@ -595,6 +597,7 @@ namespace GammaDraconis.Core
             Vector3 originalPosition = bullet.lastPosition.pos();
             Vector3 newPosition = bullet.position.pos();
             Vector3 forwardVector = bullet.position.pos() - bullet.lastPosition.pos();
+            forwardVector.Normalize();
             Ray forwardRay = new Ray(bullet.lastPosition.pos(), forwardVector);
             BoundingSphere sphere = new BoundingSphere(o2.position.pos(), o2.size);
             float? intersectDistance = sphere.Intersects(forwardRay);

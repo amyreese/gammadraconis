@@ -124,7 +124,7 @@ namespace GammaDraconis.Core
                     if (checkpointSphere.Intersects(racerSphere))
                     {
                         state[r] += 1;
-                        if (state[r] == laps * course.checkpoints.Count + (course.loop ? 1 : 0))
+                        if (state[r] == laps * course.checkpoints.Count + (course.loop ? 0 : -1))
                         {
                             finishedRacers.Add(r);
                             if (finishedRacers.Count == state.Count)

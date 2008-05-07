@@ -9,7 +9,7 @@ namespace GammaDraconis.Types
         public int racePosition;
         public Checkpoint() : base()
         {
-            size = 100f;
+            size = 120f;
             racePosition = 0;
         }
 

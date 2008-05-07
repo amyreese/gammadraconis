@@ -543,38 +543,45 @@ namespace GammaDraconis.Core
                 */
                 if (gameObject is Player)
                 {
-                    Vector3 nextCheckpointPos = race.nextCheckpoint((Racer)gameObject).position.pos();
-
-                    float aspRatio = GammaDraconis.renderer.aspectRatio;
-                    float viewAngle = GammaDraconis.renderer.viewingAngle;
-                    float viewDist = GammaDraconis.renderer.viewingDistance;
-
-                    Coords vantage = gameObject.position;
-                    Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
-                    BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
-
                     Player player = (Player)gameObject;
-
-                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
+                    Checkpoint cp = race.nextCheckpoint(player);
+                    if (cp != null)
                     {
-                        //Position arrow above the player
-                        player.arrow.position = new Coords();
-                        player.arrow.position.T = Matrix.CreateTranslation((Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix()).Translation);
+                        Vector3 nextCheckpointPos = cp.position.pos();
 
-                        //Point arrow towards next checkpoint
-                        Vector3 target = Vector3.Normalize(nextCheckpointPos - player.arrow.position.pos());
-                        double angle = Math.Acos((double)Vector3.Dot(player.arrow.position.T.Forward, target));
-                        Vector3 axis = Vector3.Cross(player.arrow.position.T.Forward, target);
-                        axis.Normalize();
-                        axis.X = -axis.X;
-                        player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis, (float)angle);
+                        float aspRatio = GammaDraconis.renderer.aspectRatio;
+                        float viewAngle = GammaDraconis.renderer.viewingAngle;
+                        float viewDist = GammaDraconis.renderer.viewingDistance;
 
-                        //Add the arrow for tracking
-                        gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
+                        Coords vantage = gameObject.position;
+                        Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
+                        BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
+
+                        if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
+                        {
+                            //Position arrow above the player
+                            player.arrow.position = new Coords();
+                            player.arrow.position.T = Matrix.CreateTranslation((Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix()).Translation);
+
+                            //Point arrow towards next checkpoint
+                            Vector3 target = Vector3.Normalize(nextCheckpointPos - player.arrow.position.pos());
+                            double angle = Math.Acos((double)Vector3.Dot(player.arrow.position.T.Forward, target));
+                            Vector3 axis = Vector3.Cross(player.arrow.position.T.Forward, target);
+                            axis.Normalize();
+                            axis.X = -axis.X;
+                            player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis, (float)angle);
+
+                            //Add the arrow for tracking
+                            gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
+                        }
+                        else
+                        {
+                            //Remove the arrow from tracking
+                            gameScene.ignore(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
+                        }
                     }
                     else
                     {
-                        //Remove the arrow from tracking
                         gameScene.ignore(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
                     }
                 }

@@ -1,6 +1,6 @@
 
 shipModel = FBXModel("Resources/Models/Raptor", "", 0.25)
-shieldModel = FBXModel("Resources/Models/Shield", "", 0.25)
+shieldModel = FBXModel("Resources/Models/Shield", "", 0.1875)
 shieldModel.visible = false
 
 mountR = MountPoint()
@@ -15,7 +15,7 @@ ship = GameObject()
 
 ship.mass = 800
 
-ship.size = 20
+ship.size = 15
 
 ship.rateL = 12
 ship.dragL = 1.2

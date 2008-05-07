@@ -16,7 +16,7 @@ namespace GammaDraconis.Video
     /// </summary>
     class Renderer : DrawableGameComponent
     {
-        public bool enableShaders = true;
+        public bool enableShaders = Properties.Settings.Default.BloomEnabled;
         private bool renderBloom;
 
         private int secondsPerQuip = 5;

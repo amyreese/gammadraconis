@@ -551,7 +551,7 @@ namespace GammaDraconis.Core
 
                     Player player = (Player)gameObject;
 
-                    if (true || viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
+                    if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
                     {
                         //Position arrow above the player
                         player.arrow.position = new Coords();

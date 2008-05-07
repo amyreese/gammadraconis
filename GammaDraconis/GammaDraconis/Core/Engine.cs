@@ -117,7 +117,8 @@ namespace GammaDraconis.Core
                 }
             }
 
-            if (secondsToStart > 0)
+            bool mapStarted = secondsToStart <= 0;
+            if (!mapStarted)
             {
                 secondsToStart -= gameTime.ElapsedRealTime.TotalSeconds;
 
@@ -129,11 +130,9 @@ namespace GammaDraconis.Core
                     }
                 }
             }
-            else
-            {
-                Think(gameTime);
-                Physics(gameTime);
-            }
+
+            Think(gameTime, mapStarted);
+            Physics(gameTime);
         }
 
         #region AI
@@ -141,12 +140,16 @@ namespace GammaDraconis.Core
         /// Handles input and initiates the AI for all the characters
         /// </summary>
         /// <param name="gameTime">The game time for this update</param>
-        public void Think(GameTime gameTime)
+        public void Think(GameTime gameTime, bool playerThink)
         {
             List<GameObject> gameObjects = gameScene.thinkable();
             foreach (GameObject gameObject in gameObjects)
             {
-                gameObject.think(gameTime);
+                if (playerThink || !(gameObject is Player))
+                {
+                    gameObject.think(gameTime);
+                }
+                #region AI Test
                 if (AITest)
                 {
                     
@@ -305,6 +308,7 @@ namespace GammaDraconis.Core
                         gameObject.position.R = Quaternion.Slerp(gameObject.position.R, q, 1.0f);
                     }
                 }
+                #endregion
             }
         }
         #endregion

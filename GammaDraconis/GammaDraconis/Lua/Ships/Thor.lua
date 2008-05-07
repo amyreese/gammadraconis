@@ -20,10 +20,10 @@ ship.mass = 800
 ship.size = 20
 
 ship.rateL = 8
-ship.dragL = 1.2
+ship.dragL = 0.9
 
 ship.rateR = 5
-ship.dragR = 3
+ship.dragR = 2.5
 
 ship.relativeLookAt = Vector3(0,0,-300)
 ship.relativeLookFrom = Vector3(0,10,48)

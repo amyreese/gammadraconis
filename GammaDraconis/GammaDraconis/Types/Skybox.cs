@@ -20,7 +20,10 @@ namespace GammaDraconis.Types
 			models.Add(fbx);
 
             ambient = new Vector3(0.2f, 0.2f, 0.2f);
-            lights = new Light[3];
+            if (lights == null)
+            {
+                lights = new Light[3];
+            }
 		}
     }
 }

@@ -173,7 +173,8 @@ function playerHUDs4update(gameTime)
 	playerHUDs.update(gameTime, 4)
 end
 function playerHUDs.update(gameTime, playerIndex)
-	local checkpoints = Engine.GetInstance().race.course.path.Count * Engine.GetInstance().race.laps
+	local checkpointsPerLap = Engine.GetInstance().race.course.path.Count
+	local checkpoints = checkpointsPerLap * Engine.GetInstance().race.laps
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	playerHUDs[playerIndex].shieldBar.update(Player.players[playerIndex-1].shield / Player.players[playerIndex-1].maxShield)
 	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 6.5)
@@ -198,7 +199,7 @@ function playerHUDs.update(gameTime, playerIndex)
 					if p ~= playerIndex then
 						pStatus = Engine.GetInstance().race:status(Player.players[p-1]) 
 					end
-					local relPlace = (pStatus.checkpoint * pStatus.lap) - (status.checkpoint * status.lap)
+					local relPlace = (pStatus.checkpoint + (checkpointsPerLap * (pStatus.lap - 1))) - (status.checkpoint +  (checkpointsPerLap * (status.lap - 1)))
 					if relPlace < -3 then
 						relPlace = -3
 					elseif relPlace > 3 then
@@ -206,7 +207,7 @@ function playerHUDs.update(gameTime, playerIndex)
 					end
 					relPlace = relPlace + 4
 					playerHUDs[playerIndex].placeIcons[p].relocateY( screenPositions[relPlace] )
-					playerHUDs[playerIndex].finishBars[p].update(pStatus.checkpoint / checkpoints)
+					playerHUDs[playerIndex].finishBars[p].update((pStatus.checkpoint + (checkpointsPerLap * (pStatus.lap - 1))) / checkpoints)
 				end
 			end
 			playerHUDs[playerIndex].statusText.text = "Lap: " .. status.lap .. "  CP: " .. status.checkpoint .. "  Leading: " .. status.leading .. "  Following: " .. status.following

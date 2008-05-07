@@ -151,7 +151,7 @@ namespace GammaDraconis.Core
             int status = state[racer];
             RaceStatus raceStatus = new RaceStatus();
             raceStatus.lap = status / course.path.Count + 1;
-            raceStatus.checkpoint = status % course.path.Count;
+            raceStatus.checkpoint = status % course.path.Count + 1;
             if (!minimal)
             {
                 raceStatus.place = finishedRacers.IndexOf(racer) + 1;

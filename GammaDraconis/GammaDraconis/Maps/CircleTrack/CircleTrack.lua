@@ -1,6 +1,6 @@
-local radius = 2500
-local checkpoints = 16
-local degreesBetweenCheckpoints = 360 / checkpoints
+library( "MapBuilders/Turns" )
+local trackAttributes = {radius=2500, checkpoints = 16, degreesBetweenCheckpoints = 360 / 16}
+
 
 gameScene = Scene()
 Engine.GetInstance().gameScene = gameScene
@@ -63,12 +63,34 @@ Engine.GetInstance().course = course
 
 --TODO: Build tools that create left turns, right turns, up turns and down turns, and perhaps some mixes?  Spirals?
 path = {}
-for i = 0, 360  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
+xoffset = -1500
+yoffset = 0
+zoffset = 500
+
+path = AddDownTurn(path, xoffset, yoffset, zoffset, trackAttributes)
+
+--[[for i = 0, 90  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
 	local rad = MathHelper.ToRadians(i)
-	local x = -MSMath.Cos(rad)
+	local y = -MSMath.Cos(rad)
 	local z = MSMath.Sin(rad)
-	table.insert( path, {x=x*radius, y=0, z=z*radius, pitch=0, yaw=rad - MSMath.PI, roll=0} )
+	table.insert( path, {x=(0) + xoffset, y=(y*radius) + yoffset, z=(z*radius) + zoffset, pitch=MSMath.PI - rad, yaw=0, roll=0} )
 end
+
+for i = 91, 180  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
+	local rad = MathHelper.ToRadians(i)
+	local y = MSMath.Cos(rad)
+	local z = MSMath.Sin(rad)
+	table.insert( path, {x=0, y=y*radius, z=z*radius*1.5, pitch=rad - MSMath.PI  , yaw=0, roll=0} )
+end
+
+for i = 0, 90  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
+	local rad = MathHelper.ToRadians(i)
+	
+	table.insert( path, {x=0, y=y*radius, z=z*radius, pitch=MSMath.PI - rad, yaw=0, roll=0} )
+end
+
+]]--
+ 
 
 --for i = 271, 360 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
 	--local rad = MathHelper.ToRadians(i)

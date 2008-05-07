@@ -124,6 +124,10 @@ namespace GammaDraconis.Types
             {
                 throttle(-1);
             }
+            if (input.inputDown("Reset"))
+            {
+                health = 0;
+            }
             #endregion
 
             #region Gamepad input handling

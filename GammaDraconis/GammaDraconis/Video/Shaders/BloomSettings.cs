@@ -80,6 +80,7 @@ namespace GammaDraconis.Video.Shaders
             new BloomSettings("Saturated",   0.25f,  4,   2,     1,    2,       0, 3),
             new BloomSettings("Blurry",      0,      2,   1,     0.1f, 1,       1, 4),
             new BloomSettings("Subtle",      0.5f,   2,   1,     1,    1,       1, 5),
+            new BloomSettings("Gamma",       0.25f,  2,   1.3f,  1,    1.2f,    1, 6),
         };
     }
 }

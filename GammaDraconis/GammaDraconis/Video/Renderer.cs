@@ -324,7 +324,7 @@ namespace GammaDraconis.Video
             // Draw the model. A model can have multiple meshes, so loop.
 			foreach (ModelMesh mesh in model.Meshes)
 			{
-				bool meshbloom = false;
+                bool meshbloom = false;
                 foreach (BasicEffect mesheffect in mesh.Effects)
                 {
                     if (mesheffect.EmissiveColor != Vector3.Zero)
@@ -332,7 +332,7 @@ namespace GammaDraconis.Video
                         meshbloom = true;
                     }
                 }
-
+                
                 // This is where the mesh orientation is set, as well as our camera and projection.
 				foreach (BasicEffect mesheffect in mesh.Effects)
 				{
@@ -357,6 +357,9 @@ namespace GammaDraconis.Video
                         else
                         {
                             mesheffect.LightingEnabled = true;
+                            mesheffect.DirectionalLight0.Enabled = false;
+                            mesheffect.DirectionalLight1.Enabled = false;
+                            mesheffect.DirectionalLight2.Enabled = false;
                             mesheffect.AmbientLightColor = Vector3.Zero;
                         }
                     }

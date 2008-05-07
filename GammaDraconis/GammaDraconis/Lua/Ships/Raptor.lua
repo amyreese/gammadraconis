@@ -17,7 +17,7 @@ ship.mass = 800
 
 ship.size = 15
 
-ship.rateL = 12
+ship.rateL = 10
 ship.dragL = 1.2
 
 ship.rateR = 6

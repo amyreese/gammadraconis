@@ -347,6 +347,7 @@ namespace GammaDraconis.Core.Input
             keys.Add("comma");
             keys.Add("period");
             keys.Add("backspace");
+            keys.Add("decimal");
 
             keys.Add("numpad1");
             keys.Add("numpad2");

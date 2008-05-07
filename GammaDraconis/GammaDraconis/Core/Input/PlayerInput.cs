@@ -128,7 +128,7 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Fire2, "numpad3");
                 inputKeys.Add(Commands.Pause, "p");
                 inputKeys.Add(Commands.Menu, "escape");
-                inputKeys.Add(Commands.Reset, ".");
+                inputKeys.Add(Commands.Reset, "decimal");
 
                 inputKeys.Add(Commands.MenuUp, "numpad8");
                 inputKeys.Add(Commands.MenuDown, "numpad2");
@@ -152,7 +152,7 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Fire2, "numpad3");
                 inputKeys.Add(Commands.Pause, "p");
                 inputKeys.Add(Commands.Menu, "escape");
-                inputKeys.Add(Commands.Reset, ".");
+                inputKeys.Add(Commands.Reset, "decimal");
 
                 inputKeys.Add(Commands.MenuUp, "numpad8");
                 inputKeys.Add(Commands.MenuDown, "numpad2");
@@ -176,6 +176,7 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Fire2, "numpad3");
                 inputKeys.Add(Commands.Pause, "p");
                 inputKeys.Add(Commands.Menu, "escape");
+                inputKeys.Add(Commands.Reset, "decimal");
 
                 inputKeys.Add(Commands.MenuUp, "numpad8");
                 inputKeys.Add(Commands.MenuDown, "numpad2");

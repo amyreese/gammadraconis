@@ -336,25 +336,30 @@ namespace GammaDraconis.Video
             foreach (int tempKey in objects.Keys)
             {
                 entirelyVisible.Add(tempKey, new List<GameObject>());
-                
                 List<GameObject> objectTypeList = objects[tempKey];
-                foreach (GameObject obj in notVisible)
+                if (tempKey == GO_TYPE.SKYBOX || tempKey == GO_TYPE.DUST || tempKey == GO_TYPE.DIRECTIONAL_ARROW)
                 {
-                    if (objectTypeList.Contains(obj))
-                    {
-                        objectTypeList.Remove(obj);
-                    }
+                    entirelyVisible[tempKey].AddRange(objectTypeList);
                 }
-                foreach (GameObject obj in entirelyVisibleList)
+                else
                 {
-                    if (objectTypeList.Contains(obj))
+                    foreach (GameObject obj in notVisible)
                     {
-                        objectTypeList.Remove(obj);
-                        entirelyVisible[tempKey].Add(obj);
+                        if (objectTypeList.Contains(obj))
+                        {
+                            objectTypeList.Remove(obj);
+                        }
+                    }
+                    foreach (GameObject obj in entirelyVisibleList)
+                    {
+                        if (objectTypeList.Contains(obj))
+                        {
+                            objectTypeList.Remove(obj);
+                            entirelyVisible[tempKey].Add(obj);
+                        }
                     }
                 }
                 optimizedObjectDictionary.Add(tempKey, objectTypeList);
-
             }
             return optimizedObjectDictionary;
         }

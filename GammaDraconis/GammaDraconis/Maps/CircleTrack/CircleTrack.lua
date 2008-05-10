@@ -1,5 +1,5 @@
 library( "MapBuilders/Turns" )
-local trackAttributes = {radius=2500, checkpoints = 16, degreesBetweenCheckpoints = 360 / 16}
+
 
 
 gameScene = Scene()
@@ -22,6 +22,7 @@ gameScene:track(skybox, GO_TYPE.SKYBOX)
 Skybox.lights[0] = Light(Vector3(-0.05,  0.1, -1), Vector3(0.9, 0.7, 0.7), Vector3(1,1,1))
 Skybox.lights[1] = Light(Vector3( 0.95, -0.9,  1), Vector3(0.4, 0.4, 0.4), Vector3(0.5,0.5,0.5))
 
+--[[
 roid = Proto.getThing("Asteroid800A", Coords(2000,5,-500), Coords(10.5,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
@@ -52,11 +53,7 @@ gameScene:track(roid, GO_TYPE.DEBRIS)
 
 roid = Proto.getThing("Asteroid800B", Coords(-2000,5,0), Coords(0,0,-1.5, 0.002, 0.001, 0.003))
 gameScene:track(roid, GO_TYPE.DEBRIS)
-
-
---tunnel = Proto.getThing("AsteroidTunnel", Coords(-2000, 0, 500))
---tunnel.fakeTransparency = 0;
---gameScene:track(tunnel, GO_TYPE.GHOST)
+]]--
 
 course = Course()
 Engine.GetInstance().course = course
@@ -66,38 +63,18 @@ path = {}
 xoffset = -1500
 yoffset = 0
 zoffset = 500
+local trackAttributes = {radius=2500, checkpoints = 16, degreesBetweenCheckpoints = 360 / 16}
 
-path = AddDownTurn(path, xoffset, yoffset, zoffset, trackAttributes)
+--All Zero Checkpoint for proper axis relation
+table.insert( path, {x=0, y=0, z=0, pitch=0, yaw=0, roll=0} )
 
---[[for i = 0, 90  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
-	local rad = MathHelper.ToRadians(i)
-	local y = -MSMath.Cos(rad)
-	local z = MSMath.Sin(rad)
-	table.insert( path, {x=(0) + xoffset, y=(y*radius) + yoffset, z=(z*radius) + zoffset, pitch=MSMath.PI - rad, yaw=0, roll=0} )
-end
-
-for i = 91, 180  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
-	local rad = MathHelper.ToRadians(i)
-	local y = MSMath.Cos(rad)
-	local z = MSMath.Sin(rad)
-	table.insert( path, {x=0, y=y*radius, z=z*radius*1.5, pitch=rad - MSMath.PI  , yaw=0, roll=0} )
-end
-
-for i = 0, 90  - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
-	local rad = MathHelper.ToRadians(i)
-	
-	table.insert( path, {x=0, y=y*radius, z=z*radius, pitch=MSMath.PI - rad, yaw=0, roll=0} )
-end
-
-]]--
- 
-
---for i = 271, 360 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
-	--local rad = MathHelper.ToRadians(i)
-	--local x = -MSMath.Cos(rad)
-	--local z = MSMath.Sin(rad)
-	--table.insert( path, {x=x*(-radius), y=0, z=z*(-radius), pitch=0, yaw=rad - MSMath.PI, roll=0} )
---end
+--path = PosYToPosZ( path, xoffset, yoffset, zoffset, trackAttributes )
+--path = PosZToPosY(path, xoffset, yoffset, zoffset, trackAttributes)
+--path = NegYtoPosZ( path, xoffset, yoffset, 500, trackAttributes )
+--path = NegYToNegZ(path, xoffset, -500, 2500, trackAttributes)
+--path = NegYToPosZ( path, xoffset, 1500, 3500, trackAttributes )
+--path = PosZToNegX(path, xoffset, yoffset, zoffset, trackAttributes)
+--path = PosZToPosX(path, 2500, yoffset, 2000, trackAttributes)
 
 -- TODO: Find a way to add intermediate points for AI
 for i,v in ipairs( path ) do

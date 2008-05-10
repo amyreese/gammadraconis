@@ -39,7 +39,7 @@ namespace GammaDraconis.Screens.Menus
                 bool selected = index == menuItemIndex;
                 menuItems[index].RelativeScale = selected ? GetSelectedScale() : GetUnselectedScale();
                 menuItems[index].color = selected ? GetSelectedColor() : GetUnselectedColor();
-                menuItems[index].spriteFontName = GetFontName();
+                menuItems[index].SpriteFontName = GetFontName();
             }
             ready = true;
         }

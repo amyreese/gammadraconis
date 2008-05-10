@@ -29,7 +29,7 @@ namespace GammaDraconis.Screens
             loadingText = new Text(gammaDraconis);
             loadingText.color = Color.White;
             loadingText.text = "";
-            loadingText.spriteFontName = "Resources/Fonts/Menu";
+            loadingText.SpriteFontName = "Resources/Fonts/Menu";
             loadingText.RelativePosition = new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height / 2);
             loadingText.center = true;
             screenInterface.AddComponent(loadingText);

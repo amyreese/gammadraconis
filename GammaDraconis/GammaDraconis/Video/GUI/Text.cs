@@ -9,7 +9,8 @@ namespace GammaDraconis.Video.GUI
     class Text : InterfaceComponent
     {
         private SpriteFont spriteFont;
-        public String spriteFontName;
+        private String spriteFontName;
+        private bool spriteFontNameChanged;
         public String text;
         public Color color;
         public bool center = false;
@@ -25,6 +26,20 @@ namespace GammaDraconis.Video.GUI
             this.text = text;
         }
 
+        public string SpriteFontName
+        {
+            get { return spriteFontName; }
+
+            set
+            {
+                if (spriteFontName != value)
+                {
+                    spriteFontName = value;
+                    spriteFontNameChanged = true;
+                }
+            }
+        }
+
         protected override void LoadContent()
         {
             if (spriteFontName != null)
@@ -36,9 +51,10 @@ namespace GammaDraconis.Video.GUI
 
         internal override void Draw(GameTime gameTime, Vector2 position, Vector2 scale, float rotation)
         {
-            if (spriteFont == null)
+            if ((spriteFont == null) || spriteFontNameChanged)
             {
                 LoadContent();
+                spriteFontNameChanged = false;
             }
             CalculateResultingValues(position, scale, rotation, out position, out scale, out rotation);
             if (spriteFont != null && text != null && color != null)

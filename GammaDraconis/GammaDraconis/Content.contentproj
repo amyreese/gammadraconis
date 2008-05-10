@@ -206,6 +206,11 @@
     <None Include="Resources\Effects\Includes.inc">
       <Name>Includes</Name>
     </None>
+    <Compile Include="Resources\Fonts\XboxController.tga">
+      <Name>XboxController</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>FontTextureProcessor</Processor>
+    </Compile>
     <Compile Include="Resources\Models\Laser.fbx">
       <Name>Laser</Name>
       <Importer>FbxImporter</Importer>

@@ -44,7 +44,7 @@ namespace GammaDraconis.Screens.Menus
             NameText.text = "Gamma Draconis";
             NameText.RelativeRotation = 0.2f;
             NameText.RelativePosition = new Vector2(300.0f, 8.0f);
-            NameText.spriteFontName = "Resources/Fonts/Title";
+            NameText.SpriteFontName = "Resources/Fonts/Title";
             NameText.color = Color.White;
             screenInterface.AddComponent(NameText);
         }

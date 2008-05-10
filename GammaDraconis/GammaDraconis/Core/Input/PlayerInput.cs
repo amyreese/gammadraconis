@@ -48,6 +48,8 @@ namespace GammaDraconis.Core.Input
             public static String GameStart = "GameStart";
         }
 
+        private InputManager.ControlScheme controlScheme;
+        public InputManager.ControlScheme ControlScheme { get { return controlScheme; } }
         /// <summary>
         /// Set each player's key bindings depending on what control scheme they are using.
         /// </summary>
@@ -56,6 +58,8 @@ namespace GammaDraconis.Core.Input
         public PlayerInput(PlayerIndex playerIndex, InputManager.ControlScheme controlScheme)
             : base(playerIndex)
         {
+            this.controlScheme = controlScheme;
+
             if ((playerIndex == PlayerIndex.One) && !GamePad.GetCapabilities(PlayerIndex.One).IsConnected)
             {
                 if (Properties.Settings.Default.PlayerOneUseMouse)
@@ -189,7 +193,7 @@ namespace GammaDraconis.Core.Input
             if (controlScheme != InputManager.ControlScheme.None)
             {
                 inputKeys.Add(Commands.Join, inputKeys[Commands.Fire1]);
-                inputKeys.Add(Commands.Leave, inputKeys[Commands.Menu]);
+                inputKeys.Add(Commands.Leave, inputKeys[Commands.Menu] + "|" + inputKeys[Commands.Fire2]);
                 inputKeys.Add(Commands.MenuSelect, inputKeys[Commands.Fire1]);
             }
         }

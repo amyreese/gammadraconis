@@ -19,11 +19,16 @@ namespace GammaDraconis.Screens
     class PlayerJoinScreen : Screen
     {
         private PlayerInput[] inputs;
+        private Dictionary<string, string> keyGlyphs;
+
+        // State variables
         private bool[] playersJoined = { false, false, false, false };
         private bool[] playersReady = { false, false, false, false };
         private bool startGame = false;
 
+        // GUI components
         private Text[] playerJoinText;
+        private Text[] playerJoinGlyph;
         private Text startGameText;
         private Selector trackSelector;
         private Selector[] shipSelector;
@@ -31,7 +36,6 @@ namespace GammaDraconis.Screens
         private Coords[] playerCoords;
         private Coords[] shipCoords;
 
-        //bool[] playersJoined = { false, false, false, false };
         /// <summary>
         /// Initialize the player join screen.
         /// </summary>
@@ -55,6 +59,7 @@ namespace GammaDraconis.Screens
 
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];
+            playerJoinGlyph = new Text[4];
             shipSelector = new Selector[4];
             selectedShip = new GameObject[4];
 
@@ -62,12 +67,16 @@ namespace GammaDraconis.Screens
             {
                 playerJoinText[i] = new Text(game);
                 playerJoinText[i].color = Color.White;
-                playerJoinText[i].spriteFontName = "Resources/Fonts/Menu";
+                playerJoinText[i].SpriteFontName = "Resources/Fonts/Menu";
                 playerJoinText[i].center = true;
+
+                playerJoinGlyph[i] = new Text(game);
+                playerJoinGlyph[i].color = Color.White;
+                playerJoinGlyph[i].center = true;
 
                 shipSelector[i] = new Selector(game, Proto.ship.Keys);
                 shipSelector[i].color = Color.White;
-                shipSelector[i].spriteFontName = "Resources/Fonts/Menu";
+                shipSelector[i].SpriteFontName = "Resources/Fonts/Menu";
                 shipSelector[i].center = true;
 
                 selectedShip[i] = Proto.getShip(shipSelector[i].CurrentSelection, shipCoords[i]);
@@ -80,6 +89,10 @@ namespace GammaDraconis.Screens
             playerJoinText[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
             screenInterface.AddComponents(playerJoinText);
 
+            for(int i = 0; i < 4; i++)
+                playerJoinGlyph[i].RelativePosition = playerJoinText[i].RelativePosition;
+            //screenInterface.AddComponents(playerJoinGlyph);            
+
             shipSelector[0].RelativePosition = new Vector2(1024 / 4, (768 + 350) / 4 );
             shipSelector[1].RelativePosition = new Vector2(3 * (1024 / 4), (768 + 350) / 4);
             shipSelector[2].RelativePosition = new Vector2(1024 / 4, (3 * 768 + 350) / 4);
@@ -89,7 +102,7 @@ namespace GammaDraconis.Screens
             startGameText = new Text(game, "Press Start to Begin the Race!");
             startGameText.Visible = false;
             startGameText.color = Color.White;
-            startGameText.spriteFontName = "Resources/Fonts/Menu";
+            startGameText.SpriteFontName = "Resources/Fonts/Menu";
             startGameText.center = true;
             startGameText.RelativePosition = new Vector2(1024 / 2, 768 / 2);
             screenInterface.AddComponent(startGameText);
@@ -97,10 +110,21 @@ namespace GammaDraconis.Screens
             trackSelector = new Selector(game);
             trackSelector.Visible = false;
             trackSelector.color = Color.White;
-            trackSelector.spriteFontName = "Resources/Fonts/Menu";
+            trackSelector.SpriteFontName = "Resources/Fonts/Menu";
             trackSelector.center = true;
             trackSelector.RelativePosition = new Vector2(1024 / 2, 768 / 2);
             screenInterface.AddComponent(trackSelector);
+
+            // Populate keyGlyphs dictionary to map Xbox button assignments to their corresponding spritefont characters.
+            keyGlyphs = new Dictionary<string, string>();
+            keyGlyphs.Add("PadBack", "#");
+            keyGlyphs.Add("PadStart", "%");
+            keyGlyphs.Add("PadX", "&");
+            keyGlyphs.Add("PadA", "'");
+            keyGlyphs.Add("PadY", "(");
+            keyGlyphs.Add("PadB", ")");
+            keyGlyphs.Add("PadRB", "*");
+            keyGlyphs.Add("PadLB", "-");
         }
 
         public override void Initialize()
@@ -140,6 +164,18 @@ namespace GammaDraconis.Screens
             inputs[2] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Three);
             inputs[3] = GammaDraconis.GetInstance().InputManager.GetPlayerInput(PlayerIndex.Four);
 
+            for (int i = 0; i < 4; i++)
+            {
+                playerJoinText[i].text = "Press " + inputs[i].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
+
+                if (inputs[i].ControlScheme == InputManager.ControlScheme.GamePad)
+                    playerJoinGlyph[i].SpriteFontName = "Resources/Fonts/XboxController";
+                else
+                    playerJoinGlyph[i].SpriteFontName = "Resources/Fonts/Menu";
+
+                playerJoinGlyph[i].text = GetKeyGlyph(inputs[i].getKeyBinding(PlayerInput.Commands.Join));
+            }
+
             // Reset state variables
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -158,6 +194,8 @@ namespace GammaDraconis.Screens
                     trackSelector.AddSelection(map.Substring(map.IndexOf("\\") + 1));
                 }
             }
+
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -176,8 +214,6 @@ namespace GammaDraconis.Screens
 
                     try
                     {
-                        playerJoinText[index].text = "Press " + inputs[index].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
-
                         if (inputs[index].inputPressed(PlayerInput.Commands.Join))
                         {
                             playersJoined[index] = true;
@@ -253,6 +289,7 @@ namespace GammaDraconis.Screens
                 }
 
                 playerJoinText[index].Visible = !playersJoined[index];
+                playerJoinGlyph[index].Visible = !playersJoined[index];
                 shipSelector[index].Visible = playersJoined[index];
                 trackSelector.Visible = startGame;
                 selectedShip[index].position.R *= Quaternion.CreateFromYawPitchRoll((float)Math.PI / 60f, 0f, 0f);
@@ -294,6 +331,13 @@ namespace GammaDraconis.Screens
         {
             GammaDraconis.renderer.render(gameTime, screenScene, false);
             base.Draw(gameTime, false);
+        }
+
+        private string GetKeyGlyph(string button)
+        {
+            if (keyGlyphs.ContainsKey(button))
+                return keyGlyphs[button];
+            return button;
         }
     }
 }

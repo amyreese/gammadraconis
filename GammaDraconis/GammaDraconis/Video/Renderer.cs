@@ -157,7 +157,7 @@ namespace GammaDraconis.Video
                         game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
                         Interface i = new Interface(game);
                         Text t = new Text(game);
-                        t.spriteFontName = "Resources/Fonts/Menu";
+                        t.SpriteFontName = "Resources/Fonts/Menu";
                         t.text = missingPlayerQuips[(gameTime.TotalRealTime.Seconds / secondsPerQuip) % missingPlayerQuips.Length];
                         t.center = true;
                         t.RelativePosition = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
@@ -198,7 +198,7 @@ namespace GammaDraconis.Video
                             game.GraphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
                             Interface i = new Interface(game);
                             Text t = new Text(game);
-                            t.spriteFontName = "Resources/Fonts/Menu";
+                            t.SpriteFontName = "Resources/Fonts/Menu";
                             t.text = missingPlayerQuips[(gameTime.TotalRealTime.Seconds / secondsPerQuip) % missingPlayerQuips.Length];
                             t.center = true;
                             t.RelativePosition = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);

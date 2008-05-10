@@ -7,11 +7,11 @@ shieldModel.visible = false
 
 mountR = MountPoint()
 mountR.location = Coords(3.0, 0, 0)
-mountR.weapon = Proto.getWeapon("Cannon")
+mountR.weapon = Proto.getWeapon("Spike")
 
 mountL = MountPoint()
 mountL.location = Coords(-3.0, 0, 0)
-mountL.weapon = Proto.getWeapon("Cannon")
+mountL.weapon = Proto.getWeapon("Blaster")
 
 ship = GameObject()
 

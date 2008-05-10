@@ -32,6 +32,7 @@ namespace GammaDraconis.Types
         public Weapon clone()
         {
             Weapon weapon = new Weapon();
+			weapon.cooldown = cooldown;
             weapon.fireFrom = fireFrom;
             weapon.bullet = bullet.clone();
 

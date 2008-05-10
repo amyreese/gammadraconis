@@ -334,10 +334,7 @@ namespace GammaDraconis.Types
 
                     weapon.lastFired = -weapon.cooldown;
                 }
-                else
-                {
-                    weapon.lastFired += Engine.gameTime.ElapsedGameTime.Milliseconds;
-                }
+                weapon.lastFired += Engine.gameTime.ElapsedGameTime.Milliseconds;
             }
         }
 

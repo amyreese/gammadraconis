@@ -128,6 +128,10 @@ namespace GammaDraconis.Types
             {
                 health = 0;
             }
+            if (input.inputPressed("Pause"))
+            {
+                Engine.GetInstance().enginePaused = !Engine.GetInstance().enginePaused;
+            }
             #endregion
 
             #region Gamepad input handling

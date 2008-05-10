@@ -19,7 +19,7 @@ namespace GammaDraconis.Core
         private bool AITest = false;
 
         #region Engine States
-        private bool enginePaused = false;
+        public bool enginePaused = false;
         public static GameTime gameTime;
         #endregion
 
@@ -559,8 +559,8 @@ namespace GammaDraconis.Core
                         Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
                         BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
 
-                        if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
-                        {
+                        //if (viewFrustum.Contains(new BoundingSphere(nextCheckpointPos, 10)) == ContainmentType.Disjoint)
+                        //{
                             //Position arrow above the player
                             player.arrow.position = new Coords();
                             player.arrow.position.T = Matrix.CreateTranslation((Matrix.CreateTranslation(0f, 20f, 0f) * player.position.matrix()).Translation);
@@ -575,12 +575,12 @@ namespace GammaDraconis.Core
 
                             //Add the arrow for tracking
                             gameScene.track(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
                             //Remove the arrow from tracking
-                            gameScene.ignore(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
-                        }
+                            //gameScene.ignore(player.arrow, GO_TYPE.DIRECTIONAL_ARROW);
+                        //}
                     }
                     else
                     {

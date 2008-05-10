@@ -181,6 +181,8 @@ namespace GammaDraconis.Types
 
             }
             #endregion
+
+			base.think(gameTime);
         }
 
         public override string ToString()

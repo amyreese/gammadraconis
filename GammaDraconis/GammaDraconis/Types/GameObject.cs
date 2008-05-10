@@ -146,7 +146,14 @@ namespace GammaDraconis.Types
         }
 
         // Behaviors
-        public virtual void think(GameTime gameTime) { test(); }
+        public virtual void think(GameTime gameTime)
+		{
+			List<Weapon> weapons = getAllWeapons();
+			foreach (Weapon weapon in weapons)
+			{
+				weapon.lastFired += Engine.gameTime.ElapsedGameTime.Milliseconds;
+			}
+		}
 
         /// <summary>
         /// Fire the ship's weapons.  By default, fires all primary weapons on the ship.
@@ -347,13 +354,12 @@ namespace GammaDraconis.Types
 
 						weapon.lastFired = -weapon.cooldown;
 
-						if (0 != (weapon.type & W_TYPE.PRIMARY))
+						if (0 != (weapon.type & W_TYPE.SECONDARY))
 						{
 							weapon.ammo--;
 						}
 					}
                 }
-                weapon.lastFired += Engine.gameTime.ElapsedGameTime.Milliseconds;
             }
         }
 

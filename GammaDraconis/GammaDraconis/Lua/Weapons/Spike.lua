@@ -2,6 +2,7 @@
 weapon = Weapon()
 weapon.type = W_TYPE.SECONDARY
 weapon.cooldown = 2000
+weapon.ammoMax = 10;
 
 weapon.bullet.damage = 5000
 weapon.bullet.rateL = 0

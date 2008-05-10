@@ -45,5 +45,6 @@ ship.shieldModel = shieldModel
 
 ship.mounts:Add(mountR)
 ship.mounts:Add(mountL)
+ship.mounts:Add(mountC)
 
 Proto.ship:Add("Thor", ship)

@@ -130,7 +130,7 @@ namespace GammaDraconis.Core
                     }
                 }
             }
-
+          
             Think(gameTime, mapStarted);
             Physics(gameTime);
         }
@@ -320,11 +320,17 @@ namespace GammaDraconis.Core
         /// <param name="gameTime">The game time for this update</param>
         public void Physics(GameTime gameTime)
         {
-            // If it's paused, don't do anything
-            if (enginePaused)
-            {
+            // If it's paused, don't do any physics and zero accelerations
+            if (enginePaused) {
+                foreach (GameObject gameObject in gameScene.movable()) 
+                {
+                    // Zero acceleration
+                    gameObject.acceleration.R = Quaternion.Identity;
+                    gameObject.acceleration.T = Matrix.Identity;
+                }
                 return;
-            }
+
+            } 
 
             float timeMod = (float)gameTime.ElapsedRealTime.TotalSeconds;
             List<GameObject> collidableGameObjects = gameScene.collidable();

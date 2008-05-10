@@ -30,6 +30,8 @@ namespace GammaDraconis.Types
         public static float dustCount = 60;
         public static float dustDistance = 350f;
 
+        private float rateModifier = 1;
+
         public Player(PlayerIndex index)
             : base()
         {
@@ -182,7 +184,16 @@ namespace GammaDraconis.Types
             }
             #endregion
 
-			base.think(gameTime);
+            #region Change Rates based on position
+            rateL /= rateModifier;
+            rateR /= rateModifier;
+            float mod = 0.02f;
+            rateModifier = 1.0f - (Engine.GetInstance().race.status(this).leading) * mod;
+            rateL *= rateModifier;
+            rateR *= rateModifier;
+            #endregion
+
+            base.think(gameTime);
         }
 
         public override string ToString()
@@ -241,5 +252,4 @@ namespace GammaDraconis.Types
             return go;
         }
     }
-
 }

@@ -152,8 +152,12 @@ namespace GammaDraconis.Types
             {
                 if (input.inputDown("Fire1"))
                 {
-                    fire();
+                    firePrimary();
                 }
+				if (input.inputDown("Fire2"))
+				{
+					fireSecondary();
+				}
             }
             #endregion
 

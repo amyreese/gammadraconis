@@ -6,12 +6,19 @@ shieldModel = FBXModel("Resources/Models/Shield", "", 0.1875)
 shieldModel.visible = false
 
 mountR = MountPoint()
+mountR.type = W_TYPE.PRIMARY
 mountR.location = Coords(3.0, 0, 0)
-mountR.weapon = Proto.getWeapon("Cannon")
+mountR.weapon = Proto.getWeapon("Blaster")
 
 mountL = MountPoint()
+mountL.type = W_TYPE.PRIMARY
 mountL.location = Coords(-3.0, 0, 0)
-mountL.weapon = Proto.getWeapon("Cannon")
+mountL.weapon = Proto.getWeapon("Blaster")
+
+mountC = MountPoint()
+mountC.type = W_TYPE.SECONDARY
+mountC.location = Coords(0, -1, 0)
+mountC.weapon = Proto.getWeapon("Spike")
 
 ship = GameObject()
 

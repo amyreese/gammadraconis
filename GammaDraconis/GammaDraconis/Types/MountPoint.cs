@@ -13,6 +13,7 @@ namespace GammaDraconis.Types
         public Coords location;
 
         // The installed weapon
+		public int type = W_TYPE.PRIMARY;
         public Weapon weapon;
 
         public MountPoint()
@@ -23,6 +24,7 @@ namespace GammaDraconis.Types
         public MountPoint clone()
         {
             MountPoint mount = new MountPoint();
+			mount.type = type;
             mount.location = location;
             if (weapon != null)
             {

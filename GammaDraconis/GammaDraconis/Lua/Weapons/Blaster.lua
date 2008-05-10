@@ -1,5 +1,6 @@
 
 weapon = Weapon()
+weapon.type = W_TYPE.PRIMARY
 weapon.cooldown = 100
 
 weapon.bullet.damage = 150

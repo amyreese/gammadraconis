@@ -149,13 +149,22 @@ namespace GammaDraconis.Types
         public virtual void think(GameTime gameTime) { test(); }
 
         /// <summary>
-        /// Fire the ship's weapons.  By default, fires all weapons on the ship.
+        /// Fire the ship's weapons.  By default, fires all primary weapons on the ship.
         /// </summary>
-        public virtual void fire() 
+        public virtual void firePrimary() 
         {
-            List<Weapon> weapons = getWeapons(true);
+            List<Weapon> weapons = getWeapons(W_TYPE.PRIMARY, true);
             fireWeapons(weapons);
         }
+
+		/// <summary>
+		/// Fire the ship's secondary weapons.
+		/// </summary>
+		public virtual void fireSecondary()
+		{
+			List<Weapon> weapons = getWeapons(W_TYPE.SECONDARY, true);
+			fireWeapons(weapons);
+		}
 
         /// <summary>
         /// Linearly accelerate the ship along the beam at the given amount of throttle.
@@ -259,10 +268,11 @@ namespace GammaDraconis.Types
         /// weapons on turrets, and optionally translating weapon positions
         /// appropriately to their turret/mount positions.
         /// </summary>
+		/// <param name="type">What type of weapons to get</param>
         /// <param name="translate">Translate the weapon positions</param>
         /// <param name="turrets">Return turreted weapons</param>
         /// <returns>List of weapons</returns>
-        private List<Weapon> getWeapons(bool translate, bool turretweapons)
+		private List<Weapon> getWeapons(int type, bool translate, bool turretweapons)
         {
             Weapon w = null;
             List<Weapon> weapons = new List<Weapon>();
@@ -271,7 +281,7 @@ namespace GammaDraconis.Types
             foreach (MountPoint mount in mounts)
             {
                 w = mount.weapon;
-                if (w != null)
+                if (w != null && 0 != (w.type & type))
                 {
                     if (translate)
                     {
@@ -290,7 +300,7 @@ namespace GammaDraconis.Types
                     foreach (MountPoint mount in mounts)
                     {
                         w = mount.weapon;
-                        if (w != null)
+						if (w != null && 0 != (w.type & type))
                         {
                             if (translate)
                             {
@@ -305,10 +315,11 @@ namespace GammaDraconis.Types
 
             return weapons;
         }
-        private List<Weapon> getWeapons() { return getWeapons(false, false); }
-        private List<Weapon> getWeapons(bool translate) { return getWeapons(translate, false); }
-        private List<Weapon> getAllWeapons() { return getWeapons(false, true); }
-        private List<Weapon> getAllWeapons(bool translate) { return getWeapons(translate, true); }
+		private List<Weapon> getWeapons() { return getWeapons(W_TYPE.PRIMARY, false, false); }
+		private List<Weapon> getWeapons(int type) { return getWeapons(type, false, false); }
+		private List<Weapon> getWeapons(int type, bool translate) { return getWeapons(type, translate, false); }
+		private List<Weapon> getAllWeapons() { return getWeapons(W_TYPE.ALL, false, true); }
+		private List<Weapon> getAllWeapons(bool translate) { return getWeapons(W_TYPE.ALL, translate, true); }
 
         /// <summary>
         /// Fires a list of weapons by cloning the weapon's bullet type and accelerating it, 
@@ -321,18 +332,26 @@ namespace GammaDraconis.Types
             {
                 if (weapon.lastFired >= 0)
                 {
-                    Bullet b = weapon.bullet.clone();
-                    b.ownedBy = this;
-                    b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
-                    b.position.T = Matrix.CreateTranslation(b.position.pos());
-                    b.position.R = weapon.position.R * weapon.fireFrom.R;
-                    b.lastPosition = b.position.Clone();
-                    b.velocity = velocity.Clone();
-                    b.throttle(1f);
+					if ((weapon.type & W_TYPE.PRIMARY) != 0 || weapon.ammo > 0)
+					{
+						Bullet b = weapon.bullet.clone();
+						b.ownedBy = this;
+						b.position.T = weapon.position.matrix() * weapon.fireFrom.matrix();
+						b.position.T = Matrix.CreateTranslation(b.position.pos());
+						b.position.R = weapon.position.R * weapon.fireFrom.R;
+						b.lastPosition = b.position.Clone();
+						b.velocity = velocity.Clone();
+						b.throttle(1f);
 
-                    Engine.GetInstance().gameScene.track(b, GO_TYPE.BULLET);
+						Engine.GetInstance().gameScene.track(b, GO_TYPE.BULLET);
 
-                    weapon.lastFired = -weapon.cooldown;
+						weapon.lastFired = -weapon.cooldown;
+
+						if (0 != (weapon.type & W_TYPE.PRIMARY))
+						{
+							weapon.ammo--;
+						}
+					}
                 }
                 weapon.lastFired += Engine.gameTime.ElapsedGameTime.Milliseconds;
             }

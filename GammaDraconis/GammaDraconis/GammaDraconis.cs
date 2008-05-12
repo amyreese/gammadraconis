@@ -109,6 +109,9 @@ namespace GammaDraconis
         {
         }
 
+        /// <summary>
+        /// Toggle the full screen option.
+        /// </summary>
         public void ToggleFullscreen()
         {
             graphics.ToggleFullScreen();
@@ -228,6 +231,10 @@ namespace GammaDraconis
 
         private GameStates currentGameState = GameStates.MainMenu;
 
+        /// <summary>
+        /// Change the game to the specified state, and set it to "fresh".
+        /// </summary>
+        /// <param name="toState">The game state to change to.</param>
         public void changeState(GameStates toState)
         {
             if (!screens.ContainsKey(toState))
@@ -248,6 +255,9 @@ namespace GammaDraconis
             return screens[forState];
         }
 
+        /// <summary>
+        /// Initialize each screen at the beginning of the game.
+        /// </summary>
         protected void initializeGameScreens()
         {
             /* TODO: use this for levels like in Snails Pace?

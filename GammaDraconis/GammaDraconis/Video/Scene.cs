@@ -140,6 +140,12 @@ namespace GammaDraconis.Video
             return thinkables;
         }
 
+        /// <summary>
+        /// Return a list of GameObjects that are within range and 
+        /// viewing arc of the given vantage point coordinates.
+        /// </summary>
+        /// <param name="player">player relevant to the scene</param>
+        /// <returns>List of GameObjects to render</returns>
         public List<GameObject> visible(Player player)
         {
             return visible(player.getCamera(), player);
@@ -152,8 +158,6 @@ namespace GammaDraconis.Video
         /// <param name="vantage">Vantage point Coords to render from</param>
         /// <param name="player">player relevant to the scene</param>
         /// <returns>List of GameObjects to render</returns>
-      
-        
         public List<GameObject> visible(Coords vantage, Player player)
         {
             Room roomIn = null;
@@ -323,6 +327,12 @@ namespace GammaDraconis.Video
             return tObjects;
         }
 
+        /// <summary>
+        /// Sort the octree using the given viewFrustrum.
+        /// </summary>
+        /// <param name="entirelyVisible"></param>
+        /// <param name="viewFrustrum"></param>
+        /// <returns></returns>
         public Dictionary<int, List<GameObject>> sortOctTree(out Dictionary<int, List<GameObject>> entirelyVisible, BoundingFrustum viewFrustrum)
         {
             Dictionary<int, List<GameObject>> optimizedObjectDictionary = new Dictionary<int,List<GameObject>>();
@@ -364,6 +374,9 @@ namespace GammaDraconis.Video
             return optimizedObjectDictionary;
         }
 
+        /// <summary>
+        /// Update the list of objects contained in the octree.
+        /// </summary>
         public void updateOctTreeObjects()
         {
             List<GameObject> objList = new List<GameObject>();
@@ -394,9 +407,13 @@ namespace GammaDraconis.Video
 
         }
 
+        /// <summary>
+        /// Sort a list of objects.
+        /// </summary>
+        /// <param name="likelyVisible">The object list to sort.</param>
+        /// <returns>A sorted list of objects.</returns>
         public List<GameObject> sortObjects(Dictionary<int, List<GameObject>> likelyVisible)
         {
-
             //Add in order: SKYBOX/SCENERY objects first, PLAYER objects last
 
             List<GameObject> listedObjects = new List<GameObject>();

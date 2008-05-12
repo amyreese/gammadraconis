@@ -178,7 +178,9 @@ function playerHUDs.update(gameTime, playerIndex)
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	playerHUDs[playerIndex].shieldBar.update(Player.players[playerIndex-1].shield / Player.players[playerIndex-1].maxShield)
 	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 8.75)
-	if Engine.GetInstance().secondsToStart > 0 then
+	if Engine.GetInstance().enginePaused then
+		playerHUDs[playerIndex].statusText.text = "Paused"
+	elseif Engine.GetInstance().secondsToStart > 0 then
 		local sts = Engine.GetInstance().secondsToStart
 		local int = MSMath.Truncate(sts)
 		local dec = MSMath.Truncate(sts * 10) % 10

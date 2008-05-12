@@ -576,7 +576,7 @@ namespace GammaDraconis.Core
                             double angle = Math.Acos((double)Vector3.Dot(player.arrow.position.T.Forward, target));
                             Vector3 axis = Vector3.Cross(player.arrow.position.T.Forward, target);
                             axis.Normalize();
-                            axis.X = -axis.X;
+                            //axis.X = -axis.X;
                             player.arrow.position.R = Quaternion.CreateFromAxisAngle(axis, (float)angle);
 
                             //Add the arrow for tracking

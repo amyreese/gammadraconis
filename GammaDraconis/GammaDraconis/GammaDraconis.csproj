@@ -179,6 +179,9 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Lua\MapBuilders\AsteroidFields.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Lua\Things\CheckpointArrow.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

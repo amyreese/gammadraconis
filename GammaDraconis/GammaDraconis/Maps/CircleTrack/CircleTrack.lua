@@ -1,4 +1,5 @@
 library( "MapBuilders/Turns" )
+--library( "MapBuilders/AsteroidFields" )
 
 
 
@@ -22,11 +23,23 @@ gameScene:track(skybox, GO_TYPE.SKYBOX)
 Skybox.lights[0] = Light(Vector3(-0.05,  0.1, -1), Vector3(0.9, 0.7, 0.7), Vector3(1,1,1))
 Skybox.lights[1] = Light(Vector3( 0.95, -0.9,  1), Vector3(0.4, 0.4, 0.4), Vector3(0.5,0.5,0.5))
 
---[[
-roid = Proto.getThing("Asteroid800A", Coords(2000,5,-500), Coords(10.5,-0,0,0.004,0.001,0.0004))
+
+roid = Proto.getThing("Asteroid800A", Coords(-1500,8500,6500), Coords(0.0,-0,0,0.004,0.001,0.0004))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
+roid = Proto.getThing("Asteroid800A", Coords(-2500,8500,6500), Coords(0.0,-0,0,0.004,0.001,0.0004))
+gameScene:track(roid, GO_TYPE.DEBRIS)
 
+roid = Proto.getThing("Asteroid800A", Coords(-500,8500,6500), Coords(0.0,-0,0,0.004,0.001,0.0004))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800A", Coords(0,8500,6500), Coords(-0.0,-0,0,0.004,0.001,0.0004))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800A", Coords(500,8500,6500), Coords(-0.0,-0,0,0.004,0.001,0.0004))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+--[[
 roid = Proto.getThing("Asteroid800A", Coords(3000,-5,-500), Coords(-10.5,0,0,0.003,0.004,0.0002))
 gameScene:track(roid, GO_TYPE.DEBRIS)
 
@@ -76,6 +89,8 @@ path = PosYToPosZ( path, xoffset, 5500, 5500, trackAttributes )
 --path = NegYToPosZ( path, xoffset, 1500, 3500, trackAttributes )
 --path = PosZToNegX(path, xoffset, yoffset, zoffset, trackAttributes)
 --path = PosZToPosX(path, 2500, yoffset, 2000, trackAttributes)
+
+table.insert( path, {x=-1500, y=8500, z=12000, pitch=0, yaw=0, roll=0} )
 
 -- TODO: Find a way to add intermediate points for AI
 for i,v in ipairs( path ) do

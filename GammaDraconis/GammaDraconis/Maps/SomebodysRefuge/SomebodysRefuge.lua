@@ -152,10 +152,10 @@ room1.visibleRooms:Add(room2)
 gameScene.rooms:Add(room2)
 
 planet = GameObject()
-planet.position = Coords(0, 0, -500)
+planet.position = Coords(-3000, -3000, 3000)
 planet.size = 1000
 planet.models:Add(FBXModel("Resources/Models/Planet", "", 4))
---gameScene:track(planet, GO_TYPE.SCENERY)
+gameScene:track(planet, GO_TYPE.SCENERY)
 
 skybox = Skybox()
 gameScene:track(skybox, GO_TYPE.SKYBOX)

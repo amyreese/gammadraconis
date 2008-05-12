@@ -46,16 +46,16 @@ namespace GammaDraconis.Screens
             inputs = new PlayerInput[4];
 
             playerCoords = new Coords[4];
-            playerCoords[0] = new Coords(  0f, 0f, 0f, 0f, 0f, 0f);
-            playerCoords[1] = new Coords(100f, 0f, 0f, 0f, 0f, 0f);
-            playerCoords[2] = new Coords(200f, 0f, 0f, 0f, 0f, 0f);
-            playerCoords[3] = new Coords(300f, 0f, 0f, 0f, 0f, 0f);
+            playerCoords[0] = new Coords(   0f, 0f, 0f, 0f, 0f, 0f);
+            playerCoords[1] = new Coords(1000f, 0f, 0f, 0f, 0f, 0f);
+            playerCoords[2] = new Coords(2000f, 0f, 0f, 0f, 0f, 0f);
+            playerCoords[3] = new Coords(3000f, 0f, 0f, 0f, 0f, 0f);
 
             shipCoords = new Coords[4];
-            shipCoords[0] = new Coords(  0f, 0f, -40f, 0.3f, 0f, 0f);
-            shipCoords[1] = new Coords(100f, 0f, -40f, 0.3f, 0f, 0f);
-            shipCoords[2] = new Coords(200f, 0f, -40f, 0.3f, 0f, 0f);
-            shipCoords[3] = new Coords(300f, 0f, -40f, 0.3f, 0f, 0f);
+            shipCoords[0] = new Coords(   0f, 0f, -40f, 0.3f, 0f, 0f);
+            shipCoords[1] = new Coords(1000f, 0f, -40f, 0.3f, 0f, 0f);
+            shipCoords[2] = new Coords(2000f, 0f, -40f, 0.3f, 0f, 0f);
+            shipCoords[3] = new Coords(3000f, 0f, -40f, 0.3f, 0f, 0f);
 
             // Initialize any text or sprite components before adding them to the interface.
             playerJoinText = new Text[4];

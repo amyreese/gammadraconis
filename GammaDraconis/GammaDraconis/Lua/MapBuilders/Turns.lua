@@ -20,17 +20,6 @@ function PosZToPosY( path, xoffset, yoffset, zoffset, trackAttributes )
 	return path
 end
 
-function PosYToPosZ( path, xoffset, yoffset, zoffset, trackAttributes )
-	for i = 270, 390  - trackAttributes.degreesBetweenCheckpoints, trackAttributes.degreesBetweenCheckpoints do
-		local rad = MathHelper.ToRadians(i)
-		local y = MSMath.Cos(rad)
-		local z = MSMath.Sin(rad)
-		table.insert( path, {x=(0) + xoffset, y=(y*trackAttributes.radius) + yoffset, z=(z*trackAttributes.radius) + zoffset, pitch= rad - MSMath.PI, yaw=0, roll=0} )
-	end
-	
-	return path
-end
-
 function PosZToNegX( path, xoffset, yoffset, zoffset, trackAttributes )
 for i = 0, 120  - trackAttributes.degreesBetweenCheckpoints, trackAttributes.degreesBetweenCheckpoints do
 		local rad = MathHelper.ToRadians(i)
@@ -59,6 +48,17 @@ function NegZtoPosY( path, xoffset, yoffset, zoffset, trackAttributes )
 		local y = -MSMath.Cos(rad)
 		local z = -MSMath.Sin(rad)
 		table.insert( path, {x=(0) + xoffset, y=(y*trackAttributes.radius) + yoffset, z=(z*trackAttributes.radius) + zoffset, pitch=rad, yaw=0, roll=0} )
+	end
+	
+	return path
+end
+
+function PosYToPosZ( path, xoffset, yoffset, zoffset, trackAttributes )
+	for i = 270, 390  - trackAttributes.degreesBetweenCheckpoints, trackAttributes.degreesBetweenCheckpoints do
+		local rad = MathHelper.ToRadians(i)
+		local y = MSMath.Cos(rad)
+		local z = MSMath.Sin(rad)
+		table.insert( path, {x=(0) + xoffset, y=(y*trackAttributes.radius) + yoffset, z=(z*trackAttributes.radius) + zoffset, pitch= rad - MSMath.PI, yaw=0, roll=0} )
 	end
 	
 	return path

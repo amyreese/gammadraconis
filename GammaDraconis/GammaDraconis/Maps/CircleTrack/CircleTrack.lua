@@ -68,8 +68,9 @@ local trackAttributes = {radius=2500, checkpoints = 16, degreesBetweenCheckpoint
 --All Zero Checkpoint for proper axis relation
 table.insert( path, {x=0, y=0, z=0, pitch=0, yaw=0, roll=0} )
 
---path = PosYToPosZ( path, xoffset, yoffset, zoffset, trackAttributes )
---path = PosZToPosY(path, xoffset, yoffset, zoffset, trackAttributes)
+path = PosYToPosZ( path, xoffset, yoffset, zoffset, trackAttributes )
+path = PosZToPosY(path, xoffset, 5000, 500, trackAttributes)
+path = PosYToPosZ( path, xoffset, 5500, 5500, trackAttributes )
 --path = NegYtoPosZ( path, xoffset, yoffset, 500, trackAttributes )
 --path = NegYToNegZ(path, xoffset, -500, 2500, trackAttributes)
 --path = NegYToPosZ( path, xoffset, 1500, 3500, trackAttributes )

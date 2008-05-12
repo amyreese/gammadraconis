@@ -8,7 +8,11 @@ course = Course()
 Engine.GetInstance().course = course
 
 path = {
-	{x=0, y=0, z=1000, yaw=0, pitch=0, roll=0 },
+	{x=0, y=50, z=9000, yaw=0, pitch=0, roll=0 },
+	{x=0, y=50, z=7000, yaw=0, pitch=0, roll=0 },
+	{x=0, y=50, z=5000, yaw=0, pitch=0, roll=0 },
+	{x=0, y=50, z=3000, yaw=0, pitch=0, roll=0 },
+	{x=0, y=50, z=1000, yaw=0, pitch=0, roll=0 },
 	{x=50, y=50, z=-400, yaw=0, pitch=0, roll=0},
 	{x=150, y=-75, z=-1000, yaw=0, pitch=0, roll=0},
 	{x=275, y=-300, z=-1600, yaw=MathHelper.PiOver2 / 4, pitch=0, roll=0},

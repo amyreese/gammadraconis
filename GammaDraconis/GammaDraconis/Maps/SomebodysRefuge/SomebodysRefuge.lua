@@ -167,3 +167,6 @@ gameScene:track(roid, GO_TYPE.DEBRIS)
 
 roid = Proto.getThing("Asteroid800B", Coords(500, 350, 1000), Coords(-0.5, -1.5, -1, 0.0025, 0.0015, 0.005))
 gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800B", Coords(1000, 0, 0), Coords(0, 0, 0, 0.0025, 0.0015, 0.005))
+gameScene:track(roid, GO_TYPE.DEBRIS)

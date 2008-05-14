@@ -366,8 +366,8 @@ namespace GammaDraconis.Types
         public virtual float getAmmo()
         {
             List<Weapon> weapons = getWeapons(W_TYPE.SECONDARY);
-            int current = 0;
-            int max = 0;
+            float current = 0;
+            float max = 0;
             foreach (Weapon w in weapons)
             {
                 current += w.ammo;

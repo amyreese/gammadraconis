@@ -128,10 +128,10 @@ screenPositions = {420, 380, 340, 300, 260, 220, 180}
 
 
 
-playerHUDs[playerHudIndex].speedBar = StatusBar.new()
-playerHUDs[playerHudIndex].speedBar.addToInterface(playerHUDs[playerHudIndex].interface)
-playerHUDs[playerHudIndex].speedBar.relocate( Vector2( 512-64, 128 ) )
-playerHUDs[playerHudIndex].speedBar.color( Color.Gray )
+playerHUDs[playerHudIndex].ammoBar = StatusBar.new()
+playerHUDs[playerHudIndex].ammoBar.addToInterface(playerHUDs[playerHudIndex].interface)
+playerHUDs[playerHudIndex].ammoBar.relocate( Vector2( 512-64, 128 ) )
+playerHUDs[playerHudIndex].ammoBar.color( Color.Gray )
 
 playerHUDs[playerHudIndex].healthBar = StatusBar.new()
 playerHUDs[playerHudIndex].healthBar.addToInterface(playerHUDs[playerHudIndex].interface)
@@ -177,7 +177,7 @@ function playerHUDs.update(gameTime, playerIndex)
 	local checkpoints = checkpointsPerLap * Engine.GetInstance().race.laps
 	playerHUDs[playerIndex].healthBar.update(Player.players[playerIndex-1].health / Player.players[playerIndex-1].maxHealth)
 	playerHUDs[playerIndex].shieldBar.update(Player.players[playerIndex-1].shield / Player.players[playerIndex-1].maxShield)
-	playerHUDs[playerIndex].speedBar.update(Player.players[playerIndex-1].velocity:pos():Length() / 8.75)
+	playerHUDs[playerIndex].ammoBar.update(Player.players[playerIndex-1]:getAmmo())
 	if Engine.GetInstance().enginePaused then
 		playerHUDs[playerIndex].statusText.text = "Paused"
 	elseif Engine.GetInstance().secondsToStart > 0 then

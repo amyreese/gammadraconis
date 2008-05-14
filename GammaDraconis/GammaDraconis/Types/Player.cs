@@ -184,15 +184,6 @@ namespace GammaDraconis.Types
             }
             #endregion
 
-            #region Change Rates based on position
-            rateL /= rateModifier;
-            rateR /= rateModifier;
-            float mod = 0.02f;
-            rateModifier = 1.0f - (Engine.GetInstance().race.status(this).leading) * mod;
-            rateL *= rateModifier;
-            rateR *= rateModifier;
-            #endregion
-
             base.think(gameTime);
         }
 
@@ -200,7 +191,7 @@ namespace GammaDraconis.Types
         {
             return "Player " + index;
         }
-        
+
         /// <summary>
         /// Create a Player object from a ship definition.
         /// </summary>

@@ -177,7 +177,7 @@ namespace GammaDraconis.Types
         /// Linearly accelerate the ship along the beam at the given amount of throttle.
         /// </summary>
         /// <param name="amount">Throttle amount clamped between -1f and 1f</param>
-        public void throttle(float amount)
+        public virtual void throttle(float amount)
         {
             amount = -MathHelper.Clamp(amount, -1f, 1f);
             acceleration.T *= Matrix.CreateTranslation(0f, 0f, amount);

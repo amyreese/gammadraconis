@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GammaDraconis.Core;
 using GammaDraconis.Video;
 
 namespace GammaDraconis.Types
@@ -18,6 +19,13 @@ namespace GammaDraconis.Types
         public Racer()
             : base()
         {
+        }
+
+        public override void throttle(float amount)
+        {
+            amount *= 1f - 0.06f * (Engine.GetInstance().race.status(this).leading);
+            amount = -MathHelper.Clamp(amount, -1f, 1f);
+            acceleration.T *= Matrix.CreateTranslation(0f, 0f, amount);
         }
         
         /// <summary>

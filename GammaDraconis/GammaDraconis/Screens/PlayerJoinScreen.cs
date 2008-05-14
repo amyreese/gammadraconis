@@ -191,7 +191,10 @@ namespace GammaDraconis.Screens
 
                 foreach (string map in maps)
                 {
-                    trackSelector.AddSelection(map.Substring(map.IndexOf("\\") + 1));
+                    if (!map.Contains(".svn"))
+                    {
+                        trackSelector.AddSelection(map.Substring(map.IndexOf("\\") + 1));
+                    }
                 }
             }
 

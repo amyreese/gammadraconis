@@ -363,6 +363,23 @@ namespace GammaDraconis.Types
             }
         }
 
+        public virtual float getAmmo()
+        {
+            List<Weapon> weapons = getWeapons(W_TYPE.SECONDARY);
+            int current = 0;
+            int max = 0;
+            foreach (Weapon w in weapons)
+            {
+                current += w.ammo;
+                max += w.ammoMax;
+            }
+            if (current == 0 || max == 0)
+            {
+                return 0f;
+            }
+            return current / max;
+        }
+
         public virtual void OnDeath()
         {
             if (OnDeathFunction != null)

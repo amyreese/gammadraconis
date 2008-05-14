@@ -389,13 +389,14 @@ namespace GammaDraconis.Core
                         continue;
                     }
                     Vector3 o2Pos = o2.position.pos();
-                    if (o is Bullet)
+                    // only do ray-based collisions for bullets that are moving at a reasonable rate
+                    if (o is Bullet && o.velocity.pos().Length() > 0.5)
                     {
 
                         collideBullet((Bullet)o, o2);
                         continue;
                     }
-                    if (o2 is Bullet)
+                    if (o2 is Bullet && o2.velocity.pos().Length() > 0.5)
                     {
                         collideBullet((Bullet)o2, o);
                         continue;
@@ -403,10 +404,7 @@ namespace GammaDraconis.Core
                     
                     if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
                     {
-                        if (o is Checkpoint || o2 is Checkpoint)
-                        {
-                            int i = 0;
-                        }
+                        
                         if (oPos == o2Pos)
                         {
                             // TODO: Randomize some
@@ -438,7 +436,7 @@ namespace GammaDraconis.Core
                         o.takeDamage(magnitude);
                         o2.takeDamage(magnitude);
                         
-                        /*if (o is Bullet)
+                        if (o is Bullet)
                         {
                             gameScene.ignore(o, GO_TYPE.BULLET);
                             o2.takeDamage(((Bullet)o).damage);
@@ -447,7 +445,7 @@ namespace GammaDraconis.Core
                         {
                             gameScene.ignore(o2, GO_TYPE.BULLET);
                             o.takeDamage(((Bullet)o2).damage);
-                        }*/
+                        }
                          
                     }
                 }

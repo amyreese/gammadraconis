@@ -151,7 +151,7 @@ namespace GammaDraconis.Screens.Menus
                     throw new Exception("Bad menu!");
                 }
 
-                //Audio.play("menu_item");
+                Audio.play("menu_item");
             }
 
             if (input.inputPressed(MenuInput.Commands.Down))
@@ -169,7 +169,7 @@ namespace GammaDraconis.Screens.Menus
                     throw new Exception("Bad menu!");
                 }
 
-                //Audio.play("menu_item");
+                Audio.play("menu_item");
             }
             menuItems[menuItemIndex].color = GetSelectedColor();
             menuItems[menuItemIndex].RelativeScale = GetSelectedScale();
@@ -177,13 +177,13 @@ namespace GammaDraconis.Screens.Menus
 
             if (input.inputPressed(MenuInput.Commands.Select))
             {
-                //Audio.play("menu_select");
+                Audio.play("menu_select");
                 ItemSelected(menuItems[menuItemIndex].command);
             }
 
             if (input.inputPressed(MenuInput.Commands.Cancel))
             {
-                //Audio.play("menu_select");
+                Audio.play("menu_select");
                 Cancel();
             }
             #endregion

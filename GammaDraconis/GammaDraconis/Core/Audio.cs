@@ -11,6 +11,7 @@ namespace GammaDraconis.Core
     /// </summary>
     class Audio
     {
+        static bool NoSound = false;
         // XACT components.
         static AudioEngine audioEngine;
         static SoundBank soundBank;
@@ -24,9 +25,16 @@ namespace GammaDraconis.Core
 		/// </summary>
         static public void init()
         {
-            //audioEngine = new AudioEngine("Resources/Audio/Engine.xgs");
-            //soundBank = new SoundBank(audioEngine, "Resources/Audio/Audio.xsb");
-            //waveBank = new WaveBank(audioEngine, "Resources/Audio/Audio.xwb");
+            try
+            {
+                audioEngine = new AudioEngine("Resources/Audio/Engine.xgs");
+                soundBank = new SoundBank(audioEngine, "Resources/Audio/Audio.xsb");
+                waveBank = new WaveBank(audioEngine, "Resources/Audio/Audio.xwb");
+            }
+            catch (Exception e)
+            {
+                NoSound = true;
+            }
 
             cues = new Dictionary<string,Cue>();
             repeat = new Dictionary<string,bool>();
@@ -39,8 +47,10 @@ namespace GammaDraconis.Core
         static public void play(String cue) { play(cue, true); }
         static public void play(String cue, bool overlap)
         {
+            if (NoSound) { return; }
+
             cache(cue);
-            /*if (cues[cue].IsPrepared)
+            if (cues[cue].IsPrepared)
             {
                 cues[cue].Play();
             }
@@ -52,7 +62,7 @@ namespace GammaDraconis.Core
             {
                 recache(cue);
                 cues[cue].Play();
-            }*/
+            }
         }
 
         /// <summary>
@@ -61,6 +71,8 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static public void playRepeat(String cue)
         {
+            if (NoSound) { return; }
+
             cache(cue);
             repeat[cue] = true;
             if (cues[cue].IsPrepared)
@@ -81,6 +93,8 @@ namespace GammaDraconis.Core
 		/// <param name="cue"></param>
         static public void pause(String cue)
         {
+            if (NoSound) { return; }
+
             cache(cue);
             if (cues[cue].IsPlaying)
             {
@@ -94,6 +108,8 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static public void stop(String cue)
         {
+            if (NoSound) { return; }
+
             cache(cue);
             if (cues[cue].IsPlaying || cues[cue].IsPaused)
             {
@@ -107,7 +123,9 @@ namespace GammaDraconis.Core
         /// </summary>
         static public void stopAll()
         {
-            foreach(Cue cue in cues.Values)
+            if (NoSound) { return; }
+
+            foreach (Cue cue in cues.Values)
             {
                 cue.Stop(AudioStopOptions.Immediate);
             }
@@ -119,10 +137,12 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static private void cache(String cue)
         {
+            if (NoSound) { return; }
+
             if (!cues.ContainsKey(cue))
             {
-                //cues.Add(cue, soundBank.GetCue(cue));
-                //repeat.Add(cue, false);
+                cues.Add(cue, soundBank.GetCue(cue));
+                repeat.Add(cue, false);
             }
         }
 
@@ -132,6 +152,8 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static private void recache(String cue)
         {
+            if (NoSound) { return; }
+
             cues[cue] = soundBank.GetCue(cue);
         }
 
@@ -142,6 +164,8 @@ namespace GammaDraconis.Core
         /// <param name="value">The value of the variable.</param>
         static public void set(String name, float value)
         {
+            if (NoSound) { return; }
+
             audioEngine.SetGlobalVariable(name, value);
         }
 
@@ -150,8 +174,10 @@ namespace GammaDraconis.Core
         /// </summary>
         /// <param name="name">The name of the variable.</param>
         /// <returns>The value of the variable.</returns>
-        static public float get(String name)
+        static public float? get(String name)
         {
+            if (NoSound) { return null; }
+
             return audioEngine.GetGlobalVariable(name);
         }
 
@@ -160,7 +186,9 @@ namespace GammaDraconis.Core
         /// </summary>
         static public void update()
         {
-            foreach(String cue in cues.Keys)
+            if (NoSound) { return; }
+
+            foreach (String cue in cues.Keys)
             {
                 bool repeatable = repeat[cue];
 

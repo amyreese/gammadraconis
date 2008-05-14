@@ -33,7 +33,7 @@ namespace GammaDraconis
         {
             graphics = new GraphicsDeviceManager(this);
 
-            //Audio.init();
+            Audio.init();
             Input.reset();
 
             renderer = new Renderer(this);

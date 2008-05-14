@@ -372,7 +372,7 @@ namespace GammaDraconis.Core
                 Vector3 oPos = o.position.pos();
                 foreach (GameObject o2 in collidableGameObjects)
                 {
-                    if (o is Bullet && o2 is Bullet)
+                    if (o.immobile && o2.immobile && o.invincible && o2.invincible)
                     {
                         continue;
                     }
@@ -380,7 +380,7 @@ namespace GammaDraconis.Core
                     {
                         continue;
                     }
-                    if (o.immobile && o2.immobile && o.invincible && o2.invincible)
+                    if (o is Bullet && o2 is Bullet)
                     {
                         continue;
                     }

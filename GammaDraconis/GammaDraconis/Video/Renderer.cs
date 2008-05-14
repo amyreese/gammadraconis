@@ -61,6 +61,10 @@ namespace GammaDraconis.Video
             RightSide = 8,
         }
 
+        /// <summary>
+        /// Set up the renderer.
+        /// </summary>
+        /// <param name="game"></param>
         public Renderer(GammaDraconis game)
             : base(game)
         {
@@ -78,11 +82,17 @@ namespace GammaDraconis.Video
             reset();
         }
 
+        /// <summary>
+        /// Reset the renderer, called when resolution changes.
+        /// </summary>
         public void reset()
         {
             InitializeViewports();
         }
 
+        /// <summary>
+        /// Create viewports for single player, two player, and four player modes based on the current resolution.
+        /// </summary>
         private void InitializeViewports()
         {
             viewports[(int)Viewports.WholeWindow] = new Viewport();
@@ -117,6 +127,11 @@ namespace GammaDraconis.Video
             viewports[(int)Viewports.RightSide].Height = viewports[(int)Viewports.RightSide].Height * 2;
         }
 
+        /// <summary>
+        /// Event called when window is resized.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_ClientSizeChanged(object sender, EventArgs e)
         {
             InitializeViewports();
@@ -125,15 +140,22 @@ namespace GammaDraconis.Video
         /// <summary>
         /// Render a frame of video containing the given Scene and Interface.
         /// The Scene manager includes the world, and all contained models.
-        /// The interface is drawn last to show a Menu or HUD.
+        /// The interface is drawn last to show a Menu or HUD. Assumes HUD should be drawn.
         /// </summary>
         /// <param name="gameTime">Game time</param>
         /// <param name="scene">The scene manager</param>
         public void render(GameTime gameTime, Scene scene) { render(gameTime, scene, true); }
+
+        /// <summary>
+        /// Render a frame of video containing the given Scene and Interface.
+        /// The Scene manager includes the world, and all contained models.
+        /// The interface is drawn last to show a Menu or HUD.
+        /// </summary>
+        /// <param name="gameTime">Game time</param>
+        /// <param name="scene">The scene manager</param>
+        /// <param name="drawHUD">Whether or not the HUD should be drawn.</param>
         public void render(GameTime gameTime, Scene scene, bool drawHUD)
         {
-            int numPlayers = SetPlayerViewports();
-
             renderBloom = false;
 
             // Render all players' viewports
@@ -291,6 +313,14 @@ namespace GammaDraconis.Video
 			}
 		}
 
+        /// <summary>
+        /// Render an object based on an FBX file within a given camera matrix.
+        /// </summary>
+        /// <param name="gameObject">The GameObject the model belongs to.</param>
+        /// <param name="fbxmodel">The FBX model to draw.</param>
+        /// <param name="cameraMatrix">The camera matrix.</param>
+        /// <param name="objectMatrix">The object matrix.</param>
+        /// <param name="player">What player's view is being rendered.</param>
 		private void renderFBXModel(GameObject gameObject, FBXModel fbxmodel, Matrix cameraMatrix, Matrix objectMatrix, Player player)
 		{
 			Matrix modelMatrix;
@@ -388,6 +418,11 @@ namespace GammaDraconis.Video
 
         }
 
+        /// <summary>
+        /// Apply lighting effects.
+        /// </summary>
+        /// <param name="effect">The lighting effect.</param>
+        /// <param name="lighted">Whether or not the specified model is lit.</param>
         private void applyLights(BasicEffect effect, bool lighted)
         {
             if (lighted)
@@ -429,7 +464,11 @@ namespace GammaDraconis.Video
             }
         }
 
-        private int SetPlayerViewports()
+        /// <summary>
+        /// Set up the viewport sizes that each player uses.
+        /// </summary>
+        /// <returns></returns>
+        public int SetPlayerViewports()
         {
             MissingPlayerViewports = new Viewports[Player.players.Length];
             for( int x = 0; x < MissingPlayerViewports.Length; x++ ) {
@@ -512,6 +551,9 @@ namespace GammaDraconis.Video
             return numPlayers;
         }
 
+        /// <summary>
+        /// Load material shaders based on available pixel shader version.
+        /// </summary>
         protected override void LoadContent()
         {
             if (game.GraphicsDevice.GraphicsDeviceCapabilities.PixelShaderVersion.Major >= 3)

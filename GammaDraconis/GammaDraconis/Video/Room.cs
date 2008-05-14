@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace GammaDraconis.Video
 {
+    /// <summary>
+    /// A simple class that holds data about a room. Used by the scene manager.
+    /// </summary>
     class Room
     {
         public bool canSeeOutside;

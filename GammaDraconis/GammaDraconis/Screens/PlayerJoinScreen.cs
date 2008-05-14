@@ -195,7 +195,8 @@ namespace GammaDraconis.Screens
                 }
             }
 
-            
+            // Reset player viewports.
+            GammaDraconis.renderer.SetPlayerViewports();
         }
 
         public override void Update(GameTime gameTime)
@@ -319,6 +320,8 @@ namespace GammaDraconis.Screens
                             Player.players[index] = null;
                         }
                     }
+
+                    GammaDraconis.renderer.SetPlayerViewports();
 
                     ((GameScreen)gammaDraconis.getScreen(GammaDraconis.GameStates.Game)).ReloadEngine(trackSelector.CurrentSelection, players);
 

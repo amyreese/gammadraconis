@@ -161,3 +161,9 @@ skybox = Skybox()
 gameScene:track(skybox, GO_TYPE.SKYBOX)
 Skybox.lights[0] = Light(Vector3(-0.05,  0.1, -1), Vector3(0.9, 0.7, 0.7), Vector3(1,1,1))
 Skybox.lights[1] = Light(Vector3( 0.95, -0.9,  1), Vector3(0.4, 0.4, 0.4), Vector3(0.5,0.5,0.5))
+
+roid = Proto.getThing("Asteroid800A", Coords(250, 350, 10000), Coords(-0.5, -0.5, -3))
+gameScene:track(roid, GO_TYPE.DEBRIS)
+
+roid = Proto.getThing("Asteroid800B", Coords(500, 350, 1000), Coords(-0.5, -1.5, -1, 0.0025, 0.0015, 0.005))
+gameScene:track(roid, GO_TYPE.DEBRIS)

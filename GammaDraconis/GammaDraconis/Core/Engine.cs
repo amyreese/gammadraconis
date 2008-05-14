@@ -639,7 +639,7 @@ public Race race;
             for (int i = 0; i < players.Length; i++)
             {
                 gameScene.track(players[i], GO_TYPE.RACER);
-                players[i].position = new Coords(pos.X - (4 + 2 * i) * players[i].size, pos.Y, pos.Z + 2 * players[i].size);
+                players[i].position = new Coords(pos.X - (3.5f - 2 * i) * (players[i].size + 2), pos.Y, pos.Z + 2 * players[i].size);
                 players[i].position.R = spot.R;
             }
 

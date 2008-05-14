@@ -125,8 +125,8 @@ namespace GammaDraconis.Core.Input
                 inputKeys.Add(Commands.Right, "numpad6");
                 inputKeys.Add(Commands.RollLeft, "numpad7");
                 inputKeys.Add(Commands.RollRight, "numpad9");
-                inputKeys.Add(Commands.ThrottleUp, "numpad5");
-                inputKeys.Add(Commands.ThrottleDown, "numpad0");
+                inputKeys.Add(Commands.ThrottleUp, "numpad0");
+                inputKeys.Add(Commands.ThrottleDown, "numpad5");
 
                 inputKeys.Add(Commands.Fire1, "numpad1");
                 inputKeys.Add(Commands.Fire2, "numpad3");

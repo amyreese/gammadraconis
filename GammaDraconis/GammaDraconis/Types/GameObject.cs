@@ -349,6 +349,7 @@ namespace GammaDraconis.Types
 						b.lastPosition = b.position.Clone();
 						b.velocity = velocity.Clone();
 						b.throttle(1f);
+                        Audio.play(weapon.fireSFX);
 
 						Engine.GetInstance().gameScene.track(b, GO_TYPE.BULLET);
 

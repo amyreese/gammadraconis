@@ -34,6 +34,10 @@ namespace GammaDraconis.Types
 		public int ammoMax = 1;
 		public int ammo = 1;
 
+        //Sound FX
+        public String fireSFX = "";
+        public String impactSFX = "";
+
         // Behaviors
         public Weapon() 
         {
@@ -53,6 +57,8 @@ namespace GammaDraconis.Types
 			weapon.cooldown = cooldown;
             weapon.fireFrom = fireFrom;
             weapon.bullet = bullet.clone();
+            weapon.fireSFX = fireSFX;
+            weapon.impactSFX = impactSFX;
 
             return weapon;
         }

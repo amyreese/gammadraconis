@@ -42,6 +42,8 @@ namespace GammaDraconis.Types
                 b.models.Add(model.clone());
             }
 
+            b.onDeathSound = onDeathSound;
+
             return b;
         }
     }

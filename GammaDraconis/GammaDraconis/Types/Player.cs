@@ -77,6 +77,7 @@ namespace GammaDraconis.Types
                 health = maxHealth;
                 shield = maxShield;
                 invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
+                
             }
             #endregion
 
@@ -239,6 +240,10 @@ namespace GammaDraconis.Types
             go.relativeLookAt = new Vector3(ship.relativeLookAt.X, ship.relativeLookAt.Y, ship.relativeLookAt.Z);
             go.relativeLookFrom = new Vector3(ship.relativeLookFrom.X, ship.relativeLookFrom.Y, ship.relativeLookFrom.Z);
             go.relationalScale = ship.relationalScale;
+            
+            go.thrusterSFX = ship.thrusterSFX;
+            go.engine_startSFX = ship.engine_startSFX;
+            go.onDeathSound = ship.onDeathSound;
 
             return go;
         }

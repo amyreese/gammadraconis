@@ -26,6 +26,14 @@ namespace GammaDraconis.Types
             amount *= 1f - 0.06f * (Engine.GetInstance().race.status(this).leading);
             amount = -MathHelper.Clamp(amount, -1f, 1f);
             acceleration.T *= Matrix.CreateTranslation(0f, 0f, amount);
+            if (amount != 0)
+            {
+                Audio.playRepeat(thrusterSFX);
+            }
+            else
+            {
+                Audio.pause(thrusterSFX);
+            }
         }
         
         /// <summary>
@@ -111,6 +119,10 @@ namespace GammaDraconis.Types
             go.relativeLookAt = new Vector3(ship.relativeLookAt.X, ship.relativeLookAt.Y, ship.relativeLookAt.Z);
             go.relativeLookFrom = new Vector3(ship.relativeLookFrom.X, ship.relativeLookFrom.Y, ship.relativeLookFrom.Z);
             go.relationalScale = ship.relationalScale;
+
+            go.thrusterSFX = ship.thrusterSFX;
+            go.engine_startSFX = ship.engine_startSFX;
+            go.onDeathSound = ship.onDeathSound;
 
             return go;
         }

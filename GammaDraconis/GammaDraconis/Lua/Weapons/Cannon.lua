@@ -2,6 +2,7 @@
 weapon = Weapon()
 weapon.type = W_TYPE.PRIMARY
 weapon.cooldown = 200
+weapon.fireSFX = "fire_cannon"
 
 weapon.bullet.damage = 500
 weapon.bullet.rateL = 750

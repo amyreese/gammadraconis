@@ -47,7 +47,9 @@ namespace GammaDraconis.Core
         static public void play(String cue) { play(cue, true); }
         static public void play(String cue, bool overlap)
         {
-            if (NoSound) { return; }
+            if (NoSound || cue.Equals("") || cue == null) {
+                Console.WriteLine("Cue: " + cue);  
+                return; }
 
             cache(cue);
             if (cues[cue].IsPrepared)
@@ -71,7 +73,7 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static public void playRepeat(String cue)
         {
-            if (NoSound) { return; }
+            if (NoSound || cue.Equals("") || cue == null) { return; }
 
             cache(cue);
             repeat[cue] = true;
@@ -93,7 +95,7 @@ namespace GammaDraconis.Core
 		/// <param name="cue"></param>
         static public void pause(String cue)
         {
-            if (NoSound) { return; }
+            if (NoSound || cue.Equals("") || cue == null) { return; }
 
             cache(cue);
             if (cues[cue].IsPlaying)
@@ -108,7 +110,7 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static public void stop(String cue)
         {
-            if (NoSound) { return; }
+            if (NoSound || cue.Equals("") || cue == null) { return; }
 
             cache(cue);
             if (cues[cue].IsPlaying || cues[cue].IsPaused)
@@ -137,7 +139,7 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static private void cache(String cue)
         {
-            if (NoSound) { return; }
+            if (NoSound || cue.Equals("") || cue == null) { return; }
 
             if (!cues.ContainsKey(cue))
             {
@@ -152,7 +154,7 @@ namespace GammaDraconis.Core
         /// <param name="cue"></param>
         static private void recache(String cue)
         {
-            if (NoSound) { return; }
+            if (NoSound || cue.Equals("") || cue == null) { return; }
 
             cues[cue] = soundBank.GetCue(cue);
         }

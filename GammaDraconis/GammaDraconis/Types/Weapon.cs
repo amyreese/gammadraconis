@@ -60,6 +60,8 @@ namespace GammaDraconis.Types
             weapon.fireSFX = fireSFX;
             weapon.impactSFX = impactSFX;
 
+            weapon.onDeathSound = onDeathSound;
+
             return weapon;
         }
     }

@@ -75,6 +75,11 @@ namespace GammaDraconis.Types
         public double shieldVisibilityTimer = 0;
         public bool immobile;
 
+        //Sounds for movement and initial movement
+        public String thrusterSFX = "";
+        public String engine_startSFX = "";
+        public String onDeathSound = "";
+
         public LuaInterface.LuaFunction OnDeathFunction;
 
         /// <summary>
@@ -125,6 +130,10 @@ namespace GammaDraconis.Types
             go.relativeLookAt = new Vector3(relativeLookAt.X, relativeLookAt.Y, relativeLookAt.Z);
             go.relativeLookFrom = new Vector3(relativeLookFrom.X, relativeLookFrom.Y, relativeLookFrom.Z);
             go.relationalScale = relationalScale;
+
+            go.engine_startSFX = engine_startSFX;
+            go.thrusterSFX = thrusterSFX;
+            go.onDeathSound = onDeathSound;
             
             return go;
         }
@@ -181,6 +190,7 @@ namespace GammaDraconis.Types
         {
             amount = -MathHelper.Clamp(amount, -1f, 1f);
             acceleration.T *= Matrix.CreateTranslation(0f, 0f, amount);
+
         }
 
         /// <summary>
@@ -383,6 +393,7 @@ namespace GammaDraconis.Types
 
         public virtual void OnDeath()
         {
+            Audio.play(onDeathSound);
             if (OnDeathFunction != null)
             {
                 OnDeathFunction.Call(this);

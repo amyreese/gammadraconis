@@ -5,6 +5,8 @@ weapon.cooldown = 2000
 weapon.ammoMax = 10;
 weapon.fireFrom = Coords(0,-7,0)
 weapon.fireSFX = "drop_mine"
+weapon.impactSFX = "explosion"
+weapon.bullet.onDeathSound = "explosion"
 
 weapon.bullet.damage = 5000
 weapon.bullet.rateL = 0

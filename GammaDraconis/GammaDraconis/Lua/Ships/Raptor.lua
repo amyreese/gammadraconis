@@ -47,4 +47,8 @@ ship.mounts:Add(mountR)
 ship.mounts:Add(mountL)
 ship.mounts:Add(mountC)
 
+ship.thrusterSFX = "raptor_thruster"
+ship.engine_startSFX = "raptor_engine_start"
+ship.onDeathSound = "crash"
+
 Proto.ship:Add("Raptor", ship)

@@ -26,14 +26,16 @@ namespace GammaDraconis.Types
             amount *= 1f - 0.06f * (Engine.GetInstance().race.status(this).leading);
             amount = -MathHelper.Clamp(amount, -1f, 1f);
             acceleration.T *= Matrix.CreateTranslation(0f, 0f, amount);
-            if (amount != 0)
+            
+            //Play thruster SFX
+            /*if (amount != 0)
             {
                 Audio.playRepeat(thrusterSFX);
             }
             else
             {
                 Audio.pause(thrusterSFX);
-            }
+            }*/
         }
         
         /// <summary>

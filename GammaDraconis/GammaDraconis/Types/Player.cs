@@ -77,7 +77,7 @@ namespace GammaDraconis.Types
                 health = maxHealth;
                 shield = maxShield;
                 invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
-                
+                OnDeath();   
             }
             #endregion
 

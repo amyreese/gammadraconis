@@ -123,7 +123,10 @@ namespace GammaDraconis.Core
                     BoundingSphere racerSphere = new BoundingSphere(r.position.pos(), r.size);
                     if (checkpointSphere.Intersects(racerSphere))
                     {
+                        //Racer has passed a checkpoint
                         state[r] += 1;
+                        Audio.play("pass_checkpoint");
+
                         if (state[r] == laps * course.checkpoints.Count + (course.loop ? 0 : -1))
                         {
                             finishedRacers.Add(r);

@@ -28,7 +28,9 @@ namespace GammaDraconis.Types
             acceleration.T *= Matrix.CreateTranslation(0f, 0f, amount);
             
             //Play thruster SFX
-            /*if (amount != 0)
+            /*
+            //Maybe add a boolean variable to determine if the game is single player
+            if (amount != 0)
             {
                 Audio.playRepeat(thrusterSFX);
             }

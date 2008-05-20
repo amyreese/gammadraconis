@@ -113,6 +113,7 @@ namespace GammaDraconis.Core
                 if (secondsToEnd < 0)
                 {
                     ((LevelOverScreen)game.getScreen(GammaDraconis.GameStates.LevelOver)).LevelOver(race);
+                    Audio.stopAll();
                     game.changeState(GammaDraconis.GameStates.LevelOver);
                 }
             }

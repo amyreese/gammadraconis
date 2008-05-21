@@ -129,16 +129,19 @@ screenPositions = {420, 380, 340, 300, 260, 220, 180}
 
 
 playerHUDs[playerHudIndex].ammoBar = StatusBar.new()
+playerHUDs[playerHudIndex].ammoBar.setIcon("Resources/Textures/HUD/MineIcon")
 playerHUDs[playerHudIndex].ammoBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].ammoBar.relocate( Vector2( 512-64, 128 ) )
 playerHUDs[playerHudIndex].ammoBar.color( Color.Gray )
 
 playerHUDs[playerHudIndex].healthBar = StatusBar.new()
+playerHUDs[playerHudIndex].healthBar.setIcon("Resources/Textures/HUD/HealthIcon")
 playerHUDs[playerHudIndex].healthBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].healthBar.relocate( Vector2( 512-64, 64 ) )
 playerHUDs[playerHudIndex].healthBar.color( Color.Red )
 
 playerHUDs[playerHudIndex].shieldBar = StatusBar.new()
+playerHUDs[playerHudIndex].shieldBar.setIcon("Resources/Textures/HUD/ShieldIcon")
 playerHUDs[playerHudIndex].shieldBar.addToInterface(playerHUDs[playerHudIndex].interface)
 playerHUDs[playerHudIndex].shieldBar.relocate( Vector2( 512-64, 96 ) )
 playerHUDs[playerHudIndex].shieldBar.color( Color.Blue )

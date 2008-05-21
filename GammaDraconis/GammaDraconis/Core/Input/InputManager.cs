@@ -8,6 +8,9 @@ namespace GammaDraconis.Core.Input
 {
     class InputManager
     {
+        /// <summary>
+        /// The types of control schemes.
+        /// </summary>
         public enum ControlScheme
         {
             None, GamePad, KeyboardWASD, KeyboardNumPad, KeyboardNumPad2, KeyboardNumPad3
@@ -17,6 +20,9 @@ namespace GammaDraconis.Core.Input
         private PlayerIndex mouseUser;
         private bool mouseInUse;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public InputManager()
         {
             controlMappings = new Dictionary<PlayerIndex, ControlScheme>();
@@ -30,6 +36,9 @@ namespace GammaDraconis.Core.Input
             mouseInUse = false;
         }
 
+        /// <summary>
+        /// Sets all players back to having no control scheme.
+        /// </summary>
         private void ResetControlSchemes()
         {
             controlMappings[PlayerIndex.One] = ControlScheme.None;
@@ -38,6 +47,10 @@ namespace GammaDraconis.Core.Input
             controlMappings[PlayerIndex.Four] = ControlScheme.None;
         }
 
+        /// <summary>
+        /// Automatically register the control schemes based on what controllers
+        /// are enabled.
+        /// </summary>
         public void AutoRegisterControlSchemes()
         {
             ResetControlSchemes();
@@ -112,6 +125,12 @@ namespace GammaDraconis.Core.Input
             }
         }
 
+        /// <summary>
+        /// Checks to see if a specific control scheme is already in use
+        /// or if it is still available.
+        /// </summary>
+        /// <param name="c">The control scheme to check</param>
+        /// <returns></returns>
         public bool IsSchemeAvailable(ControlScheme c)
         {
             foreach (KeyValuePair<PlayerIndex, ControlScheme> kvp in controlMappings)
@@ -121,11 +140,20 @@ namespace GammaDraconis.Core.Input
             return true;
         }
 
+        /// <summary>
+        /// Check to see if the mouse is in use or if it is available.
+        /// </summary>
+        /// <returns></returns>
         public bool IsMouseAvailable()
         {
             return !mouseInUse;
         }
 
+        /// <summary>
+        /// Returns the input for a player based on their control scheme
+        /// </summary>
+        /// <param name="p">The player to get input for</param>
+        /// <returns></returns>
         public PlayerInput GetPlayerInput(PlayerIndex p)
         {
             return new PlayerInput(p, controlMappings[p]);

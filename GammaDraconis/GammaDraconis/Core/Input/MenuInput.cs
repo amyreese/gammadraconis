@@ -12,6 +12,9 @@ namespace GammaDraconis.Core.Input
     /// </summary>
     class MenuInput : Input
     {
+        /// <summary>
+        /// the commands which can be executed during menu manipulation.
+        /// </summary>
         public class Commands
         {
             public static String Up = "Up";

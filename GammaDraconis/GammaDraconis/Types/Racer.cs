@@ -105,10 +105,6 @@ namespace GammaDraconis.Types
             {
                 go.explosion = ship.explosion.clone();
             }
-            else
-            {
-                go.explosion = new Explosion();
-            }
 
             go.rateL = ship.rateL;
             go.rateR = ship.rateR;

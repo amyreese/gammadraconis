@@ -13,7 +13,7 @@ namespace GammaDraconis.Core.Input
         /// </summary>
         public enum ControlScheme
         {
-            None, GamePad, KeyboardWASD, KeyboardNumPad, KeyboardNumPad2, KeyboardNumPad3
+            None, GamePad, KeyboardWASD, KeyboardNumPad
         }
 
         private Dictionary<PlayerIndex, ControlScheme> controlMappings;
@@ -96,7 +96,7 @@ namespace GammaDraconis.Core.Input
                 }
                 else
                 {
-                    controlMappings[PlayerIndex.Three] = ControlScheme.KeyboardNumPad2;
+                    controlMappings[PlayerIndex.Three] = ControlScheme.None;
                 }
             }
 
@@ -114,13 +114,9 @@ namespace GammaDraconis.Core.Input
                 {
                     controlMappings[PlayerIndex.Four] = ControlScheme.KeyboardNumPad;
                 }
-                else if (IsSchemeAvailable(ControlScheme.KeyboardNumPad2))
-                {
-                    controlMappings[PlayerIndex.Four] = ControlScheme.KeyboardNumPad2;
-                }
                 else
                 {
-                    controlMappings[PlayerIndex.Four] = ControlScheme.KeyboardNumPad3;
+                    controlMappings[PlayerIndex.Four] = ControlScheme.None;
                 }
             }
         }

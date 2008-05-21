@@ -41,7 +41,7 @@ namespace GammaDraconis.Video.GUI
 
         internal override void Draw(GameTime gameTime, Vector2 position, Vector2 scale, float rotation)
         {
-            if (texture == null)
+            if ((texture == null) && (textureName != null))
             {
                 LoadContent();
             }

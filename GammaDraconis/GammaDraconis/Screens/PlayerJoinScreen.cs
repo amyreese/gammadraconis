@@ -198,7 +198,13 @@ namespace GammaDraconis.Screens
                 else
                     playerJoinGlyph[i].SpriteFontName = "Resources/Fonts/Menu";
 
-                playerJoinGlyph[i].text = GetKeyGlyph(inputs[i].getKeyBinding(PlayerInput.Commands.Join));
+                if(inputs[i].ControlScheme != InputManager.ControlScheme.None)
+                    playerJoinGlyph[i].text = GetKeyGlyph(inputs[i].getKeyBinding(PlayerInput.Commands.Join));
+                else
+                {
+                    playerJoinText[0][i].text = "Connect";
+                    playerJoinText[1][i].text = "Controller";
+                }
             }
 
             // Reset state variables

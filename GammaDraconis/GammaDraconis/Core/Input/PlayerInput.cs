@@ -141,54 +141,6 @@ namespace GammaDraconis.Core.Input
 
                 inputKeys.Add(Commands.GameStart, "enter");
             }
-            else if (controlScheme == InputManager.ControlScheme.KeyboardNumPad2)
-            {
-                inputKeys.Add(Commands.Up, "numpad8");
-                inputKeys.Add(Commands.Down, "numpad2");
-                inputKeys.Add(Commands.Left, "numpad4");
-                inputKeys.Add(Commands.Right, "numpad6");
-                inputKeys.Add(Commands.RollLeft, "numpad7");
-                inputKeys.Add(Commands.RollRight, "numpad9");
-                inputKeys.Add(Commands.ThrottleUp, "numpad0");
-                inputKeys.Add(Commands.ThrottleDown, "numpad5");
-
-                inputKeys.Add(Commands.Fire1, "n");
-                inputKeys.Add(Commands.Fire2, "numpad3");
-                inputKeys.Add(Commands.Pause, "p");
-                inputKeys.Add(Commands.Menu, "escape");
-                inputKeys.Add(Commands.Reset, "decimal");
-
-                inputKeys.Add(Commands.MenuUp, "numpad8");
-                inputKeys.Add(Commands.MenuDown, "numpad2");
-                inputKeys.Add(Commands.MenuLeft, "numpad4");
-                inputKeys.Add(Commands.MenuRight, "numpad6");
-
-                inputKeys.Add(Commands.GameStart, "enter");
-            }
-            else if (controlScheme == InputManager.ControlScheme.KeyboardNumPad3)
-            {
-                inputKeys.Add(Commands.Up, "numpad8");
-                inputKeys.Add(Commands.Down, "numpad2");
-                inputKeys.Add(Commands.Left, "numpad4");
-                inputKeys.Add(Commands.Right, "numpad6");
-                inputKeys.Add(Commands.RollLeft, "numpad7");
-                inputKeys.Add(Commands.RollRight, "numpad9");
-                inputKeys.Add(Commands.ThrottleUp, "numpad0");
-                inputKeys.Add(Commands.ThrottleDown, "numpad5");
-
-                inputKeys.Add(Commands.Fire1, "m");
-                inputKeys.Add(Commands.Fire2, "numpad3");
-                inputKeys.Add(Commands.Pause, "p");
-                inputKeys.Add(Commands.Menu, "escape");
-                inputKeys.Add(Commands.Reset, "decimal");
-
-                inputKeys.Add(Commands.MenuUp, "numpad8");
-                inputKeys.Add(Commands.MenuDown, "numpad2");
-                inputKeys.Add(Commands.MenuLeft, "numpad4");
-                inputKeys.Add(Commands.MenuRight, "numpad6");
-
-                inputKeys.Add(Commands.GameStart, "enter");
-            }
 
             if (controlScheme != InputManager.ControlScheme.None)
             {

@@ -23,6 +23,8 @@ namespace GammaDraconis.Types
         public GameObject arrow;
 
         double invulnerabilityTimer = 0;
+        bool dead = false;
+        int deathTimer = 0;
 
         public Interface playerHUD;
 
@@ -50,6 +52,7 @@ namespace GammaDraconis.Types
 
             explosion = new Explosion();
             explosion.size = 2f;
+            explosion.particles = 50;
         }
 
         public void setupDust() {
@@ -74,14 +77,46 @@ namespace GammaDraconis.Types
             playerHUD.Update(gameTime);
 
             #region Death handling
-            if (health <= 0)
+            if (health <= 0 && !dead)
             {
-                OnDeath();
-                position = Engine.GetInstance().race.checkpoint(this, 0).position.Clone();
+                dead = true;
                 velocity = new Coords();
-                health = maxHealth;
-                shield = maxShield;
-                invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
+                deathTimer = 2000;
+                
+                OnDeath();
+                Engine.GetInstance().gameScene.ignore(this);
+                foreach (FBXModel model in models)
+                {
+                    model.visible = false;
+                }
+                shieldModel.visible = false;
+                Engine.GetInstance().gameScene.track(this, GO_TYPE.THINKABLE);
+            }
+
+            if (dead)
+            {
+                deathTimer -= gameTime.ElapsedGameTime.Milliseconds;
+
+                if (deathTimer <= 0)
+                {
+                    dead = false;
+                    health = maxHealth;
+                    shield = maxShield;
+                    position = Engine.GetInstance().race.checkpoint(this, 0).position.Clone();
+                    invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
+
+                    Engine.GetInstance().gameScene.ignore(this);
+                    foreach (FBXModel model in models)
+                    {
+                        model.visible = true;
+                    }
+                    Engine.GetInstance().gameScene.track(this, GO_TYPE.PLAYER);
+                }
+                else
+                {
+                    base.think(gameTime);
+                    return;
+                }
             }
             #endregion
 

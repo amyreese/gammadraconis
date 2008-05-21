@@ -18,7 +18,7 @@ mountL.weapon = Proto.getWeapon("Cannon")
 mountC = MountPoint()
 mountC.type = W_TYPE.SECONDARY
 mountC.location = Coords(0, -1, 0)
-mountC.weapon = Proto.getWeapon("Spike")
+mountC.weapon = Proto.getWeapon("Tempest")
 
 ship = GameObject()
 

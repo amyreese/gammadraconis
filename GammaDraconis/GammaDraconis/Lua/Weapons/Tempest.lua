@@ -2,13 +2,13 @@
 weapon = Weapon()
 weapon.type = W_TYPE.SECONDARY
 weapon.cooldown = 400
-weapon.ammoMax = 10
+weapon.ammoMax = 15
 weapon.fireFrom = Coords(0,-7,0)
 weapon.fireSFX = "drop_mine"
 weapon.impactSFX = "explosion"
 weapon.bullet.onDeathSound = "explosion"
 
-weapon.bullet.damage = 50
+weapon.bullet.damage = 150
 weapon.bullet.rateL = 1000
 weapon.bullet.dragL = 0
 weapon.bullet.dragR = 0.5

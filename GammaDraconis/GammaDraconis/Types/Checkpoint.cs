@@ -7,12 +7,21 @@ namespace GammaDraconis.Types
     class Checkpoint : GameObject
     {
         public int racePosition;
+
+        /// <summary>
+        /// Create a checkpoint with the default size.
+        /// </summary>
         public Checkpoint() : base()
         {
             size = 120f;
             racePosition = 0;
         }
 
+        /// <summary>
+        /// Clone a checkpoint object.
+        /// </summary>
+        /// <param name="gameObject">The object to clone.</param>
+        /// <returns>The cloned object.</returns>
         public static Checkpoint cloneObject(GameObject gameObject)
         {
             Checkpoint checkpoint = new Checkpoint();
@@ -22,6 +31,10 @@ namespace GammaDraconis.Types
             return checkpoint;
         }
 
+        /// <summary>
+        /// Clone a checkpoint object.
+        /// </summary>
+        /// <returns>The cloned object.</returns>
         public Checkpoint clone()
         {
             Checkpoint go = new Checkpoint();

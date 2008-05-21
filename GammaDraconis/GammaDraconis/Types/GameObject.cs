@@ -144,6 +144,10 @@ namespace GammaDraconis.Types
             return go;
         }
 
+        /// <summary>
+        /// Scale a model by the specified factor.
+        /// </summary>
+        /// <param name="factor">The scaling factor.</param>
         public void scaleModels(float factor)
         {
             foreach (FBXModel model in models)
@@ -156,9 +160,7 @@ namespace GammaDraconis.Types
             }
         }
 
-        public virtual void test()
-        {
-        }
+        public virtual void test() { }
 
         // Behaviors
         public virtual void think(GameTime gameTime)
@@ -240,7 +242,10 @@ namespace GammaDraconis.Types
             acceleration.R *= Quaternion.CreateFromAxisAngle(Vector3.Backward, 0.4f * amount);  // roll
         }
 
-        //Where the viewport is looking at
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Where the viewport is looking at</returns>
         public Matrix getCameraLookAtMatrix()
         {
             Coords c = getCamera();
@@ -248,7 +253,10 @@ namespace GammaDraconis.Types
             return Matrix.CreateLookAt(c.pos() - velocity.pos() / 2, m.Translation, c.up());
         }
 
-        //Where the viewport is looking from
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Where the viewport is looking from</returns>
         public Coords getCamera()
         {
             Coords c = new Coords();
@@ -380,6 +388,10 @@ namespace GammaDraconis.Types
             }
         }
 
+        /// <summary>
+        /// Get the amount of remaining secondary ammunition.
+        /// </summary>
+        /// <returns>The amount of remaining secondary ammunition.</returns>
         public virtual float getAmmo()
         {
             List<Weapon> weapons = getWeapons(W_TYPE.SECONDARY);
@@ -397,6 +409,9 @@ namespace GammaDraconis.Types
             return current / max;
         }
 
+        /// <summary>
+        /// Function called when an object "dies".
+        /// </summary>
         public virtual void OnDeath()
         {
             Audio.play(onDeathSound);

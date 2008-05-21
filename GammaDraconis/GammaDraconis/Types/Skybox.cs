@@ -12,7 +12,15 @@ namespace GammaDraconis.Types
         public static Vector3 ambient;
         public static Light[] lights;
 
+        /// <summary>
+        /// Create a new skybox with the default texture.
+        /// </summary>
 		public Skybox() : this("Resources/Models/Skybox") {}
+
+        /// <summary>
+        /// Create a new skybox with the specified texture.
+        /// </summary>
+        /// <param name="texture">The texture to map on the skybox.</param>
         public Skybox(string texture) : base()
         {
             FBXModel fbx = new FBXModel(texture, "", 0.195f * 3);

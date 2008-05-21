@@ -16,12 +16,19 @@ namespace GammaDraconis.Types
 
         private Random rand;
 
+        /// <summary>
+        /// Create a new explosion.
+        /// </summary>
         public Explosion()
         {
             bullets = new List<Bullet>();
             rand = new Random();
         }
 
+        /// <summary>
+        /// Clone an Explosion object.
+        /// </summary>
+        /// <returns>The cloned Explosion object.</returns>
         public Explosion clone()
         {
             Explosion e = new Explosion();
@@ -33,7 +40,17 @@ namespace GammaDraconis.Types
             return e;
         }
 
+        /// <summary>
+        /// Explode an explosion.
+        /// </summary>
+        /// <param name="spot">The starting point for the explosion.</param>
         public void explode(Coords spot) { explode(spot, new Coords()); }
+
+        /// <summary>
+        /// Explode an explosion.
+        /// </summary>
+        /// <param name="spot">The starting point for the explosion.</param>
+        /// <param name="vel">The starting velocity for the explosion.</param>
         public void explode(Coords spot, Coords vel)
         {
             Coords velocity = new Coords(vel.pos());

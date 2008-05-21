@@ -34,6 +34,10 @@ namespace GammaDraconis.Types
 
         private float rateModifier = 1;
 
+        /// <summary>
+        /// Construct a player at the specified PlayerIndex.
+        /// </summary>
+        /// <param name="index">The player's PlayerIndex.</param>
         public Player(PlayerIndex index)
             : base()
         {
@@ -55,6 +59,9 @@ namespace GammaDraconis.Types
             explosion.particles = 50;
         }
 
+        /// <summary>
+        /// Set up dust particles to give a sense of speed.
+        /// </summary>
         public void setupDust() {
             float dist = 2f * dustDistance;
             float dist2 = dustDistance;
@@ -72,6 +79,11 @@ namespace GammaDraconis.Types
         }
 
         private int thinkcount = 0;
+
+        /// <summary>
+        /// Handle death, input, and dust.
+        /// </summary>
+        /// <param name="gameTime">The current time.</param>
         public override void think(GameTime gameTime)
         {
             playerHUD.Update(gameTime);

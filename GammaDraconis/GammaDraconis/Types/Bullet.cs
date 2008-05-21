@@ -14,6 +14,9 @@ namespace GammaDraconis.Types
         public double timeToLive;
         public Coords lastPosition;
 
+        /// <summary>
+        /// Construct a bullet with default attributes.
+        /// </summary>
         public Bullet()
         {
             rateL = 50f;
@@ -23,6 +26,10 @@ namespace GammaDraconis.Types
             lastPosition = position;
         }
 
+        /// <summary>
+        /// Clone another Bullet object.
+        /// </summary>
+        /// <returns>A cloned bullet.</returns>
         public Bullet clone()
         {
             Bullet b = new Bullet();

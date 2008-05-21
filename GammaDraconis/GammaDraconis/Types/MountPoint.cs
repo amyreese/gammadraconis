@@ -16,11 +16,18 @@ namespace GammaDraconis.Types
 		public int type = W_TYPE.PRIMARY;
         public Weapon weapon;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public MountPoint()
         {
             location = new Coords();
         }
 
+        /// <summary>
+        /// Clone a MountPoint object.
+        /// </summary>
+        /// <returns>A cloned MountPoint object.</returns>
         public MountPoint clone()
         {
             MountPoint mount = new MountPoint();

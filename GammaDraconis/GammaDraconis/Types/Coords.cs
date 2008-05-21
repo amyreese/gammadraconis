@@ -86,6 +86,10 @@ namespace GammaDraconis.Types
             return "{{ " + R.ToString() + " || " + T.Translation.ToString() + " }}";
         }
 
+        /// <summary>
+        /// Clone a Coords object.
+        /// </summary>
+        /// <returns>A cloned Coords object.</returns>
         public Coords Clone()
         {
             Coords c = new Coords();

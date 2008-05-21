@@ -48,6 +48,10 @@ namespace GammaDraconis.Types
             bullet.mass = 5;
         }
 
+        /// <summary>
+        /// Clone a Weapon object.
+        /// </summary>
+        /// <returns>A cloned Weapon object.</returns>
         public Weapon clone()
         {
             Weapon weapon = new Weapon();

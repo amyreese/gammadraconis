@@ -22,6 +22,10 @@ namespace GammaDraconis.Types
             mounts = new List<MountPoint>();
         }
 
+        /// <summary>
+        /// Clone a Turret object.
+        /// </summary>
+        /// <returns>A cloned Turret object.</returns>
         public Turret clone()
         {
             Turret turret = new Turret();

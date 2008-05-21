@@ -1,18 +1,13 @@
 
-function makeRoidRow(xoffset, yoffset, zoffset, gameScene)
-	roid = Proto.getThing("Asteroid800A", Coords(xoffset-2500,yoffset,zoffset), Coords(0.3 * math.random(),-0.2 * math.random(),0,0.004,0.001,0.0004))
+function makeRoidRow(xoffset, yoffset, zoffset, gameScene)-- * math.random()
+
+	roid = Proto.getThing("Asteroid800A", Coords(xoffset-1500,yoffset,zoffset), Coords(0.4,0.0,0,0.004,0.001,0.0004))
 	gameScene:track(roid, GO_TYPE.DEBRIS)
 
-	roid = Proto.getThing("Asteroid800A", Coords(xoffset-1500,yoffset,zoffset), Coords(0.6 * math.random(),-0.4 * math.random(),0,0.004,0.001,0.0004))
+	roid = Proto.getThing("Asteroid800A", Coords(xoffset-500,yoffset,zoffset), Coords(0.01,0.0,0,0.004,0.001,0.0004))
 	gameScene:track(roid, GO_TYPE.DEBRIS)
 
-	roid = Proto.getThing("Asteroid800A", Coords(xoffset-500,yoffset,zoffset), Coords(0.01 * math.random(),-0.1 * math.random(),0,0.004,0.001,0.0004))
-	gameScene:track(roid, GO_TYPE.DEBRIS)
-
-	roid = Proto.getThing("Asteroid800A", Coords(xoffset+500,yoffset,zoffset), Coords(-0.6 * math.random(),0.4 * math.random(),0,0.004,0.001,0.0004))
-	gameScene:track(roid, GO_TYPE.DEBRIS)
-
-	roid = Proto.getThing("Asteroid800A", Coords(xoffset+1500,yoffset,zoffset), Coords(-0.3 * math.random(),0.2 * math.random(),0,0.004,0.001,0.0004))
+	roid = Proto.getThing("Asteroid800A", Coords(xoffset+500,yoffset,zoffset), Coords(-0.4,0.0,0,0.004,0.001,0.0004))
 	gameScene:track(roid, GO_TYPE.DEBRIS)
 end
 

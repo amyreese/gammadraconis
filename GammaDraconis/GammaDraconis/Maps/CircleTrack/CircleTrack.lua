@@ -21,9 +21,11 @@ gameScene:track(skybox, GO_TYPE.SKYBOX)
 Skybox.lights[0] = Light(Vector3(-0.05,  0.1, -1), Vector3(0.9, 0.7, 0.7), Vector3(1,1,1))
 Skybox.lights[1] = Light(Vector3( 0.95, -0.9,  1), Vector3(0.4, 0.4, 0.4), Vector3(0.5,0.5,0.5))
 
---makeRoidRow( 0, 8500, 6500, gameScene )
---makeRoidPlane( -1000, 8500, 6500, gameScene, 8 )
---makeRoidCube( -1000, 7000, 6500, gameScene, 4 )
+makeRoidRow( -1000, 7250, 6500, gameScene )
+--makeRoidPlane( -1000, 7500, 6500, gameScene, 2 )
+--makeRoidCube( -1000, 7000, 6500, gameScene, 2 )
+
+
 
 course = Course()
 Engine.GetInstance().course = course

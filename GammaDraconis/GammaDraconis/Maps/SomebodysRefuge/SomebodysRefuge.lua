@@ -1,4 +1,6 @@
 local tunnelRadius = 220
+library( "MapBuilders/Turns" )
+library( "MapBuilders/AsteroidFields" )
 
 gameScene = Scene()
 Engine.GetInstance().gameScene = gameScene
@@ -31,15 +33,35 @@ for i = 0, 90 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
 	local z = MSMath.Sin(rad)
 	table.insert( path, {x=-75, y=x*radius + 830-radius, z=-z*radius - 4000, pitch=-rad, yaw=0, roll=0} )
 end
+
 local radius2 = 1000
-checkpoints = 4
+checkpoints = 20
 degreesBetweenCheckpoints = 145 / checkpoints
-for i = 90, 235 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
+for i = 90, 200 - degreesBetweenCheckpoints, degreesBetweenCheckpoints do
 	local rad = MathHelper.ToRadians(i)
 	local x = MSMath.Cos(rad)
 	local z = MSMath.Sin(rad)
 	table.insert( path, {x=-75, y=x*radius2 + 830-radius, z=-z*radius2 - 3000 - radius, pitch=-rad, yaw=0, roll=0} )
 end
+
+--makeRoidRow( 0, -1000, -4500, gameScene )
+--makeRoidPlane( -1000, 7500, 6500, gameScene, 2 )
+--makeRoidCube( -1000, 7000, 6500, gameScene, 2 )
+
+local trackAttributes = {radius=2500, checkpoints = 16, degreesBetweenCheckpoints = 360 / 16}
+PosZToPosY( path, 0, -500, -2500, trackAttributes )
+PosYToPosZ( path, 0, 0, 2500, trackAttributes )
+PosZToPosX( path, 2500, 2500, 3200, trackAttributes )
+PosXToPosZ( path, 2500, 2500, 3200, trackAttributes )
+NegZToPosZ( path, 5000, 0, 3200, trackAttributes )
+PosZToNegX( path, 2500, -2500, 4200, trackAttributes )
+NegXToPosZ( path, 2000, -2500, 9200, trackAttributes )
+
+trackAttributes = {radius=1500, checkpoints = 16, degreesBetweenCheckpoints = 360 / 16}
+
+PosZToNegZ( path, -500, -1000, 11000, trackAttributes )
+
+table.insert( path, {x=-300, y=150, z=9800, yaw=0, pitch=0, roll=0} )
 
 -- TODO: Find a way to add intermediate points for AI
 for i,v in ipairs( path ) do
@@ -136,6 +158,7 @@ buildAsteroidTunnel( -80,  835, -3450, radius, -MathHelper.PiOver4 / 7, MathHelp
 buildAsteroidTunnel( -75,  830, -3500, radius, MathHelper.PiOver4 / 8, MathHelper.PiOver2 / 4 );
 
 course.loop = false
+--course.laps = 3
 
 tunnel = Proto.getThing("AsteroidTunnel", Coords(0, 0, -2000))
 gameScene:track(tunnel, GO_TYPE.GHOST)

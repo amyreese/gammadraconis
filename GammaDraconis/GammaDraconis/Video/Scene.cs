@@ -60,7 +60,7 @@ namespace GammaDraconis.Video
             objects = new Dictionary<int, List<GameObject>>();
             rooms = new List<Room>();
             //TODO: find root bounding box size
-            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-15000f), new Vector3(15000f)), 3, 0);
+            octTreeRoot = new OctreeLeaf(new BoundingBox(new Vector3(-15000f), new Vector3(15000f)), 2, 0);
             octTreeRoot.setContainedObjects(new List<GameObject>());
         }
 
@@ -137,12 +137,13 @@ namespace GammaDraconis.Video
             {
                 foreach (OctreeLeaf ol2 in ol1.childLeaves)
                 {
-                    foreach (OctreeLeaf ol3 in ol2.childLeaves)
+                    foreach(OctreeLeaf ol3 in ol2.childLeaves)
                     {
                         leafContents.Add(ol3.getContainedObjects());
                     }
                 }
             }
+            //leafContents.Add(octTreeRoot.getContainedObjects());
 
             //Put each collidable element into it's respective list
             foreach (List<GameObject> contents in leafContents)
@@ -217,7 +218,6 @@ namespace GammaDraconis.Video
             {
                 updateOctTreeObjects();
 
-
                 float aspRatio = GammaDraconis.renderer.aspectRatio;
                 float viewAngle = GammaDraconis.renderer.viewingAngle;
                 float viewDist = GammaDraconis.renderer.viewingDistance;
@@ -225,7 +225,7 @@ namespace GammaDraconis.Video
                 Matrix view = Matrix.CreateLookAt(vantage.pos() - Matrix.CreateFromQuaternion(vantage.R).Forward, vantage.pos(), Matrix.CreateFromQuaternion(vantage.R).Up);
                 BoundingFrustum viewFrustum = new BoundingFrustum(view * Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(viewAngle), aspRatio, 0.1f, viewDist));
 
-                Dictionary<int, List<GameObject>> optimizedObjects = sortOctTree(out visibleObjects, viewFrustum);
+                Dictionary<int, List<GameObject>> optimizedObjects = new Dictionary<int, List<GameObject>>(objects);//sortOctTree(out visibleObjects, viewFrustum);
               
 
                 foreach (int tempKey in optimizedObjects.Keys)
@@ -423,10 +423,10 @@ namespace GammaDraconis.Video
             octTreeRoot.setContainedObjects(objList);
             List<GameObject> outsideObjects = octTreeRoot.outsideOctree(objList);
 
-            String output = "----------------------------------------------------------------------------------------------\n";
+            String output = "";
             if (outsideObjects.Count == 0)
             {
-                output += "All objects contained within octree.\n";
+                //output += "All objects contained within octree.\n";
             }
             else
             {
@@ -436,7 +436,7 @@ namespace GammaDraconis.Video
                     output += "GameObject: " + outsideObj + " at position: " + outsideObj.position.pos() + " not contained within the OcTree.\n";
                 }
             }
-            if (debugBoundingBoxSize)
+            if (output.Length > 0)
             {
                 Console.WriteLine(output);
             }

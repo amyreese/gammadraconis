@@ -81,18 +81,18 @@ class OctreeLeaf
     /// </summary>
     protected void split()
     {
-        Vector3 half = containerBox.Max - containerBox.Min;
+        Vector3 half = (containerBox.Max - containerBox.Min) / 2;
         Vector3 halfx = Vector3.UnitX * half;
         Vector3 halfy = Vector3.UnitY * half;
         Vector3 halfz = Vector3.UnitZ * half;
         BoundingBox[] boxes = {
             new BoundingBox(containerBox.Min, containerBox.Min + half), 
-            new BoundingBox(containerBox.Min + halfx, containerBox.Max - half + halfx),
+            new BoundingBox(containerBox.Min + halfx, containerBox.Min + half + halfx),
+            new BoundingBox(containerBox.Min + halfy, containerBox.Min + half + halfy),
             new BoundingBox(containerBox.Min + halfz, containerBox.Min + half + halfz),
-            new BoundingBox(containerBox.Min + halfx + halfz, containerBox.Max - halfy),
-            new BoundingBox(containerBox.Min + halfy, containerBox.Max - halfx - halfz),
-            new BoundingBox(containerBox.Min + halfy + halfx, containerBox.Max - halfz),
-            new BoundingBox(containerBox.Min + halfy + halfz, containerBox.Max - halfx),
+            new BoundingBox(containerBox.Min + halfx + halfy, containerBox.Min + half + halfx + halfy),
+            new BoundingBox(containerBox.Min + halfx + halfz, containerBox.Min + half + halfx + halfz),
+            new BoundingBox(containerBox.Min + halfy + halfz, containerBox.Min + half + halfy + halfz),
             new BoundingBox(containerBox.Min + half, containerBox.Max)
         };
         
@@ -101,7 +101,8 @@ class OctreeLeaf
         {
             OctreeLeaf tempLeaf = new OctreeLeaf(tempBox, maxDepth, currentDepth+1);
             foreach(GameObject obj in containedObjects){
-                if (tempBox.Contains(new BoundingSphere(obj.position.pos(), obj.size)) != ContainmentType.Disjoint)
+                BoundingSphere objSphere = new BoundingSphere(obj.position.pos(), obj.size);
+                if (tempBox.Contains(objSphere) != ContainmentType.Disjoint || objSphere.Contains(tempBox) != ContainmentType.Disjoint)
                 {
                     tempLeaf.containedObjects.Add(obj);
                 }
@@ -129,9 +130,10 @@ class OctreeLeaf
         List<GameObject> outsideObjects = new List<GameObject>();
         foreach (GameObject obj in gameObjects)
         {
-            if (containerBox.Contains(new BoundingSphere(obj.position.pos(), obj.size)) == ContainmentType.Disjoint)
+            BoundingSphere objSphere = new BoundingSphere(obj.position.pos(), obj.size);
+            if(containerBox.Contains(objSphere) == ContainmentType.Disjoint && objSphere.Contains(containerBox) == ContainmentType.Disjoint)
             {
-                outsideObjects.Add(obj);
+                //outsideObjects.Add(obj);
             }
         }
 
@@ -148,13 +150,14 @@ class OctreeLeaf
         List<GameObject> entirelyVisible = new List<GameObject>();
         notVisible = new List<GameObject>();
         ContainmentType contains = viewFrustrum.Contains(containerBox);
-        if (containedObjects.Count != 0)
+        ContainmentType contains2 = containerBox.Contains(viewFrustrum);
+        if(containedObjects.Count != 0)
         {
-            if (contains == ContainmentType.Contains)
+            if (contains == ContainmentType.Contains || contains2 == ContainmentType.Contains)
             {
                 entirelyVisible.AddRange(containedObjects);
             }
-            else if (contains == ContainmentType.Intersects)
+            else if (contains == ContainmentType.Intersects || contains2 == ContainmentType.Intersects)
             {
                 foreach (OctreeLeaf child in childLeaves)
                 {

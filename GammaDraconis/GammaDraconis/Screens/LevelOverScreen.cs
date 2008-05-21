@@ -18,7 +18,8 @@ namespace GammaDraconis.Screens
     /// </summary>
     class LevelOverScreen : LoadingScreen
     {
-        private Text loadingText;
+        private Text resultText;
+        private Text titleText;
         private GameObject skybox;
 
         /// <summary>
@@ -28,13 +29,21 @@ namespace GammaDraconis.Screens
         public LevelOverScreen(GammaDraconis game)
             : base(game, GammaDraconis.GameStates.MainMenu)
         {
-            loadingText = new Text(gammaDraconis);
-            loadingText.color = Color.White;
-            loadingText.text = "";
-            loadingText.SpriteFontName = "Resources/Fonts/Menu";
-            loadingText.RelativePosition = new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height / 2);
-            loadingText.center = true;
-            screenInterface.AddComponent(loadingText);
+            resultText = new Text(gammaDraconis);
+            resultText.color = Color.White;
+            resultText.text = "";
+            resultText.SpriteFontName = "Resources/Fonts/Menu";
+            resultText.RelativePosition = new Vector2(1024 / 2, 768 / 2);
+            resultText.center = true;
+            screenInterface.AddComponent(resultText);
+
+            titleText = new Text(gammaDraconis, "Race Results");
+            titleText.color = Color.White;
+            titleText.SpriteFontName = "Resources/Fonts/Title";
+            titleText.center = true;
+            titleText.RelativePosition = new Vector2(1024 / 2, 50);
+            titleText.RelativeScale = new Vector2(0.9f, 0.9f);
+            screenInterface.AddComponent(titleText);
 
             skybox = new Skybox();
             screenScene.track(skybox, GO_TYPE.SKYBOX);
@@ -55,10 +64,10 @@ namespace GammaDraconis.Screens
         public void LevelOver( Race race )
         {
             int place = 1;
-            loadingText.text = "";
+            resultText.text = "";
             foreach( Racer r in race.rankings() )
             {
-                loadingText.text = loadingText.text + place++ + ". " + r.ToString() + " - " + TimeSpan.FromMilliseconds(r.time).ToString().Substring(0, 11) + "\n";
+                resultText.text = resultText.text + place++ + ". " + r.ToString() + " - " + TimeSpan.FromMilliseconds(r.time).ToString().Substring(0, 11) + "\n";
             }
             ready = false;
         }

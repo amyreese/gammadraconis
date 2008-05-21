@@ -6,10 +6,8 @@ library( "MapBuilders/AsteroidFields" )
 gameScene = Scene()
 Engine.GetInstance().gameScene = gameScene
 
-planet = GameObject()
+planet = Proto.getThing("Mars")
 planet.position = Coords(0, -4000, 0)
-planet.size = 1000
-planet.models:Add(FBXModel("Resources/Models/Planet", "", 4))
 gameScene:track(planet, GO_TYPE.SCENERY)
 
 --tunnel = GameObject()

@@ -7,7 +7,9 @@ namespace GammaDraconis.Core
 {
     class GameLua : Lua
     {
-
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public GameLua() : base()
         {
             #region Lua initialization of C# classes
@@ -88,14 +90,12 @@ end
             DoString( funcCode );
             #endregion
 
-            /* Register Function Sample
-            RegisterFunction("RegisterFunction", "RegisterFunction", this, new Type[] { typeof(String), typeof(String), typeof(Object) });
-            SetMap("");
-            Call("RegisterFunction", new object[] { "SetMap", "SetMap", this });
-            Call("SetMap", "test");
-             */
         }
 
+        /// <summary>
+        /// Sets the current map
+        /// </summary>
+        /// <param name="mapName">The name of the map to set</param>
         public void SetMap( string mapName )
         {
             String mapPath = (mapName.Length > 0) ? ("Maps/" + mapName + "/") : ("");
@@ -103,12 +103,22 @@ end
             DoString(mapCode);
         }
 
+        /// <summary>
+        /// Loads a map to be used
+        /// </summary>
+        /// <param name="mapName">The name of the map to </param>
         public void LoadMap(string mapName)
         {
             SetMap(mapName);
             DoString("include( '" + mapName + "' )");
         }
 
+        /// <summary>
+        /// Calls a function with a set of argtuments
+        /// </summary>
+        /// <param name="function">The function to be called</param>
+        /// <param name="args">The arguments to pass to that function</param>
+        /// <returns></returns>
         public object[] Call(string function, params object[] args)
         {
             LuaFunction luaFunction = GetFunction(function);

@@ -88,7 +88,20 @@ namespace GammaDraconis.Core
                 return null;
             }
         }
+
+        /// <summary>
+        /// Get a prototype clone with given name and position.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <param name="position">New position</param>
+        /// <returns></returns>
         public static GameObject getThing(string name, Coords position) { return getThing(name, position, new Coords()); }
+
+        /// <summary>
+        /// Get a prototype clone with given name.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <returns></returns>
         public static GameObject getThing(string name) { return getThing(name, new Coords(), new Coords()); }
 
         /// <summary>
@@ -112,7 +125,20 @@ namespace GammaDraconis.Core
                 return null;
             }
         }
+
+        /// <summary>
+        /// Get a prototype clone with given name and position.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <param name="position">New position</param>
+        /// <returns></returns>
         public static GameObject getShip(string name, Coords position) { return getShip(name, position, new Coords()); }
+
+        /// <summary>
+        /// Get a prototype clone with given name.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <returns></returns>
         public static GameObject getShip(string name) { return getShip(name, new Coords(), new Coords()); }
 
         /// <summary>
@@ -149,7 +175,20 @@ namespace GammaDraconis.Core
             Console.WriteLine("Proto.getRacer() failed!");
             return null;
         }
+
+        /// <summary>
+        /// Get a prototype clone with given name and position.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <param name="position">New position</param>
+        /// <returns></returns>
         public static Racer getRacer(string name, Coords position) { return getRacer(name, position, new Coords()); }
+
+        /// <summary>
+        /// Get a prototype clone with given name.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <returns></returns>
         public static Racer getRacer(string name) { return getRacer(name, new Coords(), new Coords()); }
 
         /// <summary>
@@ -186,6 +225,12 @@ namespace GammaDraconis.Core
             Console.WriteLine("Proto.getPlayer() failed!");
             return null;
         }
+
+        /// <summary>
+        /// Get a prototype clone with given.
+        /// </summary>
+        /// <param name="name">Prototype name</param>
+        /// <returns></returns>
         public static Player getPlayer(string name, PlayerIndex index) { return getPlayer(name, index, new Coords()); }
 
         /// <summary>

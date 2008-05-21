@@ -210,6 +210,9 @@ namespace GammaDraconis.Core
         }
     }
 
+    /// <summary>
+    /// Maintains all of the status variables for the race
+    /// </summary>
     public struct RaceStatus
     {
         public int lap;

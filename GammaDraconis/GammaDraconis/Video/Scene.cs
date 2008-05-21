@@ -202,14 +202,8 @@ namespace GammaDraconis.Video
                         }
                         else
                         {
-
                             if (viewFrustum.Contains(new BoundingSphere(gameobject.position.pos(), gameobject.size)) != ContainmentType.Disjoint)
                             {
-                                if ((tempKey & GO_TYPE.SCENERY) == GO_TYPE.SCENERY)
-                                {
-                                    gameobject.position.R = Quaternion.CreateFromRotationMatrix(Matrix.CreateBillboard(vantage.pos(), gameobject.position.pos(), Vector3.One, Vector3.Forward));
-                                }
-                                
                                 visibleObjects[tempKey].Add(gameobject);
                             }
                         }

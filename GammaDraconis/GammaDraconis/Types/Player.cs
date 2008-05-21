@@ -21,7 +21,7 @@ namespace GammaDraconis.Types
         public PlayerIndex index;
         public PlayerInput input;
         public GameObject arrow;
-        
+
         double invulnerabilityTimer = 0;
 
         public Interface playerHUD;
@@ -65,6 +65,7 @@ namespace GammaDraconis.Types
             }
         }
 
+        private int thinkcount = 0;
         public override void think(GameTime gameTime)
         {
             playerHUD.Update(gameTime);
@@ -77,7 +78,7 @@ namespace GammaDraconis.Types
                 health = maxHealth;
                 shield = maxShield;
                 invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
-                OnDeath();   
+                OnDeath();
             }
             #endregion
 
@@ -210,6 +211,11 @@ namespace GammaDraconis.Types
             go.mass = ship.mass;
             go.size = ship.size;
 
+            if (ship.explosion != null)
+            {
+                go.explosion = ship.explosion.clone();
+            }
+            
             go.rateL = ship.rateL;
             go.rateR = ship.rateR;
             go.dragL = ship.dragL;

@@ -54,6 +54,7 @@ Racer = import('GammaDraconis.Types.Racer')
 Turret = import('GammaDraconis.Types.Turret')
 Weapon = import('GammaDraconis.Types.Weapon')
 W_TYPE = import('GammaDraconis.Types.W_TYPE')
+Explosion = import('GammaDraconis.Types.Explosion')
 
 Input = import('GammaDraconis.Core.Input.Input')
 

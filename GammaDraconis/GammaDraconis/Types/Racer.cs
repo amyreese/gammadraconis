@@ -52,6 +52,11 @@ namespace GammaDraconis.Types
             go.mass = mass;
             go.size = size;
 
+            if (explosion != null)
+            {
+                go.explosion = explosion.clone();
+            }
+
             go.rateL = rateL;
             go.rateR = rateR;
             go.dragL = dragL;
@@ -95,6 +100,15 @@ namespace GammaDraconis.Types
 
             go.mass = ship.mass;
             go.size = ship.size;
+
+            if (ship.explosion != null)
+            {
+                go.explosion = ship.explosion.clone();
+            }
+            else
+            {
+                go.explosion = new Explosion();
+            }
 
             go.rateL = ship.rateL;
             go.rateR = ship.rateR;

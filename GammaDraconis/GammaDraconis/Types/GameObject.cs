@@ -58,6 +58,7 @@ namespace GammaDraconis.Types
         // Visual properties
         public List<FBXModel> models;
         public FBXModel shieldModel;
+        public Explosion explosion;
 
         // Locations to mount weapons
         public List<MountPoint> mounts;
@@ -92,6 +93,11 @@ namespace GammaDraconis.Types
 
             go.mass = mass;
             go.size = size;
+
+            if (explosion != null)
+            {
+                go.explosion = explosion.clone();
+            }
 
             go.rateL = rateL;
             go.rateR = rateR;
@@ -394,6 +400,12 @@ namespace GammaDraconis.Types
         public virtual void OnDeath()
         {
             Audio.play(onDeathSound);
+
+            if (explosion != null)
+            {
+                explosion.explode(new Coords(position.T.Translation));
+            }
+
             if (OnDeathFunction != null)
             {
                 OnDeathFunction.Call(this);

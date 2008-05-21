@@ -291,6 +291,16 @@
     <None Include="Resources\Audio\Sound\Weapons\missile.wav">
       <Name>missile</Name>
     </None>
+    <Compile Include="Resources\Models\Ember1.fbx">
+      <Name>Ember1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Resources\Models\Ember2.fbx">
+      <Name>Ember2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <Compile Include="Resources\Models\Rocket.fbx">
       <Name>Rocket</Name>
       <Importer>FbxImporter</Importer>

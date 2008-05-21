@@ -10,7 +10,7 @@ namespace GammaDraconis.Video.GUI
     {
         private SpriteFont spriteFont;
         private String spriteFontName;
-        private float spriteFontSpacing = 0;
+        private float spriteFontSpacing = 5;
         private bool propertyChanged;
         public String text;
         public Color color;

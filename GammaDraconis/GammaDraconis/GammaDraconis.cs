@@ -278,9 +278,9 @@ namespace GammaDraconis
             screens.Add(GameStates.LevelOver, new Screens.LevelOverScreen(this));
             screens.Add(GameStates.VideoSettingsMenu, new Screens.Menus.VideoSettingsMenu(this));
             screens.Add(GameStates.GeneralSettingsMenu, new Screens.Menus.GeneralSettingsMenu(this));
+            screens.Add(GameStates.KeyBindingsMenu, new Screens.Menus.ControlsMenu(this));
             /*
             screens.Add(GameStates.LevelSelectMenu, new Screens.Menus.LevelSelectScreen(this, levelsSetting));
-            screens.Add(GameStates.KeyBindingsMenu, new Screens.Menus.KeyBindingsMenuScreen(this));
             screens.Add(GameStates.HighScoreListMenu, new Screens.Menus.HighScoreMenuScreen(this));
             screens.Add(GameStates.HighScores, new Screens.HighScoreScreen(this, "Test"));
             screens.Add(GameStates.CheatMenu, new Screens.Menus.CheatMenuScreen(this));

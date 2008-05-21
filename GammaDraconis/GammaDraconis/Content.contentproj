@@ -307,6 +307,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resources\Textures\Xbox 360 Controller Front.png">
+      <Name>Xbox 360 Controller Front</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Resources\Textures\Xbox 360 Controller Top.png">
+      <Name>Xbox 360 Controller Top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Resources\Audio\Music\" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -89,6 +89,7 @@
     <Compile Include="Screens\LevelLoadingScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\LoadingScreen.cs" />
+    <Compile Include="Screens\Menus\ControlsMenu.cs" />
     <Compile Include="Screens\Menus\GeneralSettingsMenu.cs" />
     <Compile Include="Screens\Menus\VideoSettingsMenu.cs" />
     <Compile Include="Screens\Menus\MainMenu.cs" />

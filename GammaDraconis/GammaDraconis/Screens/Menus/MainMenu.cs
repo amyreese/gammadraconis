@@ -132,6 +132,10 @@ namespace GammaDraconis.Screens.Menus
             {
                 gammaDraconis.changeState(GammaDraconis.GameStates.VideoSettingsMenu);
             }
+            else if (command.Equals(Commands.Controls))
+            {
+                gammaDraconis.changeState(GammaDraconis.GameStates.KeyBindingsMenu);
+            }
             else
             {
                 Console.WriteLine("Not yet implemented!");

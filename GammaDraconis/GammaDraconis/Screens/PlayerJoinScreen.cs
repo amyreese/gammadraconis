@@ -27,7 +27,7 @@ namespace GammaDraconis.Screens
         private bool startGame = false;
 
         // GUI components
-        private Text[] playerJoinText;
+        private Text[][] playerJoinText;
         private Text[] playerJoinGlyph;
         private Text startGameText;
         private Selector trackSelector;
@@ -58,17 +58,24 @@ namespace GammaDraconis.Screens
             shipCoords[3] = new Coords(3000f, 0f, -40f, 0.3f, 0f, 0f);
 
             // Initialize any text or sprite components before adding them to the interface.
-            playerJoinText = new Text[4];
+            playerJoinText = new Text[2][];
+            playerJoinText[0] = new Text[4];
+            playerJoinText[1] = new Text[4];
             playerJoinGlyph = new Text[4];
             shipSelector = new Selector[4];
             selectedShip = new GameObject[4];
 
             for (int i = 0; i < 4; i++)
             {
-                playerJoinText[i] = new Text(game);
-                playerJoinText[i].color = Color.White;
-                playerJoinText[i].SpriteFontName = "Resources/Fonts/Menu";
-                playerJoinText[i].center = true;
+                playerJoinText[0][i] = new Text(game);
+                playerJoinText[0][i].color = Color.White;
+                playerJoinText[0][i].SpriteFontName = "Resources/Fonts/Menu";
+                playerJoinText[0][i].center = true;
+
+                playerJoinText[1][i] = new Text(game);
+                playerJoinText[1][i].color = Color.White;
+                playerJoinText[1][i].SpriteFontName = "Resources/Fonts/Menu";
+                playerJoinText[1][i].center = true;
 
                 playerJoinGlyph[i] = new Text(game);
                 playerJoinGlyph[i].color = Color.White;
@@ -83,15 +90,23 @@ namespace GammaDraconis.Screens
                 screenScene.track(selectedShip[i], GO_TYPE.RACER);
             }
 
-            playerJoinText[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
-            playerJoinText[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
-            playerJoinText[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
-            playerJoinText[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
-            screenInterface.AddComponents(playerJoinText);
+            playerJoinText[0][0].RelativePosition = new Vector2(1024 / 4, (768 - 250) / 4);
+            playerJoinText[0][1].RelativePosition = new Vector2(3 * (1024 / 4), (768 - 250) / 4);
+            playerJoinText[0][2].RelativePosition = new Vector2(1024 / 4, (3 * 768 - 250) / 4);
+            playerJoinText[0][3].RelativePosition = new Vector2(3 * (1024 / 4), (3 * 768 - 250) / 4);
+            screenInterface.AddComponents(playerJoinText[0]);
 
-            for(int i = 0; i < 4; i++)
-                playerJoinGlyph[i].RelativePosition = playerJoinText[i].RelativePosition;
-            //screenInterface.AddComponents(playerJoinGlyph);            
+            playerJoinText[1][0].RelativePosition = new Vector2(1024 / 4, (768 + 250) / 4);
+            playerJoinText[1][1].RelativePosition = new Vector2(3 * (1024 / 4), (768 + 250) / 4);
+            playerJoinText[1][2].RelativePosition = new Vector2(1024 / 4, (3 * 768 + 250) / 4);
+            playerJoinText[1][3].RelativePosition = new Vector2(3 * (1024 / 4), (3 * 768 + 250) / 4);
+            screenInterface.AddComponents(playerJoinText[1]);
+
+            playerJoinGlyph[0].RelativePosition = new Vector2(1024 / 4, 768 / 4);
+            playerJoinGlyph[1].RelativePosition = new Vector2(3 * (1024 / 4), 768 / 4);
+            playerJoinGlyph[2].RelativePosition = new Vector2(1024 / 4, 3 * (768 / 4));
+            playerJoinGlyph[3].RelativePosition = new Vector2(3 * (1024 / 4), 3 * (768 / 4));
+            screenInterface.AddComponents(playerJoinGlyph);            
 
             shipSelector[0].RelativePosition = new Vector2(1024 / 4, (768 + 350) / 4 );
             shipSelector[1].RelativePosition = new Vector2(3 * (1024 / 4), (768 + 350) / 4);
@@ -127,6 +142,9 @@ namespace GammaDraconis.Screens
             keyGlyphs.Add("PadLB", "-");
         }
 
+        /// <summary>
+        /// Initialize this screen.
+        /// </summary>
         public override void Initialize()
         {
             GameObject skybox = new Skybox();
@@ -137,6 +155,9 @@ namespace GammaDraconis.Screens
             base.Initialize();
         }
 
+        /// <summary>
+        /// Create "dummy" ships, which make the engine look at a point in space.
+        /// </summary>
         protected void setUpDummyShips() 
         {
             Player p1 = Proto.getPlayer("Dummy", PlayerIndex.One, playerCoords[0]);
@@ -152,6 +173,9 @@ namespace GammaDraconis.Screens
             screenScene.track(p4, GO_TYPE.RACER);
         }
 
+        /// <summary>
+        /// Reset the screen to a fresh state.
+        /// </summary>
         protected override void onFreshLoad()
         {
             setUpDummyShips();
@@ -166,7 +190,8 @@ namespace GammaDraconis.Screens
 
             for (int i = 0; i < 4; i++)
             {
-                playerJoinText[i].text = "Press " + inputs[i].getKeyBinding(PlayerInput.Commands.Join) + " to Join Game";
+                playerJoinText[0][i].text = "Press"; 
+                playerJoinText[1][i].text = "to Join Game";
 
                 if (inputs[i].ControlScheme == InputManager.ControlScheme.GamePad)
                     playerJoinGlyph[i].SpriteFontName = "Resources/Fonts/XboxController";
@@ -202,6 +227,10 @@ namespace GammaDraconis.Screens
             GammaDraconis.renderer.SetPlayerViewports();
         }
 
+        /// <summary>
+        /// Capture player input and do all state management for this screen.
+        /// </summary>
+        /// <param name="gameTime">The current time.</param>
         public override void Update(GameTime gameTime)
         {
             // Update must be called on the base class first in order call onFreshLoad, if necessary.
@@ -228,10 +257,12 @@ namespace GammaDraconis.Screens
                     }
                     catch
                     {
-                        playerJoinText[index].text = "Connect Controller";
+                        playerJoinText[0][index].text = "Connect";
+                        playerJoinText[1][index].text = "Controller";
                     }
 
-                    if (inputs[index].inputPressed(PlayerInput.Commands.Menu))
+                    if((inputs[index].inputPressed(PlayerInput.Commands.Menu) || inputs[index].inputPressed(PlayerInput.Commands.Leave))
+                        && !playersJoined[0] && !playersJoined[1] && !playersJoined[2] && !playersJoined[3])
                     {
                         gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
                     }
@@ -269,18 +300,19 @@ namespace GammaDraconis.Screens
                 }
                 else
                 {
+                    // Player has joined game, and is ready.
+
                     if (inputs[index].inputPressed(PlayerInput.Commands.Leave))
                     {
-                        // If the player is ready, return them to ship selection.
+                        // Return the player to ship selection.
                         playersReady[index] = false;
                         trackSelector.Visible = false;
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.GameStart) ||
                         inputs[index].inputPressed(PlayerInput.Commands.Join))
                     {
-                        // If this player is ready, start the game.
-                        if (playersReady[index])
-                            startGame = true;
+                        // Start the game.
+                        startGame = true;
                     }
                     else if (inputs[index].inputPressed(PlayerInput.Commands.MenuLeft))
                     {
@@ -292,14 +324,20 @@ namespace GammaDraconis.Screens
                     }
                 }
 
-                playerJoinText[index].Visible = !playersJoined[index];
+                // Set visibility of various elements appropriately.
+                playerJoinText[0][index].Visible = !playersJoined[index];
+                playerJoinText[1][index].Visible = !playersJoined[index];
                 playerJoinGlyph[index].Visible = !playersJoined[index];
                 shipSelector[index].Visible = playersJoined[index];
+                shipSelector[index].PrevSelector = (playersReady[index] ? "" : "< ");
+                shipSelector[index].NextSelector = (playersReady[index] ? "" : " >");
                 trackSelector.Visible = startGame;
+
+                // Spin the ship!
                 selectedShip[index].position.R *= Quaternion.CreateFromYawPitchRoll((float)Math.PI / 60f, 0f, 0f);
             }
 
-            // Check for game start conditions.
+            // Check for game start conditions. At least one player should have joined, and all joined players should be ready.
             if (((playersJoined[0] == true) || (playersJoined[1] == true) || (playersJoined[2] == true) || (playersJoined[3] == true)) &&
                 (playersJoined[0] == playersReady[0]) && (playersJoined[1] == playersReady[1]) && 
                 (playersJoined[2] == playersReady[2]) && (playersJoined[3] == playersReady[3]))
@@ -309,6 +347,7 @@ namespace GammaDraconis.Screens
                 if (startGame)
                 {
                     // Set up game objects and begin the game.
+
                     GameObject ship;
                     List<Player> players = new List<Player>();
                     for (int index = 0; index < inputs.Length; index++)
@@ -333,12 +372,21 @@ namespace GammaDraconis.Screens
             }
         }
 
+        /// <summary>
+        /// Render this screen.
+        /// </summary>
+        /// <param name="gameTime">The current time.</param>
         public override void Draw(GameTime gameTime)
         {
             GammaDraconis.renderer.render(gameTime, screenScene, false);
             base.Draw(gameTime, false);
         }
 
+        /// <summary>
+        /// Get the key glyph code, if one exists.
+        /// </summary>
+        /// <param name="button">The button to look for.</param>
+        /// <returns>The correct character if using the Xbox controller, button if not.</returns>
         private string GetKeyGlyph(string button)
         {
             if (keyGlyphs.ContainsKey(button))

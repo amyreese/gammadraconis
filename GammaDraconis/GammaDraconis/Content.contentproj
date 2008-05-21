@@ -363,7 +363,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Audio\Music\" />
+    <Compile Include="Resources\Textures\mars_1k_color.jpg">
+      <Name>mars_1k_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Resources\Textures\mars_1k_normal.jpg">
+      <Name>mars_1k_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

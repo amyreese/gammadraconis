@@ -17,9 +17,9 @@ namespace GammaDraconis.Screens.Menus
         private Vector3 startLocation = new Vector3(120.0f, -4.35f, -100.0f);
 
         /// <summary>
-        /// 
+        /// Create the main menu.
         /// </summary>
-        /// <param name="game"></param>
+        /// <param name="game">The game instance.</param>
         public MainMenu(GammaDraconis game)
             : base(game)
         {
@@ -28,7 +28,10 @@ namespace GammaDraconis.Screens.Menus
             Skybox.lights[0] = new Light(new Vector3(-0.05f,  0.1f, -1f), new Vector3(0.9f, 0.7f, 0.7f), new Vector3(1f,1f,1f));
             Skybox.lights[1] = new Light(new Vector3(0.95f, -0.9f, 1f), new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.5f, 0.5f, 0.5f));
 
-            racer = Proto.getRacer("Raptor");
+            if((new Random()).Next(1, 3) == 1)
+                racer = Proto.getRacer("Raptor");
+            else
+                racer = Proto.getRacer("Thor");
             racer.position = new Coords(startLocation.X, startLocation.Y, startLocation.Z, 0.2f, 1.5f, 1.0f);
             racer.models[0].scale *= 1;
             racer.size *= 1;

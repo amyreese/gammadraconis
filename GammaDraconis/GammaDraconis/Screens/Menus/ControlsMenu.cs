@@ -127,5 +127,14 @@ namespace GammaDraconis.Screens.Menus
 
             //base.Update(gameTime);
         }
+
+        /// <summary>
+        /// Reset the screen to it's default state.
+        /// </summary>
+        protected override void onFreshLoad()
+        {
+            while(pageSelector.CurrentSelection != "Xbox 360 Controller")
+                pageSelector.NextSelection();
+        }
     }
 }

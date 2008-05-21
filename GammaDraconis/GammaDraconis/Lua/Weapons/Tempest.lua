@@ -4,7 +4,7 @@ weapon.type = W_TYPE.SECONDARY
 weapon.cooldown = 400
 weapon.ammoMax = 15
 weapon.fireFrom = Coords(0,-7,0)
-weapon.fireSFX = "drop_mine"
+weapon.fireSFX = "fire_missile"
 weapon.impactSFX = "explosion"
 weapon.bullet.onDeathSound = "explosion"
 

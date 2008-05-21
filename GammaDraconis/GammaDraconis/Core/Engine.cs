@@ -618,6 +618,7 @@ namespace GammaDraconis.Core
                 {
                     gameScene.ignore(bullet, GO_TYPE.BULLET);
                     o2.takeDamage(bullet.damage);
+                    bullet.OnDeath();
                 }
             }
         }

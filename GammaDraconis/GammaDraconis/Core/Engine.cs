@@ -363,6 +363,7 @@ namespace GammaDraconis.Core
                     ((Bullet)o).timeToLive -= gameTime.ElapsedRealTime.TotalSeconds;
                     if (((Bullet)o).timeToLive < 0)
                     {
+                        o.OnDeath();
                         gameScene.ignore(o, GO_TYPE.BULLET);
                     }
                 }

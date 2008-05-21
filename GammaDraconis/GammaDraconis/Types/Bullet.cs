@@ -44,6 +44,11 @@ namespace GammaDraconis.Types
 
             b.onDeathSound = onDeathSound;
 
+            if (explosion != null)
+            {
+                b.explosion = explosion.clone();
+            }
+
             return b;
         }
     }

@@ -47,6 +47,9 @@ namespace GammaDraconis.Types
             playerHUD = (Interface)GammaDraconis.GetInstance().GameLua.DoString("playerHudIndex = " + ((int)index + 1) + "\nreturn dofile( 'Interfaces/PlayerHUD/PlayerHUD.lua' )")[0];
 
             dust = new List<GameObject>();
+
+            explosion = new Explosion();
+            explosion.size = 2f;
         }
 
         public void setupDust() {
@@ -73,12 +76,12 @@ namespace GammaDraconis.Types
             #region Death handling
             if (health <= 0)
             {
+                OnDeath();
                 position = Engine.GetInstance().race.checkpoint(this, 0).position.Clone();
                 velocity = new Coords();
                 health = maxHealth;
                 shield = maxShield;
                 invulnerabilityTimer = 2 + gameTime.ElapsedRealTime.TotalSeconds;
-                OnDeath();
             }
             #endregion
 

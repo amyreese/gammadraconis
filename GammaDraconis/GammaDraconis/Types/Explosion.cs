@@ -11,7 +11,7 @@ namespace GammaDraconis.Types
     {
         public List<Bullet> bullets;
         public int particles = 50;
-        public float size = 2f;
+        public float size = 1f;
 
         private Random rand;
 
@@ -43,7 +43,7 @@ namespace GammaDraconis.Types
                 Console.WriteLine("Loading Explosion Bullets.");
                 bullet = new Bullet();
                 bullet.damage = 40;
-                bullet.rateL = 70;
+                bullet.rateL = 35 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.2f;
                 bullet.size = 2;
@@ -55,7 +55,7 @@ namespace GammaDraconis.Types
 
                 bullet = bullet.clone();
                 bullet.damage = 40;
-                bullet.rateL = 70;
+                bullet.rateL = 35 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.2f;
                 bullet.size = 2;
@@ -67,7 +67,7 @@ namespace GammaDraconis.Types
 
                 bullet = new Bullet();
                 bullet.damage = 70;
-                bullet.rateL = 40;
+                bullet.rateL = 20 * size;
                 bullet.dragL = 0.5f;
                 bullet.dragR = 0.3f;
                 bullet.size = 2;
@@ -79,7 +79,7 @@ namespace GammaDraconis.Types
 
                 bullet = new Bullet();
                 bullet.damage = 50;
-                bullet.rateL = 60;
+                bullet.rateL = 30 * size;
                 bullet.dragL = 0.5f;
                 bullet.dragR = 0.3f;
                 bullet.size = 2;
@@ -91,7 +91,7 @@ namespace GammaDraconis.Types
 
                 bullet = new Bullet();
                 bullet.damage = 50;
-                bullet.rateL = 90;
+                bullet.rateL = 45 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.3f;
                 bullet.size = 2;
@@ -103,7 +103,7 @@ namespace GammaDraconis.Types
 
                 bullet = new Bullet();
                 bullet.damage = 50;
-                bullet.rateL = 90;
+                bullet.rateL = 45 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.3f;
                 bullet.size = 2;

@@ -24,7 +24,7 @@ namespace GammaDraconis.Screens
         /// <summary>
         /// Constructor for the screen
         /// </summary>
-        /// <param name="game">Snails Pace instance</param>
+        /// <param name="game">The instance of the game.</param>
         public LevelLoadingScreen(GammaDraconis game)
             : base(game, GammaDraconis.GameStates.Game)
         {

@@ -20,6 +20,7 @@ namespace GammaDraconis.Core
 
         #region Engine States
         public bool enginePaused = false;
+        private bool startTimeSet = false;
         public static GameTime gameTime;
         #endregion
 
@@ -99,7 +100,7 @@ namespace GammaDraconis.Core
         {
             Engine.gameTime = gameTime;
 
-            race.update();
+            race.update(gameTime);
             if (secondsToEnd == -1)
             {
                 if (race.isRaceOver())
@@ -130,6 +131,11 @@ namespace GammaDraconis.Core
                         player.playerHUD.Update(gameTime);
                     }
                 }
+            }
+            else if(mapStarted && !startTimeSet)
+            {
+                race.StartTime = gameTime.TotalRealTime.TotalMilliseconds;
+                startTimeSet = true;
             }
           
             Think(gameTime, mapStarted);

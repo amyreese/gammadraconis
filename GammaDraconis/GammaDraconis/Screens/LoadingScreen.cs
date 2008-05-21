@@ -28,8 +28,8 @@ namespace GammaDraconis.Screens
         }
 
         /// <summary>
-        /// Checks to see if the next screen is ready, and if the loading screen is ready
-        /// If they're both ready, tells Snails Pace to move to the next screen
+        /// Checks to see if the next screen is ready, and if the loading screen is ready.
+        /// If they're both ready, tells the game to move to the next screen.
         /// </summary>
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)

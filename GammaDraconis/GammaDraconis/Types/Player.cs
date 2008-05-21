@@ -135,6 +135,10 @@ namespace GammaDraconis.Types
             {
                 Engine.GetInstance().enginePaused = !Engine.GetInstance().enginePaused;
             }
+            if(input.inputPressed("Menu"))
+            {
+                GammaDraconis.GetInstance().changeState(GammaDraconis.GameStates.MainMenu);
+            }
             #endregion
 
             #region Gamepad input handling

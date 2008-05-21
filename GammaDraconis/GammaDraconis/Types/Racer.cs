@@ -15,6 +15,7 @@ namespace GammaDraconis.Types
     class Racer : GameObject
     {
         public string name;
+        public double time;
 
         public Racer()
             : base()

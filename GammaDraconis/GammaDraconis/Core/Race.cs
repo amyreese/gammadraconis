@@ -21,6 +21,16 @@ namespace GammaDraconis.Core
             return RaceOver;
         }
 
+        /// <summary>
+        /// Keep track of when this race began.
+        /// </summary>
+        private double startTime;
+        public double StartTime
+        {
+            get { return startTime; }
+            set { startTime = value; }
+        }
+
         // The racers and their statuses
         private Dictionary<Racer, int> state;
         private List<Racer> finishedRacers;
@@ -80,10 +90,19 @@ namespace GammaDraconis.Core
             return course.checkpoints[point - 1].clone();
         }
 
+        /// <summary>
+        /// Get the next checkpoint a racer must reach.
+        /// </summary>
+        /// <param name="racer"></param>
+        /// <returns></returns>
         public Checkpoint nextCheckpoint(Racer racer) { 
             return checkpoint(racer, 1); 
         }
 
+        /// <summary>
+        /// Returns the number of checkpoints in this course.
+        /// </summary>
+        /// <returns></returns>
         public int length()
         {
             return course.checkpoints.Count;
@@ -105,6 +124,10 @@ namespace GammaDraconis.Core
             }
         }
 
+        /// <summary>
+        /// Returns an ordered list of finished racers.
+        /// </summary>
+        /// <returns></returns>
         public List<Racer> rankings()
         {
             return new List<Racer>(finishedRacers);
@@ -113,7 +136,7 @@ namespace GammaDraconis.Core
         /// <summary>
         /// Update the current status of the Race manager.
         /// </summary>
-        public void update()
+        public void update(GameTime gameTime)
         {
             foreach (Racer r in new List<Racer>(state.Keys))
             {
@@ -130,6 +153,7 @@ namespace GammaDraconis.Core
                         if (state[r] == laps * course.checkpoints.Count + (course.loop ? 0 : -1))
                         {
                             finishedRacers.Add(r);
+                            r.time = gameTime.TotalRealTime.TotalMilliseconds - startTime;
                             if (finishedRacers.Count == state.Count)
                             {
                                 RaceOver = true;
@@ -149,6 +173,13 @@ namespace GammaDraconis.Core
         {
             return status(racer, false);
         }
+
+        /// <summary>
+        /// Get a the lap and checkpoint 
+        /// </summary>
+        /// <param name="racer"></param>
+        /// <param name="minimal"></param>
+        /// <returns></returns>
         public RaceStatus status(Racer racer, bool minimal)
         {
             int status = state[racer];

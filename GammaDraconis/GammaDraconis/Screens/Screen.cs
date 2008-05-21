@@ -15,7 +15,7 @@ namespace GammaDraconis.Screens
     abstract class Screen : DrawableGameComponent
     {
         /// <summary>
-        /// The instance of snails pace that is using this screen
+        /// The instance of the game that is using this screen
         /// </summary>
         protected GammaDraconis gammaDraconis;
 
@@ -37,7 +37,7 @@ namespace GammaDraconis.Screens
         /// <summary>
         /// Creates a new Screen
         /// </summary>
-        /// <param name="game">The instance of Snails Pace</param>
+        /// <param name="game">The instance of the game.</param>
         protected Screen(GammaDraconis game)
             : base(game)
         {

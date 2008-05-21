@@ -80,10 +80,10 @@ namespace GammaDraconis.Screens
             engine.Update(gameTime);
 
             // TODO: Remove this once the game engine actually has input
-            if( input.inputPressed(Core.Input.MenuInput.Commands.Cancel) )
-            {
-                gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
-            }
+            //if( input.inputPressed(Core.Input.MenuInput.Commands.Cancel) )
+            //{
+            //    gammaDraconis.changeState(GammaDraconis.GameStates.MainMenu);
+            //}
             base.Update(gameTime);
         }
     }

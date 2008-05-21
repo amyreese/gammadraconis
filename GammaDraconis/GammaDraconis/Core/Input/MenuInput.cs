@@ -32,8 +32,8 @@ namespace GammaDraconis.Core.Input
             inputKeys.Add(Commands.Down, "PadDown|down");
             inputKeys.Add(Commands.Left, "PadLeft|left");
             inputKeys.Add(Commands.Right, "PadRight|right");
-            inputKeys.Add(Commands.Select, "PadA|enter");
-            inputKeys.Add(Commands.Cancel, "PadBack|escape");
+            inputKeys.Add(Commands.Select, "PadA|PadStart|enter|space");
+            inputKeys.Add(Commands.Cancel, "PadB|PadBack|escape");
         }
     }
 }

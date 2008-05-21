@@ -18,6 +18,8 @@ namespace GammaDraconis.Core
     {
         private bool AITest = false;
 
+        public String soundTrack = "music_shake_it";
+
         #region Engine States
         public bool enginePaused = false;
         private bool startTimeSet = false;
@@ -134,6 +136,7 @@ namespace GammaDraconis.Core
             }
             else if(mapStarted && !startTimeSet)
             {
+                Audio.playRepeat(soundTrack);
                 race.StartTime = gameTime.TotalRealTime.TotalMilliseconds;
                 startTimeSet = true;
             }
@@ -627,7 +630,7 @@ namespace GammaDraconis.Core
 
         #region Race & Course
         
-public Race race;
+        public Race race;
         public Course course;
         public Player[] players;
 

@@ -334,6 +334,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Audio\Music\shake it.wav">
+      <Name>shake it</Name>
+    </None>
     <Compile Include="Resources\Textures\HUD\HealthIcon.png">
       <Name>HealthIcon</Name>
       <Importer>TextureImporter</Importer>

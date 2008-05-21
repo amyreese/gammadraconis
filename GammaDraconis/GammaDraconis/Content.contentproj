@@ -42,11 +42,6 @@
       <Importer>XactImporter</Importer>
       <Processor>XactProcessor</Processor>
     </Compile>
-    <Compile Include="Resources\Textures\MenuBackgrounds\MainMenu.png">
-      <Name>MainMenu</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Fonts\Debug.spritefont">
@@ -56,11 +51,6 @@
     </Compile>
     <Compile Include="Resources\Fonts\LevelOver.spritefont">
       <Name>LevelOver</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-    <Compile Include="Resources\Fonts\Menu.spritefont">
-      <Name>Menu</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
@@ -301,6 +291,20 @@
     <None Include="Resources\Audio\Sound\Weapons\missile.wav">
       <Name>missile</Name>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Resources\Fonts\Menu.png">
+      <Name>Menu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>FontTextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Resources\Textures\Logo.png">
+      <Name>Logo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Audio\Music\" />

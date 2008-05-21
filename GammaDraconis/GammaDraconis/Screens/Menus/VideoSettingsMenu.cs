@@ -44,12 +44,10 @@ namespace GammaDraconis.Screens.Menus
 			planet.models.Add(new FBXModel("Resources/Models/Planet", "", 1f));
 			screenScene.track(planet, GO_TYPE.SCENERY);
 
-            Text NameText = new Text(game);
-            NameText.text = "Gamma Draconis";
+            Sprite NameText = new Sprite(game);
+            NameText.textureName = "Resources/Textures/Logo";
             NameText.RelativeRotation = 0.2f;
-            NameText.RelativePosition = new Vector2(300.0f, 8.0f);
-            NameText.SpriteFontName = "Resources/Fonts/Title";
-            NameText.color = Color.White;
+            NameText.RelativePosition = new Vector2(300.0f, 20.0f);
             screenInterface.AddComponent(NameText);
         }
 

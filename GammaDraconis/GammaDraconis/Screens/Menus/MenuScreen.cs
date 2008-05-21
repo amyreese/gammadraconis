@@ -40,6 +40,7 @@ namespace GammaDraconis.Screens.Menus
                 menuItems[index].RelativeScale = selected ? GetSelectedScale() : GetUnselectedScale();
                 menuItems[index].color = selected ? GetSelectedColor() : GetUnselectedColor();
                 menuItems[index].SpriteFontName = GetFontName();
+                menuItems[index].Spacing = 5;
             }
             ready = true;
         }
@@ -106,7 +107,7 @@ namespace GammaDraconis.Screens.Menus
         /// <returns>The scale used for menu items that are selected</returns>
         internal virtual Vector2 GetSelectedScale()
         {
-            return new Vector2(1.5f, 1.5f);
+            return new Vector2(1.0f, 1.0f);
         }
 
         /// <summary>

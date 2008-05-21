@@ -10,7 +10,8 @@ namespace GammaDraconis.Video.GUI
     {
         private SpriteFont spriteFont;
         private String spriteFontName;
-        private bool spriteFontNameChanged;
+        private float spriteFontSpacing = 0;
+        private bool propertyChanged;
         public String text;
         public Color color;
         public bool center = false;
@@ -26,6 +27,13 @@ namespace GammaDraconis.Video.GUI
             this.text = text;
         }
 
+        public Text(GammaDraconis game, string text, float spacing)
+            : base(game)
+        {
+            this.text = text;
+            spriteFontSpacing = spacing;
+        }
+
         public string SpriteFontName
         {
             get { return spriteFontName; }
@@ -35,8 +43,19 @@ namespace GammaDraconis.Video.GUI
                 if (spriteFontName != value)
                 {
                     spriteFontName = value;
-                    spriteFontNameChanged = true;
+                    propertyChanged = true;
                 }
+            }
+        }
+
+        public float Spacing
+        {
+            get { return spriteFontSpacing; }
+            
+            set 
+            {
+                spriteFontSpacing = value;
+                propertyChanged = true;
             }
         }
 
@@ -45,16 +64,17 @@ namespace GammaDraconis.Video.GUI
             if (spriteFontName != null)
             {
                 spriteFont = Game.Content.Load<SpriteFont>(spriteFontName);
+                spriteFont.Spacing = spriteFontSpacing;
             }
             base.LoadContent();
         }
 
         internal override void Draw(GameTime gameTime, Vector2 position, Vector2 scale, float rotation)
         {
-            if ((spriteFont == null) || spriteFontNameChanged)
+            if ((spriteFont == null) || propertyChanged)
             {
                 LoadContent();
-                spriteFontNameChanged = false;
+                propertyChanged = false;
             }
             CalculateResultingValues(position, scale, rotation, out position, out scale, out rotation);
             if (spriteFont != null && text != null && color != null)
@@ -69,7 +89,5 @@ namespace GammaDraconis.Video.GUI
                 spriteBatch.End();
             }
         }
-
-
     }
 }

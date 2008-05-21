@@ -1,8 +1,12 @@
 Signature = XACT2;
-Version = 13;
+Version = 16;
+Content Version = 43;
+Release = August 2007;
 
 Options
 {
+    Verbose Report = 0;
+    Generate C/C++ Headers = 1;
 }
 
 Global Settings
@@ -157,7 +161,7 @@ Global Settings
         Value = 0.000000;
         Initial Value = 0.000000;
         Min = 0.000000;
-        Max = 15.000000;
+        Max = 15.000001;
     }
 
     Variable
@@ -174,7 +178,7 @@ Global Settings
         Value = 0.000000;
         Initial Value = 0.000000;
         Min = 0.000000;
-        Max = 15.000000;
+        Max = 15.000001;
     }
 
     Variable
@@ -217,14 +221,14 @@ Global Settings
         Public = 1;
         Global = 1;
         Internal = 0;
-        External = 0;
+        External = 1;
         Monitored = 1;
         Reserved = 0;
         Read Only = 0;
         Time = 0;
-        Value = 1.000000;
-        Initial Value = 1.000000;
-        Min = 1.000000;
+        Value = 0.000000;
+        Initial Value = 0.000000;
+        Min = 0.000000;
         Max = 10.000000;
     }
 
@@ -247,8 +251,18 @@ Wave Bank
     Name = Audio;
     Xbox File = Audio.xwb;
     Windows File = Audio.xwb;
+    Xbox Bank Path Edited = 1;
+    Windows Bank Path Edited = 1;
     Seek Tables = 1;
     Compression Preset Name = Compressed;
+    Xbox Bank Last Modified Low = 0;
+    Xbox Bank Last Modified High = 0;
+    PC Bank Last Modified Low = 0;
+    PC Bank Last Modified High = 0;
+    Header Last Modified Low = 0;
+    Header Last Modified High = 0;
+    Bank Last Revised Low = 3797908732;
+    Bank Last Revised High = 29932408;
 
     Wave
     {
@@ -268,8 +282,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2450430641;
-            Last Modified High = 29921603;
+            Last Modified Low = 3876912384;
+            Last Modified High = 29923921;
         }
     }
 
@@ -291,8 +305,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2450390641;
-            Last Modified High = 29921603;
+            Last Modified Low = 3876912384;
+            Last Modified High = 29923921;
         }
     }
 
@@ -314,8 +328,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2929538944;
-            Last Modified High = 29929811;
+            Last Modified Low = 2963653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -337,8 +351,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1418638624;
-            Last Modified High = 29930606;
+            Last Modified Low = 2963653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -360,8 +374,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1467412624;
-            Last Modified High = 29930981;
+            Last Modified Low = 2963653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -383,8 +397,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 1577269920;
-            Last Modified High = 29930980;
+            Last Modified Low = 2963653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -406,8 +420,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 717989920;
-            Last Modified High = 29930980;
+            Last Modified Low = 2963653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -429,8 +443,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2129337216;
-            Last Modified High = 29930979;
+            Last Modified Low = 2963653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -452,8 +466,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3463997216;
-            Last Modified High = 29930979;
+            Last Modified Low = 2923653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -475,8 +489,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3218807216;
-            Last Modified High = 29930979;
+            Last Modified Low = 2923653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -498,8 +512,8 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 149275328;
-            Last Modified High = 29930982;
+            Last Modified Low = 2903653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -517,12 +531,12 @@ Wave Bank
             Sampling Rate = 44100;
             Bits Per Sample = 1;
             Play Region Offset = 44;
-            Play Region Length = 248994;
+            Play Region Length = 190190;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3669052624;
-            Last Modified High = 29930981;
+            Last Modified Low = 2903653632;
+            Last Modified High = 29932383;
         }
     }
 
@@ -544,17 +558,17 @@ Wave Bank
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 2413347216;
-            Last Modified High = 29930979;
+            Last Modified Low = 2963653632;
+            Last Modified High = 29932383;
         }
     }
 
     Wave
     {
-        Name = music_shake_it;
-        File = Music\shake it.wav;
-        Build Settings Last Modified Low = 4114647672;
-        Build Settings Last Modified High = 29932398;
+        Name = FS2_Ambience_I;
+        File = Music\FS2_Ambience_I.wav;
+        Build Settings Last Modified Low = 2126033732;
+        Build Settings Last Modified High = 29932408;
 
         Cache
         {
@@ -563,12 +577,35 @@ Wave Bank
             Sampling Rate = 44100;
             Bits Per Sample = 1;
             Play Region Offset = 44;
-            Play Region Length = 778460;
+            Play Region Length = 8503200;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 3607934284;
-            Last Modified High = 29932396;
+            Last Modified Low = 1574373120;
+            Last Modified High = 29932405;
+        }
+    }
+
+    Wave
+    {
+        Name = FS2_Revelation_Chapter_III;
+        File = Music\FS2_Revelation_Chapter_III.wav;
+        Build Settings Last Modified Low = 685499574;
+        Build Settings Last Modified High = 29932406;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 1;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 4267684;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 339405824;
+            Last Modified High = 29932406;
         }
     }
 }
@@ -578,6 +615,10 @@ Sound Bank
     Name = Audio;
     Xbox File = Audio.xsb;
     Windows File = Audio.xsb;
+    Xbox Bank Path Edited = 1;
+    Windows Bank Path Edited = 1;
+    Header Last Modified High = 0;
+    Header Last Modified Low = 0;
 
     Sound
     {
@@ -1227,7 +1268,7 @@ Sound Bank
 
     Sound
     {
-        Name = music_shake_it;
+        Name = FS2_Ambience_I;
         Volume = -1200;
         Pitch = 0;
         Priority = 0;
@@ -1263,8 +1304,55 @@ Sound Bank
                 {
                     Bank Name = Audio;
                     Bank Index = 0;
-                    Entry Name = music_shake_it;
+                    Entry Name = FS2_Ambience_I;
                     Entry Index = 13;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = FS2_Revelation_Chapter_III;
+        Volume = -400;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+
+            Play Wave Event
+            {
+                Loop Count = 255;
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaer Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = Audio;
+                    Bank Index = 0;
+                    Entry Name = FS2_Revelation_Chapter_III;
+                    Entry Index = 14;
                     Weight = 255;
                     Weight Min = 0;
                 }
@@ -1554,21 +1642,67 @@ Sound Bank
 
     Cue
     {
-        Name = music_shake_it;
+        Name = music;
 
         Variation
         {
-            Variation Type = 3;
+            Variation Type = 2;
             Variation Table Type = 1;
             New Variation on Loop = 0;
         }
 
         Sound Entry
         {
-            Name = music_shake_it;
+            Name = FS2_Revelation_Chapter_III;
+            Index = 15;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+
+        Instance Limit
+        {
+            Max Instances = 1;
+            Behavior = 0;
+
+            Crossfade
+            {
+                Fade In = 0;
+                Fade Out = 0;
+                Crossfade Type = 0;
+            }
+        }
+    }
+
+    Cue
+    {
+        Name = ambience;
+
+        Variation
+        {
+            Variation Type = 2;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = FS2_Ambience_I;
             Index = 14;
             Weight Min = 0;
             Weight Max = 255;
+        }
+
+        Instance Limit
+        {
+            Max Instances = 1;
+            Behavior = 0;
+
+            Crossfade
+            {
+                Fade In = 0;
+                Fade Out = 0;
+                Crossfade Type = 0;
+            }
         }
     }
 }

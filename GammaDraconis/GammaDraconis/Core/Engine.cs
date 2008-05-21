@@ -18,8 +18,6 @@ namespace GammaDraconis.Core
     {
         private bool AITest = false;
 
-        public String soundTrack = "music_shake_it";
-
         #region Engine States
         public bool enginePaused = false;
         private bool startTimeSet = false;
@@ -117,6 +115,7 @@ namespace GammaDraconis.Core
                 {
                     ((LevelOverScreen)game.getScreen(GammaDraconis.GameStates.LevelOver)).LevelOver(race);
                     Audio.stopAll();
+                    Audio.play("ambience");
                     game.changeState(GammaDraconis.GameStates.LevelOver);
                 }
             }
@@ -136,7 +135,8 @@ namespace GammaDraconis.Core
             }
             else if(mapStarted && !startTimeSet)
             {
-                Audio.playRepeat(soundTrack);
+                Audio.stop("ambience");
+                Audio.play("music");
                 race.StartTime = gameTime.TotalRealTime.TotalMilliseconds;
                 startTimeSet = true;
             }

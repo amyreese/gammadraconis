@@ -48,7 +48,7 @@ namespace GammaDraconis.Core
         static public void play(String cue, bool overlap)
         {
             if (NoSound || cue.Equals("") || cue == null) {
-                Console.WriteLine("Cue: " + cue);  
+                //Console.WriteLine("Cue: " + cue);  
                 return; }
 
             cache(cue);

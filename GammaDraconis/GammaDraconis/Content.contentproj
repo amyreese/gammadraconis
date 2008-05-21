@@ -374,6 +374,14 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Audio\Music\FS2_Ambience_I.wav">
+      <Name>FS2_Ambience_I</Name>
+    </None>
+    <None Include="Resources\Audio\Music\FS2_Revelation_Chapter_III.wav">
+      <Name>FS2_Revelation_Chapter_III</Name>
+    </None>
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

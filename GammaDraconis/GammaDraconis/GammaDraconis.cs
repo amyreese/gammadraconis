@@ -36,6 +36,8 @@ namespace GammaDraconis
             Audio.init();
             Input.reset();
 
+            Audio.play("ambience");
+            
             renderer = new Renderer(this);
         }
 

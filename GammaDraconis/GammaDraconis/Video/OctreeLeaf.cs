@@ -14,6 +14,13 @@ class OctreeLeaf
     private int currentDepth;
     public bool debugOctreeDepth = false;
 
+    /// <summary>
+    /// Create a new octree leaf given the specified container bounding box,
+    /// maximum depth, and current depth.
+    /// </summary>
+    /// <param name="bound">The bounding box for this leaf.</param>
+    /// <param name="max">The maximum leaf depth.</param>
+    /// <param name="myDepth">The current leaf depth.</param>
     public OctreeLeaf(BoundingBox bound, int max, int myDepth)
     {
         containedObjects = new List<GameObject>();
@@ -23,32 +30,55 @@ class OctreeLeaf
         currentDepth = myDepth;
     }
     
+    /// <summary>
+    /// Set the list of objects contained in this leaf.
+    /// </summary>
+    /// <param name="value">The list of objects to be contained in this leaf.</param>
     public void setContainedObjects(List<GameObject> value)
     {
         containedObjects = value;
         split();
     }
 
+    /// <summary>
+    /// Get the list of objects contained in this leaf.
+    /// </summary>
+    /// <returns>The list of objects contained in this leaf.</returns>
     public List<GameObject> getContainedObjects()
     {
         return containedObjects;
     }
 
+    /// <summary>
+    /// Get the list of children to this leaf.
+    /// </summary>
+    /// <returns>The children of this leaf.</returns>
     public List<OctreeLeaf> getChildLeaves()
     {
         return childLeaves;
     }
 
+    /// <summary>
+    /// Get the container box for this leaf.
+    /// </summary>
+    /// <returns>The container box of this leaf.</returns>
     public BoundingBox getContainerBox()
     {
         return containerBox;
     }
     
+    /// <summary>
+    /// Set the container box for this leaf.
+    /// </summary>
+    /// <param name="value">The container box of this leaf.</param>
     public void setContainerBox(BoundingBox value)
     {
         containerBox = value;
     }
 
+    /// <summary>
+    /// Split this octree leaf into child leaves.
+    /// </summary>
     protected void split()
     {
         Vector3 half = containerBox.Max - containerBox.Min;
@@ -87,10 +117,13 @@ class OctreeLeaf
         {
                 Console.WriteLine("Current node depth: " + currentDepth + " Next depth: " + (currentDepth + 1));  
         }
-
-        
     }
 
+    /// <summary>
+    /// List the GameObjects outside this octree leaf.
+    /// </summary>
+    /// <param name="gameObjects">A list of GameObjects.</param>
+    /// <returns>A list of objects from the list that are outside this leaf.</returns>
     public List<GameObject> outsideOctree(List<GameObject> gameObjects)
     {
         List<GameObject> outsideObjects = new List<GameObject>();
@@ -105,6 +138,11 @@ class OctreeLeaf
         return outsideObjects;
     }
 
+    /// <summary>
+    /// List the GameObjects outside visible in this octree leaf.
+    /// </summary>
+    /// <param name="gameObjects">A list of GameObjects.</param>
+    /// <returns>A list of objects from the list that are visible from this leaf.</returns>
     public List<GameObject> visible(out List<GameObject> notVisible, BoundingFrustum viewFrustrum)
     {
         List<GameObject> entirelyVisible = new List<GameObject>();

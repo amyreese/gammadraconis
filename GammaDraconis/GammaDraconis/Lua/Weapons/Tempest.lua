@@ -8,12 +8,14 @@ weapon.fireSFX = "fire_missile"
 weapon.impactSFX = "explosion"
 weapon.bullet.onDeathSound = "explosion"
 weapon.bullet.explosion = Explosion()
+weapon.bullet.explosion.particles = 60
+weapon.bullet.explosion.power = 15
 
-weapon.bullet.damage = 150
+weapon.bullet.damage = 0
 weapon.bullet.rateL = 1000
 weapon.bullet.dragL = 0
 weapon.bullet.dragR = 0.5
-weapon.bullet.size = 20
+weapon.bullet.size = 60
 weapon.bullet.timeToLive = 3
 weapon.bullet.models:Add(FBXModel("Resources/Models/Rocket", "", 1.0));
 weapon.bullet.models:Add(FBXModel("Resources/Models/Rocket2", "", 1.0));

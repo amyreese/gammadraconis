@@ -12,6 +12,7 @@ namespace GammaDraconis.Types
         public List<Bullet> bullets;
         public int particles = 50;
         public float size = 1f;
+        public float power = 1f;
 
         private Random rand;
 
@@ -32,9 +33,11 @@ namespace GammaDraconis.Types
             return e;
         }
 
-        public void explode(Coords spot)
+        public void explode(Coords spot) { explode(spot, new Coords()); }
+        public void explode(Coords spot, Coords vel)
         {
-            Coords position = spot.Clone();
+            Coords velocity = new Coords(vel.pos());
+            Coords position = new Coords(spot.pos());
             Bullet bullet;
             FBXModel model;
             
@@ -42,7 +45,7 @@ namespace GammaDraconis.Types
             {
                 Console.WriteLine("Loading Explosion Bullets.");
                 bullet = new Bullet();
-                bullet.damage = 40;
+                bullet.damage = 100 * power;
                 bullet.rateL = 35 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.2f;
@@ -54,7 +57,7 @@ namespace GammaDraconis.Types
                 bullets.Add(bullet);
 
                 bullet = bullet.clone();
-                bullet.damage = 40;
+                bullet.damage = 100 * power;
                 bullet.rateL = 35 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.2f;
@@ -66,7 +69,7 @@ namespace GammaDraconis.Types
                 bullets.Add(bullet);
 
                 bullet = new Bullet();
-                bullet.damage = 70;
+                bullet.damage = 150 * power;
                 bullet.rateL = 20 * size;
                 bullet.dragL = 0.5f;
                 bullet.dragR = 0.3f;
@@ -78,7 +81,7 @@ namespace GammaDraconis.Types
                 bullets.Add(bullet);
 
                 bullet = new Bullet();
-                bullet.damage = 50;
+                bullet.damage = 80 * power;
                 bullet.rateL = 30 * size;
                 bullet.dragL = 0.5f;
                 bullet.dragR = 0.3f;
@@ -90,7 +93,7 @@ namespace GammaDraconis.Types
                 bullets.Add(bullet);
 
                 bullet = new Bullet();
-                bullet.damage = 50;
+                bullet.damage = 100 * power;
                 bullet.rateL = 45 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.3f;
@@ -102,7 +105,7 @@ namespace GammaDraconis.Types
                 bullets.Add(bullet);
 
                 bullet = new Bullet();
-                bullet.damage = 50;
+                bullet.damage = 100 * power;
                 bullet.rateL = 45 * size;
                 bullet.dragL = 0.3f;
                 bullet.dragR = 0.3f;
@@ -122,6 +125,8 @@ namespace GammaDraconis.Types
                 bullet.scaleModels(size);
 
                 bullet.lastPosition = position.Clone();
+                bullet.velocity = velocity.Clone();
+
                 bullet.position.T = position.T;
                 bullet.position.R = Quaternion.CreateFromAxisAngle(Vector3.Up, (float)(MathHelper.TwoPi * rand.NextDouble())) *
                     Quaternion.CreateFromAxisAngle(Vector3.Backward, (float)(MathHelper.TwoPi * rand.NextDouble())) *

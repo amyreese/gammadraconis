@@ -138,6 +138,7 @@ namespace GammaDraconis.Types
             }
             if(input.inputPressed("Menu"))
             {
+                Audio.stopAll();
                 GammaDraconis.GetInstance().changeState(GammaDraconis.GameStates.MainMenu);
             }
             #endregion

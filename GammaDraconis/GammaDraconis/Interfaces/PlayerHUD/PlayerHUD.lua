@@ -4,7 +4,7 @@ library( "InterfaceComponents/PositionArrow" )
 if playerHUDs == nil then
 	playerHUDs = {}
 end
-hudColors = { Color.Red, Color.Blue, Color.Green, Color.Yellow } 
+hudColors = { Color.Blue, Color.Red, Color.Green, Color.Yellow } 
 
 playerHUDs[playerHudIndex] = {}
 playerHUDs[playerHudIndex].interface = Interface(GammaDraconis)

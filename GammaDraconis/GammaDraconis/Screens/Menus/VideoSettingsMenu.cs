@@ -24,9 +24,9 @@ namespace GammaDraconis.Screens.Menus
         private string[] resolutionList = { "800x600", "1024x768", "1280x1024", "1600x1200" };
 
         /// <summary>
-        /// 
+        /// Create this menu.
         /// </summary>
-        /// <param name="game"></param>
+        /// <param name="game">The game instance.</param>
         public VideoSettingsMenu(GammaDraconis game)
             : base(game)
         {
@@ -68,10 +68,6 @@ namespace GammaDraconis.Screens.Menus
         /// </summary>
         protected override void SetupMenuItems()
         {
-            Interface menuRegion = new Interface(gammaDraconis);
-            menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
-            screenInterface.AddComponent(menuRegion);
-
             menuItems = new MenuItem[5];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.ToggleBloom);
             menuItems[0].text = "Bloom Enabled";
@@ -89,11 +85,11 @@ namespace GammaDraconis.Screens.Menus
             menuItems[4].text = "Back";
 
             AutoPositionMenuItems();
-            
-            foreach (MenuItem item in menuItems)
-            {
-                menuRegion.AddComponent(item);
-            }
+
+            foreach(MenuItem item in menuItems)
+                item.RelativePosition += new Vector2(100.0f, 350.0f);
+
+            screenInterface.AddComponents(menuItems);
         }
 
         /// <summary>
@@ -157,11 +153,18 @@ namespace GammaDraconis.Screens.Menus
             }
         }
 
+        /// <summary>
+        /// Exit this menu.
+        /// </summary>
         protected override void Cancel()
         {
             ItemSelected(Commands.Back);
         }
 
+        /// <summary>
+        /// Update what values the menu items display.
+        /// </summary>
+        /// <param name="gameTime">The current time.</param>
         public override void Update(GameTime gameTime)
         {
             menuItems[bloomIndex].text = "Bloom: " + (GammaDraconis.renderer.enableShaders ? "Enabled" : "Disabled");
@@ -169,16 +172,12 @@ namespace GammaDraconis.Screens.Menus
             menuItems[perPixelLightingIndex].text = "Per Pixel Lighting: " + (Properties.Settings.Default.PerPixelLighting ? "Yes" : "No");
             menuItems[resolutionIndex].text = "Display Resolution: " + Properties.Settings.Default.HorizontalResolution + "x" + Properties.Settings.Default.VerticalResolution;
 
-			/*
-			racer.position.T *= Matrix.CreateTranslation((float)(-25f * gameTime.ElapsedGameTime.TotalSeconds), (float)(5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
-			if (racer.position.pos().X < -120)
-			{
-				racer.position.T = Matrix.CreateTranslation(startLocation);
-			}
-			*/
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Reset the window to it's default state.
+        /// </summary>
         protected override void onFreshLoad()
         {
             for (currentResolutionIndex = 0; currentResolutionIndex < resolutionList.Length; currentResolutionIndex++)

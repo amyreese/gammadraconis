@@ -19,9 +19,9 @@ namespace GammaDraconis.Screens.Menus
         private int useMouseIndex;
 
         /// <summary>
-        /// 
+        /// Construct the menu.
         /// </summary>
-        /// <param name="game"></param>
+        /// <param name="game">The game instance.</param>
         public GeneralSettingsMenu(GammaDraconis game)
             : base(game)
         {
@@ -62,10 +62,6 @@ namespace GammaDraconis.Screens.Menus
         /// </summary>
         protected override void SetupMenuItems()
         {
-            Interface menuRegion = new Interface(gammaDraconis);
-            menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.6f);
-            screenInterface.AddComponent(menuRegion);
-
             menuItems = new MenuItem[3];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.ToggleTimeToStart);
             menuItems[0].text = "Toggle Time To Start";
@@ -77,11 +73,11 @@ namespace GammaDraconis.Screens.Menus
             menuItems[2].text = "Back";
 
             AutoPositionMenuItems();
-            
-            foreach (MenuItem item in menuItems)
-            {
-                menuRegion.AddComponent(item);
-            }
+
+            foreach(MenuItem item in menuItems)
+                item.RelativePosition += new Vector2(100.0f, 350.0f);
+
+            screenInterface.AddComponents(menuItems);
         }
 
         /// <summary>
@@ -123,23 +119,23 @@ namespace GammaDraconis.Screens.Menus
             }
         }
 
+        /// <summary>
+        /// Exit this menu.
+        /// </summary>
         protected override void Cancel()
         {
             ItemSelected(Commands.Back);
         }
 
+        /// <summary>
+        /// Update what values the menu items display.
+        /// </summary>
+        /// <param name="gameTime">The current time.</param>
         public override void Update(GameTime gameTime)
         {
             menuItems[timeToStartIndex].text = "Race Start Delay: " + Properties.Settings.Default.RaceStartDelay + " seconds";
             menuItems[useMouseIndex].text = "Use Mouse Navigation: " + Properties.Settings.Default.PlayerOneUseMouse;
 
-			/*
-			racer.position.T *= Matrix.CreateTranslation((float)(-25f * gameTime.ElapsedGameTime.TotalSeconds), (float)(5f * gameTime.ElapsedGameTime.TotalSeconds), 0);
-			if (racer.position.pos().X < -120)
-			{
-				racer.position.T = Matrix.CreateTranslation(startLocation);
-			}
-			 */
             base.Update(gameTime);
         }
     }

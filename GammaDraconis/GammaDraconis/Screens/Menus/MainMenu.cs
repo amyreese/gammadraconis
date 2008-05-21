@@ -28,10 +28,7 @@ namespace GammaDraconis.Screens.Menus
             Skybox.lights[0] = new Light(new Vector3(-0.05f,  0.1f, -1f), new Vector3(0.9f, 0.7f, 0.7f), new Vector3(1f,1f,1f));
             Skybox.lights[1] = new Light(new Vector3(0.95f, -0.9f, 1f), new Vector3(0.4f, 0.4f, 0.4f), new Vector3(0.5f, 0.5f, 0.5f));
 
-            if((new Random()).Next(1, 3) == 1)
-                racer = Proto.getRacer("Raptor");
-            else
-                racer = Proto.getRacer("Thor");
+            racer = (((new Random()).Next(1, 3) == 1) ? Proto.getRacer("Thor") : Proto.getRacer("Raptor"));
             racer.position = new Coords(startLocation.X, startLocation.Y, startLocation.Z, 0.2f, 1.5f, 1.0f);
             racer.models[0].scale *= 1;
             racer.size *= 1;
@@ -67,10 +64,6 @@ namespace GammaDraconis.Screens.Menus
         /// </summary>
         protected override void SetupMenuItems()
         {
-            Interface menuRegion = new Interface(gammaDraconis);
-            menuRegion.RelativePosition = new Vector2(100.0f, Game.Window.ClientBounds.Height / 1.8f);
-            screenInterface.AddComponent(menuRegion);
-
             menuItems = new MenuItem[6];
             menuItems[0] = new MenuItem(gammaDraconis, Commands.Play);
             menuItems[0].text = "Play";
@@ -88,9 +81,9 @@ namespace GammaDraconis.Screens.Menus
             AutoPositionMenuItems();
             
             foreach (MenuItem item in menuItems)
-            {
-                menuRegion.AddComponent(item);
-            }
+                item.RelativePosition += new Vector2(100.0f, 350.0f);
+
+            screenInterface.AddComponents(menuItems);
         }
 
         /// <summary>
@@ -145,11 +138,18 @@ namespace GammaDraconis.Screens.Menus
             }
         }
 
+        /// <summary>
+        /// Exit this menu.
+        /// </summary>
         protected override void Cancel()
         {
-            //ItemSelected(Commands.Play);
+            // There's no higher level menu, so do nothing.
         }
 
+        /// <summary>
+        /// Animate the ship in the background.
+        /// </summary>
+        /// <param name="gameTime">The current time.</param>
         public override void Update(GameTime gameTime)
         {
             racer.position.T *= Matrix.CreateTranslation((float)(-25f * gameTime.ElapsedGameTime.TotalSeconds), (float)(5f * gameTime.ElapsedGameTime.TotalSeconds), 0);

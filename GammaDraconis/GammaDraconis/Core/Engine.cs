@@ -343,121 +343,125 @@ namespace GammaDraconis.Core
             } 
 
             float timeMod = (float)gameTime.ElapsedRealTime.TotalSeconds;
-            List<GameObject> collidableGameObjects = gameScene.collidable();
-            foreach (GameObject o in new List<GameObject>(collidableGameObjects))
+            List<List<GameObject>> collidableLists = gameScene.collidableSorted();
+            //List<GameObject> collidableGameObjects = gameScene.collidable();
+            foreach (List<GameObject> collidableGameObjects in collidableLists)
             {
-                if (o.shieldModel != null)
+                foreach (GameObject o in new List<GameObject>(collidableGameObjects))
                 {
-                    if (o.shieldVisibilityTimer > 0)
+                    if (o.shieldModel != null)
                     {
-                        o.shieldVisibilityTimer -= gameTime.ElapsedRealTime.TotalSeconds;
-                        o.shieldModel.visible = true;
+                        if (o.shieldVisibilityTimer > 0)
+                        {
+                            o.shieldVisibilityTimer -= gameTime.ElapsedRealTime.TotalSeconds;
+                            o.shieldModel.visible = true;
+                        }
+                        else
+                        {
+                            o.shieldModel.visible = false;
+                        }
                     }
-                    else
+                    if (o is Bullet)
                     {
-                        o.shieldModel.visible = false;
+                        ((Bullet)o).timeToLive -= gameTime.ElapsedRealTime.TotalSeconds;
+                        if (((Bullet)o).timeToLive < 0)
+                        {
+                            o.OnDeath();
+                            gameScene.ignore(o, GO_TYPE.BULLET);
+                        }
                     }
-                }
-                if (o is Bullet)
-                {
-                    ((Bullet)o).timeToLive -= gameTime.ElapsedRealTime.TotalSeconds;
-                    if (((Bullet)o).timeToLive < 0)
+                    if (o.health < 0)
                     {
                         o.OnDeath();
-                        gameScene.ignore(o, GO_TYPE.BULLET);
                     }
-                }
-                if (o.health < 0)
-                {
-                    o.OnDeath();
-                }
-                if (o.shield < o.maxShield)
-                {
-                    o.shield += timeMod * o.shieldIncreaseRate;
-                    if (o.shield > o.maxShield)
+                    if (o.shield < o.maxShield)
                     {
-                        o.shield = o.maxShield;
-                    }
-                }
-                collidableGameObjects.Remove(o);
-                Vector3 oPos = o.position.pos();
-                foreach (GameObject o2 in collidableGameObjects)
-                {
-                    if (o.immobile && o2.immobile && o.invincible && o2.invincible)
-                    {
-                        continue;
-                    }
-                    if (o.ownedBy == o2 || o2.ownedBy == o)
-                    {
-                        continue;
-                    }
-                    if (o is Bullet && o2 is Bullet)
-                    {
-                        continue;
-                    }
-                    if (o is Player && o2 is Player && (o.invincible || o2.invincible))
-                    {
-                        continue;
-                    }
-                    Vector3 o2Pos = o2.position.pos();
-                    // only do ray-based collisions for bullets that are moving at a reasonable rate
-                    if (o is Bullet && o.velocity.pos().Length() > 0.5)
-                    {
-
-                        collideBullet((Bullet)o, o2);
-                        continue;
-                    }
-                    if (o2 is Bullet && o2.velocity.pos().Length() > 0.5)
-                    {
-                        collideBullet((Bullet)o2, o);
-                        continue;
-                    }
-                    
-                    if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
-                    {
-                        
-                        if (oPos == o2Pos)
+                        o.shield += timeMod * o.shieldIncreaseRate;
+                        if (o.shield > o.maxShield)
                         {
-                            // TODO: Randomize some
-                            o.position.T *= Matrix.CreateTranslation(new Vector3(0, 0, 0.1f));
+                            o.shield = o.maxShield;
                         }
-                        float closeness = (o.size + o2.size) - (o.position.pos() - o2.position.pos()).Length();
-
-                        //collision formulas taken from http://www.wheatchex.com/projects/collisions/
-                        //Seem to work ok with bullets, but ships colliding not working so well?
-
-                        //restitution coeff
-                        float e = 0.75f;
-
-                        //normal unit vector from o to o2.
-                        Vector3 n = o2.position.pos() - o.position.pos();
-                        n.Normalize();
-
-                        float c = Vector3.Dot(n, (o.velocity.pos() - o2.velocity.pos())) + closeness / 50 + 0.01f;
-
-                        Vector3 mod = (c / (o.mass + o2.mass)) * (1 + e) * n;
-                        Vector3 oVelocityMod = o2.mass * mod;
-                        Vector3 o2VelocityMod = o.mass * mod;
-                        Vector3 oVelocity = o.velocity.pos() - oVelocityMod;
-                        Vector3 o2Velocity = o2.velocity.pos() + o2VelocityMod;
-                        o.velocity.T = Matrix.CreateTranslation(oVelocity);
-                        o2.velocity.T = Matrix.CreateTranslation(o2Velocity);
-
-                        float magnitude = mod.Length() * o.mass * o2.mass / 25;
-                        o.takeDamage(magnitude);
-                        o2.takeDamage(magnitude);
-                        
-                        if (o is Bullet)
+                    }
+                    collidableGameObjects.Remove(o);
+                    Vector3 oPos = o.position.pos();
+                    foreach (GameObject o2 in collidableGameObjects)
+                    {
+                        if (o.immobile && o2.immobile && o.invincible && o2.invincible)
                         {
-                            gameScene.ignore(o, GO_TYPE.BULLET);
-                            o2.takeDamage(((Bullet)o).damage);
+                            continue;
                         }
-                        if (o2 is Bullet)
+                        if (o.ownedBy == o2 || o2.ownedBy == o)
                         {
-                            gameScene.ignore(o2, GO_TYPE.BULLET);
-                            o.takeDamage(((Bullet)o2).damage);
+                            continue;
                         }
-                         
+                        if (o is Bullet && o2 is Bullet)
+                        {
+                            continue;
+                        }
+                        if (o is Player && o2 is Player && (o.invincible || o2.invincible))
+                        {
+                            continue;
+                        }
+                        Vector3 o2Pos = o2.position.pos();
+                        // only do ray-based collisions for bullets that are moving at a reasonable rate
+                        if (o is Bullet && o.velocity.pos().Length() > 0.5)
+                        {
+
+                            collideBullet((Bullet)o, o2);
+                            continue;
+                        }
+                        if (o2 is Bullet && o2.velocity.pos().Length() > 0.5)
+                        {
+                            collideBullet((Bullet)o2, o);
+                            continue;
+                        }
+
+                        if ((oPos - o2Pos).LengthSquared() <= ((o.size + o2.size) * (o.size + o2.size)))
+                        {
+
+                            if (oPos == o2Pos)
+                            {
+                                // TODO: Randomize some
+                                o.position.T *= Matrix.CreateTranslation(new Vector3(0, 0, 0.1f));
+                            }
+                            float closeness = (o.size + o2.size) - (o.position.pos() - o2.position.pos()).Length();
+
+                            //collision formulas taken from http://www.wheatchex.com/projects/collisions/
+                            //Seem to work ok with bullets, but ships colliding not working so well?
+
+                            //restitution coeff
+                            float e = 0.75f;
+
+                            //normal unit vector from o to o2.
+                            Vector3 n = o2.position.pos() - o.position.pos();
+                            n.Normalize();
+
+                            float c = Vector3.Dot(n, (o.velocity.pos() - o2.velocity.pos())) + closeness / 50 + 0.01f;
+
+                            Vector3 mod = (c / (o.mass + o2.mass)) * (1 + e) * n;
+                            Vector3 oVelocityMod = o2.mass * mod;
+                            Vector3 o2VelocityMod = o.mass * mod;
+                            Vector3 oVelocity = o.velocity.pos() - oVelocityMod;
+                            Vector3 o2Velocity = o2.velocity.pos() + o2VelocityMod;
+                            o.velocity.T = Matrix.CreateTranslation(oVelocity);
+                            o2.velocity.T = Matrix.CreateTranslation(o2Velocity);
+
+                            float magnitude = mod.Length() * o.mass * o2.mass / 25;
+                            o.takeDamage(magnitude);
+                            o2.takeDamage(magnitude);
+
+                            if (o is Bullet)
+                            {
+                                gameScene.ignore(o, GO_TYPE.BULLET);
+                                o2.takeDamage(((Bullet)o).damage);
+                            }
+                            if (o2 is Bullet)
+                            {
+                                gameScene.ignore(o2, GO_TYPE.BULLET);
+                                o.takeDamage(((Bullet)o2).damage);
+                            }
+
+                        }
                     }
                 }
             }

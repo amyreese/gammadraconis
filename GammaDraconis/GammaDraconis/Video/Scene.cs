@@ -118,6 +118,48 @@ namespace GammaDraconis.Video
         {
             List<GameObject> collidables = typedObjects(GO_TYPE.COLLIDABLE);
             return collidables;
+        }        
+        
+        /// <summary>
+        /// Return a list of lists of GameObjects that are collidable, which 
+        /// have been sorted based on their place in the Octree.
+        /// </summary>
+        /// <returns>GameObjects to check for collision</returns>
+        public List<List<GameObject>> collidableSorted()
+        {
+            List<GameObject> collidables = typedObjects(GO_TYPE.COLLIDABLE);
+            List<List<GameObject>> sortedCollidables = new List<List<GameObject>>();
+
+
+            //Get the contents of each leaf
+            List<List<GameObject>> leafContents = new List<List<GameObject>>();
+            foreach (OctreeLeaf ol1 in octTreeRoot.childLeaves)
+            {
+                foreach (OctreeLeaf ol2 in ol1.childLeaves)
+                {
+                    foreach (OctreeLeaf ol3 in ol2.childLeaves)
+                    {
+                        leafContents.Add(ol3.getContainedObjects());
+                    }
+                }
+            }
+
+            //Put each collidable element into it's respective list
+            foreach (List<GameObject> contents in leafContents)
+            {
+                List<GameObject> tempList = new List<GameObject>();
+                foreach (GameObject go in collidables)
+                {
+                    if (contents.Contains(go))
+                    {
+                        tempList.Add(go);
+                    }
+                }
+                sortedCollidables.Add(tempList);
+            }
+
+            return sortedCollidables;
+
         }
 
         /// <summary>

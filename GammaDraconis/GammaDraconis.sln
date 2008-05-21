@@ -1,6 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C# Express 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GammaDraconis", "GammaDraconis\GammaDraconis.csproj", "{17CBD758-DA6F-41B5-8CB3-1EBBD2E30BFC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F55CABBB-4108-4A39-94E1-581FD46DC021} = {F55CABBB-4108-4A39-94E1-581FD46DC021}

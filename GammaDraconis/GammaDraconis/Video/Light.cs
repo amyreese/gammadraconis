@@ -12,6 +12,9 @@ namespace GammaDraconis.Video
         public Vector3 specular;
         public Vector3 direction;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Light()
         {
             enabled = false;
@@ -20,6 +23,12 @@ namespace GammaDraconis.Video
             direction = new Vector3();
         }
 
+        /// <summary>
+        /// Construct a light with the specified direction, diffuse, and specular properties.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="diffuse"></param>
+        /// <param name="specular"></param>
         public Light(Vector3 direction, Vector3 diffuse, Vector3 specular)
         {
             enabled = true;

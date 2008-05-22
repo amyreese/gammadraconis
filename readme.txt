@@ -62,3 +62,11 @@ Brian Schroth	- Collision detection, checkpoint management.
 
 Matt Sokol	- Octree implementation, sound effects, HUD arrow.
 	viperxpyro@gmail.com
+
+--
+
+Volition Inc. / Freespace2 - Music tracks
+	http://www.freespace2.com (currently unavailable)
+
+SoundSnap.com	- Original sound effects
+	http://www.soundsnap.com
